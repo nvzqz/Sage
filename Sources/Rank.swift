@@ -28,11 +28,6 @@
 /// A chess board rank.
 public enum Rank: Int, CustomStringConvertible {
 
-    /// An array of all ranks.
-    public static var all: [Rank] {
-        return [One, Two, Three, Four, Five, Six, Seven, Eight]
-    }
-
     /// Rank 1.
     case One = 1
 
@@ -56,6 +51,11 @@ public enum Rank: Int, CustomStringConvertible {
 
     /// Rank 8.
     case Eight = 8
+
+    /// An array of all ranks.
+    public static var all: [Rank] {
+        return [One, Two, Three, Four, Five, Six, Seven, Eight]
+    }
 
     /// A textual representation of `self`.
     public var description: String {

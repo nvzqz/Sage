@@ -28,11 +28,6 @@
 /// A chess board file.
 public enum File: Character {
 
-    /// An array of all files.
-    public static var all: [File] {
-        return [A, B, C, D, E, F, G, H]
-    }
-
     /// File "A".
     case A = "A"
 
@@ -56,6 +51,11 @@ public enum File: Character {
 
     /// File "H".
     case H = "H"
+
+    /// An array of all files.
+    public static var all: [File] {
+        return [A, B, C, D, E, F, G, H]
+    }
 
     /// Create a `File` from a case-insensitive `Character` raw value.
     public init?(rawValue: Character) {
