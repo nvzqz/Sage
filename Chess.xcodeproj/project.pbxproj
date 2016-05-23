@@ -14,6 +14,7 @@
 		5273A7721CF264B500426C1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5273A7731CF3676800426C1F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5273A7741CF3677200426C1F /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		5273A7751CF3807300426C1F /* Chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Chess.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +55,7 @@
 				5273A7701CF264B500426C1F /* Sources */,
 				5273A7711CF264B500426C1F /* Support */,
 				5273A7411CF2647800426C1F /* Products */,
+				5273A7751CF3807300426C1F /* Chess.playground */,
 				5273A7731CF3676800426C1F /* Package.swift */,
 				5273A7741CF3677200426C1F /* LICENSE.md */,
 			);
