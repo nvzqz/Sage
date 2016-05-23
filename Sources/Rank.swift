@@ -26,7 +26,7 @@
 //
 
 /// A chess board rank.
-public enum Rank: Int, IntegerLiteralConvertible {
+public enum Rank: Int {
 
     /// Rank 1.
     case One = 1
@@ -56,6 +56,18 @@ public enum Rank: Int, IntegerLiteralConvertible {
     public init?(_ value: Int) {
         self.init(rawValue: value)
     }
+
+    /// Create a `Rank` from a zero-based row index.
+    public init?(row index: Int) {
+        guard let rank = Rank(rawValue: index + 1) else {
+            return nil
+        }
+        self = rank
+    }
+
+}
+
+extension Rank: IntegerLiteralConvertible {
 
     /// Create an instance initialized to `value`.
     public init(integerLiteral value: Int) {

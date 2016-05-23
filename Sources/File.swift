@@ -26,7 +26,7 @@
 //
 
 /// A chess board file.
-public enum File: Character, ExtendedGraphemeClusterLiteralConvertible {
+public enum File: Character {
 
     /// File "A".
     case A = "A"
@@ -75,6 +75,18 @@ public enum File: Character, ExtendedGraphemeClusterLiteralConvertible {
             return nil
         }
     }
+
+    /// Create a `File` from a zero-based column index.
+    public init?(column index: Int) {
+        guard 0...7 ~= index else {
+            return nil
+        }
+        self.init(rawValue: Character(UnicodeScalar(65 + index)))
+    }
+
+}
+
+extension File: ExtendedGraphemeClusterLiteralConvertible {
 
     /// Create an instance initialized to `value`.
     public init(unicodeScalarLiteral value: Character) {
