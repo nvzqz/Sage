@@ -34,4 +34,17 @@ public enum Color: String {
     /// Black chess color.
     case Black
 
+    /// Returns the inverse of `self`.
+    public func inverse() -> Color {
+        switch self {
+        case White: return Black
+        case Black: return White
+        }
+    }
+
+    /// Inverts the color of `self`.
+    public mutating func invert() {
+        self = inverse()
+    }
+
 }
