@@ -29,7 +29,7 @@
 public struct Board {
 
     /// A chess board space.
-    public struct Space {
+    public struct Space: CustomStringConvertible {
 
         /// The occupying chess piece.
         public var piece: Piece?
@@ -48,6 +48,10 @@ public struct Board {
         /// The space's name.
         public var name: String {
             return "\(file.character)\(rank.rawValue)"
+        }
+
+        public var description: String {
+            return "Space(\"\(name)\" \(piece.map({ String($0) }) ?? "nil"))"
         }
 
         /// Create a chess board space.
