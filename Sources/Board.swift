@@ -64,4 +64,14 @@ public struct Board {
     /// The board's spaces.
     private var _spaces: [[Space]]
 
+    /// Clears all the pieces from `self`.
+    public mutating func clear() {
+        let range = 0...7
+        for x in range {
+            for y in range {
+                _spaces[x][y].clear()
+            }
+        }
+    }
+
 }
