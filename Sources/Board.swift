@@ -40,6 +40,11 @@ public struct Board {
         /// The space's rank.
         public var rank: Rank
 
+        /// The space's name.
+        public var name: String {
+            return "\(file.rawValue)\(rank.rawValue)"
+        }
+
         /// Create a chess board space.
         public init(piece: Piece? = nil, file: File, rank: Rank) {
             self.piece = piece
