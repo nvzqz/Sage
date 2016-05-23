@@ -6,6 +6,21 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5273A7771CF3824700426C1F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7761CF3824700426C1F /* Board.swift */; };
+		5273A7781CF3824700426C1F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7761CF3824700426C1F /* Board.swift */; };
+		5273A7791CF3824700426C1F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7761CF3824700426C1F /* Board.swift */; };
+		5273A77A1CF3824700426C1F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7761CF3824700426C1F /* Board.swift */; };
+		5273A77C1CF382E200426C1F /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A77B1CF382E200426C1F /* Piece.swift */; };
+		5273A77D1CF382E200426C1F /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A77B1CF382E200426C1F /* Piece.swift */; };
+		5273A77E1CF382E200426C1F /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A77B1CF382E200426C1F /* Piece.swift */; };
+		5273A77F1CF382E200426C1F /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A77B1CF382E200426C1F /* Piece.swift */; };
+		5273A7811CF382EB00426C1F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7801CF382EB00426C1F /* Color.swift */; };
+		5273A7821CF382EB00426C1F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7801CF382EB00426C1F /* Color.swift */; };
+		5273A7831CF382EB00426C1F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7801CF382EB00426C1F /* Color.swift */; };
+		5273A7841CF382EB00426C1F /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7801CF382EB00426C1F /* Color.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5273A7401CF2647800426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A74E1CF2647F00426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -15,6 +30,9 @@
 		5273A7731CF3676800426C1F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5273A7741CF3677200426C1F /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 		5273A7751CF3807300426C1F /* Chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Chess.playground; sourceTree = "<group>"; };
+		5273A7761CF3824700426C1F /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		5273A77B1CF382E200426C1F /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
+		5273A7801CF382EB00426C1F /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +93,9 @@
 		5273A7701CF264B500426C1F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				5273A7761CF3824700426C1F /* Board.swift */,
+				5273A77B1CF382E200426C1F /* Piece.swift */,
+				5273A7801CF382EB00426C1F /* Color.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -271,6 +292,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5273A77C1CF382E200426C1F /* Piece.swift in Sources */,
+				5273A7771CF3824700426C1F /* Board.swift in Sources */,
+				5273A7811CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -278,6 +302,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5273A77D1CF382E200426C1F /* Piece.swift in Sources */,
+				5273A7781CF3824700426C1F /* Board.swift in Sources */,
+				5273A7821CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +312,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5273A77E1CF382E200426C1F /* Piece.swift in Sources */,
+				5273A7791CF3824700426C1F /* Board.swift in Sources */,
+				5273A7831CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +322,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5273A77F1CF382E200426C1F /* Piece.swift in Sources */,
+				5273A77A1CF3824700426C1F /* Board.swift in Sources */,
+				5273A7841CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
