@@ -69,6 +69,21 @@ public struct Board {
     /// The board's spaces.
     private var _spaces: [[Space]]
 
+    /// The board's pieces.
+    public var pieces: [Piece] {
+        return _spaces.flatten().flatMap({ $0.piece })
+    }
+
+    /// The board's white pieces.
+    public var whitePieces: [Piece] {
+        return pieces.filter({ $0.color.isWhite })
+    }
+
+    /// The board's black pieces.
+    public var blackPieces: [Piece] {
+        return pieces.filter({ $0.color.isBlack })
+    }
+
     /// Creates a chess board.
     ///
     /// - Parameter populate: If `true`, the board is populated. Default is `true`.
