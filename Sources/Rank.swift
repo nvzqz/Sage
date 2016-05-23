@@ -69,10 +69,7 @@ public enum Rank: Int, CustomStringConvertible {
 
     /// Create a `Rank` from a zero-based row index.
     public init?(row index: Int) {
-        guard let rank = Rank(rawValue: index + 1) else {
-            return nil
-        }
-        self = rank
+        self.init(rawValue: index + 1)
     }
 
 }
