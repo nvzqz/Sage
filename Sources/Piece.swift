@@ -26,7 +26,7 @@
 //
 
 /// A chess piece.
-public enum Piece: Hashable {
+public enum Piece: Hashable, CustomStringConvertible {
 
     /// Pawn piece.
     case Pawn(Color)
@@ -98,6 +98,11 @@ public enum Piece: Hashable {
         case Queen:
             return "Queen"
         }
+    }
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return "\(name)(\(color))"
     }
 
     /// The hash value.
