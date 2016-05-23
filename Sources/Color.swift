@@ -26,7 +26,7 @@
 //
 
 /// A chess color.
-public enum Color: String {
+public enum Color: String, CustomStringConvertible {
 
     /// White chess color.
     case White
@@ -42,6 +42,11 @@ public enum Color: String {
     /// Whether the color is black or not.
     public var isBlack: Bool {
         return self == Black
+    }
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return rawValue
     }
 
     /// Returns the inverse of `self`.
