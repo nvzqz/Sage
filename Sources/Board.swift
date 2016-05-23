@@ -40,6 +40,11 @@ public struct Board {
         /// The space's rank.
         public var rank: Rank
 
+        /// The space's color.
+        public var color: Color {
+            return (file.index % 2 != rank.index % 2) ? .White : .Black
+        }
+
         /// The space's name.
         public var name: String {
             return "\(file.character)\(rank.rawValue)"
