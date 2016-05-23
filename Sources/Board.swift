@@ -32,7 +32,20 @@ public struct Board {
     public struct Space {
 
         /// The occupying chess piece.
-        public var piece: Piece
+        public var piece: Piece?
+
+        /// The space's file.
+        public var file: File
+
+        /// The space's rank.
+        public var rank: Rank
+
+        /// Create a chess board space.
+        public init(piece: Piece?, file: File, rank: Rank) {
+            self.piece = piece
+            self.file = file
+            self.rank = rank
+        }
 
     }
 
