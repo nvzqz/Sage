@@ -26,31 +26,31 @@
 //
 
 /// A chess board file.
-public enum File: Character, CustomStringConvertible {
+public enum File: Int, CustomStringConvertible {
 
     /// File "A".
-    case A = "A"
+    case A = 1
 
     /// File "B".
-    case B = "B"
+    case B = 2
 
     /// File "C".
-    case C = "C"
+    case C = 3
 
     /// File "D".
-    case D = "D"
+    case D = 4
 
     /// File "E".
-    case E = "E"
+    case E = 5
 
     /// File "F".
-    case F = "F"
+    case F = 6
 
     /// File "G".
-    case G = "G"
+    case G = 7
 
     /// File "H".
-    case H = "H"
+    case H = 8
 
     /// An array of all files.
     public static var all: [File] {
@@ -59,17 +59,31 @@ public enum File: Character, CustomStringConvertible {
 
     /// The column index of `self`.
     public var index: Int {
-        return Int(String(rawValue).unicodeScalars.first!.value) - 65
+        return rawValue - 1
     }
 
     /// A textual representation of `self`.
     public var description: String {
-        return String(rawValue)
+        return String(character)
     }
 
-    /// Create a `File` from a case-insensitive `Character` raw value.
-    public init?(rawValue: Character) {
-        switch rawValue {
+    /// The character value of `self`.
+    public var character: Character {
+        switch self {
+        case A: return "A"
+        case B: return "B"
+        case C: return "C"
+        case D: return "D"
+        case E: return "E"
+        case F: return "F"
+        case G: return "G"
+        case H: return "H"
+        }
+    }
+
+    /// Create an instance from a character value.
+    public init?(_ character: Character) {
+        switch character {
         case "A", "a":
             self = A
         case "B", "b":
@@ -91,17 +105,9 @@ public enum File: Character, CustomStringConvertible {
         }
     }
 
-    /// Create an instance from a character value.
-    public init?(_ value: Character) {
-        self.init(rawValue: value)
-    }
-
     /// Create a `File` from a zero-based column index.
     public init?(column index: Int) {
-        guard 0...7 ~= index else {
-            return nil
-        }
-        self.init(rawValue: Character(UnicodeScalar(65 + index)))
+        self.init(rawValue: index + 1)
     }
 
 }
@@ -110,7 +116,7 @@ extension File: ExtendedGraphemeClusterLiteralConvertible {
 
     /// Create an instance initialized to `value`.
     public init(unicodeScalarLiteral value: Character) {
-        guard let file = File(rawValue: value) else {
+        guard let file = File(value) else {
             fatalError("File value not within \"A\" and \"H\" or \"a\" and \"h\", inclusive")
         }
         self = file

@@ -42,7 +42,7 @@ public struct Board {
 
         /// The space's name.
         public var name: String {
-            return "\(file.rawValue)\(rank.rawValue)"
+            return "\(file.character)\(rank.rawValue)"
         }
 
         /// Create a chess board space.
