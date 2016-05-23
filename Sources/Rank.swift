@@ -26,7 +26,7 @@
 //
 
 /// A chess board rank.
-public enum Rank: Int {
+public enum Rank: Int, CustomStringConvertible {
 
     /// An array of all ranks.
     public static var all: [Rank] {
@@ -56,6 +56,11 @@ public enum Rank: Int {
 
     /// Rank 8.
     case Eight = 8
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return String(rawValue)
+    }
 
     /// Create an instance from an integer value.
     public init?(_ value: Int) {
