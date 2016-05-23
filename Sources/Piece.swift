@@ -26,7 +26,7 @@
 //
 
 /// A chess piece.
-public enum Piece {
+public enum Piece: Equatable {
 
     /// Pawn piece.
     case Pawn(Color)
@@ -82,4 +82,24 @@ public enum Piece {
         }
     }
 
+}
+
+/// Returns `true` if both pieces are the same.
+public func == (lhs: Piece, rhs: Piece) -> Bool {
+    switch (lhs, rhs) {
+    case let (.Pawn(cl), .Pawn(cr)):
+        return cl == cr
+    case let (.Rook(cl), .Rook(cr)):
+        return cl == cr
+    case let (.Knight(cl), .Knight(cr)):
+        return cl == cr
+    case let (.Bishop(cl), .Bishop(cr)):
+        return cl == cr
+    case let (.King(cl), .King(cr)):
+        return cl == cr
+    case let (.Queen(cl), .Queen(cr)):
+        return cl == cr
+    default:
+        return false
+    }
 }
