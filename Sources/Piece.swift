@@ -82,6 +82,24 @@ public enum Piece: Hashable {
         }
     }
 
+    /// The piece's name.
+    public var name: String {
+        switch self {
+        case Pawn:
+            return "Pawn"
+        case Rook:
+            return "Rook"
+        case Knight:
+            return "Knight"
+        case Bishop:
+            return "Bishop"
+        case King:
+            return "King"
+        case Queen:
+            return "Queen"
+        }
+    }
+
     /// The hash value.
     public var hashValue: Int {
         let colorBit = color.isWhite ? 0 : 1
