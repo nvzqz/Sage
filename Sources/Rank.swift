@@ -57,6 +57,11 @@ public enum Rank: Int, CustomStringConvertible {
         return [One, Two, Three, Four, Five, Six, Seven, Eight]
     }
 
+    /// The row index of `self`.
+    public var index: Int {
+        return rawValue - 1
+    }
+
     /// A textual representation of `self`.
     public var description: String {
         return String(rawValue)

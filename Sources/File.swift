@@ -57,6 +57,11 @@ public enum File: Character, CustomStringConvertible {
         return [A, B, C, D, E, F, G, H]
     }
 
+    /// The column index of `self`.
+    public var index: Int {
+        return Int(String(rawValue).unicodeScalars.first!.value) - 65
+    }
+
     /// A textual representation of `self`.
     public var description: String {
         return String(rawValue)
