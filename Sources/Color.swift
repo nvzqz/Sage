@@ -34,6 +34,16 @@ public enum Color: String {
     /// Black chess color.
     case Black
 
+    /// Whether the color is white or not.
+    public var isWhite: Bool {
+        return self == White
+    }
+
+    /// Whether the color is black or not.
+    public var isBlack: Bool {
+        return self == Black
+    }
+
     /// Returns the inverse of `self`.
     public func inverse() -> Color {
         switch self {
