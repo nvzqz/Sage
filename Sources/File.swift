@@ -28,6 +28,11 @@
 /// A chess board file.
 public enum File: Character {
 
+    /// An array of all files.
+    public static var all: [File] {
+        return [A, B, C, D, E, F, G, H]
+    }
+
     /// File "A".
     case A = "A"
 

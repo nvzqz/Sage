@@ -28,6 +28,11 @@
 /// A chess board rank.
 public enum Rank: Int {
 
+    /// An array of all ranks.
+    public static var all: [Rank] {
+        return [One, Two, Three, Four, Five, Six, Seven, Eight]
+    }
+
     /// Rank 1.
     case One = 1
 
