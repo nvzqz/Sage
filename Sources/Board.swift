@@ -47,6 +47,13 @@ public struct Board {
             self.rank = rank
         }
 
+        /// Clears the piece from the space and returns it.
+        public mutating func clear() -> Piece? {
+            let piece = self.piece
+            self.piece = nil
+            return piece
+        }
+
     }
 
     /// The board's spaces.
