@@ -81,6 +81,11 @@ public enum File: Character {
         }
     }
 
+    /// Create an instance from a character value.
+    public init?(_ value: Character) {
+        self.init(rawValue: value)
+    }
+
     /// Create a `File` from a zero-based column index.
     public init?(column index: Int) {
         guard 0...7 ~= index else {
