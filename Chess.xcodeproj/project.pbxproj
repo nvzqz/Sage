@@ -12,6 +12,8 @@
 		5273A75B1CF2648700426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A7681CF2648E00426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A7721CF264B500426C1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5273A7731CF3676800426C1F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		5273A7741CF3677200426C1F /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +54,8 @@
 				5273A7701CF264B500426C1F /* Sources */,
 				5273A7711CF264B500426C1F /* Support */,
 				5273A7411CF2647800426C1F /* Products */,
+				5273A7731CF3676800426C1F /* Package.swift */,
+				5273A7741CF3677200426C1F /* LICENSE.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -768,6 +772,7 @@
 				5273A7471CF2647800426C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5273A7531CF2647F00426C1F /* Build configuration list for PBXNativeTarget "Chess iOS" */ = {
 			isa = XCConfigurationList;
@@ -776,6 +781,7 @@
 				5273A7551CF2647F00426C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5273A7601CF2648700426C1F /* Build configuration list for PBXNativeTarget "Chess watchOS" */ = {
 			isa = XCConfigurationList;
@@ -784,6 +790,7 @@
 				5273A7621CF2648700426C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5273A76D1CF2648E00426C1F /* Build configuration list for PBXNativeTarget "Chess tvOS" */ = {
 			isa = XCConfigurationList;
@@ -792,6 +799,7 @@
 				5273A76F1CF2648E00426C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
