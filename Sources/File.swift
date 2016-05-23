@@ -26,7 +26,7 @@
 //
 
 /// A chess board file.
-public enum File: Character {
+public enum File: Character, CustomStringConvertible {
 
     /// File "A".
     case A = "A"
@@ -55,6 +55,11 @@ public enum File: Character {
     /// An array of all files.
     public static var all: [File] {
         return [A, B, C, D, E, F, G, H]
+    }
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return String(rawValue)
     }
 
     /// Create a `File` from a case-insensitive `Character` raw value.
