@@ -41,7 +41,7 @@ public struct Board {
         public var rank: Rank
 
         /// Create a chess board space.
-        public init(piece: Piece?, file: File, rank: Rank) {
+        public init(piece: Piece? = nil, file: File, rank: Rank) {
             self.piece = piece
             self.file = file
             self.rank = rank
