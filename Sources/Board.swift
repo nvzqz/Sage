@@ -26,7 +26,7 @@
 //
 
 /// A chess board.
-public struct Board: Equatable {
+public struct Board: Equatable, SequenceType {
 
     /// A chess board space.
     public struct Space: Equatable, CustomStringConvertible {
@@ -161,6 +161,33 @@ public struct Board: Equatable {
     @warn_unused_result
     public func spaceAt(file: File, _ rank: Rank) -> Space {
         return _spaces[file.index][rank.index]
+    }
+
+    /// Returns a generator over the spaces of the board.
+    ///
+    /// - Complexity: O(1).
+    public func generate() -> BoardGenerator {
+        return BoardGenerator(self)
+    }
+
+}
+
+/// A generator for the spaces of a chess board.
+public struct BoardGenerator: GeneratorType {
+
+    private let _board: Board
+    private var _index: Int
+
+    private init(_ board: Board) {
+        self._board = board
+        self._index = 0
+    }
+
+    /// Advances to the next space on the board.
+    public mutating func next() -> Board.Space? {
+        guard _index < 64 else { return nil }
+        defer { _index += 1 }
+        return _board._spaces[_index % 8][_index / 8]
     }
 
 }
