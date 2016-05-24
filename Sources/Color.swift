@@ -50,6 +50,7 @@ public enum Color: String, CustomStringConvertible {
     }
 
     /// Returns the inverse of `self`.
+    @warn_unused_result
     public func inverse() -> Color {
         switch self {
         case White: return Black

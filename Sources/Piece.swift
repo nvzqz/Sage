@@ -121,6 +121,7 @@ public enum Piece: Hashable, CustomStringConvertible {
 }
 
 /// Returns `true` if both pieces are the same.
+@warn_unused_result
 public func == (lhs: Piece, rhs: Piece) -> Bool {
     switch (lhs, rhs) {
     case let (.Pawn(cl), .Pawn(cr)):

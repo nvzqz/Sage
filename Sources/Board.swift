@@ -26,7 +26,7 @@
 //
 
 /// A chess board.
-public struct Board {
+public struct Board: Equatable {
 
     /// A chess board space.
     public struct Space: Equatable, CustomStringConvertible {
@@ -146,23 +146,38 @@ public struct Board {
     }
 
     /// Returns the spaces at the file.
+    @warn_unused_result
     public func spacesAtFile(file: File) -> [Space] {
         return _spaces[file.index]
     }
 
     /// Returns the spaces at the rank.
+    @warn_unused_result
     public func spacesAtRank(rank: Rank) -> [Space] {
         return _spaces.map({ $0[rank.index] })
     }
 
     /// Returns the space at the file and rank.
+    @warn_unused_result
     public func spaceAt(file: File, _ rank: Rank) -> Space {
         return _spaces[file.index][rank.index]
     }
 
 }
 
+/// Returns `true` if both boards are the same.
+@warn_unused_result
+public func == (lhs: Board, rhs: Board) -> Bool {
+    for (ls, rs) in zip(lhs._spaces, rhs._spaces) {
+        guard ls == rs else {
+            return false
+        }
+    }
+    return true
+}
+
 /// Returns `true` if both spaces are the same.
+@warn_unused_result
 public func == (lhs: Board.Space, rhs: Board.Space) -> Bool {
     return lhs.piece == rhs.piece
         && lhs.file == rhs.file
