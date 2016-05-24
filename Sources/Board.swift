@@ -136,13 +136,18 @@ public struct Board {
     }
 
     /// Returns the spaces at the file.
-    public func spacesAt(file: File) -> [Space] {
+    public func spacesAtFile(file: File) -> [Space] {
         return _spaces[file.index]
     }
 
     /// Returns the spaces at the rank.
-    public func spacesAt(rank: Rank) -> [Space] {
+    public func spacesAtRank(rank: Rank) -> [Space] {
         return _spaces.map({ $0[rank.index] })
+    }
+
+    /// Returns the space at the file and rank.
+    public func spaceAt(file: File, _ rank: Rank) -> Space {
+        return _spaces[file.index][rank.index]
     }
 
 }
