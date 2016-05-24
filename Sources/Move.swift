@@ -37,6 +37,16 @@ public struct Move {
     /// The move's end position.
     public var end: Position
 
+    /// The move's change in file.
+    public var dx: Int {
+        return end.0.index - start.0.index
+    }
+
+    /// The move's change in rank.
+    public var dy: Int {
+        return end.1.index - start.1.index
+    }
+
     /// Create a move with start and end positions.
     public init(start: Position, end: Position) {
         self.start = start
