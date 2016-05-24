@@ -29,7 +29,7 @@
 public struct Board {
 
     /// A chess board space.
-    public struct Space: CustomStringConvertible {
+    public struct Space: Equatable, CustomStringConvertible {
 
         /// The occupying chess piece.
         public var piece: Piece?
@@ -160,4 +160,11 @@ public struct Board {
         return _spaces[file.index][rank.index]
     }
 
+}
+
+/// Returns `true` if both spaces are the same.
+public func == (lhs: Board.Space, rhs: Board.Space) -> Bool {
+    return lhs.piece == rhs.piece
+        && lhs.file == rhs.file
+        && lhs.rank == rhs.rank
 }
