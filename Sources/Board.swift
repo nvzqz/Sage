@@ -163,6 +163,13 @@ public struct Board: Equatable, SequenceType {
         return _spaces[file.index][rank.index]
     }
 
+    /// Removes a piece at the file and rank, and returns it.
+    public mutating func removePieceAt(file: File, _ rank: Rank) -> Piece? {
+        let piece = self[file, rank]
+        self[file, rank] = nil
+        return piece
+    }
+
     /// Returns a generator over the spaces of the board.
     ///
     /// - Complexity: O(1).
