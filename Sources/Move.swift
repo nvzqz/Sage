@@ -29,7 +29,7 @@
 public typealias Position = (File, Rank)
 
 /// A chess move.
-public struct Move {
+public struct Move: Equatable {
 
     /// The move's start position.
     public var start: Position
@@ -86,4 +86,10 @@ public struct Move {
         return Move(start: (sf, sr), end: (ef, er))
     }
 
+}
+
+/// Returns `true` if both moves are the same.
+@warn_unused_result
+public func == (lhs: Move, rhs: Move) -> Bool {
+    return lhs.start == rhs.start && lhs.end == rhs.end
 }
