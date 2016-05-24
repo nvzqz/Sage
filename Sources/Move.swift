@@ -70,4 +70,20 @@ public struct Move {
         self.end = end
     }
 
+    /// Returns a move with the end and start of `self` reversed.
+    @warn_unused_result
+    public func reversed() -> Move {
+        return Move(start: end, end: start)
+    }
+
+    /// Returns the result of rotating `self` 180 degrees.
+    @warn_unused_result
+    public func rotated() -> Move {
+        let sf = File(column: 7 - start.0.index)!
+        let sr = Rank(row:    7 - start.1.index)!
+        let ef = File(column: 7 - end.0.index)!
+        let er = Rank(row:    7 - end.1.index)!
+        return Move(start: (sf, sr), end: (ef, er))
+    }
+
 }
