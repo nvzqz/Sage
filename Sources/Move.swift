@@ -47,6 +47,23 @@ public struct Move {
         return end.1.index - start.1.index
     }
 
+    /// The move is a real change in position.
+    public var isChange: Bool {
+        return start != end
+    }
+
+    /// The move is diagonal.
+    public var isDiagonal: Bool {
+        let dx = self.dx
+        return dx != 0 && abs(dx) == abs(dy)
+    }
+
+    /// The move is horizontal.
+    public var isHorizontal: Bool {
+        return (start.0 == end.0 && start.1 != end.1)
+            || (start.0 != end.0 && start.1 == end.1)
+    }
+
     /// Create a move with start and end positions.
     public init(start: Position, end: Position) {
         self.start = start
