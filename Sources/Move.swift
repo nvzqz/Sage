@@ -25,17 +25,20 @@
 //  THE SOFTWARE.
 //
 
+/// A chess position.
+public typealias Position = (File, Rank)
+
 /// A chess move.
 public struct Move {
 
     /// The move's start position.
-    public var start: (File, Rank)
+    public var start: Position
 
     /// The move's end position.
-    public var end: (File, Rank)
+    public var end: Position
 
-    /// Create a move with a start and end.
-    public init(start: (File, Rank), end: (File, Rank)) {
+    /// Create a move with start and end positions.
+    public init(start: Position, end: Position) {
         self.start = start
         self.end = end
     }
