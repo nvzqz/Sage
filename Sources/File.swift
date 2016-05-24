@@ -84,24 +84,15 @@ public enum File: Int, CustomStringConvertible {
     /// Create an instance from a character value.
     public init?(_ character: Character) {
         switch character {
-        case "A", "a":
-            self = A
-        case "B", "b":
-            self = B
-        case "C", "c":
-            self = C
-        case "D", "d":
-            self = D
-        case "E", "e":
-            self = E
-        case "F", "f":
-            self = F
-        case "G", "g":
-            self = G
-        case "H", "h":
-            self = H
-        default:
-            return nil
+        case "A", "a": self = A
+        case "B", "b": self = B
+        case "C", "c": self = C
+        case "D", "d": self = D
+        case "E", "e": self = E
+        case "F", "f": self = F
+        case "G", "g": self = G
+        case "H", "h": self = H
+        default: return nil
         }
     }
 

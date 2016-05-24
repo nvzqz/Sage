@@ -50,34 +50,22 @@ public enum Piece: Hashable, CustomStringConvertible {
     public var color: Color {
         get {
             switch self {
-            case let Pawn(color):
-                return color
-            case let Rook(color):
-                return color
-            case let Knight(color):
-                return color
-            case let Bishop(color):
-                return color
-            case let King(color):
-                return color
-            case let Queen(color):
-                return color
+            case let Pawn(color):   return color
+            case let Rook(color):   return color
+            case let Knight(color): return color
+            case let Bishop(color): return color
+            case let King(color):   return color
+            case let Queen(color):  return color
             }
         }
         set(newColor) {
             switch self {
-            case Pawn:
-                self = Pawn(newColor)
-            case Rook:
-                self = Rook(newColor)
-            case Knight:
-                self = Knight(newColor)
-            case Bishop:
-                self = Bishop(newColor)
-            case King:
-                self = King(newColor)
-            case Queen:
-                self = Queen(newColor)
+            case Pawn:   self = Pawn(newColor)
+            case Rook:   self = Rook(newColor)
+            case Knight: self = Knight(newColor)
+            case Bishop: self = Bishop(newColor)
+            case King:   self = King(newColor)
+            case Queen:  self = Queen(newColor)
             }
         }
     }
@@ -85,18 +73,12 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// The piece's name.
     public var name: String {
         switch self {
-        case Pawn:
-            return "Pawn"
-        case Rook:
-            return "Rook"
-        case Knight:
-            return "Knight"
-        case Bishop:
-            return "Bishop"
-        case King:
-            return "King"
-        case Queen:
-            return "Queen"
+        case Pawn:   return "Pawn"
+        case Rook:   return "Rook"
+        case Knight: return "Knight"
+        case Bishop: return "Bishop"
+        case King:   return "King"
+        case Queen:  return "Queen"
         }
     }
 
