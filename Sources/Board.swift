@@ -106,6 +106,16 @@ public struct Board {
         }
     }
 
+    /// Gets and sets a piece at the file and rank.
+    public subscript(file: File, rank: Rank) -> Piece? {
+        get {
+            return spaceAt(file, rank).piece
+        }
+        set {
+            _spaces[file.index][rank.index].piece = newValue
+        }
+    }
+
     /// Populates `self` with with all of the pieces at their proper locations.
     public mutating func populate() {
         self.clear()
