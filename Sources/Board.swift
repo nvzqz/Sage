@@ -50,6 +50,7 @@ public struct Board {
             return "\(file.character)\(rank.rawValue)"
         }
 
+        /// A textual representation of `self`.
         public var description: String {
             return "Space(\"\(name)\" \(piece.map({ String($0) }) ?? "nil"))"
         }
@@ -132,6 +133,16 @@ public struct Board {
                 _spaces[x][y].clear()
             }
         }
+    }
+
+    /// Returns the spaces at the file.
+    public func spacesAt(file: File) -> [Space] {
+        return _spaces[file.index]
+    }
+
+    /// Returns the spaces at the rank.
+    public func spacesAt(rank: Rank) -> [Space] {
+        return _spaces.map({ $0[rank.index] })
     }
 
 }
