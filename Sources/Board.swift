@@ -106,12 +106,14 @@ public struct Board: Equatable, SequenceType {
         }
     }
 
-    /// Gets and sets a piece at the file and rank.
-    public subscript(file: File, rank: Rank) -> Piece? {
+    /// Gets and sets a piece at the position.
+    public subscript(position: Position) -> Piece? {
         get {
+            let (file, rank) = position
             return spaceAt(file, rank).piece
         }
         set {
+            let (file, rank) = position
             _spaces[file.index][rank.index].piece = newValue
         }
     }
