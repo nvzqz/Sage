@@ -28,6 +28,20 @@
 /// A chess game.
 public class Game {
 
+    /// A chess game mode.
+    public enum Mode {
+
+        /// A game between two humans.
+        case HumanVsHuman
+
+        /// A game between a human and a computer.
+        case HumanVsComputer
+
+        /// A game between two computers.
+        case ComputerVsComputer
+
+    }
+
     /// A player turn.
     public typealias PlayerTurn = Color
 
@@ -37,10 +51,16 @@ public class Game {
     /// The current player's turn.
     public private(set) var playerTurn: PlayerTurn
 
+    /// The game's mode.
+    public var mode: Mode
+
     /// Creates a new chess game.
-    public init() {
+    ///
+    /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
+    public init(mode: Mode = .HumanVsHuman) {
         self.board = Board()
         self.playerTurn = .White
+        self.mode = mode
     }
     
 }
