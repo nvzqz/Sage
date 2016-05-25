@@ -82,6 +82,11 @@ public enum Piece: Hashable, CustomStringConvertible {
         }
     }
 
+    /// The piece can be promoted. Only pawns are promotable.
+    public var isPromotable: Bool {
+        if case Pawn = self { return true } else { return false }
+    }
+
     /// A textual representation of `self`.
     public var description: String {
         return "\(name)(\(color))"
@@ -97,6 +102,18 @@ public enum Piece: Hashable, CustomStringConvertible {
         case .Bishop: return 0b0010000 + colorBit
         case .King:   return 0b0100000 + colorBit
         case .Queen:  return 0b1000000 + colorBit
+        }
+    }
+
+    /// Returns `true` if `self` can be a promotion for the piece.
+    public func canPromote(piece: Piece) -> Bool {
+        if case let Pawn(color) = piece {
+            switch self {
+            case Pawn, King: return false
+            default: return self.color == color
+            }
+        } else {
+            return false
         }
     }
 
