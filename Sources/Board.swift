@@ -109,12 +109,10 @@ public struct Board: Equatable, SequenceType {
     /// Gets and sets a piece at the position.
     public subscript(position: Position) -> Piece? {
         get {
-            let (file, rank) = position
-            return spaceAt(file, rank).piece
+            return spaceAt(position).piece
         }
         set {
-            let (file, rank) = position
-            _spaces[file.index][rank.index].piece = newValue
+            _spaces[position.file.index][position.rank.index].piece = newValue
         }
     }
 
@@ -161,14 +159,14 @@ public struct Board: Equatable, SequenceType {
 
     /// Returns the space at the file and rank.
     @warn_unused_result
-    public func spaceAt(file: File, _ rank: Rank) -> Space {
-        return _spaces[file.index][rank.index]
+    public func spaceAt(position: Position) -> Space {
+        return _spaces[position.file.index][position.rank.index]
     }
 
     /// Removes a piece at the file and rank, and returns it.
-    public mutating func removePieceAt(file: File, _ rank: Rank) -> Piece? {
-        let piece = self[file, rank]
-        self[file, rank] = nil
+    public mutating func removePieceAt(position: Position) -> Piece? {
+        let piece = self[position]
+        self[position] = nil
         return piece
     }
 

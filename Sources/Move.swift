@@ -26,7 +26,7 @@
 //
 
 /// A chess position.
-public typealias Position = (File, Rank)
+public typealias Position = (file: File, rank: Rank)
 
 /// A chess move.
 public struct Move: Equatable {
