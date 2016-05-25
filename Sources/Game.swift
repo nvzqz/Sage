@@ -80,4 +80,14 @@ public class Game {
         self.mode = mode
     }
 
+    /// Returns the captured pieces for a color, or for all if color is `nil`.
+    public func capturedPieces(for color: Color? = nil) -> [Piece] {
+        let pieces = _moveHistory.flatMap({ $0.capture })
+        if let color = color {
+            return pieces.filter({ $0.color == color })
+        } else {
+            return pieces
+        }
+    }
+
 }
