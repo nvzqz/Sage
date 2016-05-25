@@ -60,6 +60,16 @@ public class Game {
     /// The game's mode.
     public var mode: Mode
 
+    /// All of the moves played in the game.
+    public var playedMoves: [Move] {
+        return _moveHistory.map({ $0.move })
+    }
+
+    /// The amount of moves played.
+    public var moveCount: Int {
+        return _moveHistory.count
+    }
+
     /// Creates a new chess game.
     ///
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
