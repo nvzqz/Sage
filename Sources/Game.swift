@@ -42,8 +42,14 @@ public class Game {
 
     }
 
+    /// A move history record.
+    private typealias _MoveRecord = (move: Move, capture: Piece?)
+
     /// A player turn.
     public typealias PlayerTurn = Color
+
+    /// All of the conducted moves in the game.
+    private var _moveHistory: [_MoveRecord]
 
     /// The game's board.
     public private(set) var board: Board
@@ -58,9 +64,10 @@ public class Game {
     ///
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
     public init(mode: Mode = .HumanVsHuman) {
+        self._moveHistory = []
         self.board = Board()
         self.playerTurn = .White
         self.mode = mode
     }
-    
+
 }
