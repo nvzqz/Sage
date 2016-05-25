@@ -90,7 +90,7 @@ public struct Board: Equatable, SequenceType {
 
     /// The board's pieces.
     public var pieces: [Piece] {
-        return _spaces.flatten().flatMap({ $0.piece })
+        return self.flatMap({ $0.piece })
     }
 
     /// The board's white pieces.
