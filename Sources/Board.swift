@@ -40,6 +40,16 @@ public struct Board: Equatable, SequenceType {
         /// The space's rank.
         public var rank: Rank
 
+        /// The space's position on a chess board.
+        public var position: Position {
+            get {
+                return (file, rank)
+            }
+            set {
+                (file, rank) = newValue
+            }
+        }
+
         /// The space's color.
         public var color: Color {
             return (file.index % 2 != rank.index % 2) ? .White : .Black
@@ -55,11 +65,15 @@ public struct Board: Equatable, SequenceType {
             return "Space(\"\(name)\" \(piece.map({ String($0) }) ?? "nil"))"
         }
 
-        /// Create a chess board space.
+        /// Create a chess board space with a piece, file, and rank.
         public init(piece: Piece? = nil, file: File, rank: Rank) {
+            self.init(piece: piece, position: (file, rank))
+        }
+
+        /// Create a chess board space with a piece and position.
+        public init(piece: Piece? = nil, position: Position) {
             self.piece = piece
-            self.file = file
-            self.rank = rank
+            (file, rank) = position
         }
 
         /// Clears the piece from the space and returns it.
