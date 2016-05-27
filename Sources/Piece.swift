@@ -108,12 +108,23 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// Returns `true` if `self` can be a promotion for the piece.
     public func canPromote(piece: Piece) -> Bool {
         if case let Pawn(color) = piece {
-            switch self {
-            case Pawn, King: return false
-            default: return self.color == color
-            }
+            return canPromote(color)
         } else {
             return false
+        }
+    }
+
+    /// Returns `true` if `self` can be a promotion for the color.
+    public func canPromote(color: Color? = nil) -> Bool {
+        switch self {
+        case Pawn, King:
+            return false
+        default:
+            if let color = color {
+                return self.color == color
+            } else {
+                return true
+            }
         }
     }
 
