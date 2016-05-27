@@ -26,7 +26,7 @@
 //
 
 /// A chess board rank.
-public enum Rank: Int, CustomStringConvertible {
+public enum Rank: Int, Comparable, CustomStringConvertible {
 
     /// Rank 1.
     case One = 1
@@ -89,4 +89,9 @@ extension Rank: IntegerLiteralConvertible {
         self = rank
     }
 
+}
+
+/// Returns `true` if one rank is higher than the other.
+public func < (lhs: Rank, rhs: Rank) -> Bool {
+    return lhs.rawValue < rhs.rawValue
 }

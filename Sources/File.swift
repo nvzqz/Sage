@@ -26,7 +26,7 @@
 //
 
 /// A chess board file.
-public enum File: Int, CustomStringConvertible {
+public enum File: Int, Comparable, CustomStringConvertible {
 
     /// File "A".
     case A = 1
@@ -118,4 +118,9 @@ extension File: ExtendedGraphemeClusterLiteralConvertible {
         self.init(unicodeScalarLiteral: value)
     }
 
+}
+
+/// Returns `true` if one file is further left than the other.
+public func < (lhs: File, rhs: File) -> Bool {
+    return lhs.rawValue < rhs.rawValue
 }
