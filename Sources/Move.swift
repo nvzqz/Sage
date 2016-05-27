@@ -59,12 +59,12 @@ public struct Move: Equatable {
 
     /// The move's change in file.
     public var dx: Int {
-        return end.0.index - start.0.index
+        return end.file.rawValue - start.file.rawValue
     }
 
     /// The move's change in rank.
     public var dy: Int {
-        return end.1.index - start.1.index
+        return end.rank.rawValue - start.rank.rawValue
     }
 
     /// The move is a real change in position.
