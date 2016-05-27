@@ -31,6 +31,26 @@ public typealias Position = (file: File, rank: Rank)
 /// A chess move.
 public struct Move: Equatable {
 
+    /// A direction in file.
+    public enum FileDirection {
+
+        /// Left direction.
+        case Left
+
+        /// Right direction.
+        case Right
+
+    }
+
+    /// A castle move for a color in a direction.
+    public static func castle(color: Color, direction: FileDirection) -> Move {
+        let rank: Rank = color.isWhite ? 1 : 8
+        return Move(
+            start: (.E, rank),
+            end: (direction == .Left ? .C : .G, rank)
+        )
+    }
+
     /// The move's start position.
     public var start: Position
 
