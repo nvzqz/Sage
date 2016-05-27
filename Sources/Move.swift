@@ -115,6 +115,28 @@ public struct Move: Equatable {
         return end.rank > start.rank
     }
 
+    /// The move's direction in file, if any.
+    public var fileDirection: FileDirection? {
+        if self.isLeftward {
+            return .Left
+        } else if self.isRightward {
+            return .Right
+        } else {
+            return .None
+        }
+    }
+
+    /// The move's direction in rank, if any.
+    public var rankDirection: RankDirection? {
+        if self.isUpward {
+            return .Up
+        } else if self.isDownward {
+            return .Down
+        } else {
+            return .None
+        }
+    }
+
     /// Create a move with start and end positions.
     public init(start: Position, end: Position) {
         self.start = start
