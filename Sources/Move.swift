@@ -124,6 +124,15 @@ public struct Move: Equatable {
             && abs(fileChange) == 2
     }
 
+    /// The move is a knight jump two spaces horizontally and one space
+    /// vertically, or two spaces vertically and one space horizontally.
+    public var isKnightJump: Bool {
+        let fileChange = abs(self.fileChange)
+        let rankChange = abs(self.rankChange)
+        return (fileChange == 2 && rankChange == 1)
+            || (rankChange == 2 && fileChange == 1)
+    }
+
     /// The move's direction in file, if any.
     public var fileDirection: FileDirection? {
         if self.isLeftward {
