@@ -54,6 +54,7 @@ public struct Move: Equatable {
     }
 
     /// A castle move for a color in a direction.
+    @warn_unused_result
     public static func castle(color: Color, direction: FileDirection) -> Move {
         let rank: Rank = color.isWhite ? 1 : 8
         return Move(
@@ -113,6 +114,14 @@ public struct Move: Equatable {
     /// The move is upward.
     public var isUpward: Bool {
         return end.rank > start.rank
+    }
+
+    /// The move is a castle.
+    public var isCastle: Bool {
+        return start.rank == end.rank
+            && (start.rank == 1 || start.rank == 8)
+            && start.file == .E
+            && abs(dx) == 2
     }
 
     /// The move's direction in file, if any.
