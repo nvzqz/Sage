@@ -95,6 +95,16 @@ public struct Move: Equatable {
             || (start.0 != end.0 && start.1 == end.1)
     }
 
+    /// The move is leftward.
+    public var isLeftward: Bool {
+        return end.file < start.file
+    }
+
+    /// The move is rightward.
+    public var isRightward: Bool {
+        return end.file > start.file
+    }
+
     /// The move is downward.
     public var isDownward: Bool {
         return end.rank < start.rank
