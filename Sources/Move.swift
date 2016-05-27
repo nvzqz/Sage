@@ -95,6 +95,16 @@ public struct Move: Equatable {
             || (start.0 != end.0 && start.1 == end.1)
     }
 
+    /// The move is downward.
+    public var isDownward: Bool {
+        return end.rank < start.rank
+    }
+
+    /// The move is upward.
+    public var isUpward: Bool {
+        return end.rank > start.rank
+    }
+
     /// Create a move with start and end positions.
     public init(start: Position, end: Position) {
         self.start = start
