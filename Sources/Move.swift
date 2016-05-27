@@ -42,6 +42,17 @@ public struct Move: Equatable {
 
     }
 
+    /// A direction in rank.
+    public enum RankDirection {
+
+        /// Up direction.
+        case Up
+
+        /// Down direction.
+        case Down
+
+    }
+
     /// A castle move for a color in a direction.
     public static func castle(color: Color, direction: FileDirection) -> Move {
         let rank: Rank = color.isWhite ? 1 : 8
