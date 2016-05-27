@@ -92,8 +92,12 @@ public struct Move: Equatable {
 
     /// The move is horizontal.
     public var isHorizontal: Bool {
-        return (start.0 == end.0 && start.1 != end.1)
-            || (start.0 != end.0 && start.1 == end.1)
+        return start.file != end.file && start.rank == end.rank
+    }
+
+    /// The move is vertical.
+    public var isVertical: Bool {
+        return start.file == end.file && start.rank != end.rank
     }
 
     /// The move is leftward.
