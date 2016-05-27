@@ -70,12 +70,12 @@ public struct Move: Equatable {
     public var end: Position
 
     /// The move's change in file.
-    public var dx: Int {
+    public var fileChange: Int {
         return end.file.rawValue - start.file.rawValue
     }
 
     /// The move's change in rank.
-    public var dy: Int {
+    public var rankChange: Int {
         return end.rank.rawValue - start.rank.rawValue
     }
 
@@ -86,8 +86,8 @@ public struct Move: Equatable {
 
     /// The move is diagonal.
     public var isDiagonal: Bool {
-        let dx = self.dx
-        return dx != 0 && abs(dx) == abs(dy)
+        let fileChange = self.fileChange
+        return fileChange != 0 && abs(fileChange) == abs(rankChange)
     }
 
     /// The move is horizontal.
@@ -121,7 +121,7 @@ public struct Move: Equatable {
         return start.rank == end.rank
             && (start.rank == 1 || start.rank == 8)
             && start.file == .E
-            && abs(dx) == 2
+            && abs(fileChange) == 2
     }
 
     /// The move's direction in file, if any.
