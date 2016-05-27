@@ -184,6 +184,11 @@ public struct Board: Equatable, SequenceType {
         return piece
     }
 
+    /// Swaps the pieces between the two positions.
+    public mutating func swap(first: Position, _ second: Position) {
+        (self[first], self[second]) = (self[second], self[first])
+    }
+
     /// Returns a generator over the spaces of the board.
     ///
     /// - Complexity: O(1).
