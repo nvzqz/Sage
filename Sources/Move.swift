@@ -100,6 +100,11 @@ public struct Move: Equatable {
         return start.file == end.file && start.rank != end.rank
     }
 
+    /// The move is horizontal or vertical.
+    public var isHorizontalOrVertical: Bool {
+        return isHorizontal || isVertical
+    }
+
     /// The move is leftward.
     public var isLeftward: Bool {
         return end.file < start.file
