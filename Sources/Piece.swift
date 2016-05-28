@@ -82,6 +82,19 @@ public enum Piece: Hashable, CustomStringConvertible {
         }
     }
 
+    /// The piece's relative value. Can be used to determine how valuable a
+    /// piece or combination of pieces is.
+    public var relativeValue: Double {
+        switch self {
+        case Pawn:   return 1
+        case Knight: return 3
+        case Bishop: return 3.25
+        case Rook:   return 5
+        case Queen:  return 9
+        case King:   return .infinity
+        }
+    }
+
     /// The piece can be promoted. Only pawns are promotable.
     public var isPromotable: Bool {
         if case Pawn = self { return true } else { return false }
