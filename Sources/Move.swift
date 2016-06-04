@@ -101,7 +101,7 @@ public struct Move: Equatable {
     }
 
     /// The move is horizontal or vertical.
-    public var isHorizontalOrVertical: Bool {
+    public var isAxial: Bool {
         return isHorizontal || isVertical
     }
 
