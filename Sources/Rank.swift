@@ -77,6 +77,16 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
         self.init(rawValue: index + 1)
     }
 
+    /// The next rank after `self`.
+    public func next() -> Rank? {
+        return Rank(rawValue: rawValue.successor())
+    }
+
+    /// The previous rank to `self`.
+    public func previous() -> Rank? {
+        return Rank(rawValue: rawValue.predecessor())
+    }
+
 }
 
 extension Rank: IntegerLiteralConvertible {

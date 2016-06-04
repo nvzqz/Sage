@@ -101,6 +101,16 @@ public enum File: Int, Comparable, CustomStringConvertible {
         self.init(rawValue: index + 1)
     }
 
+    /// The next file after `self`.
+    public func next() -> File? {
+        return File(rawValue: rawValue.successor())
+    }
+
+    /// The previous file to `self`.
+    public func previous() -> File? {
+        return File(rawValue: rawValue.predecessor())
+    }
+
 }
 
 extension File: ExtendedGraphemeClusterLiteralConvertible {
