@@ -87,6 +87,34 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
         return Rank(rawValue: rawValue.predecessor())
     }
 
+    /// The files from `self` to `other`.
+    public func to(other: Rank) -> [Rank] {
+        if other > self {
+            return (rawValue...other.rawValue)
+                .flatMap({ Rank(rawValue: $0) })
+        } else if other < self {
+            return (other.rawValue...rawValue)
+                .reverse()
+                .flatMap({ Rank(rawValue: $0) })
+        } else {
+            return []
+        }
+    }
+
+    /// The files between `self` and `other`.
+    public func between(other: Rank) -> [Rank] {
+        if other > self {
+            return (rawValue.successor() ..< other.rawValue)
+                .flatMap({ Rank(rawValue: $0) })
+        } else if other < self {
+            return (other.rawValue.successor() ..< rawValue)
+                .reverse()
+                .flatMap({ Rank(rawValue: $0) })
+        } else {
+            return []
+        }
+    }
+
 }
 
 extension Rank: IntegerLiteralConvertible {

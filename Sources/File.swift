@@ -111,6 +111,34 @@ public enum File: Int, Comparable, CustomStringConvertible {
         return File(rawValue: rawValue.predecessor())
     }
 
+    /// The files from `self` to `other`.
+    public func to(other: File) -> [File] {
+        if other > self {
+            return (rawValue...other.rawValue)
+                .flatMap({ File(rawValue: $0) })
+        } else if other < self {
+            return (other.rawValue...rawValue)
+                .reverse()
+                .flatMap({ File(rawValue: $0) })
+        } else {
+            return []
+        }
+    }
+
+    /// The files between `self` and `other`.
+    public func between(other: File) -> [File] {
+        if other > self {
+            return (rawValue.successor() ..< other.rawValue)
+                .flatMap({ File(rawValue: $0) })
+        } else if other < self {
+            return (other.rawValue.successor() ..< rawValue)
+                .reverse()
+                .flatMap({ File(rawValue: $0) })
+        } else {
+            return []
+        }
+    }
+
 }
 
 extension File: ExtendedGraphemeClusterLiteralConvertible {
