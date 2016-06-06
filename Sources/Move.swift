@@ -29,7 +29,7 @@
 public typealias Position = (file: File, rank: Rank)
 
 /// A chess move.
-public struct Move: Equatable {
+public struct Move: Equatable, CustomStringConvertible {
 
     /// A direction in file.
     public enum FileDirection {
@@ -162,6 +162,11 @@ public struct Move: Equatable {
         } else {
             return .None
         }
+    }
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return "Move(\(start.file)\(start.rank) -> \(end.file)\(end.rank))"
     }
 
     /// Create a move with start and end positions.
