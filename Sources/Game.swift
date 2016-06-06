@@ -26,7 +26,7 @@
 //
 
 /// A chess game.
-public class Game {
+public final class Game {
 
     /// A chess game mode.
     public enum Mode {
