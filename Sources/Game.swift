@@ -336,10 +336,10 @@ public class Game {
                 board[move.end] = promotion ?? .Queen(color)
                 _moveHistory.append((move, piece, capture))
             } else {
-                fallthrough
+                execute(board.removePieceAt(move.end))
             }
-        case .King:
-            if piece.color.isWhite {
+        case .King(let color):
+            if color.isWhite {
                 whiteKingHasMoved = true
             } else {
                 blackKingHasMoved = true
@@ -352,7 +352,7 @@ public class Game {
                 board.swap((oldRookFile, rank), (newRookFile, rank))
                 execute()
             } else {
-                fallthrough
+                execute(board.removePieceAt(move.end))
             }
         case .Rook:
             switch move.start {
@@ -367,7 +367,7 @@ public class Game {
             default:
                 break
             }
-            fallthrough
+            execute(board.removePieceAt(move.end))
         default:
             execute(board.removePieceAt(move.end))
         }
