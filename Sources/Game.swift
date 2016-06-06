@@ -415,6 +415,6 @@ public enum MoveExecutionError: ErrorType {
     case KingMoved(Color)
 
     /// A rook has moved from its starting position, preventing a castle.
-    case RookMoved(Color, Move.FileDirection)
+    case RookMoved(Color, File.Direction)
 
 }

@@ -28,6 +28,17 @@
 /// A chess board rank.
 public enum Rank: Int, Comparable, CustomStringConvertible {
 
+    /// A direction in rank.
+    public enum Direction {
+
+        /// Up direction.
+        case Up
+
+        /// Down direction.
+        case Down
+        
+    }
+
     /// Rank 1.
     case One = 1
 

@@ -31,31 +31,9 @@ public typealias Position = (file: File, rank: Rank)
 /// A chess move.
 public struct Move: Equatable, CustomStringConvertible {
 
-    /// A direction in file.
-    public enum FileDirection {
-
-        /// Left direction.
-        case Left
-
-        /// Right direction.
-        case Right
-
-    }
-
-    /// A direction in rank.
-    public enum RankDirection {
-
-        /// Up direction.
-        case Up
-
-        /// Down direction.
-        case Down
-
-    }
-
     /// A castle move for a color in a direction.
     @warn_unused_result
-    public static func castle(color: Color, direction: FileDirection) -> Move {
+    public static func castle(color: Color, direction: File.Direction) -> Move {
         let rank: Rank = color.isWhite ? 1 : 8
         return Move(
             start: (.E, rank),
@@ -143,7 +121,7 @@ public struct Move: Equatable, CustomStringConvertible {
     }
 
     /// The move's direction in file, if any.
-    public var fileDirection: FileDirection? {
+    public var fileDirection: File.Direction? {
         if self.isLeftward {
             return .Left
         } else if self.isRightward {
@@ -154,7 +132,7 @@ public struct Move: Equatable, CustomStringConvertible {
     }
 
     /// The move's direction in rank, if any.
-    public var rankDirection: RankDirection? {
+    public var rankDirection: Rank.Direction? {
         if self.isUpward {
             return .Up
         } else if self.isDownward {

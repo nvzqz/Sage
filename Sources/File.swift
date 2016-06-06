@@ -28,6 +28,17 @@
 /// A chess board file.
 public enum File: Int, Comparable, CustomStringConvertible {
 
+    /// A direction in file.
+    public enum Direction {
+
+        /// Left direction.
+        case Left
+
+        /// Right direction.
+        case Right
+        
+    }
+
     /// File "A".
     case A = 1
 
