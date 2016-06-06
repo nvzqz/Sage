@@ -312,7 +312,7 @@ public class Game {
     }
 
     /// Executes the move or throws on error.
-    public func executeMove(move: Move, promotion: Piece? = nil) throws {
+    public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
         let result = _resultOf(move, for: playerTurn)
         guard case let .Value(piece) = result else {
             throw result.error!
@@ -326,6 +326,7 @@ public class Game {
             if /* En passant */ move.isDiagonal && board[move.end] != nil {
                 execute(board.removePieceAt((move.start.file, move.end.rank)))
             } else if /* Promotion */ move.end.rank == (color.isWhite ? 8 : 1) {
+                let promotion = promotion?()
                 if let promotion = promotion {
                     guard promotion.canPromote(color) else {
                         throw MoveExecutionError.InvalidPromotionPiece(promotion)
