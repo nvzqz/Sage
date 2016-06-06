@@ -82,6 +82,18 @@ public enum Piece: Hashable, CustomStringConvertible {
         }
     }
 
+    /// The character for the piece. Uppercase if white or lowercase if black.
+    public var character: Character {
+        switch self {
+        case let .Pawn(color):   return color.isWhite ? "P" : "p"
+        case let .Rook(color):   return color.isWhite ? "R" : "r"
+        case let .Knight(color): return color.isWhite ? "N" : "n"
+        case let .Bishop(color): return color.isWhite ? "B" : "b"
+        case let .King(color):   return color.isWhite ? "K" : "k"
+        case let .Queen(color):  return color.isWhite ? "Q" : "q"
+        }
+    }
+
     /// The piece's relative value. Can be used to determine how valuable a
     /// piece or combination of pieces is.
     public var relativeValue: Double {
