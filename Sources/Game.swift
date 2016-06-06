@@ -339,6 +339,11 @@ public class Game {
                 fallthrough
             }
         case .King:
+            if piece.color.isWhite {
+                whiteKingHasMoved = true
+            } else {
+                blackKingHasMoved = true
+            }
             if /* Castle */ abs(move.fileChange) == 2 {
                 let rank = move.start.rank
                 let movedRight = move.end.file == .G
