@@ -189,6 +189,30 @@ public struct Board: Equatable, SequenceType {
         (self[first], self[second]) = (self[second], self[first])
     }
 
+    /// Returns the FEN string for the board.
+    public func fen() -> String {
+        func fenForRank(rank: Rank) -> String {
+            var fen = ""
+            var accumulator = 0
+            for space in spacesAtRank(rank) {
+                if let piece = space.piece {
+                    if accumulator > 0 {
+                        fen += String(accumulator)
+                        accumulator = 0
+                    }
+                    fen += String(piece.character)
+                } else {
+                    accumulator += 1
+                    if space.file == .H {
+                        fen += String(accumulator)
+                    }
+                }
+            }
+            return fen
+        }
+        return Rank.all.reverse().map(fenForRank).joinWithSeparator("/")
+    }
+
     /// Returns a generator over the spaces of the board.
     ///
     /// - Complexity: O(1).
