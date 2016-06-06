@@ -36,7 +36,7 @@ internal enum _Result<V, E: ErrorType> {
 
     /// The value of `self`, or `nil` if `Error`.
     var value: V? {
-        if case let Value(value) = self {
+        if case let .Value(value) = self {
             return value
         } else {
             return nil
@@ -45,7 +45,7 @@ internal enum _Result<V, E: ErrorType> {
 
     /// The error of `self`, or `nil` if `Value`.
     var error: E? {
-        if case let Error(error) = self {
+        if case let .Error(error) = self {
             return error
         } else {
             return nil
@@ -54,7 +54,7 @@ internal enum _Result<V, E: ErrorType> {
 
     /// `self` is a value.
     var isValue: Bool {
-        if case Value = self {
+        if case .Value = self {
             return true
         } else {
             return false
@@ -63,7 +63,7 @@ internal enum _Result<V, E: ErrorType> {
 
     /// `self` is an error.
     var isError: Bool {
-        if case Error = self {
+        if case .Error = self {
             return true
         } else {
             return false

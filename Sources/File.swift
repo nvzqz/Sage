@@ -65,7 +65,7 @@ public enum File: Int, Comparable, CustomStringConvertible {
 
     /// An array of all files.
     public static var all: [File] {
-        return [A, B, C, D, E, F, G, H]
+        return [.A, .B, .C, .D, .E, .F, .G, .H]
     }
 
     /// The column index of `self`.
@@ -81,28 +81,28 @@ public enum File: Int, Comparable, CustomStringConvertible {
     /// The character value of `self`.
     public var character: Character {
         switch self {
-        case A: return "A"
-        case B: return "B"
-        case C: return "C"
-        case D: return "D"
-        case E: return "E"
-        case F: return "F"
-        case G: return "G"
-        case H: return "H"
+        case .A: return "A"
+        case .B: return "B"
+        case .C: return "C"
+        case .D: return "D"
+        case .E: return "E"
+        case .F: return "F"
+        case .G: return "G"
+        case .H: return "H"
         }
     }
 
     /// Create an instance from a character value.
     public init?(_ character: Character) {
         switch character {
-        case "A", "a": self = A
-        case "B", "b": self = B
-        case "C", "c": self = C
-        case "D", "d": self = D
-        case "E", "e": self = E
-        case "F", "f": self = F
-        case "G", "g": self = G
-        case "H", "h": self = H
+        case "A", "a": self = .A
+        case "B", "b": self = .B
+        case "C", "c": self = .C
+        case "D", "d": self = .D
+        case "E", "e": self = .E
+        case "F", "f": self = .F
+        case "G", "g": self = .G
+        case "H", "h": self = .H
         default: return nil
         }
     }

@@ -65,7 +65,7 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
 
     /// An array of all ranks.
     public static var all: [Rank] {
-        return [One, Two, Three, Four, Five, Six, Seven, Eight]
+        return [.One, .Two, .Three, .Four, .Five, .Six, .Seven, .Eight]
     }
 
     /// The row index of `self`.

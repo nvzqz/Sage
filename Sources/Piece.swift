@@ -50,22 +50,22 @@ public enum Piece: Hashable, CustomStringConvertible {
     public var color: Color {
         get {
             switch self {
-            case let Pawn(color):   return color
-            case let Rook(color):   return color
-            case let Knight(color): return color
-            case let Bishop(color): return color
-            case let King(color):   return color
-            case let Queen(color):  return color
+            case let .Pawn(color):   return color
+            case let .Rook(color):   return color
+            case let .Knight(color): return color
+            case let .Bishop(color): return color
+            case let .King(color):   return color
+            case let .Queen(color):  return color
             }
         }
         set(newColor) {
             switch self {
-            case Pawn:   self = Pawn(newColor)
-            case Rook:   self = Rook(newColor)
-            case Knight: self = Knight(newColor)
-            case Bishop: self = Bishop(newColor)
-            case King:   self = King(newColor)
-            case Queen:  self = Queen(newColor)
+            case .Pawn:   self = .Pawn(newColor)
+            case .Rook:   self = .Rook(newColor)
+            case .Knight: self = .Knight(newColor)
+            case .Bishop: self = .Bishop(newColor)
+            case .King:   self = .King(newColor)
+            case .Queen:  self = .Queen(newColor)
             }
         }
     }
@@ -73,12 +73,12 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// The piece's name.
     public var name: String {
         switch self {
-        case Pawn:   return "Pawn"
-        case Rook:   return "Rook"
-        case Knight: return "Knight"
-        case Bishop: return "Bishop"
-        case King:   return "King"
-        case Queen:  return "Queen"
+        case .Pawn:   return "Pawn"
+        case .Rook:   return "Rook"
+        case .Knight: return "Knight"
+        case .Bishop: return "Bishop"
+        case .King:   return "King"
+        case .Queen:  return "Queen"
         }
     }
 
@@ -86,18 +86,18 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// piece or combination of pieces is.
     public var relativeValue: Double {
         switch self {
-        case Pawn:   return 1
-        case Knight: return 3
-        case Bishop: return 3.25
-        case Rook:   return 5
-        case Queen:  return 9
-        case King:   return .infinity
+        case .Pawn:   return 1
+        case .Knight: return 3
+        case .Bishop: return 3.25
+        case .Rook:   return 5
+        case .Queen:  return 9
+        case .King:   return .infinity
         }
     }
 
     /// The piece can be promoted. Only pawns are promotable.
     public var isPromotable: Bool {
-        if case Pawn = self { return true } else { return false }
+        if case .Pawn = self { return true } else { return false }
     }
 
     /// A textual representation of `self`.
@@ -120,7 +120,7 @@ public enum Piece: Hashable, CustomStringConvertible {
 
     /// Returns `true` if `self` can be a promotion for the piece.
     public func canPromote(piece: Piece) -> Bool {
-        if case let Pawn(color) = piece {
+        if case let .Pawn(color) = piece {
             return canPromote(color)
         } else {
             return false
@@ -130,7 +130,7 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// Returns `true` if `self` can be a promotion for the color.
     public func canPromote(color: Color? = nil) -> Bool {
         switch self {
-        case Pawn, King:
+        case .Pawn, .King:
             return false
         default:
             if let color = color {

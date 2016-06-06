@@ -36,12 +36,12 @@ public enum Color: String, CustomStringConvertible {
 
     /// Whether the color is white or not.
     public var isWhite: Bool {
-        return self == White
+        return self == .White
     }
 
     /// Whether the color is black or not.
     public var isBlack: Bool {
-        return self == Black
+        return self == .Black
     }
 
     /// A textual representation of `self`.
@@ -53,8 +53,8 @@ public enum Color: String, CustomStringConvertible {
     @warn_unused_result(mutable_variant="invert")
     public func inverse() -> Color {
         switch self {
-        case White: return Black
-        case Black: return White
+        case .White: return .Black
+        case .Black: return .White
         }
     }
 
