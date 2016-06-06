@@ -312,6 +312,11 @@ public class Game {
     }
 
     /// Executes the move or throws on error.
+    public func executeMove(move: Move, promotion: Piece) throws {
+        try executeMove(move, promotion: { promotion })
+    }
+
+    /// Executes the move or throws on error.
     public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
         let result = _resultOf(move, for: playerTurn)
         guard case let .Value(piece) = result else {
