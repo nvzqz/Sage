@@ -61,19 +61,19 @@ public class Game {
     public private(set) var whiteKingHasMoved: Bool = false
 
     /// The left white rook has moved from A1.
-    public private(set) var leftWhiteRookHasMoved: Bool = false
+    public private(set) var whiteLeftRookHasMoved: Bool = false
 
     /// The right white rook has moved from H1.
-    public private(set) var rightWhiteRookHasMoved: Bool = false
+    public private(set) var whiteRightRookHasMoved: Bool = false
 
     /// The black king has moved from E8.
     public private(set) var blackKingHasMoved: Bool = false
 
     /// The left black rook has moved from A8.
-    public private(set) var leftBlackRookHasMoved: Bool = false
+    public private(set) var blackLeftRookHasMoved: Bool = false
 
     /// The right black rook has moved from H8.
-    public private(set) var rightBlackRookHasMoved: Bool = false
+    public private(set) var blackRightRookHasMoved: Bool = false
 
     /// The game's mode.
     public var mode: Mode
@@ -249,19 +249,19 @@ public class Game {
                 // Check if the rook for the appropriate color has moved
                 switch move.end {
                 case (.C, .One):
-                    guard !leftWhiteRookHasMoved else {
+                    guard !whiteLeftRookHasMoved else {
                         return .Error(.RookMoved(.White, .Left))
                     }
                 case (.G, .One):
-                    guard !rightWhiteRookHasMoved else {
+                    guard !whiteRightRookHasMoved else {
                         return .Error(.RookMoved(.White, .Right))
                     }
                 case (.C, .Eight):
-                    guard !leftBlackRookHasMoved else {
+                    guard !blackLeftRookHasMoved else {
                         return .Error(.RookMoved(.Black, .Left))
                     }
                 case (.G, .Eight):
-                    guard !rightBlackRookHasMoved else {
+                    guard !blackRightRookHasMoved else {
                         return .Error(.RookMoved(.Black, .Right))
                     }
                 default:
@@ -363,13 +363,13 @@ public class Game {
         case .Rook:
             switch move.start {
             case (.A, .One):
-                leftWhiteRookHasMoved = true
+                whiteLeftRookHasMoved = true
             case (.H, .One):
-                rightWhiteRookHasMoved = true
+                whiteRightRookHasMoved = true
             case (.A, .Eight):
-                leftBlackRookHasMoved = true
+                blackLeftRookHasMoved = true
             case (.H, .Eight):
-                rightBlackRookHasMoved = true
+                blackRightRookHasMoved = true
             default:
                 break
             }
