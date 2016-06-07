@@ -26,7 +26,7 @@
 //
 
 /// A chess board.
-public struct Board: Equatable, SequenceType {
+public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
     /// A chess board space.
     public struct Space: Equatable, CustomStringConvertible {
@@ -101,6 +101,11 @@ public struct Board: Equatable, SequenceType {
     /// The board's black pieces.
     public var blackPieces: [Piece] {
         return pieces.filter({ $0.color.isBlack })
+    }
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return "Board(\(fen()))"
     }
 
     /// Creates a chess board.
