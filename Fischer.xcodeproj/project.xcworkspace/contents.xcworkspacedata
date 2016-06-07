@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:Chess.xcodeproj">
+      location = "self:/Users/nvzqz/dev/projects/Chess/Fischer.xcodeproj">
    </FileRef>
 </Workspace>

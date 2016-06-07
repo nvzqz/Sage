@@ -1,6 +1,6 @@
 //
 //  Color.swift
-//  Chess
+//  Fischer
 //
 //  The MIT License (MIT)
 //

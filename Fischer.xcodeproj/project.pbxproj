@@ -42,14 +42,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5273A7401CF2647800426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5273A74E1CF2647F00426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5273A75B1CF2648700426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5273A7681CF2648E00426C1F /* Chess.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Chess.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5273A7401CF2647800426C1F /* Fischer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fischer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5273A74E1CF2647F00426C1F /* Fischer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fischer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5273A75B1CF2648700426C1F /* Fischer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fischer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5273A7681CF2648E00426C1F /* Fischer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fischer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A7721CF264B500426C1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5273A7731CF3676800426C1F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		5273A7741CF3677200426C1F /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
-		5273A7751CF3807300426C1F /* Chess.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Chess.playground; sourceTree = "<group>"; };
+		5273A7751CF3807300426C1F /* Fischer.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Fischer.playground; sourceTree = "<group>"; };
 		5273A7761CF3824700426C1F /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		5273A77B1CF382E200426C1F /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
 		5273A7801CF382EB00426C1F /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 				5273A7701CF264B500426C1F /* Sources */,
 				5273A7711CF264B500426C1F /* Support */,
 				5273A7411CF2647800426C1F /* Products */,
-				5273A7751CF3807300426C1F /* Chess.playground */,
+				5273A7751CF3807300426C1F /* Fischer.playground */,
 				5273A7731CF3676800426C1F /* Package.swift */,
 				5273A7741CF3677200426C1F /* LICENSE.md */,
 			);
@@ -107,10 +107,10 @@
 		5273A7411CF2647800426C1F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5273A7401CF2647800426C1F /* Chess.framework */,
-				5273A74E1CF2647F00426C1F /* Chess.framework */,
-				5273A75B1CF2648700426C1F /* Chess.framework */,
-				5273A7681CF2648E00426C1F /* Chess.framework */,
+				5273A7401CF2647800426C1F /* Fischer.framework */,
+				5273A74E1CF2647F00426C1F /* Fischer.framework */,
+				5273A75B1CF2648700426C1F /* Fischer.framework */,
+				5273A7681CF2648E00426C1F /* Fischer.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,9 +172,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5273A73F1CF2647800426C1F /* Chess OSX */ = {
+		5273A73F1CF2647800426C1F /* Fischer OSX */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Chess OSX" */;
+			buildConfigurationList = 5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Fischer OSX" */;
 			buildPhases = (
 				5273A73B1CF2647800426C1F /* Sources */,
 				5273A73C1CF2647800426C1F /* Frameworks */,
@@ -185,14 +185,14 @@
 			);
 			dependencies = (
 			);
-			name = "Chess OSX";
+			name = "Fischer OSX";
 			productName = "Chess OSX";
-			productReference = 5273A7401CF2647800426C1F /* Chess.framework */;
+			productReference = 5273A7401CF2647800426C1F /* Fischer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5273A74D1CF2647F00426C1F /* Chess iOS */ = {
+		5273A74D1CF2647F00426C1F /* Fischer iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5273A7531CF2647F00426C1F /* Build configuration list for PBXNativeTarget "Chess iOS" */;
+			buildConfigurationList = 5273A7531CF2647F00426C1F /* Build configuration list for PBXNativeTarget "Fischer iOS" */;
 			buildPhases = (
 				5273A7491CF2647F00426C1F /* Sources */,
 				5273A74A1CF2647F00426C1F /* Frameworks */,
@@ -203,14 +203,14 @@
 			);
 			dependencies = (
 			);
-			name = "Chess iOS";
+			name = "Fischer iOS";
 			productName = "Chess iOS";
-			productReference = 5273A74E1CF2647F00426C1F /* Chess.framework */;
+			productReference = 5273A74E1CF2647F00426C1F /* Fischer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5273A75A1CF2648700426C1F /* Chess watchOS */ = {
+		5273A75A1CF2648700426C1F /* Fischer watchOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5273A7601CF2648700426C1F /* Build configuration list for PBXNativeTarget "Chess watchOS" */;
+			buildConfigurationList = 5273A7601CF2648700426C1F /* Build configuration list for PBXNativeTarget "Fischer watchOS" */;
 			buildPhases = (
 				5273A7561CF2648700426C1F /* Sources */,
 				5273A7571CF2648700426C1F /* Frameworks */,
@@ -221,14 +221,14 @@
 			);
 			dependencies = (
 			);
-			name = "Chess watchOS";
+			name = "Fischer watchOS";
 			productName = "Chess watchOS";
-			productReference = 5273A75B1CF2648700426C1F /* Chess.framework */;
+			productReference = 5273A75B1CF2648700426C1F /* Fischer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		5273A7671CF2648E00426C1F /* Chess tvOS */ = {
+		5273A7671CF2648E00426C1F /* Fischer tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5273A76D1CF2648E00426C1F /* Build configuration list for PBXNativeTarget "Chess tvOS" */;
+			buildConfigurationList = 5273A76D1CF2648E00426C1F /* Build configuration list for PBXNativeTarget "Fischer tvOS" */;
 			buildPhases = (
 				5273A7631CF2648E00426C1F /* Sources */,
 				5273A7641CF2648E00426C1F /* Frameworks */,
@@ -239,9 +239,9 @@
 			);
 			dependencies = (
 			);
-			name = "Chess tvOS";
+			name = "Fischer tvOS";
 			productName = "Chess tvOS";
-			productReference = 5273A7681CF2648E00426C1F /* Chess.framework */;
+			productReference = 5273A7681CF2648E00426C1F /* Fischer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -266,7 +266,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5273A7381CF2645900426C1F /* Build configuration list for PBXProject "Chess" */;
+			buildConfigurationList = 5273A7381CF2645900426C1F /* Build configuration list for PBXProject "Fischer" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -278,10 +278,10 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5273A73F1CF2647800426C1F /* Chess OSX */,
-				5273A74D1CF2647F00426C1F /* Chess iOS */,
-				5273A75A1CF2648700426C1F /* Chess watchOS */,
-				5273A7671CF2648E00426C1F /* Chess tvOS */,
+				5273A73F1CF2647800426C1F /* Fischer OSX */,
+				5273A74D1CF2647F00426C1F /* Fischer iOS */,
+				5273A75A1CF2648700426C1F /* Fischer watchOS */,
+				5273A7671CF2648E00426C1F /* Fischer tvOS */,
 			);
 		};
 /* End PBXProject section */
@@ -841,7 +841,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5273A7381CF2645900426C1F /* Build configuration list for PBXProject "Chess" */ = {
+		5273A7381CF2645900426C1F /* Build configuration list for PBXProject "Fischer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5273A7391CF2645900426C1F /* Debug */,
@@ -850,7 +850,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Chess OSX" */ = {
+		5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Fischer OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5273A7461CF2647800426C1F /* Debug */,
@@ -859,7 +859,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5273A7531CF2647F00426C1F /* Build configuration list for PBXNativeTarget "Chess iOS" */ = {
+		5273A7531CF2647F00426C1F /* Build configuration list for PBXNativeTarget "Fischer iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5273A7541CF2647F00426C1F /* Debug */,
@@ -868,7 +868,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5273A7601CF2648700426C1F /* Build configuration list for PBXNativeTarget "Chess watchOS" */ = {
+		5273A7601CF2648700426C1F /* Build configuration list for PBXNativeTarget "Fischer watchOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5273A7611CF2648700426C1F /* Debug */,
@@ -877,7 +877,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5273A76D1CF2648E00426C1F /* Build configuration list for PBXNativeTarget "Chess tvOS" */ = {
+		5273A76D1CF2648E00426C1F /* Build configuration list for PBXNativeTarget "Fischer tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5273A76E1CF2648E00426C1F /* Debug */,

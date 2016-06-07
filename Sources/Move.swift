@@ -1,6 +1,6 @@
 //
 //  Move.swift
-//  Chess
+//  Fischer
 //
 //  The MIT License (MIT)
 //
