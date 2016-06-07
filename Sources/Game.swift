@@ -311,17 +311,9 @@ public final class Game {
         }
     }
 
-    /// Executes the move or throws on error.
-    public func executeMove(move: Move, promotion: Piece) throws {
-        try executeMove(move, promotion: { promotion })
-    }
-
-    /// Executes the move or throws on error.
-    public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
-        let result = _resultOf(move, for: playerTurn)
-        guard case let .Value(piece) = result else {
-            throw result.error!
-        }
+    /// Executes a move without checking the validity of the move.
+    @inline(never)
+    private func _executeMove(move: Move, piece: Piece, promotion: (() -> Piece)?) throws {
         func execute(capture: Piece? = nil) {
             board.swap(move.start, move.end)
             _moveHistory.append((move, piece, capture))
@@ -378,6 +370,20 @@ public final class Game {
             execute(board.removePieceAt(move.end))
         }
         playerTurn.invert()
+    }
+
+    /// Executes the move or throws on error.
+    public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
+        let result = _resultOf(move, for: playerTurn)
+        guard case let .Value(piece) = result else {
+            throw result.error!
+        }
+        try _executeMove(move, piece: piece, promotion: promotion)
+    }
+
+    /// Executes the move or throws on error.
+    public func executeMove(move: Move, promotion: Piece) throws {
+        try executeMove(move, promotion: { promotion })
     }
 
 }
