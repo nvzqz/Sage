@@ -25,6 +25,12 @@
 //  THE SOFTWARE.
 //
 
+#if os(OSX)
+    import Cocoa
+#elseif os(iOS) || os(tvOS)
+    import UIKit
+#endif
+
 /// A chess board.
 public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
@@ -82,6 +88,45 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
             self.piece = nil
             return piece
         }
+
+        #if os(OSX) || os(iOS) || os(tvOS)
+
+        internal func _view(size: CGFloat) -> _View {
+            let frame = CGRect(x: CGFloat(file.index) * size,
+                               y: CGFloat(7 - rank.index) * size,
+                               width: size,
+                               height: size)
+            var textFrame = CGRect(x: 0, y: 0, width: size, height: size)
+            let fontSize = size * 0.4
+            let view = _View(frame: frame)
+            let str = piece.map({ String($0.character) }) ?? ""
+            let bg: _Color = color.isWhite ? .whiteColor() : .blackColor()
+            let tc: _Color = color.isWhite ? .blackColor() : .whiteColor()
+            #if os(OSX)
+                view.wantsLayer = true
+                view.layer?.backgroundColor = bg.CGColor
+                let text = NSText(frame: textFrame)
+                text.alignment = .Center
+                text.font = .systemFontOfSize(fontSize)
+                text.string = str
+                text.drawsBackground = false
+                text.textColor = tc
+                text.editable = false
+                text.selectable = false
+                view.addSubview(text)
+            #else
+                view.backgroundColor = color.isWhite ? .whiteColor() : .blackColor()
+                let label = UILabel(frame: textFrame)
+                label.textAlignment = .Center
+                label.font = .systemFontOfSize(fontSize)
+                label.text = str
+                label.textColor = tc
+                view.addSubview(label)
+            #endif
+            return view
+        }
+
+        #endif
 
     }
 
@@ -246,6 +291,27 @@ public struct BoardGenerator: GeneratorType {
     }
 
 }
+
+#if os(OSX) || os(iOS) || os(tvOS)
+
+extension Board: CustomPlaygroundQuickLookable {
+
+    /// Returns the `PlaygroundQuickLook` for `self`.
+    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+        let spaceSize: CGFloat = 80
+        let boardSize = spaceSize * 8
+        let frame = CGRect(x: 0, y: 0, width: boardSize, height: boardSize)
+        let view = _View(frame: frame)
+        for space in _spaces.flatten() {
+            view.addSubview(space._view(spaceSize))
+        }
+        return PlaygroundQuickLook.View(view)
+    }
+        
+}
+
+#endif
+
 
 /// Returns `true` if both boards are the same.
 @warn_unused_result

@@ -25,6 +25,16 @@
 //  THE SOFTWARE.
 //
 
+#if os(OSX)
+    import Cocoa
+    internal typealias _View = NSView
+    internal typealias _Color = NSColor
+#elseif os(iOS) || os(tvOS)
+    import UIKit
+    internal typealias _View = UIView
+    internal typealias _Color = UIColor
+#endif
+
 /// A result that is either a value or error.
 internal enum _Result<V, E: ErrorType> {
 
