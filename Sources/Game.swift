@@ -320,8 +320,8 @@ public final class Game {
         }
         switch piece {
         case .Pawn(let color):
-            if /* En passant */ move.isDiagonal && board[move.end] != nil {
-                execute(board.removePieceAt((move.start.file, move.end.rank)))
+            if /* En passant */ move.isDiagonal && board[move.end] == nil {
+                execute(board.removePieceAt((move.end.file, move.start.rank)))
             } else if /* Promotion */ move.end.rank == (color.isWhite ? 8 : 1) {
                 let promotion = promotion?()
                 if let promotion = promotion {
