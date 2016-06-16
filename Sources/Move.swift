@@ -144,7 +144,7 @@ public struct Move: Equatable, CustomStringConvertible {
 
     /// A textual representation of `self`.
     public var description: String {
-        return "Move(\(start.file)\(start.rank) -> \(end.file)\(end.rank))"
+        return "\(start.file)\(start.rank) >>> \(end.file)\(end.rank)"
     }
 
     /// Create a move with start and end positions.
@@ -171,8 +171,15 @@ public struct Move: Equatable, CustomStringConvertible {
 
 }
 
+infix operator >>> { }
+
 /// Returns `true` if both moves are the same.
 @warn_unused_result
 public func == (lhs: Move, rhs: Move) -> Bool {
     return lhs.start == rhs.start && lhs.end == rhs.end
+}
+
+/// Returns a `Move` from the two positions.
+public func >>> (start: Position, end: Position) -> Move {
+    return Move(start: start, end: end)
 }
