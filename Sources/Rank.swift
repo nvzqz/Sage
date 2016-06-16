@@ -88,6 +88,16 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
         self.init(rawValue: index + 1)
     }
 
+    /// Creates the starting `Rank` for the color.
+    public init(startFor color: Color) {
+        self = color.isWhite ? .One : .Eight
+    }
+
+    /// Creates the ending `Rank` for the color.
+    public init(endFor color: Color) {
+        self = color.isWhite ? .Eight : .One
+    }
+
     /// The next rank after `self`.
     public func next() -> Rank? {
         return Rank(rawValue: rawValue.successor())
