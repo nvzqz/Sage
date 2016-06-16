@@ -122,6 +122,11 @@ public enum File: Int, Comparable, CustomStringConvertible {
         return File(rawValue: rawValue.predecessor())
     }
 
+    /// The opposite file of `self`.
+    public func opposite() -> File {
+        return File(rawValue: 9 - rawValue)!
+    }
+
     /// The files from `self` to `other`.
     public func to(other: File) -> [File] {
         if other > self {

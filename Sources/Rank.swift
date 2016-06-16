@@ -108,6 +108,11 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
         return Rank(rawValue: rawValue.predecessor())
     }
 
+    /// The opposite rank of `self`.
+    public func opposite() -> Rank {
+        return Rank(rawValue: 9 - rawValue)!
+    }
+
     /// The files from `self` to `other`.
     public func to(other: Rank) -> [Rank] {
         if other > self {
