@@ -180,6 +180,7 @@ public func == (lhs: Move, rhs: Move) -> Bool {
 }
 
 /// Returns a `Move` from the two positions.
+@warn_unused_result
 public func >>> (start: Position, end: Position) -> Move {
     return Move(start: start, end: end)
 }
