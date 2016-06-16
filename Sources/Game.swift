@@ -45,11 +45,17 @@ public final class Game {
     /// A move history record.
     private typealias _MoveRecord = (move: Move, piece: Piece, capture: Piece?)
 
+    /// An undo history record.
+    private typealias _UndoRecord = (move: Move, promotion: Piece?)
+
     /// A player turn.
     public typealias PlayerTurn = Color
 
     /// All of the conducted moves in the game.
     private var _moveHistory: [_MoveRecord]
+
+    /// All of the undone moves in the game.
+    private var _undoHistory: [_UndoRecord]
 
     /// The game's board.
     public private(set) var board: Board
@@ -93,6 +99,7 @@ public final class Game {
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
     public init(mode: Mode = .HumanVsHuman) {
         self._moveHistory = []
+        self._undoHistory = []
         self.board = Board()
         self.playerTurn = .White
         self.mode = mode
@@ -384,6 +391,49 @@ public final class Game {
     /// Executes the move or throws on error.
     public func executeMove(move: Move, promotion: Piece) throws {
         try executeMove(move, promotion: { promotion })
+    }
+
+    /// Undoes the previous move and returns it, if any.
+    public func undoMove() -> Move? {
+        guard let (move, piece, _) = _moveHistory.popLast() else {
+            return nil
+        }
+        board[move.start] = board.removePieceAt(move.end)
+        func append() { _undoHistory.append((move, nil)) }
+        switch piece {
+        case .King where abs(move.fileChange) == 2:
+            let (new, old) = move.isRightward ? (File.F, File.H) : (.D, .A)
+            let rank = move.start.rank
+            board[(old, rank)] = board.removePieceAt((new, rank))
+            append()
+        case .Pawn where abs(move.fileChange) == 1:
+            guard let previous = _moveHistory.last else { break }
+            if case .Pawn = previous.piece where abs(previous.move.rankChange) == 2 {
+                board[previous.move.end] = previous.piece
+            }
+            append()
+        default:
+            guard _moveHistory.count > 1 else { break }
+            let other = _moveHistory[_moveHistory.endIndex - 2]
+            let dest: Rank = move.isUpward ? .Eight : .One
+            if case .Pawn = other.piece where move.end.rank == dest {
+                _undoHistory.append((move, piece))
+            } else {
+                append()
+            }
+        }
+        playerTurn.invert()
+        return move
+    }
+
+    /// Redoes the previous undone move and returns it, if any.
+    public func redoMove() -> Move? {
+        guard let (move, promotion) = _undoHistory.popLast() else {
+            return nil
+        }
+        let piece = board[move.start]!
+        try! _executeMove(move, piece: piece, promotion: promotion.map { p in { p } })
+        return move
     }
 
 }
