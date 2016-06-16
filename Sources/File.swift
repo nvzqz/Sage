@@ -137,7 +137,7 @@ public enum File: Int, Comparable, CustomStringConvertible {
                 .reverse()
                 .flatMap({ File(rawValue: $0) })
         } else {
-            return []
+            return [self]
         }
     }
 

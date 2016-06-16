@@ -123,7 +123,7 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
                 .reverse()
                 .flatMap({ Rank(rawValue: $0) })
         } else {
-            return []
+            return [self]
         }
     }
 
