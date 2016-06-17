@@ -150,6 +150,11 @@ public final class Game {
         return (move.start.file, move.isUpward ? .Three : .Six)
     }
 
+    /// The current position for `self`.
+    public var position: Position {
+        return Position(game: self)
+    }
+
     /// Creates a new chess game.
     ///
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
