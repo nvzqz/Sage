@@ -42,6 +42,54 @@ public final class Game {
 
     }
 
+    /// A game position.
+    public struct Position: Equatable {
+
+        /// The board for the position.
+        public var board: Board
+
+        /// The active player turn.
+        public var playerTurn: PlayerTurn
+
+        /// The castling availability.
+        public var castlingAvailability: CastlingAvailability
+
+        /// The en passant target location.
+        public var enPassantTarget: Location?
+
+        /// The halfmove number.
+        public var halfmoves: UInt
+
+        /// The fullmove clock.
+        public var fullmoves: UInt
+
+        /// Create a position.
+        public init(board: Board = Board(),
+                    playerTurn: PlayerTurn = .White,
+                    castlingAvailability: CastlingAvailability = .Starting,
+                    enPassantTarget: Location? = nil,
+                    halfmoves: UInt = 0,
+                    fullmoves: UInt = 1) {
+            self.board = board
+            self.playerTurn = playerTurn
+            self.castlingAvailability = castlingAvailability
+            self.enPassantTarget = enPassantTarget
+            self.halfmoves = halfmoves
+            self.fullmoves = fullmoves
+        }
+
+        /// Create a position for a game.
+        public init(game: Game) {
+            self.board = game.board
+            self.playerTurn = game.playerTurn
+            self.castlingAvailability = game.castlingAvailability
+            self.enPassantTarget = game.enPassantTarget
+            self.halfmoves = game.halfmoves
+            self.fullmoves = game.fullmoves
+        }
+
+    }
+
     /// A move history record.
     private typealias _MoveRecord = (move: Move, piece: Piece, capture: Piece?)
 
@@ -474,4 +522,23 @@ public enum MoveExecutionError: ErrorType {
     /// Attempted to castle without availability.
     case NoAvailability(CastlingAvailability)
 
+}
+
+/// Returns `true` if the positions are the same.
+public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
+    return lhs.playerTurn == rhs.playerTurn
+        && lhs.castlingAvailability == rhs.castlingAvailability
+        && lhs.halfmoves == rhs.halfmoves
+        && lhs.fullmoves == rhs.fullmoves
+        && {
+            switch (lhs.enPassantTarget, rhs.enPassantTarget) {
+            case let (lhsTarget?, rhsTarget?):
+                return lhsTarget == rhsTarget
+            case (.None, .None):
+                return true
+            default:
+                return false
+            }
+        }()
+        && lhs.board == rhs.board
 }
