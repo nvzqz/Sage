@@ -88,6 +88,15 @@ public final class Game {
             self.fullmoves = game.fullmoves
         }
 
+        /// Returns the FEN string for the position.
+        @warn_unused_result
+        public func fen() -> String {
+            return board.fen()
+                + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailability) "
+                + (enPassantTarget.map({ f, r in "\(f)\(r)".lowercaseString }) ?? "-")
+                + " \(halfmoves) \(fullmoves)"
+        }
+
     }
 
     /// A move history record.
