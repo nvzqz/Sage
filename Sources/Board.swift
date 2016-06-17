@@ -240,6 +240,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns the FEN string for the board.
+    @warn_unused_result
     public func fen() -> String {
         func fenForRank(rank: Rank) -> String {
             var fen = ""
@@ -266,6 +267,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
     /// Returns a generator over the spaces of the board.
     ///
     /// - Complexity: O(1).
+    @warn_unused_result
     public func generate() -> BoardGenerator {
         return BoardGenerator(self)
     }
