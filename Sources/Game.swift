@@ -51,8 +51,8 @@ public final class Game {
         /// The active player turn.
         public var playerTurn: PlayerTurn
 
-        /// The castling availability.
-        public var castlingAvailability: CastlingAvailability
+        /// The castling availabilities.
+        public var castlingAvailabilities: CastlingAvailabilities
 
         /// The en passant target location.
         public var enPassantTarget: Location?
@@ -71,13 +71,13 @@ public final class Game {
         /// Create a position.
         public init(board: Board = Board(),
                     playerTurn: PlayerTurn = .White,
-                    castlingAvailability: CastlingAvailability = .Starting,
+                    castlingAvailabilities: CastlingAvailabilities = .all,
                     enPassantTarget: Location? = nil,
                     halfmoves: UInt = 0,
                     fullmoves: UInt = 1) {
             self.board = board
             self.playerTurn = playerTurn
-            self.castlingAvailability = castlingAvailability
+            self.castlingAvailabilities = castlingAvailabilities
             self.enPassantTarget = enPassantTarget
             self.halfmoves = halfmoves
             self.fullmoves = fullmoves
@@ -87,7 +87,7 @@ public final class Game {
         public init(game: Game) {
             self.board = game.board
             self.playerTurn = game.playerTurn
-            self.castlingAvailability = game.castlingAvailability
+            self.castlingAvailabilities = game.castlingAvailabilities
             self.enPassantTarget = game.enPassantTarget
             self.halfmoves = game.halfmoves
             self.fullmoves = game.fullmoves
@@ -97,7 +97,7 @@ public final class Game {
         @warn_unused_result
         public func fen() -> String {
             return board.fen()
-                + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailability) "
+                + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailabilities) "
                 + (enPassantTarget.map({ f, r in "\(f)\(r)".lowercaseString }) ?? "-")
                 + " \(halfmoves) \(fullmoves)"
         }
@@ -125,8 +125,8 @@ public final class Game {
     /// The current player's turn.
     public private(set) var playerTurn: PlayerTurn
 
-    /// The castling availability.
-    public private(set) var castlingAvailability: CastlingAvailability
+    /// The castling availabilities.
+    public private(set) var castlingAvailabilities: CastlingAvailabilities
 
     /// The game's mode.
     public var mode: Mode
@@ -177,7 +177,7 @@ public final class Game {
         self._undoHistory = []
         self.board = Board()
         self.playerTurn = .White
-        self.castlingAvailability = .Starting
+        self.castlingAvailabilities = .all
         self.mode = mode
     }
 
@@ -327,19 +327,19 @@ public final class Game {
             if /* Castle */ abs(move.fileChange) == 2 {
                 switch move.end {
                 case (.C, .One):
-                    guard castlingAvailability.contains(.WhiteQueenside) else {
+                    guard castlingAvailabilities.contains(.WhiteQueenside) else {
                         return .Error(.NoAvailability(.WhiteQueenside))
                     }
                 case (.G, .One):
-                    guard castlingAvailability.contains(.WhiteKingside) else {
+                    guard castlingAvailabilities.contains(.WhiteKingside) else {
                         return .Error(.NoAvailability(.WhiteKingside))
                     }
                 case (.C, .Eight):
-                    guard castlingAvailability.contains(.BlackQueenside) else {
+                    guard castlingAvailabilities.contains(.BlackQueenside) else {
                         return .Error(.NoAvailability(.BlackQueenside))
                     }
                 case (.G, .Eight):
-                    guard castlingAvailability.contains(.BlackKingside) else {
+                    guard castlingAvailabilities.contains(.BlackKingside) else {
                         return .Error(.NoAvailability(.BlackKingside))
                     }
                 default:
@@ -416,9 +416,11 @@ public final class Game {
             }
         case .King(let color):
             if color.isWhite {
-                castlingAvailability.remove([.WhiteKingside, .WhiteQueenside])
+                castlingAvailabilities.remove(.WhiteKingside)
+                castlingAvailabilities.remove(.WhiteQueenside)
             } else {
-                castlingAvailability.remove([.BlackKingside, .BlackQueenside])
+                castlingAvailabilities.remove(.BlackKingside)
+                castlingAvailabilities.remove(.BlackQueenside)
             }
             if /* Castle */ abs(move.fileChange) == 2 {
                 let rank = move.start.rank
@@ -433,13 +435,13 @@ public final class Game {
         case .Rook:
             switch move.start {
             case (.A, .One):
-                castlingAvailability.remove(.WhiteQueenside)
+                castlingAvailabilities.remove(.WhiteQueenside)
             case (.H, .One):
-                castlingAvailability.remove(.WhiteKingside)
+                castlingAvailabilities.remove(.WhiteKingside)
             case (.A, .Eight):
-                castlingAvailability.remove(.BlackKingside)
+                castlingAvailabilities.remove(.BlackKingside)
             case (.H, .Eight):
-                castlingAvailability.remove(.BlackQueenside)
+                castlingAvailabilities.remove(.BlackQueenside)
             default:
                 break
             }
@@ -539,14 +541,14 @@ public enum MoveExecutionError: ErrorType {
     case WrongMovementKind(Piece)
 
     /// Attempted to castle without availability.
-    case NoAvailability(CastlingAvailability)
+    case NoAvailability(CastlingAvailabilities.Availability)
 
 }
 
 /// Returns `true` if the positions are the same.
 public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
     return lhs.playerTurn == rhs.playerTurn
-        && lhs.castlingAvailability == rhs.castlingAvailability
+        && lhs.castlingAvailabilities == rhs.castlingAvailabilities
         && lhs.halfmoves == rhs.halfmoves
         && lhs.fullmoves == rhs.fullmoves
         && {
