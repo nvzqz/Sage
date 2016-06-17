@@ -46,8 +46,8 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         /// The space's rank.
         public var rank: Rank
 
-        /// The space's position on a chess board.
-        public var position: Position {
+        /// The space's location on a chess board.
+        public var location: Location {
             get {
                 return (file, rank)
             }
@@ -73,13 +73,13 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
         /// Create a chess board space with a piece, file, and rank.
         public init(piece: Piece? = nil, file: File, rank: Rank) {
-            self.init(piece: piece, position: (file, rank))
+            self.init(piece: piece, location: (file, rank))
         }
 
-        /// Create a chess board space with a piece and position.
-        public init(piece: Piece? = nil, position: Position) {
+        /// Create a chess board space with a piece and location.
+        public init(piece: Piece? = nil, location: Location) {
             self.piece = piece
-            (file, rank) = position
+            (file, rank) = location
         }
 
         /// Clears the piece from the space and returns it.
@@ -170,13 +170,13 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         }
     }
 
-    /// Gets and sets a piece at the position.
-    public subscript(position: Position) -> Piece? {
+    /// Gets and sets a piece at the location.
+    public subscript(location: Location) -> Piece? {
         get {
-            return spaceAt(position).piece
+            return spaceAt(location).piece
         }
         set {
-            _spaces[position.file.index][position.rank.index].piece = newValue
+            _spaces[location.file.index][location.rank.index].piece = newValue
         }
     }
 
@@ -223,19 +223,19 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
     /// Returns the space at the file and rank.
     @warn_unused_result
-    public func spaceAt(position: Position) -> Space {
-        return _spaces[position.file.index][position.rank.index]
+    public func spaceAt(location: Location) -> Space {
+        return _spaces[location.file.index][location.rank.index]
     }
 
     /// Removes a piece at the file and rank, and returns it.
-    public mutating func removePieceAt(position: Position) -> Piece? {
-        let piece = self[position]
-        self[position] = nil
+    public mutating func removePieceAt(location: Location) -> Piece? {
+        let piece = self[location]
+        self[location] = nil
         return piece
     }
 
-    /// Swaps the pieces between the two positions.
-    public mutating func swap(first: Position, _ second: Position) {
+    /// Swaps the pieces between the two locations.
+    public mutating func swap(first: Location, _ second: Location) {
         (self[first], self[second]) = (self[second], self[first])
     }
 

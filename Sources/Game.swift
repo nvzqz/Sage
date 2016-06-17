@@ -115,11 +115,11 @@ public final class Game {
         }
     }
 
-    /// Returns a position for an obstructing piece within the sequence.
-    private func _positionForObstruction<S: SequenceType where S.Generator.Element == Position>(s: S) -> Position? {
-        for position in s {
-            guard board[position] == nil else {
-                return position
+    /// Returns a location for an obstructing piece within the sequence.
+    private func _locationForObstruction<S: SequenceType where S.Generator.Element == Location>(s: S) -> Location? {
+        for location in s {
+            guard board[location] == nil else {
+                return location
             }
         }
         return nil
@@ -156,8 +156,8 @@ public final class Game {
             }
             let files = move.start.file.between(move.end.file)
             let ranks = move.start.rank.between(move.end.rank)
-            if let position = _positionForObstruction(zip(files, ranks)) {
-                return .ObstructingPiece(position)
+            if let location = _locationForObstruction(zip(files, ranks)) {
+                return .ObstructingPiece(location)
             }
             return nil
         }
@@ -166,14 +166,14 @@ public final class Game {
             if move.isHorizontal {
                 let files = move.start.file.between(move.end.file)
                 let ranks = Repeat(count: files.count, repeatedValue: move.start.rank)
-                if let position = _positionForObstruction(zip(files, ranks)) {
-                    return .ObstructingPiece(position)
+                if let location = _locationForObstruction(zip(files, ranks)) {
+                    return .ObstructingPiece(location)
                 }
             } else if move.isVertical {
                 let ranks = move.start.rank.between(move.end.rank)
                 let files = Repeat(count: ranks.count, repeatedValue: move.start.file)
-                if let position = _positionForObstruction(zip(files, ranks)) {
-                    return .ObstructingPiece(position)
+                if let location = _locationForObstruction(zip(files, ranks)) {
+                    return .ObstructingPiece(location)
                 }
             } else {
                 return .WrongMovementKind(piece)
@@ -220,7 +220,7 @@ public final class Game {
                         where abs(previousMove.move.rankChange) == 2 else {
                             return .Error(.NoPreviousDoubleStep)
                     }
-                    // A piece exists adjacent to the end position
+                    // A piece exists adjacent to the end location
                     guard let capturePiece = board[(move.end.file, move.start.rank)] else {
                         return .Error(.WrongMovementKind(piece))
                     }
@@ -277,9 +277,9 @@ public final class Game {
                 // The area between the king and rook is empty
                 let rookFile: File = move.isRightward ? .G : .A
                 for file in move.start.file.between(rookFile) {
-                    let position = (file, move.start.rank)
-                    guard board[position] == nil else {
-                        return .Error(.ObstructingPiece(position))
+                    let location = (file, move.start.rank)
+                    guard board[location] == nil else {
+                        return .Error(.ObstructingPiece(location))
                     }
                 }
             } else {
@@ -446,8 +446,8 @@ public enum MoveExecutionError: ErrorType {
     /// The previous move to an attempted en passant was not a double step.
     case NoPreviousDoubleStep
 
-    /// No piece found at position.
-    case NoPieceToMove(Position)
+    /// No piece found at location.
+    case NoPieceToMove(Location)
 
     /// The move's start and end are the same.
     case NoMovement
@@ -456,7 +456,7 @@ public enum MoveExecutionError: ErrorType {
     case SameColorCapturePiece
 
     /// A piece is obstructing a traversal.
-    case ObstructingPiece(Position)
+    case ObstructingPiece(Location)
 
     /// Could not promote with a piece.
     case InvalidPromotionPiece(Piece)
@@ -467,10 +467,10 @@ public enum MoveExecutionError: ErrorType {
     /// Attempt wrong kind of move for piece.
     case WrongMovementKind(Piece)
 
-    /// A king has moved from its starting position, preventing a castle.
+    /// A king has moved from its starting location, preventing a castle.
     case KingMoved(Color)
 
-    /// A rook has moved from its starting position, preventing a castle.
+    /// A rook has moved from its starting location, preventing a castle.
     case RookMoved(Color, File.Direction)
 
 }

@@ -25,8 +25,8 @@
 //  THE SOFTWARE.
 //
 
-/// A chess position.
-public typealias Position = (file: File, rank: Rank)
+/// A chess location.
+public typealias Location = (file: File, rank: Rank)
 
 /// A chess move.
 public struct Move: Equatable, CustomStringConvertible {
@@ -41,11 +41,11 @@ public struct Move: Equatable, CustomStringConvertible {
         )
     }
 
-    /// The move's start position.
-    public var start: Position
+    /// The move's start location.
+    public var start: Location
 
-    /// The move's end position.
-    public var end: Position
+    /// The move's end location.
+    public var end: Location
 
     /// The move's change in file.
     public var fileChange: Int {
@@ -57,7 +57,7 @@ public struct Move: Equatable, CustomStringConvertible {
         return end.rank.rawValue - start.rank.rawValue
     }
 
-    /// The move is a real change in position.
+    /// The move is a real change in location.
     public var isChange: Bool {
         return start != end
     }
@@ -147,8 +147,8 @@ public struct Move: Equatable, CustomStringConvertible {
         return "\(start.file)\(start.rank) >>> \(end.file)\(end.rank)"
     }
 
-    /// Create a move with start and end positions.
-    public init(start: Position, end: Position) {
+    /// Create a move with start and end locations.
+    public init(start: Location, end: Location) {
         self.start = start
         self.end = end
     }
@@ -179,8 +179,8 @@ public func == (lhs: Move, rhs: Move) -> Bool {
     return lhs.start == rhs.start && lhs.end == rhs.end
 }
 
-/// Returns a `Move` from the two positions.
+/// Returns a `Move` from the two locations.
 @warn_unused_result
-public func >>> (start: Position, end: Position) -> Move {
+public func >>> (start: Location, end: Location) -> Move {
     return Move(start: start, end: end)
 }
