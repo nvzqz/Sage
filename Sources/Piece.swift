@@ -130,6 +130,26 @@ public enum Piece: Hashable, CustomStringConvertible {
         }
     }
 
+    /// Create a piece from a character.
+    public init?(character: Character) {
+        switch character {
+        case "P": self = .Pawn(.White)
+        case "p": self = .Pawn(.Black)
+        case "R": self = .Rook(.White)
+        case "r": self = .Rook(.Black)
+        case "N": self = .Knight(.White)
+        case "n": self = .Knight(.Black)
+        case "B": self = .Bishop(.White)
+        case "b": self = .Bishop(.Black)
+        case "K": self = .King(.White)
+        case "k": self = .King(.Black)
+        case "Q": self = .Queen(.White)
+        case "q": self = .Queen(.Black)
+        default:
+            return nil
+        }
+    }
+
     /// Returns `true` if `self` can be a promotion for the piece.
     public func canPromote(piece: Piece) -> Bool {
         if case let .Pawn(color) = piece {
