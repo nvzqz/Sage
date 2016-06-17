@@ -49,6 +49,20 @@ public enum Color: String, CustomStringConvertible {
         return rawValue
     }
 
+    /// The lowercase character for the color. `White` is "w", `Black` is "b".
+    public var character: Character {
+        return self.isWhite ? "w" : "b"
+    }
+
+    /// Create a color from a character of any case.
+    public init?(character: Character) {
+        switch character {
+        case "W", "w": self = .White
+        case "B", "b": self = .Black
+        default: return nil
+        }
+    }
+
     /// Returns the inverse of `self`.
     @warn_unused_result(mutable_variant="invert")
     public func inverse() -> Color {
