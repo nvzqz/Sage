@@ -108,18 +108,37 @@ public struct CastlingAvailabilities: SetAlgebraType, CustomStringConvertible {
 
     /// A textual representation of `self`.
     public var description: String {
-        var description = ""
-        for (a, char) in zip(Availability.all, ["K", "Q", "k", "q"]) {
-            if _availabilities.contains(a) {
-                description += char
-            }
+        if !_availabilities.isEmpty {
+            return String(_availabilities.map({ $0.character }).sort())
+        } else {
+            return "-"
         }
-        return !description.isEmpty ? description : "-"
     }
 
     /// Creates an empty set of availabilities.
     public init() {
         _availabilities = Set()
+    }
+
+    /// Creates `CastlingAvailabilities` from a `String`.
+    ///
+    /// - Returns: `nil` if `string` is empty or invalid.
+    public init?(string: String) {
+        guard !string.isEmpty else {
+            return nil
+        }
+        if string == "-" {
+            _availabilities = Set()
+        } else {
+            var availabilities = Set<Availability>()
+            for char in string.characters {
+                guard let availability = Availability(character: char) else {
+                    return nil
+                }
+                availabilities.insert(availability)
+            }
+            _availabilities = availabilities
+        }
     }
 
     /// Creates a set of availabilities from a sequence.
