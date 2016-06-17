@@ -74,9 +74,25 @@ public final class Game {
         return _moveHistory.map({ $0.move })
     }
 
-    /// The amount of moves played.
+    /// The amount of moves executed.
     public var moveCount: Int {
         return _moveHistory.count
+    }
+
+    /// The current fullmove number.
+    public var fullmoves: UInt {
+        return 1 + (UInt(moveCount) / 2)
+    }
+
+    /// The current halfmove clock.
+    public var halfmoves: UInt {
+        var n: UInt = 0
+        for (_, piece, capture) in _moveHistory.reverse() {
+            if capture != nil { break }
+            if case .Pawn = piece { break }
+            n += 1
+        }
+        return n
     }
 
     /// Creates a new chess game.
