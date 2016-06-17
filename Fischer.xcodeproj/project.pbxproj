@@ -37,6 +37,10 @@
 		528C2E431CF3E7F500F7D2EC /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528C2E411CF3E7F500F7D2EC /* Move.swift */; };
 		528C2E441CF3E7F500F7D2EC /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528C2E411CF3E7F500F7D2EC /* Move.swift */; };
 		528C2E451CF3E7F500F7D2EC /* Move.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528C2E411CF3E7F500F7D2EC /* Move.swift */; };
+		529514C21D137B9000BB244D /* Fischer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5273A74E1CF2647F00426C1F /* Fischer.framework */; };
+		529514D11D137BAD00BB244D /* Fischer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5273A7681CF2648E00426C1F /* Fischer.framework */; };
+		529514D71D137BB800BB244D /* FischerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524583B01D0DF2BB002311F3 /* FischerTests.swift */; };
+		529514D81D137BB900BB244D /* FischerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524583B01D0DF2BB002311F3 /* FischerTests.swift */; };
 		52E89C621CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
@@ -50,6 +54,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5273A73F1CF2647800426C1F;
 			remoteInfo = "Fischer OSX";
+		};
+		529514C31D137B9000BB244D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5273A7351CF2645900426C1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5273A74D1CF2647F00426C1F;
+			remoteInfo = "Fischer iOS";
+		};
+		529514D21D137BAD00BB244D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5273A7351CF2645900426C1F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5273A7671CF2648E00426C1F;
+			remoteInfo = "Fischer tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -72,6 +90,8 @@
 		5273A78A1CF38A0500426C1F /* Rank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rank.swift; sourceTree = "<group>"; };
 		528C2E3C1CF3E51100F7D2EC /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		528C2E411CF3E7F500F7D2EC /* Move.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Move.swift; sourceTree = "<group>"; };
+		529514BD1D137B9000BB244D /* Fischer iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fischer iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		529514CC1D137BAD00BB244D /* Fischer tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Fischer tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52E89C611CF53E1A0071AE69 /* InternalTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,6 +132,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		529514BA1D137B9000BB244D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				529514C21D137B9000BB244D /* Fischer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		529514C91D137BAD00BB244D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				529514D11D137BAD00BB244D /* Fischer.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -145,6 +181,8 @@
 				5273A75B1CF2648700426C1F /* Fischer.framework */,
 				5273A7681CF2648E00426C1F /* Fischer.framework */,
 				524583A51D0DE7B9002311F3 /* Fischer OSX Tests.xctest */,
+				529514BD1D137B9000BB244D /* Fischer iOS Tests.xctest */,
+				529514CC1D137BAD00BB244D /* Fischer tvOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -296,6 +334,42 @@
 			productReference = 5273A7681CF2648E00426C1F /* Fischer.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		529514BC1D137B9000BB244D /* Fischer iOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 529514C71D137B9000BB244D /* Build configuration list for PBXNativeTarget "Fischer iOS Tests" */;
+			buildPhases = (
+				529514B91D137B9000BB244D /* Sources */,
+				529514BA1D137B9000BB244D /* Frameworks */,
+				529514BB1D137B9000BB244D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				529514C41D137B9000BB244D /* PBXTargetDependency */,
+			);
+			name = "Fischer iOS Tests";
+			productName = FischeriOSTests;
+			productReference = 529514BD1D137B9000BB244D /* Fischer iOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		529514CB1D137BAD00BB244D /* Fischer tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 529514D41D137BAD00BB244D /* Build configuration list for PBXNativeTarget "Fischer tvOS Tests" */;
+			buildPhases = (
+				529514C81D137BAD00BB244D /* Sources */,
+				529514C91D137BAD00BB244D /* Frameworks */,
+				529514CA1D137BAD00BB244D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				529514D31D137BAD00BB244D /* PBXTargetDependency */,
+			);
+			name = "Fischer tvOS Tests";
+			productName = FischertvOSTests;
+			productReference = 529514CC1D137BAD00BB244D /* Fischer tvOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -320,6 +394,12 @@
 					5273A7671CF2648E00426C1F = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					529514BC1D137B9000BB244D = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
+					529514CB1D137BAD00BB244D = {
+						CreatedOnToolsVersion = 7.3.1;
+					};
 				};
 			};
 			buildConfigurationList = 5273A7381CF2645900426C1F /* Build configuration list for PBXProject "Fischer" */;
@@ -339,6 +419,8 @@
 				5273A75A1CF2648700426C1F /* Fischer watchOS */,
 				5273A7671CF2648E00426C1F /* Fischer tvOS */,
 				524583A41D0DE7B9002311F3 /* Fischer OSX Tests */,
+				529514BC1D137B9000BB244D /* Fischer iOS Tests */,
+				529514CB1D137BAD00BB244D /* Fischer tvOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -373,6 +455,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5273A7661CF2648E00426C1F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		529514BB1D137B9000BB244D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		529514CA1D137BAD00BB244D /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -450,6 +546,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		529514B91D137B9000BB244D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				529514D71D137BB800BB244D /* FischerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		529514C81D137BAD00BB244D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				529514D81D137BB900BB244D /* FischerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -457,6 +569,16 @@
 			isa = PBXTargetDependency;
 			target = 5273A73F1CF2647800426C1F /* Fischer OSX */;
 			targetProxy = 524583AB1D0DE7B9002311F3 /* PBXContainerItemProxy */;
+		};
+		529514C41D137B9000BB244D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5273A74D1CF2647F00426C1F /* Fischer iOS */;
+			targetProxy = 529514C31D137B9000BB244D /* PBXContainerItemProxy */;
+		};
+		529514D31D137BAD00BB244D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5273A7671CF2648E00426C1F /* Fischer tvOS */;
+			targetProxy = 529514D21D137BAD00BB244D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1010,6 +1132,186 @@
 			};
 			name = Release;
 		};
+		529514C51D137B9000BB244D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FischeriOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		529514C61D137B9000BB244D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FischeriOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		529514D51D137BAD00BB244D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FischertvOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		529514D61D137BAD00BB244D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nikolaivazquez.FischertvOSTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1020,6 +1322,7 @@
 				524583AF1D0DE7B9002311F3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		5273A7381CF2645900426C1F /* Build configuration list for PBXProject "Fischer" */ = {
 			isa = XCConfigurationList;
@@ -1065,6 +1368,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		529514C71D137B9000BB244D /* Build configuration list for PBXNativeTarget "Fischer iOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				529514C51D137B9000BB244D /* Debug */,
+				529514C61D137B9000BB244D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		529514D41D137BAD00BB244D /* Build configuration list for PBXNativeTarget "Fischer tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				529514D51D137BAD00BB244D /* Debug */,
+				529514D61D137BAD00BB244D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
