@@ -43,7 +43,7 @@ public final class Game {
     }
 
     /// A game position.
-    public struct Position: Equatable {
+    public struct Position: Equatable, CustomStringConvertible {
 
         /// The board for the position.
         public var board: Board
@@ -62,6 +62,11 @@ public final class Game {
 
         /// The fullmove clock.
         public var fullmoves: UInt
+
+        /// A textual representation of `self`.
+        public var description: String {
+            return "Position(\(fen()))"
+        }
 
         /// Create a position.
         public init(board: Board = Board(),
