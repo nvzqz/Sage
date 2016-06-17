@@ -59,6 +59,20 @@ public struct CastlingAvailabilities: SetAlgebraType, CustomStringConvertible {
             }
         }
 
+        /// The character for `self`.
+        public var character: Character {
+            switch self {
+            case .WhiteKingside:
+                return "K"
+            case .WhiteQueenside:
+                return "Q"
+            case .BlackKingside:
+                return "k"
+            case .BlackQueenside:
+                return "q"
+            }
+        }
+
         /// A textual representation of `self`.
         public var description: String {
             return rawValue
@@ -70,6 +84,17 @@ public struct CastlingAvailabilities: SetAlgebraType, CustomStringConvertible {
             case .WhiteQueenside: return 0b0010
             case .BlackKingside:  return 0b0100
             case .BlackQueenside: return 0b1000
+            }
+        }
+
+        /// Create an `Availability` from a `Character`.
+        public init?(character: Character) {
+            switch character {
+            case "K": self = .WhiteKingside
+            case "Q": self = .WhiteQueenside
+            case "k": self = .BlackKingside
+            case "q": self = .BlackQueenside
+            default: return nil
             }
         }
 
