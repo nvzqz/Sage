@@ -95,6 +95,13 @@ public final class Game {
         return n
     }
 
+    /// The target move location for an en passant.
+    public var enPassantTarget: Location? {
+        guard let (move, piece, _) = _moveHistory.last, case .Pawn = piece
+            where abs(move.rankChange) == 2 else { return nil }
+        return (move.start.file, move.isUpward ? .Three : .Six)
+    }
+
     /// Creates a new chess game.
     ///
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
