@@ -63,23 +63,8 @@ public final class Game {
     /// The current player's turn.
     public private(set) var playerTurn: PlayerTurn
 
-    /// The white king has moved from E1.
-    public private(set) var whiteKingHasMoved: Bool = false
-
-    /// The left white rook has moved from A1.
-    public private(set) var whiteLeftRookHasMoved: Bool = false
-
-    /// The right white rook has moved from H1.
-    public private(set) var whiteRightRookHasMoved: Bool = false
-
-    /// The black king has moved from E8.
-    public private(set) var blackKingHasMoved: Bool = false
-
-    /// The left black rook has moved from A8.
-    public private(set) var blackLeftRookHasMoved: Bool = false
-
-    /// The right black rook has moved from H8.
-    public private(set) var blackRightRookHasMoved: Bool = false
+    /// The castling availability.
+    public private(set) var castlingAvailability: CastlingAvailability
 
     /// The game's mode.
     public var mode: Mode
@@ -102,6 +87,7 @@ public final class Game {
         self._undoHistory = []
         self.board = Board()
         self.playerTurn = .White
+        self.castlingAvailability = .Starting
         self.mode = mode
     }
 
@@ -249,27 +235,22 @@ public final class Game {
             }
         case .King:
             if /* Castle */ abs(move.fileChange) == 2 {
-                // The king being moved hasn't previously moved
-                guard pieceColor.isWhite ? !whiteKingHasMoved : !blackKingHasMoved else {
-                    return .Error(.KingMoved(pieceColor))
-                }
-                // Check if the rook for the appropriate color has moved
                 switch move.end {
                 case (.C, .One):
-                    guard !whiteLeftRookHasMoved else {
-                        return .Error(.RookMoved(.White, .Left))
+                    guard castlingAvailability.contains(.WhiteQueenside) else {
+                        return .Error(.NoAvailability(.WhiteQueenside))
                     }
                 case (.G, .One):
-                    guard !whiteRightRookHasMoved else {
-                        return .Error(.RookMoved(.White, .Right))
+                    guard castlingAvailability.contains(.WhiteKingside) else {
+                        return .Error(.NoAvailability(.WhiteKingside))
                     }
                 case (.C, .Eight):
-                    guard !blackLeftRookHasMoved else {
-                        return .Error(.RookMoved(.Black, .Left))
+                    guard castlingAvailability.contains(.BlackQueenside) else {
+                        return .Error(.NoAvailability(.BlackQueenside))
                     }
                 case (.G, .Eight):
-                    guard !blackRightRookHasMoved else {
-                        return .Error(.RookMoved(.Black, .Right))
+                    guard castlingAvailability.contains(.BlackKingside) else {
+                        return .Error(.NoAvailability(.BlackKingside))
                     }
                 default:
                     return .Error(.WrongMovementKind(piece))
@@ -345,9 +326,9 @@ public final class Game {
             }
         case .King(let color):
             if color.isWhite {
-                whiteKingHasMoved = true
+                castlingAvailability.remove([.WhiteKingside, .WhiteQueenside])
             } else {
-                blackKingHasMoved = true
+                castlingAvailability.remove([.BlackKingside, .BlackQueenside])
             }
             if /* Castle */ abs(move.fileChange) == 2 {
                 let rank = move.start.rank
@@ -362,13 +343,13 @@ public final class Game {
         case .Rook:
             switch move.start {
             case (.A, .One):
-                whiteLeftRookHasMoved = true
+                castlingAvailability.remove(.WhiteQueenside)
             case (.H, .One):
-                whiteRightRookHasMoved = true
+                castlingAvailability.remove(.WhiteKingside)
             case (.A, .Eight):
-                blackLeftRookHasMoved = true
+                castlingAvailability.remove(.BlackKingside)
             case (.H, .Eight):
-                blackRightRookHasMoved = true
+                castlingAvailability.remove(.BlackQueenside)
             default:
                 break
             }
@@ -467,10 +448,7 @@ public enum MoveExecutionError: ErrorType {
     /// Attempt wrong kind of move for piece.
     case WrongMovementKind(Piece)
 
-    /// A king has moved from its starting location, preventing a castle.
-    case KingMoved(Color)
-
-    /// A rook has moved from its starting location, preventing a castle.
-    case RookMoved(Color, File.Direction)
+    /// Attempted to castle without availability.
+    case NoAvailability(CastlingAvailability)
 
 }
