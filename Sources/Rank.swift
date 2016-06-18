@@ -98,6 +98,11 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
         self = color.isWhite ? .Eight : .One
     }
 
+    /// Returns a rank from advancing `self` by `value` with respect to `color`.
+    public func advanced(by value: Int, for color: Color = .White) -> Rank? {
+        return Rank(rawValue: rawValue + (color.isWhite ? value : -value))
+    }
+
     /// The next rank after `self`.
     public func next() -> Rank? {
         return Rank(rawValue: rawValue.successor())

@@ -112,6 +112,11 @@ public enum File: Int, Comparable, CustomStringConvertible {
         self.init(rawValue: index + 1)
     }
 
+    /// Returns a rank from advancing `self` by `value`.
+    public func advanced(by value: Int) -> File? {
+        return File(rawValue: rawValue + value)
+    }
+
     /// The next file after `self`.
     public func next() -> File? {
         return File(rawValue: rawValue.successor())
