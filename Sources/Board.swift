@@ -35,7 +35,7 @@
 public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
     /// A chess board space.
-    public struct Space: Equatable, CustomStringConvertible {
+    public struct Space: Hashable, CustomStringConvertible {
 
         /// The occupying chess piece.
         public var piece: Piece?
@@ -69,6 +69,14 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         /// A textual representation of `self`.
         public var description: String {
             return "Space(\"\(name)\" \(piece.map({ String($0) }) ?? "nil"))"
+        }
+
+        /// The hash value.
+        public var hashValue: Int {
+            let pieceHash = piece?.hashValue ?? 6 << 1
+            let fileHash = file.hashValue << 4
+            let rankHash = rank.hashValue << 7
+            return pieceHash + fileHash + rankHash
         }
 
         /// Create a chess board space with a piece, file, and rank.
