@@ -26,7 +26,7 @@
 //
 
 /// Castling availabilities of a `Game`.
-public struct CastlingAvailabilities: SetAlgebraType, CustomStringConvertible {
+public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomStringConvertible {
 
     /// A castling availability.
     public enum Availability: String, CustomStringConvertible {
@@ -96,6 +96,19 @@ public struct CastlingAvailabilities: SetAlgebraType, CustomStringConvertible {
             case "q": self = .BlackQueenside
             default: return nil
             }
+        }
+
+    }
+
+    /// A generator over the members of `CastlingAvailabilities`.
+    public struct Generator: GeneratorType {
+
+        private var _base: SetGenerator<Availability>
+
+        /// Advance to the next element and return it, or `nil` if no next
+        /// element exists.
+        public mutating func next() -> Availability? {
+            return _base.next()
         }
 
     }
@@ -205,6 +218,13 @@ public struct CastlingAvailabilities: SetAlgebraType, CustomStringConvertible {
     /// - Postcondition: `self.intersect([member]).isEmpty`
     public mutating func remove(member: Availability) -> Availability? {
         return _availabilities.remove(member)
+    }
+
+    /// Returns a generator over the members.
+    ///
+    /// - Complexity: O(1).
+    public func generate() -> Generator {
+        return Generator(_base: _availabilities.generate())
     }
 
 }
