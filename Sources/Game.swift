@@ -226,6 +226,11 @@ public final class Game {
         }
     }
 
+    /// The available moves for the current player.
+    public func availableMoves() -> [Move] {
+        return Array(board.map({ movesForPiece(at: $0.location) }).flatten())
+    }
+
     /// Returns the moves currently available for the piece at `location`, if any.
     public func movesForPiece(at location: Location) -> [Move] {
         guard let piece = board[location] else { return [] }
