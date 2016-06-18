@@ -434,7 +434,7 @@ public final class Game {
         switch piece {
         case .Pawn(let color):
             if /* En passant */ move.isDiagonal && board[move.end] == nil {
-                execute(board.removePieceAt((move.end.file, move.start.rank)))
+                execute(board.removePiece(at: (move.end.file, move.start.rank)))
             } else if /* Promotion */ move.end.rank == (color.isWhite ? 8 : 1) {
                 let promotion = promotion?()
                 if let promotion = promotion {
@@ -442,12 +442,12 @@ public final class Game {
                         throw MoveExecutionError.InvalidPromotionPiece(promotion)
                     }
                 }
-                board.removePieceAt(move.start)
+                board.removePiece(at: move.start)
                 let capture = board[move.end]
                 board[move.end] = promotion ?? .Queen(color)
                 _moveHistory.append((move, piece, capture))
             } else {
-                execute(board.removePieceAt(move.end))
+                execute(board.removePiece(at: move.end))
             }
         case .King(let color):
             if color.isWhite {
@@ -465,7 +465,7 @@ public final class Game {
                 board.swap((oldRookFile, rank), (newRookFile, rank))
                 execute()
             } else {
-                execute(board.removePieceAt(move.end))
+                execute(board.removePiece(at: move.end))
             }
         case .Rook:
             switch move.start {
@@ -480,9 +480,9 @@ public final class Game {
             default:
                 break
             }
-            execute(board.removePieceAt(move.end))
+            execute(board.removePiece(at: move.end))
         default:
-            execute(board.removePieceAt(move.end))
+            execute(board.removePiece(at: move.end))
         }
         playerTurn.invert()
     }
@@ -506,13 +506,13 @@ public final class Game {
         guard let (move, piece, _) = _moveHistory.popLast() else {
             return nil
         }
-        board[move.start] = board.removePieceAt(move.end)
+        board[move.start] = board.removePiece(at: move.end)
         func append() { _undoHistory.append((move, nil)) }
         switch piece {
         case .King where abs(move.fileChange) == 2:
             let (new, old) = move.isRightward ? (File.F, File.H) : (.D, .A)
             let rank = move.start.rank
-            board[(old, rank)] = board.removePieceAt((new, rank))
+            board[(old, rank)] = board.removePiece(at: (new, rank))
             append()
         case .Pawn where abs(move.fileChange) == 1:
             guard let previous = _moveHistory.last else { break }

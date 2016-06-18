@@ -213,7 +213,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
     /// Gets and sets a piece at the location.
     public subscript(location: Location) -> Piece? {
         get {
-            return spaceAt(location).piece
+            return space(at: location).piece
         }
         set {
             _spaces[location.file.index][location.rank.index].piece = newValue
@@ -249,26 +249,26 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         }
     }
 
-    /// Returns the spaces at the file.
+    /// Returns the spaces at `file`.
     @warn_unused_result
-    public func spacesAtFile(file: File) -> [Space] {
+    public func spaces(at file: File) -> [Space] {
         return _spaces[file.index]
     }
 
-    /// Returns the spaces at the rank.
+    /// Returns the spaces at `rank`.
     @warn_unused_result
-    public func spacesAtRank(rank: Rank) -> [Space] {
+    public func spaces(at rank: Rank) -> [Space] {
         return _spaces.map({ $0[rank.index] })
     }
 
-    /// Returns the space at the file and rank.
+    /// Returns the space at `location`.
     @warn_unused_result
-    public func spaceAt(location: Location) -> Space {
+    public func space(at location: Location) -> Space {
         return _spaces[location.file.index][location.rank.index]
     }
 
-    /// Removes a piece at the file and rank, and returns it.
-    public mutating func removePieceAt(location: Location) -> Piece? {
+    /// Removes a piece at `location`, and returns it.
+    public mutating func removePiece(at location: Location) -> Piece? {
         let piece = self[location]
         self[location] = nil
         return piece
@@ -291,7 +291,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         func fenForRank(rank: Rank) -> String {
             var fen = ""
             var accumulator = 0
-            for space in spacesAtRank(rank) {
+            for space in spaces(at: rank) {
                 if let piece = space.piece {
                     if accumulator > 0 {
                         fen += String(accumulator)
