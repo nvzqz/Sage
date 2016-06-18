@@ -68,7 +68,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
         /// A textual representation of `self`.
         public var description: String {
-            return "Space(\"\(name)\" \(piece.map({ String($0) }) ?? "nil"))"
+            return "Space(\(name), \(piece.map({ String($0) }) ?? "nil"))"
         }
 
         /// The hash value.
