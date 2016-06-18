@@ -51,8 +51,8 @@ public final class Game {
         /// The active player turn.
         public var playerTurn: PlayerTurn
 
-        /// The castling availabilities.
-        public var castlingAvailabilities: CastlingAvailabilities
+        /// The castling availability.
+        public var castlingAvailability: CastlingAvailability
 
         /// The en passant target location.
         public var enPassantTarget: Location?
@@ -71,13 +71,13 @@ public final class Game {
         /// Create a position.
         public init(board: Board = Board(),
                     playerTurn: PlayerTurn = .White,
-                    castlingAvailabilities: CastlingAvailabilities = .all,
+                    castlingAvailability: CastlingAvailability = .all,
                     enPassantTarget: Location? = nil,
                     halfmoves: UInt = 0,
                     fullmoves: UInt = 1) {
             self.board = board
             self.playerTurn = playerTurn
-            self.castlingAvailabilities = castlingAvailabilities
+            self.castlingAvailability = castlingAvailability
             self.enPassantTarget = enPassantTarget
             self.halfmoves = halfmoves
             self.fullmoves = fullmoves
@@ -87,7 +87,7 @@ public final class Game {
         public init(game: Game) {
             self.board = game.board
             self.playerTurn = game.playerTurn
-            self.castlingAvailabilities = game.castlingAvailabilities
+            self.castlingAvailability = game.castlingAvailability
             self.enPassantTarget = game.enPassantTarget
             self.halfmoves = game.halfmoves
             self.fullmoves = game.fullmoves
@@ -100,7 +100,7 @@ public final class Game {
                 let board = Board(fen: parts[0])
                 where parts[1].characters.count == 1,
                 let playerTurn = parts[1].characters.first.flatMap(Color.init),
-                let availabilities = CastlingAvailabilities(string: parts[2]),
+                let availability = CastlingAvailability(string: parts[2]),
                 let halfmoves = UInt(parts[4]),
                 let fullmoves = UInt(parts[5]) where fullmoves > 0
                 else { return nil }
@@ -122,7 +122,7 @@ public final class Game {
             }
             self.init(board: board,
                       playerTurn: playerTurn,
-                      castlingAvailabilities: availabilities,
+                      castlingAvailability: availability,
                       enPassantTarget: target,
                       halfmoves: halfmoves,
                       fullmoves: fullmoves)
@@ -132,7 +132,7 @@ public final class Game {
         @warn_unused_result
         public func fen() -> String {
             return board.fen()
-                + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailabilities) "
+                + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailability) "
                 + (enPassantTarget.map({ f, r in "\(f)\(r)".lowercaseString }) ?? "-")
                 + " \(halfmoves) \(fullmoves)"
         }
@@ -160,8 +160,8 @@ public final class Game {
     /// The current player's turn.
     public private(set) var playerTurn: PlayerTurn
 
-    /// The castling availabilities.
-    public private(set) var castlingAvailabilities: CastlingAvailabilities
+    /// The castling availability.
+    public private(set) var castlingAvailability: CastlingAvailability
 
     /// The game's mode.
     public var mode: Mode
@@ -212,7 +212,7 @@ public final class Game {
         self._undoHistory = []
         self.board = Board()
         self.playerTurn = .White
-        self.castlingAvailabilities = .all
+        self.castlingAvailability = .all
         self.mode = mode
     }
 
@@ -362,20 +362,20 @@ public final class Game {
             if /* Castle */ abs(move.fileChange) == 2 {
                 switch move.end {
                 case (.C, .One):
-                    guard castlingAvailabilities.contains(.WhiteQueenside) else {
-                        return .Error(.NoAvailability(.WhiteQueenside))
+                    guard castlingAvailability.contains(.WhiteQueenside) else {
+                        return .Error(.NoAvailabilityOption(.WhiteQueenside))
                     }
                 case (.G, .One):
-                    guard castlingAvailabilities.contains(.WhiteKingside) else {
-                        return .Error(.NoAvailability(.WhiteKingside))
+                    guard castlingAvailability.contains(.WhiteKingside) else {
+                        return .Error(.NoAvailabilityOption(.WhiteKingside))
                     }
                 case (.C, .Eight):
-                    guard castlingAvailabilities.contains(.BlackQueenside) else {
-                        return .Error(.NoAvailability(.BlackQueenside))
+                    guard castlingAvailability.contains(.BlackQueenside) else {
+                        return .Error(.NoAvailabilityOption(.BlackQueenside))
                     }
                 case (.G, .Eight):
-                    guard castlingAvailabilities.contains(.BlackKingside) else {
-                        return .Error(.NoAvailability(.BlackKingside))
+                    guard castlingAvailability.contains(.BlackKingside) else {
+                        return .Error(.NoAvailabilityOption(.BlackKingside))
                     }
                 default:
                     return .Error(.WrongMovementKind(piece))
@@ -451,11 +451,11 @@ public final class Game {
             }
         case .King(let color):
             if color.isWhite {
-                castlingAvailabilities.remove(.WhiteKingside)
-                castlingAvailabilities.remove(.WhiteQueenside)
+                castlingAvailability.remove(.WhiteKingside)
+                castlingAvailability.remove(.WhiteQueenside)
             } else {
-                castlingAvailabilities.remove(.BlackKingside)
-                castlingAvailabilities.remove(.BlackQueenside)
+                castlingAvailability.remove(.BlackKingside)
+                castlingAvailability.remove(.BlackQueenside)
             }
             if /* Castle */ abs(move.fileChange) == 2 {
                 let rank = move.start.rank
@@ -470,13 +470,13 @@ public final class Game {
         case .Rook:
             switch move.start {
             case (.A, .One):
-                castlingAvailabilities.remove(.WhiteQueenside)
+                castlingAvailability.remove(.WhiteQueenside)
             case (.H, .One):
-                castlingAvailabilities.remove(.WhiteKingside)
+                castlingAvailability.remove(.WhiteKingside)
             case (.A, .Eight):
-                castlingAvailabilities.remove(.BlackKingside)
+                castlingAvailability.remove(.BlackKingside)
             case (.H, .Eight):
-                castlingAvailabilities.remove(.BlackQueenside)
+                castlingAvailability.remove(.BlackQueenside)
             default:
                 break
             }
@@ -575,15 +575,15 @@ public enum MoveExecutionError: ErrorType {
     /// Attempt wrong kind of move for piece.
     case WrongMovementKind(Piece)
 
-    /// Attempted to castle without availability.
-    case NoAvailability(CastlingAvailabilities.Availability)
+    /// Attempted to castle without availability option.
+    case NoAvailabilityOption(CastlingAvailability.Option)
 
 }
 
 /// Returns `true` if the positions are the same.
 public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
     return lhs.playerTurn == rhs.playerTurn
-        && lhs.castlingAvailabilities == rhs.castlingAvailabilities
+        && lhs.castlingAvailability == rhs.castlingAvailability
         && lhs.halfmoves == rhs.halfmoves
         && lhs.fullmoves == rhs.fullmoves
         && {

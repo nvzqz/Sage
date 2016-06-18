@@ -1,5 +1,5 @@
 //
-//  CastlingAvailabilities.swift
+//  CastlingAvailability.swift
 //  Fischer
 //
 //  The MIT License (MIT)
@@ -25,11 +25,11 @@
 //  THE SOFTWARE.
 //
 
-/// Castling availabilities of a `Game`.
-public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomStringConvertible {
+/// Castling availability of a `Game`.
+public struct CastlingAvailability: SetAlgebraType, SequenceType, CustomStringConvertible {
 
-    /// A castling availability.
-    public enum Availability: String, CustomStringConvertible {
+    /// A castling availability option.
+    public enum Option: String, CustomStringConvertible {
 
         /// White can castle kingside.
         case WhiteKingside
@@ -43,8 +43,8 @@ public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomString
         /// Black can castle queenside.
         case BlackQueenside
 
-        /// All availabilities.
-        public static var all: [Availability] {
+        /// All options.
+        public static var all: [Option] {
             return [.WhiteKingside, .WhiteQueenside,
                     .BlackKingside, .BlackQueenside]
         }
@@ -87,7 +87,7 @@ public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomString
             }
         }
 
-        /// Create an `Availability` from a `Character`.
+        /// Create an `Option` from a `Character`.
         public init?(character: Character) {
             switch character {
             case "K": self = .WhiteKingside
@@ -100,40 +100,40 @@ public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomString
 
     }
 
-    /// A generator over the members of `CastlingAvailabilities`.
+    /// A generator over the members of `CastlingAvailability`.
     public struct Generator: GeneratorType {
 
-        private var _base: SetGenerator<Availability>
+        private var _base: SetGenerator<Option>
 
         /// Advance to the next element and return it, or `nil` if no next
         /// element exists.
-        public mutating func next() -> Availability? {
+        public mutating func next() -> Option? {
             return _base.next()
         }
 
     }
 
-    /// All castling availabilities.
-    public static let all = CastlingAvailabilities(Availability.all)
+    /// All castling availability.
+    public static let all = CastlingAvailability(Option.all)
 
-    /// The availabilities.
-    private var _availabilities: Set<Availability>
+    /// The availability.
+    private var _availability: Set<Option>
 
     /// A textual representation of `self`.
     public var description: String {
-        if !_availabilities.isEmpty {
-            return String(_availabilities.map({ $0.character }).sort())
+        if !_availability.isEmpty {
+            return String(_availability.map({ $0.character }).sort())
         } else {
             return "-"
         }
     }
 
-    /// Creates an empty set of availabilities.
+    /// Creates an empty availability.
     public init() {
-        _availabilities = Set()
+        _availability = Set()
     }
 
-    /// Creates `CastlingAvailabilities` from a `String`.
+    /// Creates a `CastlingAvailability` from a `String`.
     ///
     /// - Returns: `nil` if `string` is empty or invalid.
     public init?(string: String) {
@@ -141,74 +141,74 @@ public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomString
             return nil
         }
         if string == "-" {
-            _availabilities = Set()
+            _availability = Set()
         } else {
-            var availabilities = Set<Availability>()
+            var availability = Set<Option>()
             for char in string.characters {
-                guard let availability = Availability(character: char) else {
+                guard let option = Option(character: char) else {
                     return nil
                 }
-                availabilities.insert(availability)
+                availability.insert(option)
             }
-            _availabilities = availabilities
+            _availability = availability
         }
     }
 
-    /// Creates a set of availabilities from a sequence.
-    public init<S: SequenceType where S.Generator.Element == Availability>(_ sequence: S) {
-        if let set = sequence as? Set<Availability> {
-            _availabilities = set
+    /// Creates a set of availability from a sequence.
+    public init<S: SequenceType where S.Generator.Element == Option>(_ sequence: S) {
+        if let set = sequence as? Set<Option> {
+            _availability = set
         } else {
-            _availabilities = Set(sequence)
+            _availability = Set(sequence)
         }
     }
 
     /// Returns `true` if `self` contains `member`.
     @warn_unused_result
-    public func contains(member: Availability) -> Bool {
-        return _availabilities.contains(member)
+    public func contains(member: Option) -> Bool {
+        return _availability.contains(member)
     }
 
     /// Returns the set of elements contained in `self`, in `other`, or in
     /// both `self` and `other`.
     @warn_unused_result(mutable_variant="unionInPlace")
-    public func union(other: CastlingAvailabilities) -> CastlingAvailabilities {
-        return CastlingAvailabilities(_availabilities.union(other._availabilities))
+    public func union(other: CastlingAvailability) -> CastlingAvailability {
+        return CastlingAvailability(_availability.union(other._availability))
     }
 
     /// Returns the set of elements contained in both `self` and `other`.
     @warn_unused_result(mutable_variant="intersectInPlace")
-    public func intersect(other: CastlingAvailabilities) -> CastlingAvailabilities {
-        return CastlingAvailabilities(_availabilities.intersect(other._availabilities))
+    public func intersect(other: CastlingAvailability) -> CastlingAvailability {
+        return CastlingAvailability(_availability.intersect(other._availability))
     }
 
     /// Returns the set of elements contained in `self` or in `other`,
     /// but not in both `self` and `other`.
     @warn_unused_result(mutable_variant="exclusiveOrInPlace")
-    public func exclusiveOr(other: CastlingAvailabilities) -> CastlingAvailabilities {
-        return CastlingAvailabilities(_availabilities.exclusiveOr(other._availabilities))
+    public func exclusiveOr(other: CastlingAvailability) -> CastlingAvailability {
+        return CastlingAvailability(_availability.exclusiveOr(other._availability))
     }
 
     /// Insert all elements of `other` into `self`.
-    public mutating func unionInPlace(other: CastlingAvailabilities) {
-        _availabilities.unionInPlace(other._availabilities)
+    public mutating func unionInPlace(other: CastlingAvailability) {
+        _availability.unionInPlace(other._availability)
     }
 
     /// Removes all elements of `self` that are not also present in
     /// `other`.
-    public mutating func intersectInPlace(other: CastlingAvailabilities) {
-        _availabilities.unionInPlace(other._availabilities)
+    public mutating func intersectInPlace(other: CastlingAvailability) {
+        _availability.unionInPlace(other._availability)
     }
 
     /// Replaces `self` with a set containing all elements contained in
     /// either `self` or `other`, but not both.
-    public mutating func exclusiveOrInPlace(other: CastlingAvailabilities) {
-        _availabilities.exclusiveOrInPlace(other._availabilities)
+    public mutating func exclusiveOrInPlace(other: CastlingAvailability) {
+        _availability.exclusiveOrInPlace(other._availability)
     }
 
     /// If `member` is not already contained in `self`, inserts it.
-    public mutating func insert(member: Availability) {
-        _availabilities.insert(member)
+    public mutating func insert(member: Option) {
+        _availability.insert(member)
     }
 
     /// If `member` is contained in `self`, removes and returns it.
@@ -216,27 +216,27 @@ public struct CastlingAvailabilities: SetAlgebraType, SequenceType, CustomString
     /// `nil`.
     ///
     /// - Postcondition: `self.intersect([member]).isEmpty`
-    public mutating func remove(member: Availability) -> Availability? {
-        return _availabilities.remove(member)
+    public mutating func remove(member: Option) -> Option? {
+        return _availability.remove(member)
     }
 
     /// Returns a generator over the members.
     ///
     /// - Complexity: O(1).
     public func generate() -> Generator {
-        return Generator(_base: _availabilities.generate())
+        return Generator(_base: _availability.generate())
     }
 
 }
 
-extension CastlingAvailabilities: Hashable {
+extension CastlingAvailability: Hashable {
     /// The hash value.
     public var hashValue: Int {
-        return _availabilities.reduce(0, combine: { $0 | $1._bit })
+        return _availability.reduce(0, combine: { $0 | $1._bit })
     }
 }
 
-/// Returns `true` if both have the same availabilities.
-public func == (lhs: CastlingAvailabilities, rhs: CastlingAvailabilities) -> Bool {
-    return lhs._availabilities == rhs._availabilities
+/// Returns `true` if both have the same availability.
+public func == (lhs: CastlingAvailability, rhs: CastlingAvailability) -> Bool {
+    return lhs._availability == rhs._availability
 }
