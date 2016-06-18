@@ -29,7 +29,7 @@
 public typealias Location = (file: File, rank: Rank)
 
 /// A chess move.
-public struct Move: Equatable, CustomStringConvertible {
+public struct Move: Hashable, CustomStringConvertible {
 
     /// A castle move for a color in a direction.
     @warn_unused_result
@@ -145,6 +145,14 @@ public struct Move: Equatable, CustomStringConvertible {
     /// A textual representation of `self`.
     public var description: String {
         return "\(start.file)\(start.rank) >>> \(end.file)\(end.rank)"
+    }
+
+    /// The hash value.
+    public var hashValue: Int {
+        return start.file.hashValue
+            + (start.rank.hashValue << 3)
+            + (end.file.hashValue << 6)
+            + (end.rank.hashValue << 9)
     }
 
     /// Create a move with start and end locations.
