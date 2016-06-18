@@ -32,7 +32,7 @@
 #endif
 
 /// A chess board.
-public struct Board: Equatable, SequenceType, CustomStringConvertible {
+public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// A chess board space.
     public struct Space: Hashable, CustomStringConvertible {
@@ -159,6 +159,11 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
     /// A textual representation of `self`.
     public var description: String {
         return "Board(\(fen()))"
+    }
+
+    /// The hash value.
+    public var hashValue: Int {
+        return Set(self).hashValue
     }
 
     /// Create a chess board.
