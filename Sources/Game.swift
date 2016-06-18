@@ -359,6 +359,9 @@ public final class Game {
                 return .Error(error)
             }
         case .King:
+            guard board[move.end] == nil else {
+                return .Error(.ObstructingPiece(move.end))
+            }
             if /* Castle */ abs(move.fileChange) == 2 {
                 switch move.end {
                 case (.C, .One):
