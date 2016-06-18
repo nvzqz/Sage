@@ -121,12 +121,12 @@ public enum Piece: Hashable, CustomStringConvertible {
     public var hashValue: Int {
         let colorBit = color.isWhite ? 0 : 1
         switch self {
-        case .Pawn:   return 0b0000010 + colorBit
-        case .Rook:   return 0b0000100 + colorBit
-        case .Knight: return 0b0001000 + colorBit
-        case .Bishop: return 0b0010000 + colorBit
-        case .King:   return 0b0100000 + colorBit
-        case .Queen:  return 0b1000000 + colorBit
+        case .Pawn:   return (0 << 1) + colorBit
+        case .Rook:   return (1 << 1) + colorBit
+        case .Knight: return (2 << 1) + colorBit
+        case .Bishop: return (3 << 1) + colorBit
+        case .King:   return (4 << 1) + colorBit
+        case .Queen:  return (5 << 1) + colorBit
         }
     }
 
