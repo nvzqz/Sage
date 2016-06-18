@@ -279,6 +279,12 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         (self[first], self[second]) = (self[second], self[first])
     }
 
+    /// Returns the locations where `piece` exists.
+    @warn_unused_result
+    public func locationsForPiece(piece: Piece) -> [Location] {
+        return _spaces.flatten().flatMap { $0.piece == piece ? $0.location : nil }
+    }
+
     /// Returns the FEN string for the board.
     @warn_unused_result
     public func fen() -> String {
