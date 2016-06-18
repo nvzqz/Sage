@@ -281,7 +281,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
 
     /// Returns the locations where `piece` exists.
     @warn_unused_result
-    public func locationsForPiece(piece: Piece) -> [Location] {
+    public func locations(for piece: Piece) -> [Location] {
         return _spaces.flatten().flatMap { $0.piece == piece ? $0.location : nil }
     }
 
