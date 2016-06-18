@@ -226,6 +226,121 @@ public final class Game {
         }
     }
 
+    /// Returns the moves currently available for the piece at `location`, if any.
+    public func movesForPiece(at location: Location) -> [Move] {
+        guard let piece = board[location] else { return [] }
+        let pieceColor = piece.color
+        guard pieceColor == playerTurn else { return [] }
+        let (file, rank) = location
+        func movesFor(locations: [Zip2Sequence<[File], [Rank]>]) -> [Move] {
+            func process(locations: [(File, Rank)]) -> [Location] {
+                var result: [Location] = []
+                for location in locations {
+                    if let color = board[location]?.color {
+                        if color != playerTurn {
+                            result.append(location)
+                        }
+                        break
+                    } else {
+                        result.append(location)
+                    }
+                }
+                return result
+            }
+            return locations.map({ $0.filter({ $0 != location }) })
+                .map(process)
+                .flatten()
+                .map({ location >>> $0 })
+        }
+        func axialMoves() -> [Move] {
+            let ranks = Array(count: 8, repeatedValue: rank)
+            let files = Array(count: 8, repeatedValue: file)
+            let locations = [zip(file.to(.H), ranks),
+                             zip(file.to(.A), ranks),
+                             zip(files, rank.to(.Eight)),
+                             zip(files, rank.to(.One))]
+            return movesFor(locations)
+        }
+        func diagonalMoves() -> [Move] {
+            let locations = [zip(file.to(.H), rank.to(.Eight)),
+                             zip(file.to(.A), rank.to(.Eight)),
+                             zip(file.to(.H), rank.to(.One)),
+                             zip(file.to(.A), rank.to(.One))]
+            return movesFor(locations)
+        }
+        func locations(from changes: [(Int, Int)]) -> [Location] {
+            return changes.flatMap { fc, rc in
+                file.advanced(by: fc).flatMap { newFile in
+                    rank.advanced(by: rc, for: pieceColor).flatMap { newRank in
+                        (newFile, newRank)
+                    }
+                }
+            }
+        }
+        func moves(from changes: [(Int, Int)]) -> [Move] {
+            return locations(from: changes).map({ location >>> $0 })
+        }
+        switch piece {
+        case .Pawn:
+            let changes = [(0, 1), (0, 2), (1, 1), (-1, 1)]
+            return moves(from: changes).filter { move in
+                if move.fileChange != 0 {
+                    if let capture = board[move.end] {
+                        return capture.color != pieceColor
+                    } else {
+                        guard let target = enPassantTarget else {
+                            return false
+                        }
+                        return move.end == target
+                    }
+                } else {
+                    guard board[move.end] == nil else {
+                        return false
+                    }
+                    if abs(move.rankChange) == 2 {
+                        let startRank: Rank = pieceColor.isWhite ? .Two : .Seven
+                        guard move.start.rank == startRank else {
+                            return false
+                        }
+                        let midRank = move.start.rank.advanced(by: 1, for: pieceColor)!
+                        guard board[(move.start.file, midRank)] == nil else {
+                            return false
+                        }
+                    }
+                    return true
+                }
+            }
+        case .Rook:
+            return axialMoves()
+        case .Knight:
+            let values: [(Int, Int)] = zip([1, 2], [2, 1]).reduce([]) {
+                let (fc, rc) = $1
+                return $0 + [(file.rawValue + fc, rank.rawValue + rc),
+                             (file.rawValue - fc, rank.rawValue + rc),
+                             (file.rawValue + fc, rank.rawValue - rc),
+                             (file.rawValue - fc, rank.rawValue - rc)]
+            }
+            return values.flatMap { fileValue, rankValue in
+                File(rawValue: fileValue).flatMap { newFile in
+                    Rank(rawValue: rankValue).flatMap { newRank in
+                        board[(newFile, newRank)]?.color != pieceColor
+                            ? Move(start: location, end: (newFile, newRank))
+                            : nil
+                    }
+                }
+            }
+        case .Bishop:
+            return diagonalMoves()
+        case .King:
+            let changes: [(Int, Int)] = [-1, 1].reduce([(2, 0), (-2, 0)]) {
+                return $0 + [($1, $1), ($1, -$1), ($1, 0), (0, $1)]
+            }
+            return moves(from: changes).filter { isValidMove($0) }
+        case .Queen:
+            return axialMoves() + diagonalMoves()
+        }
+    }
+
     /// Returns a location for an obstructing piece within the sequence.
     private func _locationForObstruction<S: SequenceType where S.Generator.Element == Location>(s: S) -> Location? {
         for location in s {
