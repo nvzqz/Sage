@@ -217,6 +217,7 @@ public final class Game {
     }
 
     /// Returns the captured pieces for a color, or for all if color is `nil`.
+    @warn_unused_result
     public func capturedPieces(for color: Color? = nil) -> [Piece] {
         let pieces = _moveHistory.flatMap({ $0.capture })
         if let color = color {
@@ -227,11 +228,13 @@ public final class Game {
     }
 
     /// The available moves for the current player.
+    @warn_unused_result
     public func availableMoves() -> [Move] {
         return Array(board.map({ movesForPiece(at: $0.location) }).flatten())
     }
 
     /// Returns the moves currently available for the piece at `location`, if any.
+    @warn_unused_result
     public func movesForPiece(at location: Location) -> [Move] {
         guard let piece = board[location] else { return [] }
         let pieceColor = piece.color
@@ -347,6 +350,7 @@ public final class Game {
     }
 
     /// Returns a location for an obstructing piece within the sequence.
+    @warn_unused_result
     private func _locationForObstruction<S: SequenceType where S.Generator.Element == Location>(s: S) -> Location? {
         for location in s {
             guard board[location] == nil else {
@@ -539,6 +543,7 @@ public final class Game {
     ///
     /// Prefer calling `executeMove(_:)` with a try/catch when checking for
     /// errors before executing a move instead of `isValidMove(_:for:)`.
+    @warn_unused_result
     public func isValidMove(move: Move, for color: Color? = nil) -> Bool {
         if case .Value = _resultOf(move, for: color) {
             return true
