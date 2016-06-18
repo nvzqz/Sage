@@ -93,6 +93,41 @@ public final class Game {
             self.fullmoves = game.fullmoves
         }
 
+        /// Create a position from a valid FEN string.
+        public init?(fen: String) {
+            let parts = fen.characters.split(" ").map(String.init)
+            guard parts.count == 6,
+                let board = Board(fen: parts[0])
+                where parts[1].characters.count == 1,
+                let playerTurn = parts[1].characters.first.flatMap(Color.init),
+                let availabilities = CastlingAvailabilities(string: parts[2]),
+                let halfmoves = UInt(parts[4]),
+                let fullmoves = UInt(parts[5]) where fullmoves > 0
+                else { return nil }
+            var target: Location? = nil
+            let targetStr = parts[3]
+            let targetChars = targetStr.characters
+            if targetChars.count == 2 {
+                guard let file = targetChars.first.flatMap(File.init),
+                    let rank = targetChars.last.flatMap({ char in
+                        return Int(String(char)).flatMap(Rank.init(_:))
+                    }) else {
+                        return nil
+                }
+                target = (file, rank)
+            } else {
+                guard targetStr == "-" else {
+                    return nil
+                }
+            }
+            self.init(board: board,
+                      playerTurn: playerTurn,
+                      castlingAvailabilities: availabilities,
+                      enPassantTarget: target,
+                      halfmoves: halfmoves,
+                      fullmoves: fullmoves)
+        }
+
         /// Returns the FEN string for the position.
         @warn_unused_result
         public func fen() -> String {

@@ -153,7 +153,7 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         return "Board(\(fen()))"
     }
 
-    /// Creates a chess board.
+    /// Create a chess board.
     ///
     /// - Parameter populate: If `true`, the board is populated. Default is `true`.
     public init(populate: Bool = true) {
@@ -168,6 +168,46 @@ public struct Board: Equatable, SequenceType, CustomStringConvertible {
         if populate {
             self.populate()
         }
+    }
+
+    /// Create a chess board from a valid FEN string.
+    ///
+    /// - Warning: Only to be used with the board part of a full FEN string.
+    public init?(fen: String) {
+        func pieces(for string: String) -> [Piece?]? {
+            var pieces: [Piece?] = []
+            for char in string.characters {
+                guard pieces.count < 8 else {
+                    return nil
+                }
+                if let piece = Piece(character: char) {
+                    pieces.append(piece)
+                } else if let num = Int(String(char)) {
+                    guard 1...8 ~= num else { return nil }
+                    pieces += Array(count: num, repeatedValue: nil)
+                } else {
+                    return nil
+                }
+            }
+            return pieces
+        }
+        guard !fen.characters.contains(" ") else {
+            return nil
+        }
+        let parts = fen.characters.split("/").map(String.init)
+        guard parts.count == 8 else {
+            return nil
+        }
+        var board = Board(populate: false)
+        for (rank, part) in zip(Rank.all.reverse(), parts) {
+            guard let pieces = pieces(for: part) else {
+                return nil
+            }
+            for (file, piece) in zip(File.all, pieces) {
+                board[(file, rank)] = piece
+            }
+        }
+        self = board
     }
 
     /// Gets and sets a piece at the location.
