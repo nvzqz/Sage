@@ -166,6 +166,9 @@ public final class Game {
     /// The game's mode.
     public var mode: Mode
 
+    /// The game's variant.
+    public let variant: Variant
+
     /// All of the moves played in the game.
     public var playedMoves: [Move] {
         return _moveHistory.map({ $0.move })
@@ -207,13 +210,14 @@ public final class Game {
     /// Creates a new chess game.
     ///
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
-    public init(mode: Mode = .HumanVsHuman) {
+    public init(mode: Mode = .HumanVsHuman, variant: Variant = .Standard) {
         self._moveHistory = []
         self._undoHistory = []
-        self.board = Board()
+        self.board = Board(variant: variant)
         self.playerTurn = .White
         self.castlingAvailability = .all
         self.mode = mode
+        self.variant = variant
     }
 
     /// Returns the captured pieces for a color, or for all if color is `nil`.

@@ -168,8 +168,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// Create a chess board.
     ///
-    /// - Parameter populate: If `true`, the board is populated. Default is `true`.
-    public init(populate: Bool = true) {
+    /// - Parameter variant: The variant to populate the board for. Won't
+    ///   populate if `nil`. Default is `Standard`.
+    public init(variant: Variant? = .Standard) {
         let range = 0...7
         self._spaces = range.reduce([]) { spaces, x in
             spaces + [
@@ -178,8 +179,8 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
                 }
             ]
         }
-        if populate {
-            self.populate()
+        if let variant = variant {
+            self.populate(for: variant)
         }
     }
 
@@ -211,7 +212,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         guard parts.count == 8 else {
             return nil
         }
-        var board = Board(populate: false)
+        var board = Board(variant: nil)
         for (rank, part) in zip(Rank.all.reverse(), parts) {
             guard let pieces = pieces(for: part) else {
                 return nil
@@ -233,14 +234,17 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }
     }
 
-    /// Populates `self` with with all of the pieces at their proper locations.
-    public mutating func populate() {
+    /// Populates `self` with with all of the pieces at their proper locations
+    /// for the given chess variant.
+    public mutating func populate(for variant: Variant = .Standard) {
         self.clear()
+        let bottomColor: Color = variant.isStandard ? .White : .Black
+        let topColor = bottomColor.inverse()
         for x in 0...7 {
-            _spaces[x][1].piece = .Pawn(.White)
-            _spaces[x][6].piece = .Pawn(.Black)
+            _spaces[x][1].piece = .Pawn(bottomColor)
+            _spaces[x][6].piece = .Pawn(topColor)
         }
-        for (y, color) in [(0, Color.White), (7, Color.Black)] {
+        for (y, color) in [(0, bottomColor), (7, topColor)] {
             _spaces[0][y].piece = .Rook(color)
             _spaces[1][y].piece = .Knight(color)
             _spaces[2][y].piece = .Bishop(color)
