@@ -105,9 +105,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
                                width: size,
                                height: size)
             var textFrame = CGRect(x: 0, y: 0, width: size, height: size)
-            let fontSize = size * 0.4
+            let fontSize = size * 0.625
             let view = _View(frame: frame)
-            let str = piece.map({ String($0.character) }) ?? ""
+            let str = piece.map({ String($0.specialCharacter(background: color)) }) ?? ""
             let bg: _Color = color.isWhite ? .whiteColor() : .blackColor()
             let tc: _Color = color.isWhite ? .blackColor() : .whiteColor()
             #if os(OSX)
