@@ -173,6 +173,18 @@ public enum Piece: Hashable, CustomStringConvertible {
         }
     }
 
+    /// The special character for the piece.
+    public func specialCharacter(background color: Color = .White) -> Character {
+        switch self {
+        case let .Pawn(c):   return color == c ? "♙" : "♟"
+        case let .Rook(c):   return color == c ? "♖" : "♜"
+        case let .Knight(c): return color == c ? "♘" : "♞"
+        case let .Bishop(c): return color == c ? "♗" : "♝"
+        case let .King(c):   return color == c ? "♔" : "♚"
+        case let .Queen(c):  return color == c ? "♕" : "♛"
+        }
+    }
+
 }
 
 /// Returns `true` if both pieces are the same.
