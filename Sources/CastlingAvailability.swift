@@ -59,6 +59,16 @@ public struct CastlingAvailability: SetAlgebraType, SequenceType, CustomStringCo
             }
         }
 
+        /// The board side for `self`.
+        public var side: Board.Side {
+            switch self {
+            case .WhiteKingside, .BlackKingside:
+                return .Kingside
+            default:
+                return .Queenside
+            }
+        }
+
         /// The character for `self`.
         public var character: Character {
             switch self {
