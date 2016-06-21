@@ -51,21 +51,31 @@ public struct CastlingAvailability: SetAlgebraType, SequenceType, CustomStringCo
 
         /// The color for `self`.
         public var color: Color {
-            switch self {
-            case .WhiteKingside, .WhiteQueenside:
-                return .White
-            default:
-                return .Black
+            get {
+                switch self {
+                case .WhiteKingside, .WhiteQueenside:
+                    return .White
+                default:
+                    return .Black
+                }
+            }
+            set {
+                self = Option(color: newValue, side: side)
             }
         }
 
         /// The board side for `self`.
         public var side: Board.Side {
-            switch self {
-            case .WhiteKingside, .BlackKingside:
-                return .Kingside
-            default:
-                return .Queenside
+            get {
+                switch self {
+                case .WhiteKingside, .BlackKingside:
+                    return .Kingside
+                default:
+                    return .Queenside
+                }
+            }
+            set {
+                self = Option(color: color, side: side)
             }
         }
 
@@ -94,6 +104,20 @@ public struct CastlingAvailability: SetAlgebraType, SequenceType, CustomStringCo
             case .WhiteQueenside: return 0b0010
             case .BlackKingside:  return 0b0100
             case .BlackQueenside: return 0b1000
+            }
+        }
+
+        /// Create an `Option` from `color` and `side`.
+        public init(color: Color, side: Board.Side) {
+            switch (color, side) {
+            case (.White, .Kingside):
+                self = .WhiteKingside
+            case (.White, .Queenside):
+                self = .WhiteQueenside
+            case (.Black, .Kingside):
+                self = .BlackKingside
+            case (.Black, .Queenside):
+                self = .BlackQueenside
             }
         }
 
