@@ -42,6 +42,50 @@ public final class Game {
 
     }
 
+    /// A chess game outcome.
+    public enum Outcome: Hashable {
+
+        /// A win for a `Color`.
+        case Win(Color)
+
+        /// A draw.
+        case Draw
+
+        /// The hash value.
+        public var hashValue: Int {
+            return winColor?.hashValue ?? 2
+        }
+
+        /// The color for the winning player.
+        public var winColor: Color? {
+            guard case .Win(let color) = self else {
+                return nil
+            }
+            return color
+        }
+
+        /// `self` is a win.
+        public var isWin: Bool {
+            if case .Win = self {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        /// `self` is a draw.
+        public var isDraw: Bool {
+            return !isWin
+        }
+
+        /// The point value for a player. Can be 1 for win, 0.5 for draw, or
+        /// 0 for loss.
+        public func valueFor(player color: Color) -> Double {
+            return winColor.map({ $0 == color ? 1 : 0 }) ?? 0.5
+        }
+
+    }
+
     /// A game position.
     public struct Position: Equatable, CustomStringConvertible {
 
@@ -710,6 +754,11 @@ public enum MoveExecutionError: ErrorType {
     /// Attempted to castle without availability option.
     case NoAvailabilityOption(CastlingAvailability.Option)
 
+}
+
+/// Returns `true` if the outcomes are the same.
+public func == (lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
+    return lhs.winColor == rhs.winColor
 }
 
 /// Returns `true` if the positions are the same.
