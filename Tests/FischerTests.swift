@@ -30,4 +30,205 @@ import Fischer
 
 class FischerTests: XCTestCase {
 
+    func testBoardInitializer() {
+        XCTAssertEqual(Board(variant: .Standard), Board())
+        XCTAssertNotEqual(Board(variant: nil), Board())
+    }
+
+    func testBoardEquality() {
+        XCTAssertEqual(Board(), Board())
+        XCTAssertEqual(Board(variant: nil), Board(variant: nil))
+        XCTAssertNotEqual(Board(), Board(variant: nil))
+        var board = Board(variant: .Standard)
+        board.removePiece(at: ("A", 1))
+        XCTAssertNotEqual(Board(), board)
+    }
+
+    func testBoardPopulate() {
+        let board = Board()
+        XCTAssertEqual(board.pieces.count, 32)
+        XCTAssertEqual(board.whitePieces.count, 16)
+        XCTAssertEqual(board.blackPieces.count, 16)
+        for file in File.all { for rank in Rank.all {
+            if let piece = board[(file, rank)] {
+                let color = piece.color
+                XCTAssertTrue((color.isWhite ? [1, 2] : [7, 8]).contains(rank))
+                if case .Pawn = piece {
+                    XCTAssertTrue([2, 7].contains(rank))
+                } else {
+                    XCTAssertTrue([1, 8].contains(rank))
+                }
+                switch piece {
+                case .Pawn:
+                    break
+                case .Rook:
+                    XCTAssertTrue([.A, .H].contains(file))
+                case .Knight:
+                    XCTAssertTrue([.B, .G].contains(file))
+                case .Bishop:
+                    XCTAssertTrue([.C, .F].contains(file))
+                case .Queen:
+                    XCTAssertEqual(file, File.D)
+                case .King:
+                    XCTAssertEqual(file, File.E)
+                }
+            } else {
+                XCTAssertTrue([3, 4, 5, 6].contains(rank))
+            }
+        } }
+        XCTAssertTrue(Board(variant: nil).pieces.isEmpty)
+    }
+
+    func testBoardSequence() {
+        let board = Board()
+        let spaces = Array(board)
+        let pieces = spaces.flatMap({ $0.piece })
+        let whitePieces = pieces.filter({ $0.color.isWhite })
+        let blackPieces = pieces.filter({ $0.color.isBlack })
+        XCTAssertEqual(spaces.count, 64)
+        XCTAssertEqual(pieces.count, 32)
+        XCTAssertEqual(whitePieces.count, 16)
+        XCTAssertEqual(blackPieces.count, 16)
+    }
+
+    func testBoardSubscript() {
+        var board = Board()
+        XCTAssertEqual(.Pawn(.White), board[("A", 2)])
+        XCTAssertEqual(.King(.Black), board[("E", 8)])
+        let piece = Piece.Pawn(.Black)
+        let location = ("A", 3) as Location
+        XCTAssertNil(board[location])
+        board[location] = piece
+        XCTAssertEqual(board[location], piece)
+        board[location] = nil
+        XCTAssertNil(board[location])
+    }
+
+    func testBoardSwap() {
+        let start = Board()
+        var board = start
+        let location1 = ("D", 1) as Location
+        let location2 = ("F", 2) as Location
+        board.swap(location1, location2)
+        XCTAssertEqual(start[location1], board[location2])
+        XCTAssertEqual(start[location2], board[location1])
+    }
+
+    func testAllFiles() {
+        XCTAssertEqual(File.all, [.A, .B, .C, .D, .E, .F, .G, .H])
+    }
+
+    func testAllRanks() {
+        XCTAssertEqual(Rank.all, [1, 2, 3, 4, 5, 6, 7, 8])
+    }
+
+    func testFileOpposite() {
+        let all = File.all
+        for (a, b) in zip(all, all.reverse()) {
+            XCTAssertEqual(a.opposite(), b)
+        }
+    }
+
+    func testRankOpposite() {
+        let all = Rank.all
+        for (a, b) in zip(all, all.reverse()) {
+            XCTAssertEqual(a.opposite(), b)
+        }
+    }
+
+    func testFileTo() {
+        XCTAssertEqual(File.A.to(.H), File.all)
+        XCTAssertEqual(File.A.to(.A), [File.A])
+    }
+
+    func testRankTo() {
+        XCTAssertEqual(Rank.One.to(.Eight), Rank.all)
+        XCTAssertEqual(Rank.One.to(.One), [Rank.One])
+    }
+
+    func testFileBetween() {
+        XCTAssertEqual(File.C.between(.F), [.D, .E])
+        XCTAssertEqual(File.C.between(.D), [])
+        XCTAssertEqual(File.C.between(.C), [])
+    }
+
+    func testRankBetween() {
+        XCTAssertEqual(Rank.Two.between(.Five), [.Three, .Four])
+        XCTAssertEqual(Rank.Two.between(.Three), [])
+        XCTAssertEqual(Rank.Two.between(.Two), [])
+    }
+
+    func testFileFromCharacter() {
+        func test(range: Range<Int>) {
+            for u in range {
+                XCTAssertNotNil(File(Character(UnicodeScalar(u))))
+            }
+        }
+        test(65...72)
+        test(97...104)
+    }
+
+    func testRankFromNumber() {
+        for n in 1...8 {
+            XCTAssertNotNil(Rank(n))
+        }
+    }
+
+    func testMoveEquality() {
+        let move = Move(start: ("A", 1), end: ("C", 3))
+        XCTAssertEqual(move, move)
+        XCTAssertEqual(move, Move(start: ("A", 1), end: ("C", 3)))
+        XCTAssertNotEqual(move, Move(start: ("A", 1), end: ("B", 1)))
+    }
+
+    func testMoveRotation() {
+        let move = Move(start: ("A", 1), end: ("C", 6))
+        let rotated = move.rotated()
+        XCTAssertTrue(rotated.start == ("H", 8))
+        XCTAssertTrue(rotated.end == ("F", 3))
+    }
+
+    func testMoveOperator() {
+        for file in File.all { for rank in Rank.all {
+            let start = (file, rank)
+            let end = (file.opposite(), rank.opposite())
+            XCTAssertEqual(Move(start: start, end: end), start >>> end)
+        } }
+    }
+
+    func testGameDoubleStep() {
+        let game = Game()
+        for file in File.all {
+            let move = Move(start: (file, 2), end: (file, 5))
+            XCTAssertThrowsError(try game.executeMove(move)) { error in
+                guard case let MoveExecutionError.WrongMovementKind(piece) = error else {
+                    XCTFail("Expected MoveExecutionError.WrongMovementKind(Pawn(White)), got \(error)")
+                    return
+                }
+                XCTAssertEqual(piece, Piece.Pawn(.White))
+            }
+        }
+        do {
+            for file in File.all {
+                try game.executeMove(Move(start: (file, 2), end: (file, 4)))
+                try game.executeMove(Move(start: (file, 7), end: (file, 5)))
+            }
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
+    func testGameEnPassant() {
+        let game = Game()
+        do {
+            try game.executeMove(Move(start: ("C", 2), end: ("C", 4)))
+            try game.executeMove(Move(start: ("C", 7), end: ("C", 6)))
+            try game.executeMove(Move(start: ("C", 4), end: ("C", 5)))
+            try game.executeMove(Move(start: ("D", 7), end: ("D", 5)))
+            try game.executeMove(Move(start: ("C", 5), end: ("D", 6)))
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
 }
