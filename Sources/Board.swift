@@ -436,7 +436,7 @@ extension Board: CustomPlaygroundQuickLookable {
         let boardSize = spaceSize * 8
         let frame = CGRect(x: 0, y: 0, width: boardSize, height: boardSize)
         let view = _View(frame: frame)
-        for space in _spaces.flatten() {
+        for space in self {
             view.addSubview(space._view(spaceSize))
         }
         return PlaygroundQuickLook.View(view)
