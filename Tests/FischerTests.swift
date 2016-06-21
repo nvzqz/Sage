@@ -61,12 +61,12 @@ class FischerTests: XCTestCase {
                 switch piece {
                 case .Pawn:
                     break
-                case .Rook:
-                    XCTAssertTrue([.A, .H].contains(file))
                 case .Knight:
                     XCTAssertTrue([.B, .G].contains(file))
                 case .Bishop:
                     XCTAssertTrue([.C, .F].contains(file))
+                case .Rook:
+                    XCTAssertTrue([.A, .H].contains(file))
                 case .Queen:
                     XCTAssertEqual(file, File.D)
                 case .King:

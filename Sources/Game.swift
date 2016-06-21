@@ -366,8 +366,6 @@ public final class Game {
                     return true
                 }
             }
-        case .Rook:
-            return axialMoves()
         case .Knight:
             let values: [(Int, Int)] = zip([1, 2], [2, 1]).reduce([]) {
                 let (fc, rc) = $1
@@ -387,13 +385,15 @@ public final class Game {
             }
         case .Bishop:
             return diagonalMoves()
+        case .Rook:
+            return axialMoves()
+        case .Queen:
+            return axialMoves() + diagonalMoves()
         case .King:
             let changes: [(Int, Int)] = [-1, 1].reduce([(2, 0), (-2, 0)]) {
                 return $0 + [($1, $1), ($1, -$1), ($1, 0), (0, $1)]
             }
             return moves(from: changes).filter { isValidMove($0) }
-        case .Queen:
-            return axialMoves() + diagonalMoves()
         }
     }
 
@@ -515,11 +515,6 @@ public final class Game {
             } else {
                 return .Error(.WrongMovementKind(piece))
             }
-        case .Rook:
-            // The move is along an axis
-            if let error = errorForAxialMove() {
-                return .Error(error)
-            }
         case .Knight:
             // The move is a valid knight jump
             guard move.isKnightJump else {
@@ -529,6 +524,24 @@ public final class Game {
             // The move is diagonal
             if let error = errorForDiagonalMove() {
                 return .Error(error)
+            }
+        case .Rook:
+            // The move is along an axis
+            if let error = errorForAxialMove() {
+                return .Error(error)
+            }
+        case .Queen:
+            // The move is along an axis or diagonal
+            if move.isAxial {
+                if let error = errorForAxialMove() {
+                    return .Error(error)
+                }
+            } else if move.isDiagonal {
+                if let error = errorForDiagonalMove() {
+                    return .Error(error)
+                }
+            } else {
+                return .Error(.WrongMovementKind(piece))
             }
         case .King:
             guard board[move.end] == nil else {
@@ -568,19 +581,6 @@ public final class Game {
                 guard abs(move.fileChange) < 2 && abs(move.rankChange) < 2 else {
                     return .Error(.WrongMovementKind(piece))
                 }
-            }
-        case .Queen:
-            // The move is along an axis or diagonal
-            if move.isAxial {
-                if let error = errorForAxialMove() {
-                    return .Error(error)
-                }
-            } else if move.isDiagonal {
-                if let error = errorForDiagonalMove() {
-                    return .Error(error)
-                }
-            } else {
-                return .Error(.WrongMovementKind(piece))
             }
         }
         return .Value(piece)

@@ -31,20 +31,20 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// Pawn piece.
     case Pawn(Color)
 
-    /// Rook piece.
-    case Rook(Color)
-
     /// Knight piece.
     case Knight(Color)
 
     /// Bishop piece.
     case Bishop(Color)
 
-    /// King piece.
-    case King(Color)
+    /// Rook piece.
+    case Rook(Color)
 
     /// Queen piece.
     case Queen(Color)
+
+    /// King piece.
+    case King(Color)
 
     /// The piece's color.
     public var color: Color {
@@ -74,11 +74,11 @@ public enum Piece: Hashable, CustomStringConvertible {
     public var name: String {
         switch self {
         case .Pawn:   return "Pawn"
-        case .Rook:   return "Rook"
         case .Knight: return "Knight"
         case .Bishop: return "Bishop"
-        case .King:   return "King"
+        case .Rook:   return "Rook"
         case .Queen:  return "Queen"
+        case .King:   return "King"
         }
     }
 
@@ -86,11 +86,11 @@ public enum Piece: Hashable, CustomStringConvertible {
     public var character: Character {
         switch self {
         case let .Pawn(color):   return color.isWhite ? "P" : "p"
-        case let .Rook(color):   return color.isWhite ? "R" : "r"
         case let .Knight(color): return color.isWhite ? "N" : "n"
         case let .Bishop(color): return color.isWhite ? "B" : "b"
-        case let .King(color):   return color.isWhite ? "K" : "k"
+        case let .Rook(color):   return color.isWhite ? "R" : "r"
         case let .Queen(color):  return color.isWhite ? "Q" : "q"
+        case let .King(color):   return color.isWhite ? "K" : "k"
         }
     }
 
@@ -122,11 +122,11 @@ public enum Piece: Hashable, CustomStringConvertible {
         let colorBit = color.isWhite ? 0 : 1
         switch self {
         case .Pawn:   return (0 << 1) + colorBit
-        case .Rook:   return (1 << 1) + colorBit
-        case .Knight: return (2 << 1) + colorBit
-        case .Bishop: return (3 << 1) + colorBit
-        case .King:   return (4 << 1) + colorBit
-        case .Queen:  return (5 << 1) + colorBit
+        case .Knight: return (1 << 1) + colorBit
+        case .Bishop: return (2 << 1) + colorBit
+        case .Rook:   return (3 << 1) + colorBit
+        case .Queen:  return (4 << 1) + colorBit
+        case .King:   return (5 << 1) + colorBit
         }
     }
 
@@ -135,16 +135,16 @@ public enum Piece: Hashable, CustomStringConvertible {
         switch character {
         case "P": self = .Pawn(.White)
         case "p": self = .Pawn(.Black)
-        case "R": self = .Rook(.White)
-        case "r": self = .Rook(.Black)
         case "N": self = .Knight(.White)
         case "n": self = .Knight(.Black)
         case "B": self = .Bishop(.White)
         case "b": self = .Bishop(.Black)
-        case "K": self = .King(.White)
-        case "k": self = .King(.Black)
+        case "R": self = .Rook(.White)
+        case "r": self = .Rook(.Black)
         case "Q": self = .Queen(.White)
         case "q": self = .Queen(.Black)
+        case "K": self = .King(.White)
+        case "k": self = .King(.Black)
         default:
             return nil
         }
@@ -177,11 +177,11 @@ public enum Piece: Hashable, CustomStringConvertible {
     public func specialCharacter(background color: Color = .White) -> Character {
         switch self {
         case let .Pawn(c):   return color == c ? "♙" : "♟"
-        case let .Rook(c):   return color == c ? "♖" : "♜"
         case let .Knight(c): return color == c ? "♘" : "♞"
         case let .Bishop(c): return color == c ? "♗" : "♝"
-        case let .King(c):   return color == c ? "♔" : "♚"
+        case let .Rook(c):   return color == c ? "♖" : "♜"
         case let .Queen(c):  return color == c ? "♕" : "♛"
+        case let .King(c):   return color == c ? "♔" : "♚"
         }
     }
 
@@ -193,15 +193,15 @@ public func == (lhs: Piece, rhs: Piece) -> Bool {
     switch (lhs, rhs) {
     case let (.Pawn(cl), .Pawn(cr)):
         return cl == cr
-    case let (.Rook(cl), .Rook(cr)):
-        return cl == cr
     case let (.Knight(cl), .Knight(cr)):
         return cl == cr
     case let (.Bishop(cl), .Bishop(cr)):
         return cl == cr
-    case let (.King(cl), .King(cr)):
+    case let (.Rook(cl), .Rook(cr)):
         return cl == cr
     case let (.Queen(cl), .Queen(cr)):
+        return cl == cr
+    case let (.King(cl), .King(cr)):
         return cl == cr
     default:
         return false
