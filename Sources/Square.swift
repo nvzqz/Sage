@@ -220,4 +220,44 @@ public enum Square: Int {
     /// H8 square.
     case H8
 
+    /// The file of `self`.
+    public var file: File {
+        get {
+            return File(column: rawValue % 8)!
+        }
+        set(newFile) {
+            self = Square(file: newFile, rank: rank)
+        }
+    }
+
+    /// The rank of `self`.
+    public var rank: Rank {
+        get {
+            return Rank(row: rawValue / 8)!
+        }
+        set(newRank) {
+            self = Square(file: file, rank: newRank)
+        }
+    }
+
+    /// The location of `self`.
+    public var location: Location {
+        get {
+            return (file, rank)
+        }
+        set(newLocation) {
+            self = Square(location: newLocation)
+        }
+    }
+
+    /// Create a square from `file` and `rank`.
+    public init(file: File, rank: Rank) {
+        self.init(rawValue: file.index + (8 * rank.index))!
+    }
+
+    /// Create a square from `location`.
+    public init(location: Location) {
+        self.init(file: location.file, rank: location.rank)
+    }
+
 }
