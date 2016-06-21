@@ -25,9 +25,6 @@
 //  THE SOFTWARE.
 //
 
-/// A chess location.
-public typealias Location = (file: File, rank: Rank)
-
 /// A chess move.
 public struct Move: Hashable, CustomStringConvertible {
 

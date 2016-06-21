@@ -25,6 +25,9 @@
 //  THE SOFTWARE.
 //
 
+/// A chess location.
+public typealias Location = (file: File, rank: Rank)
+
 /// A board location square.
 public enum Square: Int {
 
