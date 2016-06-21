@@ -53,6 +53,31 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         rawValue = 0
     }
 
+    /// Returns `self` flipped horizontally.
+    @warn_unused_result
+    public func flippedHorizontally() -> Bitboard {
+        let x = 0x5555555555555555 as UInt64
+        let y = 0x3333333333333333 as UInt64
+        let z = 0x0F0F0F0F0F0F0F0F as UInt64
+        var n = rawValue
+        n = ((n >> 1) & x) | ((n & x) << 1)
+        n = ((n >> 2) & y) | ((n & y) << 2)
+        n = ((n >> 4) & z) | ((n & z) << 4)
+        return Bitboard(rawValue: n)
+    }
+
+    /// Returns `self` flipped vertically.
+    @warn_unused_result
+    public func flippedVertically() -> Bitboard {
+        let x = 0x00FF00FF00FF00FF as UInt64
+        let y = 0x0000FFFF0000FFFF as UInt64
+        var n = rawValue
+        n = ((n >>  8) & x) | ((n & x) <<  8)
+        n = ((n >> 16) & y) | ((n & y) << 16)
+        n =  (n >> 32)      |       (n << 32)
+        return Bitboard(rawValue: n)
+    }
+
 }
 
 extension Bitboard: IntegerLiteralConvertible {
