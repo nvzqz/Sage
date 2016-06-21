@@ -53,6 +53,16 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         rawValue = 0
     }
 
+    /// Create a bitboard from `squares`.
+    public init<S: SequenceType where S.Generator.Element == Square>(squares: S) {
+        rawValue = squares.reduce(0) { $0 | (1 << UInt64($1.rawValue)) }
+    }
+
+    /// Create a bitboard from `locations`.
+    public init<S: SequenceType where S.Generator.Element == Location>(locations: S) {
+        self.init(squares: locations.map(Square.init(location:)))
+    }
+
     /// The `Bool` value for the bit at `square`.
     public subscript(square: Square) -> Bool {
         get {
