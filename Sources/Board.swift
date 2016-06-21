@@ -56,6 +56,16 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
             }
         }
 
+        /// The space's square on a chess board.
+        public var square: Square {
+            get {
+                return Square(file: file, rank: rank)
+            }
+            set {
+                location = newValue.location
+            }
+        }
+
         /// The space's color.
         public var color: Color {
             return (file.index % 2 != rank.index % 2) ? .White : .Black
@@ -73,7 +83,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
         /// The hash value.
         public var hashValue: Int {
-            let pieceHash = piece?.hashValue ?? 6 << 1
+            let pieceHash = piece?.hashValue ?? (6 << 1)
             let fileHash = file.hashValue << 4
             let rankHash = rank.hashValue << 7
             return pieceHash + fileHash + rankHash
@@ -88,6 +98,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         public init(piece: Piece? = nil, location: Location) {
             self.piece = piece
             (file, rank) = location
+        }
+
+        /// Create a chess board space with a piece and square.
+        public init(piece: Piece? = nil, square: Square) {
+            self.piece = piece
+            (file, rank) = square.location
         }
 
         /// Clears the piece from the space and returns it.
