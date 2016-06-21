@@ -250,6 +250,16 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }
     }
 
+    /// Gets and sets a piece at the square.
+    public subscript(square: Square) -> Piece? {
+        get {
+            return self[square.location]
+        }
+        set {
+            self[square.location] = newValue
+        }
+    }
+
     /// Populates `self` with with all of the pieces at their proper locations
     /// for the given chess variant.
     public mutating func populate(for variant: Variant = .Standard) {
@@ -300,6 +310,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return _spaces[location.file.index][location.rank.index]
     }
 
+    /// Returns the square at `location`.
+    @warn_unused_result
+    public func space(at square: Square) -> Space {
+        return space(at: square.location)
+    }
+
     /// Removes a piece at `location`, and returns it.
     public mutating func removePiece(at location: Location) -> Piece? {
         let piece = self[location]
@@ -307,15 +323,31 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return piece
     }
 
+    /// Removes a piece at `square`, and returns it.
+    public mutating func removePiece(at square: Square) -> Piece? {
+        return removePiece(at: square.location)
+    }
+
     /// Swaps the pieces between the two locations.
     public mutating func swap(first: Location, _ second: Location) {
         (self[first], self[second]) = (self[second], self[first])
+    }
+
+    /// Swaps the pieces between the two squares.
+    public mutating func swap(first: Square, _ second: Square) {
+        swap(first.location, second.location)
     }
 
     /// Returns the locations where `piece` exists.
     @warn_unused_result
     public func locations(for piece: Piece) -> [Location] {
         return _spaces.flatten().flatMap { $0.piece == piece ? $0.location : nil }
+    }
+
+    /// Returns the squares where `piece` exists.
+    @warn_unused_result
+    public func squares(for piece: Piece) -> [Square] {
+        return _spaces.flatten().flatMap { $0.piece == piece ? $0.square : nil }
     }
 
     /// Returns the FEN string for the board.
