@@ -154,6 +154,27 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     }
 
+    /// A board side.
+    public enum Side {
+
+        /// Right side of the board.
+        case Kingside
+
+        /// Right side of the board.
+        case Queenside
+
+        /// `self` is kingside.
+        public var isKingside: Bool {
+            return self == .Kingside
+        }
+
+        /// `self` is queenside.
+        public var isQueenside: Bool {
+            return self == .Queenside
+        }
+
+    }
+
     /// The board's spaces.
     private var _spaces: [[Space]]
 
