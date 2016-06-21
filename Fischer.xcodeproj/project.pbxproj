@@ -53,6 +53,10 @@
 		529515021D173E2F00BB244D /* Bitboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515001D173E2F00BB244D /* Bitboard.swift */; };
 		529515031D173E2F00BB244D /* Bitboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515001D173E2F00BB244D /* Bitboard.swift */; };
 		529515041D173E2F00BB244D /* Bitboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515001D173E2F00BB244D /* Bitboard.swift */; };
+		529515061D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
+		529515071D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
+		529515081D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
+		529515091D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
 		52E89C621CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
@@ -107,6 +111,7 @@
 		529514D91D138B4100BB244D /* CastlingAvailability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CastlingAvailability.swift; sourceTree = "<group>"; };
 		529514DE1D16224F00BB244D /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
 		529515001D173E2F00BB244D /* Bitboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitboard.swift; sourceTree = "<group>"; };
+		529515051D19CFF500BB244D /* Square.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
 		52E89C611CF53E1A0071AE69 /* InternalTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +216,7 @@
 				5273A7801CF382EB00426C1F /* Color.swift */,
 				5273A7851CF389E000426C1F /* File.swift */,
 				5273A78A1CF38A0500426C1F /* Rank.swift */,
+				529515051D19CFF500BB244D /* Square.swift */,
 				528C2E411CF3E7F500F7D2EC /* Move.swift */,
 				528C2E3C1CF3E51100F7D2EC /* Game.swift */,
 				529514DE1D16224F00BB244D /* Variant.swift */,
@@ -508,6 +514,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529515061D19CFF500BB244D /* Square.swift in Sources */,
 				529514DA1D138B4100BB244D /* CastlingAvailability.swift in Sources */,
 				52E89C621CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E421CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -526,6 +533,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529515071D19CFF500BB244D /* Square.swift in Sources */,
 				529514DB1D138B4100BB244D /* CastlingAvailability.swift in Sources */,
 				52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E431CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -544,6 +552,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529515081D19CFF500BB244D /* Square.swift in Sources */,
 				529514DC1D138B4100BB244D /* CastlingAvailability.swift in Sources */,
 				52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E441CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -562,6 +571,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				529515091D19CFF500BB244D /* Square.swift in Sources */,
 				529514DD1D138B4100BB244D /* CastlingAvailability.swift in Sources */,
 				52E89C651CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E451CF3E7F500F7D2EC /* Move.swift in Sources */,
