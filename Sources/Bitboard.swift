@@ -53,6 +53,31 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         rawValue = 0
     }
 
+    /// The `Bool` value for the bit at `square`.
+    public subscript(square: Square) -> Bool {
+        get {
+            return 1 << UInt64(square.rawValue) & rawValue != 0
+        }
+        set {
+            let bit = 1 << UInt64(square.rawValue)
+            if newValue {
+                rawValue |= bit
+            } else {
+                rawValue &= ~bit
+            }
+        }
+    }
+
+    /// The `Bool` value for the bit at `location`.
+    public subscript(location: Location) -> Bool {
+        get {
+            return self[Square(location: location)]
+        }
+        set {
+            self[Square(location: location)] = newValue
+        }
+    }
+
     /// Returns `self` flipped horizontally.
     @warn_unused_result
     public func flippedHorizontally() -> Bitboard {
