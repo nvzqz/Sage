@@ -175,8 +175,8 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     }
 
-    /// The board's spaces.
-    private var _spaces: [[Space]]
+    /// The piece to bitboard mapping of `self`.
+    internal var _bitboards: [Piece: Bitboard]
 
     /// The board's pieces.
     public var pieces: [Piece] {
@@ -208,16 +208,31 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// - Parameter variant: The variant to populate the board for. Won't
     ///   populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = .Standard) {
-        let range = 0...7
-        self._spaces = range.reduce([]) { spaces, x in
-            spaces + [
-                range.reduce([]) {
-                    $0 + [Space(file: File(column: x)!, rank: Rank(row: $1)!)]
-                }
-            ]
-        }
         if let variant = variant {
-            self.populate(for: variant)
+            _bitboards = [.Pawn(.White):   0x000000000000FF00,
+                          .Knight(.White): 0x0000000000000042,
+                          .Bishop(.White): 0x0000000000000024,
+                          .Rook(.White):   0x0000000000000081,
+                          .Queen(.White):  0x0000000000000008,
+                          .King(.White):   0x0000000000000010,
+                          .Pawn(.Black):   0x00FF000000000000,
+                          .Knight(.Black): 0x4200000000000000,
+                          .Bishop(.Black): 0x2400000000000000,
+                          .Rook(.Black):   0x8100000000000000,
+                          .Queen(.Black):  0x0800000000000000,
+                          .King(.Black):   0x1000000000000000]
+            if variant.isUpsideDown {
+                for (piece, board) in _bitboards {
+                    _bitboards[piece] = board.flippedVertically()
+                }
+            }
+        } else {
+            _bitboards = [.Pawn(.White):   0, .Knight(.White): 0,
+                          .Bishop(.White): 0, .Rook(.White):   0,
+                          .Queen(.White):  0, .King(.White):   0,
+                          .Pawn(.Black):   0, .Knight(.Black): 0,
+                          .Bishop(.Black): 0, .Rook(.Black):   0,
+                          .Queen(.Black):  0, .King(.Black):   0]
         }
     }
 
@@ -261,80 +276,72 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         self = board
     }
 
-    /// Gets and sets a piece at the location.
+    /// Gets and sets a piece at `location`.
     public subscript(location: Location) -> Piece? {
         get {
-            return space(at: location).piece
+            return self[Square(location: location)]
         }
         set {
-            _spaces[location.file.index][location.rank.index].piece = newValue
+            self[Square(location: location)] = newValue
         }
     }
 
-    /// Gets and sets a piece at the square.
+    /// Gets and sets a piece at `square`.
     public subscript(square: Square) -> Piece? {
         get {
-            return self[square.location]
+            for (piece, board) in _bitboards {
+                if board[square] {
+                    return piece
+                }
+            }
+            return nil
         }
         set {
-            self[square.location] = newValue
+            for piece in _bitboards.keys {
+                _bitboards[piece]?[square] = false
+            }
+            if let piece = newValue {
+                if _bitboards[piece] == nil {
+                    _bitboards[piece] = Bitboard()
+                }
+                _bitboards[piece]?[square] = true
+            }
         }
     }
 
     /// Populates `self` with with all of the pieces at their proper locations
     /// for the given chess variant.
     public mutating func populate(for variant: Variant = .Standard) {
-        self.clear()
-        let bottomColor: Color = variant.isStandard ? .White : .Black
-        let topColor = bottomColor.inverse()
-        for x in 0...7 {
-            _spaces[x][1].piece = .Pawn(bottomColor)
-            _spaces[x][6].piece = .Pawn(topColor)
-        }
-        for (y, color) in [(0, bottomColor), (7, topColor)] {
-            _spaces[0][y].piece = .Rook(color)
-            _spaces[1][y].piece = .Knight(color)
-            _spaces[2][y].piece = .Bishop(color)
-            _spaces[3][y].piece = .Queen(color)
-            _spaces[4][y].piece = .King(color)
-            _spaces[5][y].piece = .Bishop(color)
-            _spaces[6][y].piece = .Knight(color)
-            _spaces[7][y].piece = .Rook(color)
-        }
+        self = Board(variant: variant)
     }
 
     /// Clears all the pieces from `self`.
     public mutating func clear() {
-        let range = 0...7
-        for x in range {
-            for y in range {
-                _spaces[x][y].clear()
-            }
-        }
+        self = Board(variant: nil)
     }
 
     /// Returns the spaces at `file`.
     @warn_unused_result
     public func spaces(at file: File) -> [Space] {
-        return _spaces[file.index]
+        return Rank.all.map { space(at: (file, $0)) }
     }
 
     /// Returns the spaces at `rank`.
     @warn_unused_result
     public func spaces(at rank: Rank) -> [Space] {
-        return _spaces.map({ $0[rank.index] })
+        return File.all.map { space(at: ($0, rank)) }
     }
 
     /// Returns the space at `location`.
     @warn_unused_result
     public func space(at location: Location) -> Space {
-        return _spaces[location.file.index][location.rank.index]
+        return Space(piece: self[location], location: location)
     }
 
     /// Returns the square at `location`.
     @warn_unused_result
     public func space(at square: Square) -> Space {
-        return space(at: square.location)
+        return Space(piece: self[square], square: square)
     }
 
     /// Removes a piece at `location`, and returns it.
@@ -362,13 +369,16 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// Returns the locations where `piece` exists.
     @warn_unused_result
     public func locations(for piece: Piece) -> [Location] {
-        return _spaces.flatten().flatMap { $0.piece == piece ? $0.location : nil }
+        return squares(for: piece).map { $0.location }
     }
 
     /// Returns the squares where `piece` exists.
     @warn_unused_result
     public func squares(for piece: Piece) -> [Square] {
-        return _spaces.flatten().flatMap { $0.piece == piece ? $0.square : nil }
+        guard let bitboard = _bitboards[piece] else {
+            return []
+        }
+        return Square.all.filter({ bitboard[$0] })
     }
 
     /// Returns the FEN string for the board.
@@ -419,9 +429,11 @@ public struct BoardGenerator: GeneratorType {
 
     /// Advances to the next space on the board.
     public mutating func next() -> Board.Space? {
-        guard _index < 64 else { return nil }
+        guard let square = Square(rawValue: _index) else {
+            return nil
+        }
         defer { _index += 1 }
-        return _board._spaces[_index % 8][_index / 8]
+        return _board.space(at: square)
     }
 
 }
@@ -439,7 +451,7 @@ extension Board: CustomPlaygroundQuickLookable {
         for space in self {
             view.addSubview(space._view(spaceSize))
         }
-        return PlaygroundQuickLook.View(view)
+        return .View(view)
     }
         
 }
@@ -450,12 +462,7 @@ extension Board: CustomPlaygroundQuickLookable {
 /// Returns `true` if both boards are the same.
 @warn_unused_result
 public func == (lhs: Board, rhs: Board) -> Bool {
-    for (ls, rs) in zip(lhs._spaces, rhs._spaces) {
-        guard ls == rs else {
-            return false
-        }
-    }
-    return true
+    return lhs._bitboards == rhs._bitboards
 }
 
 /// Returns `true` if both spaces are the same.
