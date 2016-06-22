@@ -346,24 +346,24 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// Removes a piece at `location`, and returns it.
     public mutating func removePiece(at location: Location) -> Piece? {
-        let piece = self[location]
-        self[location] = nil
-        return piece
+        return removePiece(at: Square(location: location))
     }
 
     /// Removes a piece at `square`, and returns it.
     public mutating func removePiece(at square: Square) -> Piece? {
-        return removePiece(at: square.location)
+        let piece = self[square]
+        self[square] = nil
+        return piece
     }
 
     /// Swaps the pieces between the two locations.
     public mutating func swap(first: Location, _ second: Location) {
-        (self[first], self[second]) = (self[second], self[first])
+        swap(Square(location: first), Square(location: second))
     }
 
     /// Swaps the pieces between the two squares.
     public mutating func swap(first: Square, _ second: Square) {
-        swap(first.location, second.location)
+        (self[first], self[second]) = (self[second], self[first])
     }
 
     /// Returns the locations where `piece` exists.
