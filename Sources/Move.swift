@@ -157,6 +157,12 @@ public struct Move: Hashable, CustomStringConvertible {
         self.end = end
     }
 
+    /// Create a move with start and end locations.
+    public init(start: Location, end: Location) {
+        self.start = Square(location: start)
+        self.end = Square(location: end)
+    }
+
     /// Returns a move with the end and start of `self` reversed.
     @warn_unused_result
     public func reversed() -> Move {
@@ -187,4 +193,10 @@ public func == (lhs: Move, rhs: Move) -> Bool {
 @warn_unused_result
 public func >>> (start: Square, end: Square) -> Move {
     return Move(start: start, end: end)
+}
+
+/// Returns a `Move` from the two locations.
+@warn_unused_result
+public func >>> (start: Location, rhs: Location) -> Move {
+    return Square(location: start) >>> Square(location: rhs)
 }
