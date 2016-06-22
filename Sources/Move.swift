@@ -145,10 +145,7 @@ public struct Move: Hashable, CustomStringConvertible {
 
     /// The hash value.
     public var hashValue: Int {
-        return start.file.hashValue
-            + (start.rank.hashValue << 3)
-            + (end.file.hashValue << 6)
-            + (end.rank.hashValue << 9)
+        return start.hashValue + (end.hashValue << 6)
     }
 
     /// Create a move with start and end squares.
