@@ -193,6 +193,11 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return pieces.filter({ $0.color.isBlack })
     }
 
+    /// A bitboard for the empty spaces of `self`.
+    public var emptySpaces: Bitboard {
+        return ~_bitboards.reduce(0, combine: { $0 | $1.1 })
+    }
+
     /// A textual representation of `self`.
     public var description: String {
         return "Board(\(fen()))"
