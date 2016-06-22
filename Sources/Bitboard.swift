@@ -176,6 +176,13 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         self = flippedVertically()
     }
 
+    /// Removes the least significant bit and returns its index, if any.
+    public mutating func popLSB() -> Int? {
+        let lsb = self.lsb
+        rawValue -= lsb.rawValue
+        return lsb.lsbIndex
+    }
+
     /// Returns the ranks of `self` as eight 8-bit integers.
     @warn_unused_result
     public func ranks() -> [UInt8] {
