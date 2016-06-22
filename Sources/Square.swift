@@ -268,6 +268,14 @@ public enum Square: Int {
         self.init(file: location.file, rank: location.rank)
     }
 
+    /// Create a square from `file` and `rank`. Returns `nil` if either is `nil`.
+    public init?(file: File?, rank: Rank?) {
+        guard let file = file, rank = rank else {
+            return nil
+        }
+        self.init(file: file, rank: rank)
+    }
+
     /// Create a square from `string`.
     public init?(_ string: String) {
         let chars = string.characters
