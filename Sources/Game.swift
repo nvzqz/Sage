@@ -281,32 +281,31 @@ public final class Game {
         return Array(board.map({ movesForPiece(at: $0.location) }).flatten())
     }
 
-    /// Returns the moves currently available for the piece at `location`, if any.
+    /// Returns the moves currently available for the piece at `square`, if any.
     @warn_unused_result
-    public func movesForPiece(at location: Location) -> [Move] {
-        guard let piece = board[location] else { return [] }
+    public func movesForPiece(at square: Square) -> [Move] {
+        guard let piece = board[square] else { return [] }
         let pieceColor = piece.color
         guard pieceColor == playerTurn else { return [] }
-        let (file, rank) = location
+        let (file, rank) = square.location
         func movesFor(locations: [Zip2Sequence<[File], [Rank]>]) -> [Move] {
-            func process(locations: [(File, Rank)]) -> [Location] {
-                var result: [Location] = []
-                for location in locations {
-                    if let color = board[location]?.color {
+            func process(squares: [Square]) -> [Square] {
+                var result: [Square] = []
+                for square in squares {
+                    if let color = board[square]?.color {
                         if color != playerTurn {
-                            result.append(location)
+                            result.append(square)
                         }
                         break
                     } else {
-                        result.append(location)
+                        result.append(square)
                     }
                 }
                 return result
             }
-            return locations.map({ $0.filter({ $0 != location }) })
-                .map(process)
-                .flatten()
-                .map({ location >>> $0 })
+            return locations.map({
+                $0.map(Square.init(location:)).filter({ $0 != square })
+            }).map(process).flatten().map({ square >>> $0 })
         }
         func axialMoves() -> [Move] {
             let ranks = Array(count: 8, repeatedValue: rank)
@@ -324,17 +323,17 @@ public final class Game {
                              zip(file.to(.A), rank.to(.One))]
             return movesFor(locations)
         }
-        func locations(from changes: [(Int, Int)]) -> [Location] {
-            return changes.flatMap { fc, rc in
+        func squares(from changes: [(Int, Int)]) -> [Square] {
+            return changes.flatMap({ fc, rc in
                 file.advanced(by: fc).flatMap { newFile in
                     rank.advanced(by: rc, for: pieceColor).flatMap { newRank in
                         (newFile, newRank)
                     }
                 }
-            }
+            }).map(Square.init(location:))
         }
         func moves(from changes: [(Int, Int)]) -> [Move] {
-            return locations(from: changes).map({ location >>> $0 })
+            return squares(from: changes).map({ square >>> $0 })
         }
         switch piece {
         case .Pawn:
@@ -347,7 +346,7 @@ public final class Game {
                         guard let target = enPassantTarget else {
                             return false
                         }
-                        return move.end == target
+                        return move.end.location == target
                     }
                 } else {
                     guard board[move.end] == nil else {
@@ -377,8 +376,9 @@ public final class Game {
             return values.flatMap { fileValue, rankValue in
                 File(rawValue: fileValue).flatMap { newFile in
                     Rank(rawValue: rankValue).flatMap { newRank in
-                        board[(newFile, newRank)]?.color != pieceColor
-                            ? Move(start: location, end: (newFile, newRank))
+                        let newSquare = Square(file: newFile, rank: newRank)
+                        return board[square]?.color != pieceColor
+                            ? Move(start: square, end: newSquare)
                             : nil
                     }
                 }
@@ -397,12 +397,18 @@ public final class Game {
         }
     }
 
-    /// Returns a location for an obstructing piece within the sequence.
+    /// Returns the moves currently available for the piece at `location`, if any.
     @warn_unused_result
-    private func _locationForObstruction<S: SequenceType where S.Generator.Element == Location>(s: S) -> Location? {
-        for location in s {
-            guard board[location] == nil else {
-                return location
+    public func movesForPiece(at location: Location) -> [Move] {
+        return movesForPiece(at: Square(location: location))
+    }
+
+    /// Returns a square for an obstructing piece within the sequence.
+    @warn_unused_result
+    private func _squareForObstruction<S: SequenceType where S.Generator.Element == Square>(s: S) -> Square? {
+        for square in s {
+            guard board[square] == nil else {
+                return square
             }
         }
         return nil
@@ -439,7 +445,8 @@ public final class Game {
             }
             let files = move.start.file.between(move.end.file)
             let ranks = move.start.rank.between(move.end.rank)
-            if let location = _locationForObstruction(zip(files, ranks)) {
+            let squares = zip(files, ranks).map(Square.init(location:))
+            if let location = _squareForObstruction(squares) {
                 return .ObstructingPiece(location)
             }
             return nil
@@ -449,13 +456,15 @@ public final class Game {
             if move.isHorizontal {
                 let files = move.start.file.between(move.end.file)
                 let ranks = Repeat(count: files.count, repeatedValue: move.start.rank)
-                if let location = _locationForObstruction(zip(files, ranks)) {
+                let squares = zip(files, ranks).map(Square.init(location:))
+                if let location = _squareForObstruction(squares) {
                     return .ObstructingPiece(location)
                 }
             } else if move.isVertical {
                 let ranks = move.start.rank.between(move.end.rank)
                 let files = Repeat(count: ranks.count, repeatedValue: move.start.file)
-                if let location = _locationForObstruction(zip(files, ranks)) {
+                let squares = zip(files, ranks).map(Square.init(location:))
+                if let location = _squareForObstruction(squares) {
                     return .ObstructingPiece(location)
                 }
             } else {
@@ -549,19 +558,19 @@ public final class Game {
             }
             if /* Castle */ abs(move.fileChange) == 2 {
                 switch move.end {
-                case (.C, .One):
+                case .C1:
                     guard castlingAvailability.contains(.WhiteQueenside) else {
                         return .Error(.NoAvailabilityOption(.WhiteQueenside))
                     }
-                case (.G, .One):
+                case .G1:
                     guard castlingAvailability.contains(.WhiteKingside) else {
                         return .Error(.NoAvailabilityOption(.WhiteKingside))
                     }
-                case (.C, .Eight):
+                case .C8:
                     guard castlingAvailability.contains(.BlackQueenside) else {
                         return .Error(.NoAvailabilityOption(.BlackQueenside))
                     }
-                case (.G, .Eight):
+                case .G8:
                     guard castlingAvailability.contains(.BlackKingside) else {
                         return .Error(.NoAvailabilityOption(.BlackKingside))
                     }
@@ -571,9 +580,9 @@ public final class Game {
                 // The area between the king and rook is empty
                 let rookFile: File = move.isRightward ? .G : .A
                 for file in move.start.file.between(rookFile) {
-                    let location = (file, move.start.rank)
-                    guard board[location] == nil else {
-                        return .Error(.ObstructingPiece(location))
+                    let square = Square(file: file, rank: move.start.rank)
+                    guard board[square] == nil else {
+                        return .Error(.ObstructingPiece(square))
                     }
                 }
             } else {
@@ -645,13 +654,13 @@ public final class Game {
             }
         case .Rook:
             switch move.start {
-            case (.A, .One):
+            case .A1:
                 castlingAvailability.remove(.WhiteQueenside)
-            case (.H, .One):
+            case .H1:
                 castlingAvailability.remove(.WhiteKingside)
-            case (.A, .Eight):
+            case .A8:
                 castlingAvailability.remove(.BlackKingside)
-            case (.H, .Eight):
+            case .H8:
                 castlingAvailability.remove(.BlackQueenside)
             default:
                 break
@@ -730,8 +739,8 @@ public enum MoveExecutionError: ErrorType {
     /// The previous move to an attempted en passant was not a double step.
     case NoPreviousDoubleStep
 
-    /// No piece found at location.
-    case NoPieceToMove(Location)
+    /// No piece found at square.
+    case NoPieceToMove(Square)
 
     /// The move's start and end are the same.
     case NoMovement
@@ -739,8 +748,8 @@ public enum MoveExecutionError: ErrorType {
     /// The piece being captured is the same color as that being moved.
     case SameColorCapturePiece
 
-    /// A piece is obstructing a traversal.
-    case ObstructingPiece(Location)
+    /// A piece is obstructing a traversal at square.
+    case ObstructingPiece(Square)
 
     /// Could not promote with a piece.
     case InvalidPromotionPiece(Piece)

@@ -175,23 +175,23 @@ class FischerTests: XCTestCase {
     }
 
     func testMoveEquality() {
-        let move = Move(start: ("A", 1), end: ("C", 3))
+        let move = Move(start: .A1, end: .C3)
         XCTAssertEqual(move, move)
-        XCTAssertEqual(move, Move(start: ("A", 1), end: ("C", 3)))
-        XCTAssertNotEqual(move, Move(start: ("A", 1), end: ("B", 1)))
+        XCTAssertEqual(move, Move(start: .A1, end: .C3))
+        XCTAssertNotEqual(move, Move(start: .A1, end: .B1))
     }
 
     func testMoveRotation() {
-        let move = Move(start: ("A", 1), end: ("C", 6))
+        let move = Move(start: .A1, end: .C6)
         let rotated = move.rotated()
-        XCTAssertTrue(rotated.start == ("H", 8))
-        XCTAssertTrue(rotated.end == ("F", 3))
+        XCTAssertTrue(rotated.start == .H8)
+        XCTAssertTrue(rotated.end == .F3)
     }
 
     func testMoveOperator() {
         for file in File.all { for rank in Rank.all {
-            let start = (file, rank)
-            let end = (file.opposite(), rank.opposite())
+            let start = Square(file: file, rank: rank)
+            let end = Square(file: file.opposite(), rank: rank.opposite())
             XCTAssertEqual(Move(start: start, end: end), start >>> end)
         } }
     }
@@ -199,7 +199,7 @@ class FischerTests: XCTestCase {
     func testGameDoubleStep() {
         let game = Game()
         for file in File.all {
-            let move = Move(start: (file, 2), end: (file, 5))
+            let move = Move(start: Square(location: (file, 2)), end: Square(location: (file, 5)))
             XCTAssertThrowsError(try game.executeMove(move)) { error in
                 guard case let MoveExecutionError.WrongMovementKind(piece) = error else {
                     XCTFail("Expected MoveExecutionError.WrongMovementKind(Pawn(White)), got \(error)")
@@ -210,8 +210,8 @@ class FischerTests: XCTestCase {
         }
         do {
             for file in File.all {
-                try game.executeMove(Move(start: (file, 2), end: (file, 4)))
-                try game.executeMove(Move(start: (file, 7), end: (file, 5)))
+                try game.executeMove(Move(start: Square(location: (file, 2)), end: Square(location: (file, 4))))
+                try game.executeMove(Move(start: Square(location: (file, 7)), end: Square(location: (file, 5))))
             }
         } catch {
             XCTFail(String(error))
@@ -221,11 +221,11 @@ class FischerTests: XCTestCase {
     func testGameEnPassant() {
         let game = Game()
         do {
-            try game.executeMove(Move(start: ("C", 2), end: ("C", 4)))
-            try game.executeMove(Move(start: ("C", 7), end: ("C", 6)))
-            try game.executeMove(Move(start: ("C", 4), end: ("C", 5)))
-            try game.executeMove(Move(start: ("D", 7), end: ("D", 5)))
-            try game.executeMove(Move(start: ("C", 5), end: ("D", 6)))
+            try game.executeMove(Move(start: .C2, end: .C4))
+            try game.executeMove(Move(start: .C7, end: .C6))
+            try game.executeMove(Move(start: .C4, end: .C5))
+            try game.executeMove(Move(start: .D7, end: .D5))
+            try game.executeMove(Move(start: .C5, end: .D6))
         } catch {
             XCTFail(String(error))
         }

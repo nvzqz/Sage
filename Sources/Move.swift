@@ -32,17 +32,16 @@ public struct Move: Hashable, CustomStringConvertible {
     @warn_unused_result
     public static func castle(color: Color, direction: File.Direction) -> Move {
         let rank: Rank = color.isWhite ? 1 : 8
-        return Move(
-            start: (.E, rank),
-            end: (direction == .Left ? .C : .G, rank)
+        return Move(start: Square(file: .E, rank: rank),
+                    end: Square(file: direction == .Left ? .C : .G, rank: rank)
         )
     }
 
-    /// The move's start location.
-    public var start: Location
+    /// The move's start square.
+    public var start: Square
 
-    /// The move's end location.
-    public var end: Location
+    /// The move's end square.
+    public var end: Square
 
     /// The move's change in file.
     public var fileChange: Int {
@@ -152,8 +151,8 @@ public struct Move: Hashable, CustomStringConvertible {
             + (end.rank.hashValue << 9)
     }
 
-    /// Create a move with start and end locations.
-    public init(start: Location, end: Location) {
+    /// Create a move with start and end squares.
+    public init(start: Square, end: Square) {
         self.start = start
         self.end = end
     }
@@ -167,11 +166,11 @@ public struct Move: Hashable, CustomStringConvertible {
     /// Returns the result of rotating `self` 180 degrees.
     @warn_unused_result
     public func rotated() -> Move {
-        let sf = File(column: 7 - start.file.index)!
-        let sr = Rank(row:    7 - start.rank.index)!
-        let ef = File(column: 7 - end.file.index)!
-        let er = Rank(row:    7 - end.rank.index)!
-        return Move(start: (sf, sr), end: (ef, er))
+        let s = Square(file: File(column: 7 - start.file.index)!,
+                       rank: Rank(row:    7 - start.rank.index)!)
+        let e = Square(file: File(column: 7 - end.file.index)!,
+                       rank: Rank(row:    7 - end.rank.index)!)
+        return Move(start: s, end: e)
     }
 
 }
@@ -184,8 +183,8 @@ public func == (lhs: Move, rhs: Move) -> Bool {
     return lhs.start == rhs.start && lhs.end == rhs.end
 }
 
-/// Returns a `Move` from the two locations.
+/// Returns a `Move` from the two squares.
 @warn_unused_result
-public func >>> (start: Location, end: Location) -> Move {
+public func >>> (start: Square, end: Square) -> Move {
     return Move(start: start, end: end)
 }
