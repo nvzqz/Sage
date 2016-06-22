@@ -451,6 +451,15 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return Square.all.filter({ bitboard[$0] })
     }
 
+    /// Returns the square of the king for `color`.
+    @warn_unused_result
+    public func squareForKing(for color: Color) -> Square {
+        guard let index = bitboard(for: .King(color)).lsbIndex else {
+            fatalError("Board does not contain king piece")
+        }
+        return Square(rawValue: index)!
+    }
+
     /// Returns the FEN string for the board.
     @warn_unused_result
     public func fen() -> String {
