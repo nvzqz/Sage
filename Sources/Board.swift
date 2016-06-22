@@ -360,6 +360,15 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         self = flippedVertically()
     }
 
+    /// Returns the number of pieces for `color`, or all if `nil`.
+    public func pieceCount(for color: Color? = nil) -> Int {
+        if let color = color {
+            return bitboard(for: color).count
+        } else {
+            return _bitboards.map({ $1.count }).reduce(0, combine: +)
+        }
+    }
+
     /// Returns the bitboard for `piece`.
     @warn_unused_result
     public func bitboard(for piece: Piece) -> Bitboard {
