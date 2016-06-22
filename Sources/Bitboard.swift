@@ -63,6 +63,25 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         self.init(squares: locations.map(Square.init(location:)))
     }
 
+    /// Create a bitboard mask for `file`.
+    public init(file: File) {
+        switch file {
+        case .A: rawValue = 0x0101010101010101
+        case .B: rawValue = 0x0202020202020202
+        case .C: rawValue = 0x0404040404040404
+        case .D: rawValue = 0x0808080808080808
+        case .E: rawValue = 0x1010101010101010
+        case .F: rawValue = 0x2020202020202020
+        case .G: rawValue = 0x4040404040404040
+        case .H: rawValue = 0x8080808080808080
+        }
+    }
+
+    /// Create a bitboard mask for `rank`.
+    public init(rank: Rank) {
+        rawValue = 0xFF << (UInt64(rank.index) * 8)
+    }
+
     /// The `Bool` value for the bit at `square`.
     public subscript(square: Square) -> Bool {
         get {
