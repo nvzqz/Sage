@@ -76,6 +76,9 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return Bitboard(rawValue: 0)
     }
 
+    /// The edges of a board.
+    public static let edges: Bitboard = 0xff818181818181ff
+
     /// The corresponding value of the "raw" type.
     ///
     /// `Self(rawValue: self.rawValue)!` is equivalent to `self`.
