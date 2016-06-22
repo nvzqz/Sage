@@ -166,10 +166,10 @@ public struct Move: Hashable, CustomStringConvertible {
     /// Returns the result of rotating `self` 180 degrees.
     @warn_unused_result
     public func rotated() -> Move {
-        let s = Square(file: File(column: 7 - start.file.index)!,
-                       rank: Rank(row:    7 - start.rank.index)!)
-        let e = Square(file: File(column: 7 - end.file.index)!,
-                       rank: Rank(row:    7 - end.rank.index)!)
+        let s = Square(file: start.file.opposite(),
+                       rank: start.rank.opposite())
+        let e = Square(file: end.file.opposite(),
+                       rank: end.rank.opposite())
         return Move(start: s, end: e)
     }
 
