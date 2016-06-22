@@ -140,7 +140,7 @@ public struct Move: Hashable, CustomStringConvertible {
 
     /// A textual representation of `self`.
     public var description: String {
-        return "\(start.file)\(start.rank) >>> \(end.file)\(end.rank)"
+        return "\(start) >>> \(end)"
     }
 
     /// The hash value.
