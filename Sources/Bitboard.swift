@@ -230,8 +230,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// Returns the bits of `self` shifted once toward `direction`.
-    @warn_unused_result(mutable_variant="shift")
-    public func shifted(toward direction: ShiftDirection) -> Bitboard {
+    @warn_unused_result(mutable_variant="shiftOnce")
+    public func shiftedOnce(toward direction: ShiftDirection) -> Bitboard {
         switch direction {
         case .North:     return Bitboard(rawValue: rawValue << 8)
         case .South:     return Bitboard(rawValue: rawValue >> 8)
@@ -245,8 +245,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// Shifts the bits of `self` once toward `direction`.
-    public mutating func shift(toward direction: ShiftDirection) {
-        self = shifted(toward: direction)
+    public mutating func shiftOnce(toward direction: ShiftDirection) {
+        self = shiftedOnce(toward: direction)
     }
 
     /// Removes the least significant bit and returns its index, if any.
