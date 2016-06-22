@@ -361,12 +361,19 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns the number of pieces for `color`, or all if `nil`.
+    @warn_unused_result
     public func pieceCount(for color: Color? = nil) -> Int {
         if let color = color {
             return bitboard(for: color).count
         } else {
             return _bitboards.map({ $1.count }).reduce(0, combine: +)
         }
+    }
+
+    /// Returns the number of `piece` in `self`.
+    @warn_unused_result
+    public func count(of piece: Piece) -> Int {
+        return bitboard(for: piece).count
     }
 
     /// Returns the bitboard for `piece`.
