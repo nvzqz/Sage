@@ -116,17 +116,22 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         rawValue = 0xFF << (UInt64(rank.index) * 8)
     }
 
+    /// Create a bitboard mask for `square`.
+    public init(square: Square) {
+        rawValue = 1 << UInt64(square.rawValue)
+    }
+
     /// The `Bool` value for the bit at `square`.
     public subscript(square: Square) -> Bool {
         get {
             return 1 << UInt64(square.rawValue) & rawValue != 0
         }
         set {
-            let bit = 1 << UInt64(square.rawValue)
+            let bit = Bitboard(square: square)
             if newValue {
-                rawValue |= bit
+                rawValue |= bit.rawValue
             } else {
-                rawValue &= ~bit
+                rawValue &= ~bit.rawValue
             }
         }
     }
