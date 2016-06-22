@@ -65,8 +65,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// The least significant bit.
-    public var lsb: UInt64 {
-        return rawValue & (0 &- rawValue)
+    public var lsb: Bitboard {
+        return Bitboard(rawValue: rawValue & (0 &- rawValue))
     }
 
     /// The least significant bit index of `self`.
@@ -74,7 +74,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         guard !self.isEmpty else {
             return nil
         }
-        return _lsbTable[Int((lsb &* 0x03f79d71b4cb0a89) >> 58)]
+        return _lsbTable[Int((lsb.rawValue &* 0x03f79d71b4cb0a89) >> 58)]
     }
 
     /// Convert from a raw value of `UInt64`.
