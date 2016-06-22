@@ -321,7 +321,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns `self` flipped horizontally.
-    @warn_unused_result
+    @warn_unused_result(mutable_variant="flipHorizontally")
     public func flippedHorizontally() -> Board {
         var board = self
         for (p, b) in _bitboards {
@@ -330,14 +330,24 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return board
     }
 
+    /// Flips `self` horizontally.
+    public mutating func flipHorizontally() {
+        self = flippedHorizontally()
+    }
+
     /// Returns `self` flipped vertically.
-    @warn_unused_result
+    @warn_unused_result(mutable_variant="flippedVertically")
     public func flippedVertically() -> Board {
         var board = self
         for (p, b) in _bitboards {
             board._bitboards[p] = b.flippedVertically()
         }
         return board
+    }
+
+    /// Flips `self` vertically.
+    public mutating func flipVertically() {
+        self = flippedVertically()
     }
 
     /// Returns the bitboard for `piece`.

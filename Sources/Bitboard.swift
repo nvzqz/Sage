@@ -121,7 +121,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// Returns `self` flipped horizontally.
-    @warn_unused_result
+    @warn_unused_result(mutable_variant="flipHorizontally")
     public func flippedHorizontally() -> Bitboard {
         let x = 0x5555555555555555 as UInt64
         let y = 0x3333333333333333 as UInt64
@@ -133,8 +133,13 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return Bitboard(rawValue: n)
     }
 
+    /// Flips `self` horizontally.
+    public mutating func flipHorizontally() {
+        self = flippedHorizontally()
+    }
+
     /// Returns `self` flipped vertically.
-    @warn_unused_result
+    @warn_unused_result(mutable_variant="flippedVertically")
     public func flippedVertically() -> Bitboard {
         let x = 0x00FF00FF00FF00FF as UInt64
         let y = 0x0000FFFF0000FFFF as UInt64
@@ -143,6 +148,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         n = ((n >> 16) & y) | ((n & y) << 16)
         n =  (n >> 32)      |       (n << 32)
         return Bitboard(rawValue: n)
+    }
+
+    /// Flips `self` vertically.
+    public mutating func flipVertically() {
+        self = flippedVertically()
     }
 
     /// Returns the ranks of `self` as eight 8-bit integers.
