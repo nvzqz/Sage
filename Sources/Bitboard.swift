@@ -25,6 +25,14 @@
 //  THE SOFTWARE.
 //
 
+/// A lookup table of least significant bit indices.
+private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
+                         42, 38, 29, 17, 04, 62, 55, 59, 36, 53, 51,
+                         43, 22, 45, 39, 33, 30, 24, 18, 12, 05, 63,
+                         47, 56, 27, 60, 41, 37, 16, 54, 35, 52, 21,
+                         44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
+                         10, 25, 14, 19, 09, 13, 08, 07, 06]
+
 /// A board of 64 bits.
 public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hashable {
 
@@ -54,6 +62,19 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// `true` if `self` is empty.
     public var isEmpty: Bool {
         return self == 0
+    }
+
+    /// The least significant bit.
+    public var lsb: UInt64 {
+        return rawValue & (0 &- rawValue)
+    }
+
+    /// The least significant bit index of `self`.
+    public var lsbIndex: Int? {
+        guard !self.isEmpty else {
+            return nil
+        }
+        return _lsbTable[Int((lsb &* 0x03f79d71b4cb0a89) >> 58)]
     }
 
     /// Convert from a raw value of `UInt64`.
