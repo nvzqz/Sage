@@ -298,14 +298,24 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }
         set {
             for piece in _bitboards.keys {
-                _bitboards[piece]?[square] = false
+                self[piece][square] = false
             }
             if let piece = newValue {
                 if _bitboards[piece] == nil {
                     _bitboards[piece] = Bitboard()
                 }
-                _bitboards[piece]?[square] = true
+                self[piece][square] = true
             }
+        }
+    }
+
+    /// Gets and sets the bitboard for `piece`.
+    internal subscript(piece: Piece) -> Bitboard {
+        get {
+            return _bitboards[piece] ?? Bitboard()
+        }
+        set {
+            _bitboards[piece] = newValue
         }
     }
 
@@ -353,7 +363,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// Returns the bitboard for `piece`.
     @warn_unused_result
     public func bitboard(for piece: Piece) -> Bitboard {
-        return _bitboards[piece] ?? Bitboard()
+        return self[piece]
     }
 
     /// Returns the bitboard for `color`.
