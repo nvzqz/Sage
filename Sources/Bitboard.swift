@@ -33,8 +33,43 @@ private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
                          44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
                          10, 25, 14, 19, 09, 13, 08, 07, 06]
 
+/// Mask for bits not in File A.
+private let _notFileA: UInt64 = 0xfefefefefefefefe
+
+/// Mask for bits not in File H.
+private let _notFileH: UInt64 = 0x7f7f7f7f7f7f7f7f
+
 /// A board of 64 bits.
 public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hashable {
+
+    /// A bitboard shift direction.
+    public enum ShiftDirection {
+
+        /// North direction.
+        case North
+
+        /// South direction.
+        case South
+
+        /// East direction.
+        case East
+
+        /// West direction.
+        case West
+
+        /// Northeast direction.
+        case Northeast
+
+        /// Southeast direction.
+        case Southeast
+
+        /// Northwest direction.
+        case Northwest
+
+        /// Southwest direction.
+        case Southwest
+
+    }
 
     /// The empty bitset.
     public static var allZeros: Bitboard {
@@ -189,6 +224,26 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// Flips `self` vertically.
     public mutating func flipVertically() {
         self = flippedVertically()
+    }
+
+    /// Returns the bits of `self` shifted once toward `direction`.
+    @warn_unused_result(mutable_variant="shift")
+    public func shifted(toward direction: ShiftDirection) -> Bitboard {
+        switch direction {
+        case .North:     return Bitboard(rawValue: rawValue << 8)
+        case .South:     return Bitboard(rawValue: rawValue >> 8)
+        case .East:      return Bitboard(rawValue: (rawValue << 1) & _notFileA)
+        case .Northeast: return Bitboard(rawValue: (rawValue << 9) & _notFileA)
+        case .Southeast: return Bitboard(rawValue: (rawValue >> 7) & _notFileA)
+        case .West:      return Bitboard(rawValue: (rawValue >> 1) & _notFileH)
+        case .Southwest: return Bitboard(rawValue: (rawValue >> 9) & _notFileH)
+        case .Northwest: return Bitboard(rawValue: (rawValue << 7) & _notFileH)
+        }
+    }
+
+    /// Shifts the bits of `self` once toward `direction`.
+    public mutating func shift(toward direction: ShiftDirection) {
+        self = shifted(toward: direction)
     }
 
     /// Removes the least significant bit and returns its index, if any.
