@@ -320,6 +320,20 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         self = Board(variant: nil)
     }
 
+    /// Returns the bitboard for `piece`.
+    @warn_unused_result
+    public func bitboard(for piece: Piece) -> Bitboard {
+        return _bitboards[piece] ?? Bitboard()
+    }
+
+    /// Returns the bitboard for `color`.
+    @warn_unused_result
+    public func bitboard(for color: Color) -> Bitboard {
+        return _bitboards.flatMap({ piece, board in
+            piece.color == color ? board : nil
+        }).reduce(0, combine: |)
+    }
+
     /// Returns the spaces at `file`.
     @warn_unused_result
     public func spaces(at file: File) -> [Space] {
