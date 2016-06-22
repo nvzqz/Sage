@@ -77,6 +77,16 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return _lsbTable[Int((lsb.rawValue &* 0x03f79d71b4cb0a89) >> 58)]
     }
 
+    /// The occupied squares.
+    public var occupiedSquares: [Square] {
+        var result: [Square] = []
+        var board = self
+        while let index = board.popLSB() {
+            result.append(Square(rawValue: index)!)
+        }
+        return result
+    }
+
     /// Convert from a raw value of `UInt64`.
     public init(rawValue: UInt64) {
         self.rawValue = rawValue
