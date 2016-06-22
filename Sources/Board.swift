@@ -346,7 +346,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns `self` flipped vertically.
-    @warn_unused_result(mutable_variant="flippedVertically")
+    @warn_unused_result(mutable_variant="flipVertically")
     public func flippedVertically() -> Board {
         var board = self
         for (p, b) in _bitboards {

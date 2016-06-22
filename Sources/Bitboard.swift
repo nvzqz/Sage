@@ -139,7 +139,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// Returns `self` flipped vertically.
-    @warn_unused_result(mutable_variant="flippedVertically")
+    @warn_unused_result(mutable_variant="flipVertically")
     public func flippedVertically() -> Bitboard {
         let x = 0x00FF00FF00FF00FF as UInt64
         let y = 0x0000FFFF0000FFFF as UInt64
