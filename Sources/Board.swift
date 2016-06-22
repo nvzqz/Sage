@@ -320,6 +320,26 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         self = Board(variant: nil)
     }
 
+    /// Returns `self` flipped horizontally.
+    @warn_unused_result
+    public func flippedHorizontally() -> Board {
+        var board = self
+        for (p, b) in _bitboards {
+            board._bitboards[p] = b.flippedHorizontally()
+        }
+        return board
+    }
+
+    /// Returns `self` flipped vertically.
+    @warn_unused_result
+    public func flippedVertically() -> Board {
+        var board = self
+        for (p, b) in _bitboards {
+            board._bitboards[p] = b.flippedVertically()
+        }
+        return board
+    }
+
     /// Returns the bitboard for `piece`.
     @warn_unused_result
     public func bitboard(for piece: Piece) -> Bitboard {
