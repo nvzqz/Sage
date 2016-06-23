@@ -28,15 +28,6 @@
 /// A chess move.
 public struct Move: Hashable, CustomStringConvertible {
 
-    /// A castle move for a color in a direction.
-    @warn_unused_result
-    public static func castle(color: Color, direction: File.Direction) -> Move {
-        let rank: Rank = color.isWhite ? 1 : 8
-        return Move(start: Square(file: .E, rank: rank),
-                    end: Square(file: direction == .Left ? .C : .G, rank: rank)
-        )
-    }
-
     /// The move's start square.
     public var start: Square
 
@@ -158,6 +149,14 @@ public struct Move: Hashable, CustomStringConvertible {
     public init(start: Location, end: Location) {
         self.start = Square(location: start)
         self.end = Square(location: end)
+    }
+
+    /// A castle move for `color` in `direction`.
+    @warn_unused_result
+    public init(castle color: Color, direction: File.Direction) {
+        let rank: Rank = color.isWhite ? 1 : 8
+        self = Move(start: Square(file: .E, rank: rank),
+                    end: Square(file: direction == .Left ? .C : .G, rank: rank))
     }
 
     /// Returns a move with the end and start of `self` reversed.
