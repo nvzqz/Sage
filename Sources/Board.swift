@@ -465,6 +465,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return Square(rawValue: index)!
     }
 
+    /// Returns `true` if `self` contains `piece`.
+    @warn_unused_result
+    public func contains(piece: Piece) -> Bool {
+        return _bitboards[piece]?.isEmpty == false
+    }
+
     /// Returns the FEN string for the board.
     @warn_unused_result
     public func fen() -> String {
