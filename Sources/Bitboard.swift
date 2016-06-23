@@ -33,11 +33,27 @@ private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
                          44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
                          10, 25, 14, 19, 09, 13, 08, 07, 06]
 
+/// A lookup table of all king attack bitboards.
+internal let _kingAttackTable: [Bitboard] = Square.all.map { square in
+    return Bitboard(square: square)._kingAttacks()
+}
+
+/// A lookup table of all knight attack bitboards.
+internal let _knightAttackTable: [Bitboard] = Square.all.map { square in
+    return Bitboard(square: square)._knightAttacks()
+}
+
 /// Mask for bits not in File A.
 private let _notFileA: UInt64 = 0xfefefefefefefefe
 
+/// Mask for bits not in Files A and B.
+private let _notFileAB: UInt64 = 0xfcfcfcfcfcfcfcfc
+
 /// Mask for bits not in File H.
 private let _notFileH: UInt64 = 0x7f7f7f7f7f7f7f7f
+
+/// Mask for bits not in Files G and H.
+private let _notFileGH: UInt64 = 0x3f3f3f3f3f3f3f3f
 
 /// A board of 64 bits.
 public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hashable {
@@ -192,6 +208,24 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         set {
             self[Square(location: location)] = newValue
         }
+    }
+
+    /// Returns the attacks available to the king in `self`.
+    internal func _kingAttacks() -> Bitboard {
+        let attacks = shiftedOnce(toward: .East) | shiftedOnce(toward: .West)
+        let bitboard = self | attacks
+        return attacks
+            | bitboard.shiftedOnce(toward: .North)
+            | bitboard.shiftedOnce(toward: .South)
+    }
+
+    /// Returns the attacks available to the knight in `self`.
+    internal func _knightAttacks() -> Bitboard {
+        let x = rawValue
+        return Bitboard(rawValue: ((x << 17) | (x >> 15)) & _notFileA)
+            |  Bitboard(rawValue: ((x << 10) | (x >> 06)) & _notFileAB)
+            |  Bitboard(rawValue: ((x << 15) | (x >> 17)) & _notFileH)
+            |  Bitboard(rawValue: ((x << 06) | (x >> 10)) & _notFileGH)
     }
 
     /// Returns `self` flipped horizontally.

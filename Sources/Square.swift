@@ -291,4 +291,14 @@ public enum Square: Int {
         self.init(file: file, rank: rank)
     }
 
+    /// Returns a bitboard mask of attacks for a king at `self`.
+    public func kingAttacks() -> Bitboard {
+        return _kingAttackTable[rawValue]
+    }
+
+    /// Returns a bitboard mask of attacks for a knight at `self`.
+    public func knightAttacks() -> Bitboard {
+        return _knightAttackTable[rawValue]
+    }
+
 }
