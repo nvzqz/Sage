@@ -336,3 +336,25 @@ public func ^ (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 public prefix func ~ (x: Bitboard) -> Bitboard {
     return Bitboard(rawValue: ~x.rawValue)
 }
+
+/// Returns the bits of `lhs` shifted right by `rhs`.
+@warn_unused_result
+public func >> (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    return Bitboard(rawValue: lhs.rawValue >> rhs.rawValue)
+}
+
+/// Shifts the bits of `lhs` right by `rhs`.
+public func >>= (inout lhs: Bitboard, rhs: Bitboard) {
+    lhs.rawValue >>= rhs.rawValue
+}
+
+/// Returns the bits of `lhs` shifted left by `rhs`.
+@warn_unused_result
+public func << (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    return Bitboard(rawValue: lhs.rawValue << rhs.rawValue)
+}
+
+/// Shifts the bits of `lhs` left by `rhs`.
+public func <<= (inout lhs: Bitboard, rhs: Bitboard) {
+    lhs.rawValue <<= rhs.rawValue
+}
