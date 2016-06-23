@@ -44,16 +44,16 @@ internal let _knightAttackTable: [Bitboard] = Square.all.map { square in
 }
 
 /// Mask for bits not in File A.
-private let _notFileA: UInt64 = 0xfefefefefefefefe
+private let _notFileA: Bitboard = 0xfefefefefefefefe
 
 /// Mask for bits not in Files A and B.
-private let _notFileAB: UInt64 = 0xfcfcfcfcfcfcfcfc
+private let _notFileAB: Bitboard = 0xfcfcfcfcfcfcfcfc
 
 /// Mask for bits not in File H.
-private let _notFileH: UInt64 = 0x7f7f7f7f7f7f7f7f
+private let _notFileH: Bitboard = 0x7f7f7f7f7f7f7f7f
 
 /// Mask for bits not in Files G and H.
-private let _notFileGH: UInt64 = 0x3f3f3f3f3f3f3f3f
+private let _notFileGH: Bitboard = 0x3f3f3f3f3f3f3f3f
 
 /// A board of 64 bits.
 public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hashable {
@@ -221,24 +221,24 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// Returns the attacks available to the knight in `self`.
     internal func _knightAttacks() -> Bitboard {
-        let x = rawValue
-        return Bitboard(rawValue: ((x << 17) | (x >> 15)) & _notFileA)
-            |  Bitboard(rawValue: ((x << 10) | (x >> 06)) & _notFileAB)
-            |  Bitboard(rawValue: ((x << 15) | (x >> 17)) & _notFileH)
-            |  Bitboard(rawValue: ((x << 06) | (x >> 10)) & _notFileGH)
+        let x = self
+        return (((x << 17) | (x >> 15)) & _notFileA)
+            |  (((x << 10) | (x >> 06)) & _notFileAB)
+            |  (((x << 15) | (x >> 17)) & _notFileH)
+            |  (((x << 06) | (x >> 10)) & _notFileGH)
     }
 
     /// Returns `self` flipped horizontally.
     @warn_unused_result(mutable_variant="flipHorizontally")
     public func flippedHorizontally() -> Bitboard {
-        let x = 0x5555555555555555 as UInt64
-        let y = 0x3333333333333333 as UInt64
-        let z = 0x0F0F0F0F0F0F0F0F as UInt64
-        var n = rawValue
+        let x = 0x5555555555555555 as Bitboard
+        let y = 0x3333333333333333 as Bitboard
+        let z = 0x0F0F0F0F0F0F0F0F as Bitboard
+        var n = self
         n = ((n >> 1) & x) | ((n & x) << 1)
         n = ((n >> 2) & y) | ((n & y) << 2)
         n = ((n >> 4) & z) | ((n & z) << 4)
-        return Bitboard(rawValue: n)
+        return n
     }
 
     /// Flips `self` horizontally.
@@ -249,13 +249,13 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// Returns `self` flipped vertically.
     @warn_unused_result(mutable_variant="flipVertically")
     public func flippedVertically() -> Bitboard {
-        let x = 0x00FF00FF00FF00FF as UInt64
-        let y = 0x0000FFFF0000FFFF as UInt64
-        var n = rawValue
+        let x = 0x00FF00FF00FF00FF as Bitboard
+        let y = 0x0000FFFF0000FFFF as Bitboard
+        var n = self
         n = ((n >>  8) & x) | ((n & x) <<  8)
         n = ((n >> 16) & y) | ((n & y) << 16)
         n =  (n >> 32)      |       (n << 32)
-        return Bitboard(rawValue: n)
+        return n
     }
 
     /// Flips `self` vertically.
@@ -267,14 +267,14 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     @warn_unused_result(mutable_variant="shiftOnce")
     public func shiftedOnce(toward direction: ShiftDirection) -> Bitboard {
         switch direction {
-        case .North:     return Bitboard(rawValue: rawValue << 8)
-        case .South:     return Bitboard(rawValue: rawValue >> 8)
-        case .East:      return Bitboard(rawValue: (rawValue << 1) & _notFileA)
-        case .Northeast: return Bitboard(rawValue: (rawValue << 9) & _notFileA)
-        case .Southeast: return Bitboard(rawValue: (rawValue >> 7) & _notFileA)
-        case .West:      return Bitboard(rawValue: (rawValue >> 1) & _notFileH)
-        case .Southwest: return Bitboard(rawValue: (rawValue >> 9) & _notFileH)
-        case .Northwest: return Bitboard(rawValue: (rawValue << 7) & _notFileH)
+        case .North:     return  self << 8
+        case .South:     return  self >> 8
+        case .East:      return (self << 1) & _notFileA
+        case .Northeast: return (self << 9) & _notFileA
+        case .Southeast: return (self >> 7) & _notFileA
+        case .West:      return (self >> 1) & _notFileH
+        case .Southwest: return (self >> 9) & _notFileH
+        case .Northwest: return (self << 7) & _notFileH
         }
     }
 
