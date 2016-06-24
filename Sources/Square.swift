@@ -224,9 +224,7 @@ public enum Square: Int {
     case H8
 
     /// An array of all squares.
-    public static var all: [Square] {
-        return (0 ..< 64).flatMap(Square.init(rawValue:))
-    }
+    public static let all: [Square] = (0 ..< 64).flatMap(Square.init(rawValue:))
 
     /// The file of `self`.
     public var file: File {
