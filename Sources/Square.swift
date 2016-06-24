@@ -290,16 +290,19 @@ public enum Square: Int {
     }
 
     /// Returns a bitboard mask of attacks for a king at `self`.
+    @warn_unused_result
     public func kingAttacks() -> Bitboard {
         return _kingAttackTable[rawValue]
     }
 
     /// Returns a bitboard mask of attacks for a knight at `self`.
+    @warn_unused_result
     public func knightAttacks() -> Bitboard {
         return _knightAttackTable[rawValue]
     }
 
     /// Returns a bitboard mask of attacks for a piece at `self`.
+    @warn_unused_result
     public func attacks(for piece: Piece, blockers: Bitboard = 0) -> Bitboard {
         switch piece {
         case .King:
@@ -310,6 +313,12 @@ public enum Square: Int {
             let bb = Bitboard(square: self)
             return bb._attacks(for: piece, blockers: blockers)
         }
+    }
+
+    /// Returns an array of attack moves for a piece at `self`.
+    @warn_unused_result
+    public func attackMoves(for piece: Piece, blockers: Bitboard = 0) -> [Move] {
+        return attacks(for: piece, blockers: blockers).moves(from: self)
     }
 
 }
