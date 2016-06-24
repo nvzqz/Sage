@@ -238,11 +238,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// Returns the attacks available to the king in `self`.
     internal func _kingAttacks() -> Bitboard {
-        let attacks = shiftedOnce(toward: .East) | shiftedOnce(toward: .West)
+        let attacks = shifted(toward: .East) | shifted(toward: .West)
         let bitboard = self | attacks
         return attacks
-            | bitboard.shiftedOnce(toward: .North)
-            | bitboard.shiftedOnce(toward: .South)
+            | bitboard.shifted(toward: .North)
+            | bitboard.shifted(toward: .South)
     }
 
     /// Returns the attacks available to the knight in `self`.
@@ -290,8 +290,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// Returns the bits of `self` shifted once toward `direction`.
-    @warn_unused_result(mutable_variant="shiftOnce")
-    public func shiftedOnce(toward direction: ShiftDirection) -> Bitboard {
+    @warn_unused_result(mutable_variant="shift")
+    public func shifted(toward direction: ShiftDirection) -> Bitboard {
         switch direction {
         case .North:     return  self << 8
         case .South:     return  self >> 8
@@ -305,8 +305,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     }
 
     /// Shifts the bits of `self` once toward `direction`.
-    public mutating func shiftOnce(toward direction: ShiftDirection) {
-        self = shiftedOnce(toward: direction)
+    public mutating func shift(toward direction: ShiftDirection) {
+        self = shifted(toward: direction)
     }
 
     /// Returns the bits of `self` filled toward `direction` blocked by `blockers`.
