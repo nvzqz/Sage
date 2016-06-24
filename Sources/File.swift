@@ -64,9 +64,7 @@ public enum File: Int, Comparable, CustomStringConvertible {
     case H = 8
 
     /// An array of all files.
-    public static var all: [File] {
-        return [.A, .B, .C, .D, .E, .F, .G, .H]
-    }
+    public static let all: [File] = [.A, .B, .C, .D, .E, .F, .G, .H]
 
     /// The column index of `self`.
     public var index: Int {

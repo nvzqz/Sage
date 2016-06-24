@@ -64,9 +64,7 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
     case Eight = 8
 
     /// An array of all ranks.
-    public static var all: [Rank] {
-        return [.One, .Two, .Three, .Four, .Five, .Six, .Seven, .Eight]
-    }
+    public static let all: [Rank] = [1, 2, 3, 4, 5, 6, 7, 8]
 
     /// The row index of `self`.
     public var index: Int {
