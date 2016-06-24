@@ -241,6 +241,16 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         }
     }
 
+    /// Returns the pawn pushes available for `color` in `self`.
+    @warn_unused_result
+    internal func _pawnPushes(for color: Color, empty: Bitboard) -> Bitboard {
+        if color.isWhite {
+            return shifted(toward: .North) & empty
+        } else {
+            return shifted(toward: .South) & empty
+        }
+    }
+
     /// Returns the attacks available to the pawns for `color` in `self`.
     @warn_unused_result
     internal func _pawnAttacks(for color: Color) -> Bitboard {
