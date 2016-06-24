@@ -299,4 +299,17 @@ public enum Square: Int {
         return _knightAttackTable[rawValue]
     }
 
+    /// Returns a bitboard mask of attacks for a piece at `self`.
+    public func attacks(for piece: Piece, blockers: Bitboard = 0) -> Bitboard {
+        switch piece {
+        case .King:
+            return kingAttacks()
+        case .Knight:
+            return knightAttacks()
+        default:
+            let bb = Bitboard(square: self)
+            return bb._attacks(for: piece, blockers: blockers)
+        }
+    }
+
 }
