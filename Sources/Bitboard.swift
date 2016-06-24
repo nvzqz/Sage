@@ -410,6 +410,12 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return popLSB().flatMap({ Square(rawValue: $0) })
     }
 
+    /// Returns moves from `square` to the squares in `self`.
+    @warn_unused_result
+    public func moves(from square: Square) -> [Move] {
+        return occupiedSquares.map({ square >>> $0 })
+    }
+
     /// Returns the ranks of `self` as eight 8-bit integers.
     @warn_unused_result
     public func ranks() -> [UInt8] {
