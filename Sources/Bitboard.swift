@@ -157,12 +157,17 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return _lsbTable[Int((lsb.rawValue &* 0x03f79d71b4cb0a89) >> 58)]
     }
 
+    /// The square of the least significant bit of `self`.
+    public var lsbSquare: Square? {
+        return lsbIndex.flatMap({ Square(rawValue: $0) })
+    }
+
     /// The occupied squares.
     public var occupiedSquares: [Square] {
         var result: [Square] = []
         var board = self
-        while let index = board.popLSB() {
-            result.append(Square(rawValue: index)!)
+        while let square = board.popLSBSquare() {
+            result.append(square)
         }
         return result
     }
@@ -369,6 +374,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         let lsb = self.lsb
         rawValue -= lsb.rawValue
         return lsb.lsbIndex
+    }
+
+    /// Removes the least significant bit and returns its square, if any.
+    public mutating func popLSBSquare() -> Square? {
+        return popLSB().flatMap({ Square(rawValue: $0) })
     }
 
     /// Returns the ranks of `self` as eight 8-bit integers.
