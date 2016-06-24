@@ -187,6 +187,24 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         rawValue = 0
     }
 
+    /// Create a starting bitboard for `piece`.
+    public init(startFor piece: Piece) {
+        switch piece {
+        case .Pawn(.White):   self = 0x000000000000FF00
+        case .Knight(.White): self = 0x0000000000000042
+        case .Bishop(.White): self = 0x0000000000000024
+        case .Rook(.White):   self = 0x0000000000000081
+        case .Queen(.White):  self = 0x0000000000000008
+        case .King(.White):   self = 0x0000000000000010
+        case .Pawn(.Black):   self = 0x00FF000000000000
+        case .Knight(.Black): self = 0x4200000000000000
+        case .Bishop(.Black): self = 0x2400000000000000
+        case .Rook(.Black):   self = 0x8100000000000000
+        case .Queen(.Black):  self = 0x0800000000000000
+        case .King(.Black):   self = 0x1000000000000000
+        }
+    }
+
     /// Create a bitboard from `squares`.
     public init<S: SequenceType where S.Generator.Element == Square>(squares: S) {
         rawValue = squares.reduce(0) { $0 | (1 << UInt64($1.rawValue)) }

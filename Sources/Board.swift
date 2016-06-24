@@ -214,18 +214,10 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     ///   populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = .Standard) {
         if let variant = variant {
-            _bitboards = [.Pawn(.White):   0x000000000000FF00,
-                          .Knight(.White): 0x0000000000000042,
-                          .Bishop(.White): 0x0000000000000024,
-                          .Rook(.White):   0x0000000000000081,
-                          .Queen(.White):  0x0000000000000008,
-                          .King(.White):   0x0000000000000010,
-                          .Pawn(.Black):   0x00FF000000000000,
-                          .Knight(.Black): 0x4200000000000000,
-                          .Bishop(.Black): 0x2400000000000000,
-                          .Rook(.Black):   0x8100000000000000,
-                          .Queen(.Black):  0x0800000000000000,
-                          .King(.Black):   0x1000000000000000]
+            _bitboards = [:]
+            for piece in Piece.all {
+                _bitboards[piece] = Bitboard(startFor: piece)
+            }
             if variant.isUpsideDown {
                 for (piece, board) in _bitboards {
                     _bitboards[piece] = board.flippedVertically()
