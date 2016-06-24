@@ -297,6 +297,25 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
             | bitboard.shifted(toward: .South)
     }
 
+    /// Returns the attacks available to `piece` in `self`.
+    @warn_unused_result
+    internal func _attacks(for piece: Piece, blockers: Bitboard = 0) -> Bitboard {
+        switch piece {
+        case .Pawn(let color):
+            return _pawnAttacks(for: color)
+        case .Knight:
+            return _knightAttacks()
+        case .Bishop:
+            return _bishopAttacks(blockers: blockers)
+        case .Rook:
+            return _rookAttacks(blockers: blockers)
+        case .Queen:
+            return _queenAttacks(blockers: blockers)
+        case .King:
+            return _kingAttacks()
+        }
+    }
+
     /// Returns `self` flipped horizontally.
     @warn_unused_result(mutable_variant="flipHorizontally")
     public func flippedHorizontally() -> Bitboard {
