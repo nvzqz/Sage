@@ -215,6 +215,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         self.init(squares: locations.map(Square.init(location:)))
     }
 
+    /// Create a bitboard from the start and end of `move`.
+    public init(move: Move) {
+        self.init(squares: [move.start, move.end])
+    }
+
     /// Create a bitboard mask for `file`.
     public init(file: File) {
         switch file {
