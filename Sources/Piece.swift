@@ -46,6 +46,14 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// King piece.
     case King(Color)
 
+    /// An array of all pieces.
+    public static let all: [Piece] = [.Pawn(.White),   .Knight(.White),
+                                      .Bishop(.White), .Rook(.White),
+                                      .Queen(.White),  .King(.White),
+                                      .Pawn(.Black),   .Knight(.Black),
+                                      .Bishop(.Black), .Rook(.Black),
+                                      .Queen(.Black),  .King(.Black)]
+
     /// The piece's color.
     public var color: Color {
         get {
