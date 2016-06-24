@@ -33,6 +33,14 @@ private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
                          44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
                          10, 25, 14, 19, 09, 13, 08, 07, 06]
 
+/// Returns the index of the lsb value.
+private func _index(lsb value: UInt64) -> Int? {
+    guard value != 0 else {
+        return nil
+    }
+    return _lsbTable[Int((value &* 0x03f79d71b4cb0a89) >> 58)]
+}
+
 /// A lookup table of all king attack bitboards.
 internal let _kingAttackTable: [Bitboard] = Square.all.map { square in
     return Bitboard(square: square)._kingAttacks()
@@ -151,10 +159,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// The least significant bit index of `self`.
     public var lsbIndex: Int? {
-        guard !self.isEmpty else {
-            return nil
-        }
-        return _lsbTable[Int((lsb.rawValue &* 0x03f79d71b4cb0a89) >> 58)]
+        return _index(lsb: lsb.rawValue)
     }
 
     /// The square of the least significant bit of `self`.
@@ -400,9 +405,9 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// Removes the least significant bit and returns its index, if any.
     public mutating func popLSB() -> Int? {
-        let lsb = self.lsb
-        rawValue -= lsb.rawValue
-        return lsb.lsbIndex
+        let lsb = self.lsb.rawValue
+        rawValue -= lsb
+        return _index(lsb: lsb)
     }
 
     /// Removes the least significant bit and returns its square, if any.
