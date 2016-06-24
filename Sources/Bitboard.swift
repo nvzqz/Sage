@@ -278,28 +278,26 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// Returns the attacks available to the bishop in `self`.
     @warn_unused_result
-    internal func _bishopAttacks(blockers bitboard: Bitboard = 0) -> Bitboard {
-        return ~self
-            & (filled(toward: .Northeast, blockers: bitboard)
-            |  filled(toward: .Northwest, blockers: bitboard)
-            |  filled(toward: .Southeast, blockers: bitboard)
-            |  filled(toward: .Southwest, blockers: bitboard))
+    internal func _bishopAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
+        return filled(toward: .Northeast, stoppers: bitboard).shifted(toward: .Northeast)
+            |  filled(toward: .Northwest, stoppers: bitboard).shifted(toward: .Northwest)
+            |  filled(toward: .Southeast, stoppers: bitboard).shifted(toward: .Southeast)
+            |  filled(toward: .Southwest, stoppers: bitboard).shifted(toward: .Southwest)
     }
 
     /// Returns the attacks available to the rook in `self`.
     @warn_unused_result
-    internal func _rookAttacks(blockers bitboard: Bitboard = 0) -> Bitboard {
-        return ~self
-            & (filled(toward: .North, blockers: bitboard)
-            |  filled(toward: .South, blockers: bitboard)
-            |  filled(toward: .East,  blockers: bitboard)
-            |  filled(toward: .West,  blockers: bitboard))
+    internal func _rookAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
+        return filled(toward: .North, stoppers: bitboard).shifted(toward: .North)
+            |  filled(toward: .South, stoppers: bitboard).shifted(toward: .South)
+            |  filled(toward: .East,  stoppers: bitboard).shifted(toward: .East)
+            |  filled(toward: .West,  stoppers: bitboard).shifted(toward: .West)
     }
 
     /// Returns the attacks available to the queen in `self`.
     @warn_unused_result
-    internal func _queenAttacks(blockers bitboard: Bitboard = 0) -> Bitboard {
-        return _rookAttacks(blockers: bitboard) | _bishopAttacks(blockers: bitboard)
+    internal func _queenAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
+        return _rookAttacks(stoppers: bitboard) | _bishopAttacks(stoppers: bitboard)
     }
 
     /// Returns the attacks available to the king in `self`.
@@ -314,18 +312,18 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// Returns the attacks available to `piece` in `self`.
     @warn_unused_result
-    internal func _attacks(for piece: Piece, blockers: Bitboard = 0) -> Bitboard {
+    internal func _attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
         switch piece {
         case .Pawn(let color):
             return _pawnAttacks(for: color)
         case .Knight:
             return _knightAttacks()
         case .Bishop:
-            return _bishopAttacks(blockers: blockers)
+            return _bishopAttacks(stoppers: stoppers)
         case .Rook:
-            return _rookAttacks(blockers: blockers)
+            return _rookAttacks(stoppers: stoppers)
         case .Queen:
-            return _queenAttacks(blockers: blockers)
+            return _queenAttacks(stoppers: stoppers)
         case .King:
             return _kingAttacks()
         }
@@ -386,11 +384,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         self = shifted(toward: direction)
     }
 
-    /// Returns the bits of `self` filled toward `direction` blocked by `blockers`.
+    /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
     @warn_unused_result(mutable_variant="fill")
-    public func filled(toward direction: ShiftDirection, blockers: Bitboard = 0) -> Bitboard {
+    public func filled(toward direction: ShiftDirection, stoppers: Bitboard = 0) -> Bitboard {
         let g = direction._goodFiles()
-        let e = ~blockers.rawValue
+        let e = ~stoppers.rawValue
         var x = rawValue
         for _ in 0 ..< 7 {
             x |= (e & direction._bitShift(of: x)) & g
@@ -398,9 +396,9 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return Bitboard(rawValue: x)
     }
 
-    /// Fills the bits of `self` toward `direction` blocked by `blockers`.
-    public mutating func fill(toward direction: ShiftDirection, blockers: Bitboard = 0) {
-        self = filled(toward: direction, blockers: blockers)
+    /// Fills the bits of `self` toward `direction` stopped by `stoppers`.
+    public mutating func fill(toward direction: ShiftDirection, stoppers: Bitboard = 0) {
+        self = filled(toward: direction, stoppers: stoppers)
     }
 
     /// Removes the least significant bit and returns its index, if any.
