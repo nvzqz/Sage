@@ -315,6 +315,8 @@ public enum Square: Int {
             return kingAttacks()
         case .Knight:
             return knightAttacks()
+        case .Pawn(let color):
+            return _pawnAttackTable(for: color)[rawValue]
         default:
             let bb = Bitboard(square: self)
             return bb._attacks(for: piece, stoppers: stoppers)

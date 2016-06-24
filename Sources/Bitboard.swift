@@ -41,6 +41,25 @@ private func _index(lsb value: UInt64) -> Int? {
     return _lsbTable[Int((value &* 0x03f79d71b4cb0a89) >> 58)]
 }
 
+/// Returns the pawn attack table for `color`.
+internal func _pawnAttackTable(for color: Color) -> [Bitboard] {
+    if color.isWhite {
+        return _whitePawnAttackTable
+    } else {
+        return _blackPawnAttackTable
+    }
+}
+
+/// A lookup table of all white pawn attack bitboards.
+internal let _whitePawnAttackTable: [Bitboard] = Square.all.map { square in
+    return Bitboard(square: square)._pawnAttacks(for: .White)
+}
+
+/// A lookup table of all black pawn attack bitboards.
+internal let _blackPawnAttackTable: [Bitboard] = Square.all.map { square in
+    return Bitboard(square: square)._pawnAttacks(for: .Black)
+}
+
 /// A lookup table of all king attack bitboards.
 internal let _kingAttackTable: [Bitboard] = Square.all.map { square in
     return Bitboard(square: square)._kingAttacks()
