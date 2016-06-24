@@ -85,6 +85,32 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         /// Southwest direction.
         case Southwest
 
+        /// Returns `value` shifted by an amount corresponding to `self`.
+        private func _bitShift(of value: UInt64) -> UInt64 {
+            switch self {
+            case .North:     return value << 8
+            case .South:     return value >> 8
+            case .East:      return value << 1
+            case .West:      return value >> 1
+            case .Northeast: return value << 9
+            case .Southwest: return value >> 9
+            case .Northwest: return value << 7
+            case .Southeast: return value >> 7
+            }
+        }
+
+        /// Returns the good files for `self` in fill.
+        private func _goodFiles() -> UInt64 {
+            switch self {
+            case .East, .Northeast, .Southeast:
+                return _notFileA.rawValue
+            case .West, .Northwest, .Southwest:
+                return _notFileH.rawValue
+            default:
+                return ~0
+            }
+        }
+
     }
 
     /// The empty bitset.
@@ -281,6 +307,23 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// Shifts the bits of `self` once toward `direction`.
     public mutating func shiftOnce(toward direction: ShiftDirection) {
         self = shiftedOnce(toward: direction)
+    }
+
+    /// Returns the bits of `self` filled toward `direction` blocked by `blockers`.
+    @warn_unused_result(mutable_variant="fill")
+    public func filled(toward direction: ShiftDirection, blockers: Bitboard = 0) -> Bitboard {
+        let g = direction._goodFiles()
+        let e = ~blockers.rawValue
+        var x = rawValue
+        for _ in 0 ..< 7 {
+            x |= (e & direction._bitShift(of: x)) & g
+        }
+        return Bitboard(rawValue: x)
+    }
+
+    /// Fills the bits of `self` toward `direction` blocked by `blockers`.
+    public mutating func fill(toward direction: ShiftDirection, blockers: Bitboard = 0) {
+        self = filled(toward: direction, blockers: blockers)
     }
 
     /// Removes the least significant bit and returns its index, if any.
