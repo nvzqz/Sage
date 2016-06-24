@@ -236,22 +236,50 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         }
     }
 
-    /// Returns the attacks available to the king in `self`.
-    internal func _kingAttacks() -> Bitboard {
-        let attacks = shifted(toward: .East) | shifted(toward: .West)
-        let bitboard = self | attacks
-        return attacks
-            | bitboard.shifted(toward: .North)
-            | bitboard.shifted(toward: .South)
-    }
-
     /// Returns the attacks available to the knight in `self`.
+    @warn_unused_result
     internal func _knightAttacks() -> Bitboard {
         let x = self
         return (((x << 17) | (x >> 15)) & _notFileA)
             |  (((x << 10) | (x >> 06)) & _notFileAB)
             |  (((x << 15) | (x >> 17)) & _notFileH)
             |  (((x << 06) | (x >> 10)) & _notFileGH)
+    }
+
+    /// Returns the attacks available to the bishop in `self`.
+    @warn_unused_result
+    internal func _bishopAttacks(blockers bitboard: Bitboard = 0) -> Bitboard {
+        return ~self
+            & (filled(toward: .Northeast, blockers: bitboard)
+            |  filled(toward: .Northwest, blockers: bitboard)
+            |  filled(toward: .Southeast, blockers: bitboard)
+            |  filled(toward: .Southwest, blockers: bitboard))
+    }
+
+    /// Returns the attacks available to the rook in `self`.
+    @warn_unused_result
+    internal func _rookAttacks(blockers bitboard: Bitboard = 0) -> Bitboard {
+        return ~self
+            & (filled(toward: .North, blockers: bitboard)
+            |  filled(toward: .South, blockers: bitboard)
+            |  filled(toward: .East,  blockers: bitboard)
+            |  filled(toward: .West,  blockers: bitboard))
+    }
+
+    /// Returns the attacks available to the queen in `self`.
+    @warn_unused_result
+    internal func _queenAttacks(blockers bitboard: Bitboard = 0) -> Bitboard {
+        return _rookAttacks(blockers: bitboard) | _bishopAttacks(blockers: bitboard)
+    }
+
+    /// Returns the attacks available to the king in `self`.
+    @warn_unused_result
+    internal func _kingAttacks() -> Bitboard {
+        let attacks = shifted(toward: .East) | shifted(toward: .West)
+        let bitboard = self | attacks
+        return attacks
+            | bitboard.shifted(toward: .North)
+            | bitboard.shifted(toward: .South)
     }
 
     /// Returns `self` flipped horizontally.
