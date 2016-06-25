@@ -29,7 +29,7 @@
 public typealias Location = (file: File, rank: Rank)
 
 /// A board location square.
-public enum Square: Int {
+public enum Square: Int, CustomStringConvertible {
 
     /// A1 square.
     case A1
@@ -254,6 +254,11 @@ public enum Square: Int {
         set(newLocation) {
             self = Square(location: newLocation)
         }
+    }
+
+    /// A textual representation of `self`.
+    public var description: String {
+        return "\(file)\(rank)"
     }
 
     /// Create a square from `file` and `rank`.
