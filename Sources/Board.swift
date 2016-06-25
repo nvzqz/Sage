@@ -424,9 +424,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// Removes a piece at `square`, and returns it.
     public mutating func removePiece(at square: Square) -> Piece? {
-        let piece = self[square]
-        self[square] = nil
-        return piece
+        if let piece = self[square] {
+            self[piece][square] = false
+            return piece
+        } else {
+            return nil
+        }
     }
 
     /// Swaps the pieces between the two locations.
