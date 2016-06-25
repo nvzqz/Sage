@@ -79,6 +79,34 @@ public struct CastlingAvailability: SetAlgebraType, SequenceType, CustomStringCo
             }
         }
 
+        /// The squares expected to be empty for a castle.
+        public var emptySquares: Bitboard {
+            switch self {
+            case .WhiteKingside:
+                return 0b01100000
+            case .WhiteQueenside:
+                return 0b00001110
+            case .BlackKingside:
+                return 0b01100000 << 56
+            case .BlackQueenside:
+                return 0b00001110 << 56
+            }
+        }
+
+        /// The castle destination square of a king.
+        public var castleSquare: Square {
+            switch self {
+            case .WhiteKingside:
+                return .G1
+            case .WhiteQueenside:
+                return .C1
+            case .BlackKingside:
+                return .G8
+            case .BlackQueenside:
+                return .C8
+            }
+        }
+
         /// The character for `self`.
         public var character: Character {
             switch self {
