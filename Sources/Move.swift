@@ -152,11 +152,20 @@ public struct Move: Hashable, CustomStringConvertible {
     }
 
     /// A castle move for `color` in `direction`.
-    @warn_unused_result
     public init(castle color: Color, direction: File.Direction) {
         let rank: Rank = color.isWhite ? 1 : 8
         self = Move(start: Square(file: .E, rank: rank),
                     end: Square(file: direction == .Left ? .C : .G, rank: rank))
+    }
+
+    /// Returns the castle squares for a rook.
+    @warn_unused_result
+    internal func _castleSquares() -> (old: Square, new: Square) {
+        let rank = start.rank
+        let movedLeft = self.isLeftward
+        let old = Square(file: movedLeft ? .A : .H, rank: rank)
+        let new = Square(file: movedLeft ? .D : .F, rank: rank)
+        return (old, new)
     }
 
     /// Returns a move with the end and start of `self` reversed.

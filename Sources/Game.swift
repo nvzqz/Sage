@@ -276,126 +276,56 @@ public final class Game {
         }
     }
 
-    /// The available moves for the current player.
+    /// Returns the available moves for the current player.
     @warn_unused_result
     public func availableMoves() -> [Move] {
         return Array(Square.all.map(movesForPiece).flatten())
     }
 
+    /// Returns the moves bitboard currently available for the piece at `square`, if any.
+    @warn_unused_result
+    public func movesBitboardForPiece(at square: Square) -> Bitboard {
+        guard let piece = board[square] where piece.color == playerTurn else {
+            return 0
+        }
+        let playerBitboard = board.bitboard(for: playerTurn)
+        let enemyBitboard = board.bitboard(for: playerTurn.inverse())
+        let allBitboard = playerBitboard | enemyBitboard
+        let emptyBitboard = ~allBitboard
+        let squareBitboard = Bitboard(square: square)
+
+        var movesBitboard: Bitboard = 0
+        let attacks = square.attacks(for: piece, stoppers: allBitboard)
+
+        if case .Pawn = piece {
+            let enPassant = enPassantTarget.map({ Bitboard(square: $0) }) ?? 0
+            let pushes = squareBitboard._pawnPushes(for: playerTurn,
+                                                    empty: emptyBitboard)
+            let doublePushes = (squareBitboard & Bitboard(startFor: piece))
+                ._pawnPushes(for: playerTurn, empty: emptyBitboard)
+                ._pawnPushes(for: playerTurn, empty: emptyBitboard)
+            movesBitboard |= pushes | doublePushes
+                | (attacks & enemyBitboard)
+                | (attacks & enPassant)
+        } else {
+            movesBitboard |= attacks & ~playerBitboard
+        }
+
+        if case .King = piece where squareBitboard == Bitboard(startFor: piece) {
+            for option in castlingAvailability {
+                if option.color == playerTurn && allBitboard & option.emptySquares == 0 {
+                    movesBitboard |= Bitboard(square: option.castleSquare)
+                }
+            }
+        }
+
+        return movesBitboard
+    }
+
     /// Returns the moves currently available for the piece at `square`, if any.
     @warn_unused_result
     public func movesForPiece(at square: Square) -> [Move] {
-        guard let piece = board[square] else { return [] }
-        let pieceColor = piece.color
-        guard pieceColor == playerTurn else { return [] }
-        let (file, rank) = square.location
-        func movesFor(locations: [Zip2Sequence<[File], [Rank]>]) -> [Move] {
-            func process(squares: [Square]) -> [Square] {
-                var result: [Square] = []
-                for square in squares {
-                    if let color = board[square]?.color {
-                        if color != playerTurn {
-                            result.append(square)
-                        }
-                        break
-                    } else {
-                        result.append(square)
-                    }
-                }
-                return result
-            }
-            return locations.map({
-                $0.map(Square.init(location:)).filter({ $0 != square })
-            }).map(process).flatten().map({ square >>> $0 })
-        }
-        func axialMoves() -> [Move] {
-            let ranks = Array(count: 8, repeatedValue: rank)
-            let files = Array(count: 8, repeatedValue: file)
-            let locations = [zip(file.to(.H), ranks),
-                             zip(file.to(.A), ranks),
-                             zip(files, rank.to(.Eight)),
-                             zip(files, rank.to(.One))]
-            return movesFor(locations)
-        }
-        func diagonalMoves() -> [Move] {
-            let locations = [zip(file.to(.H), rank.to(.Eight)),
-                             zip(file.to(.A), rank.to(.Eight)),
-                             zip(file.to(.H), rank.to(.One)),
-                             zip(file.to(.A), rank.to(.One))]
-            return movesFor(locations)
-        }
-        func squares(from changes: [(Int, Int)]) -> [Square] {
-            return changes.flatMap({ fc, rc in
-                file.advanced(by: fc).flatMap { newFile in
-                    rank.advanced(by: rc, for: pieceColor).flatMap { newRank in
-                        (newFile, newRank)
-                    }
-                }
-            }).map(Square.init(location:))
-        }
-        func moves(from changes: [(Int, Int)]) -> [Move] {
-            return squares(from: changes).map({ square >>> $0 })
-        }
-        switch piece {
-        case .Pawn:
-            let changes = [(0, 1), (0, 2), (1, 1), (-1, 1)]
-            return moves(from: changes).filter { move in
-                if move.fileChange != 0 {
-                    if let capture = board[move.end] {
-                        return capture.color != pieceColor
-                    } else {
-                        guard let target = enPassantTarget else {
-                            return false
-                        }
-                        return move.end == target
-                    }
-                } else {
-                    guard board[move.end] == nil else {
-                        return false
-                    }
-                    if abs(move.rankChange) == 2 {
-                        let startRank: Rank = pieceColor.isWhite ? .Two : .Seven
-                        guard move.start.rank == startRank else {
-                            return false
-                        }
-                        let midRank = move.start.rank.advanced(by: 1, for: pieceColor)!
-                        guard board[(move.start.file, midRank)] == nil else {
-                            return false
-                        }
-                    }
-                    return true
-                }
-            }
-        case .Knight:
-            let values: [(Int, Int)] = zip([1, 2], [2, 1]).reduce([]) {
-                let (fc, rc) = $1
-                return $0 + [(file.rawValue + fc, rank.rawValue + rc),
-                             (file.rawValue - fc, rank.rawValue + rc),
-                             (file.rawValue + fc, rank.rawValue - rc),
-                             (file.rawValue - fc, rank.rawValue - rc)]
-            }
-            return values.flatMap { fileValue, rankValue in
-                File(rawValue: fileValue).flatMap { newFile in
-                    Rank(rawValue: rankValue).flatMap { newRank in
-                        let newSquare = Square(file: newFile, rank: newRank)
-                        return board[square]?.color != pieceColor
-                            ? Move(start: square, end: newSquare)
-                            : nil
-                    }
-                }
-            }
-        case .Bishop:
-            return diagonalMoves()
-        case .Rook:
-            return axialMoves()
-        case .Queen:
-            return axialMoves() + diagonalMoves()
-        case .King:
-            let changes: [(Int, Int)] = [-1, 1].reduce([(2, 0), (-2, 0)]) {
-                return $0 + [($1, $1), ($1, -$1), ($1, 0), (0, $1)]
-            }
-            return moves(from: changes).filter { isValidMove($0) }
-        }
+        return movesBitboardForPiece(at: square).moves(from: square)
     }
 
     /// Returns the moves currently available for the piece at `location`, if any.
@@ -404,282 +334,65 @@ public final class Game {
         return movesForPiece(at: Square(location: location))
     }
 
-    /// Returns a square for an obstructing piece within the sequence.
+    /// Returns `true` if the move is valid.
     @warn_unused_result
-    private func _squareForObstruction<S: SequenceType where S.Generator.Element == Square>(s: S) -> Square? {
-        for square in s {
-            guard board[square] == nil else {
-                return square
-            }
-        }
-        return nil
-    }
-
-    /// Checks if the move is valid and returns the piece being moved on success
-    /// or an error result on failure.
-    @inline(never)
-    private func _resultOf(move: Move, for color: Color? = nil) -> _MoveResult {
-        // Piece exists on the board
-        guard let piece = board[move.start] else {
-            return .Error(.NoPieceToMove(move.start))
-        }
-        let pieceColor = piece.color
-        // The piece's color matches the color parameter
-        if let color = color {
-            guard pieceColor == color else {
-                return .Error(.WrongPieceColor(pieceColor))
-            }
-        }
-        let captureColor = board[move.end]?.color
-        // The capture color, if any, is not the piece's color
-        guard captureColor != pieceColor else {
-            return .Error(.SameColorCapturePiece)
-        }
-        // The piece actually moves
-        guard move.isChange else {
-            return .Error(.NoMovement)
-        }
-        // Returns the error for a diagonal move, if any
-        func errorForDiagonalMove() -> MoveExecutionError? {
-            guard move.isDiagonal else {
-                return .WrongMovementKind(piece)
-            }
-            let files = move.start.file.between(move.end.file)
-            let ranks = move.start.rank.between(move.end.rank)
-            let squares = zip(files, ranks).map(Square.init(location:))
-            if let location = _squareForObstruction(squares) {
-                return .ObstructingPiece(location)
-            }
-            return nil
-        }
-        // Returns the error for an axial move, if any
-        func errorForAxialMove() -> MoveExecutionError? {
-            if move.isHorizontal {
-                let files = move.start.file.between(move.end.file)
-                let ranks = Repeat(count: files.count, repeatedValue: move.start.rank)
-                let squares = zip(files, ranks).map(Square.init(location:))
-                if let location = _squareForObstruction(squares) {
-                    return .ObstructingPiece(location)
-                }
-            } else if move.isVertical {
-                let ranks = move.start.rank.between(move.end.rank)
-                let files = Repeat(count: ranks.count, repeatedValue: move.start.file)
-                let squares = zip(files, ranks).map(Square.init(location:))
-                if let location = _squareForObstruction(squares) {
-                    return .ObstructingPiece(location)
-                }
-            } else {
-                return .WrongMovementKind(piece)
-            }
-            return nil
-        }
-        // Check validity on per-piece basis
-        switch piece {
-        case .Pawn:
-            // The piece is moving in the correct direction
-            guard pieceColor.isWhite ? move.isUpward : move.isDownward else {
-                return .Error(.WrongMovementKind(piece))
-            }
-            let distance = abs(move.rankChange)
-            if move.isVertical {
-                if /* Double step */ distance == 2 {
-                    // Move starts at proper double step location
-                    guard move.start.rank == (pieceColor.isWhite ? .Two : .Seven) else {
-                        return .Error(.WrongMovementKind(piece))
-                    }
-                } else {
-                    // Move is single step
-                    guard distance == 1 else {
-                        return .Error(.WrongMovementKind(piece))
-                    }
-                }
-                // The space at the move end is empty (no capture)
-                guard captureColor == nil else {
-                    return .Error(.ObstructingPiece(move.end))
-                }
-            } else if /* Capture */ move.isDiagonal {
-                // Only one unit of movement
-                guard distance == 1 else {
-                    return .Error(.WrongMovementKind(piece))
-                }
-                if /* En passant */ captureColor == nil {
-                    // The move starts at the appropiate rank
-                    guard move.start.rank == (pieceColor.isWhite ? .Five : .Four) else {
-                        return .Error(.WrongMovementKind(piece))
-                    }
-                    // The previous move was a double step
-                    guard let previousMove = _moveHistory.last,
-                        case .Pawn = previousMove.piece
-                        where abs(previousMove.move.rankChange) == 2 else {
-                            return .Error(.NoPreviousDoubleStep)
-                    }
-                    // A piece exists adjacent to the end location
-                    guard let capturePiece = board[(move.end.file, move.start.rank)] else {
-                        return .Error(.WrongMovementKind(piece))
-                    }
-                    // The capture piece's color is not the moving piece's color
-                    guard capturePiece.color != pieceColor else {
-                        return .Error(.SameColorCapturePiece)
-                    }
-                }
-            } else {
-                return .Error(.WrongMovementKind(piece))
-            }
-        case .Knight:
-            // The move is a valid knight jump
-            guard move.isKnightJump else {
-                return .Error(.WrongMovementKind(piece))
-            }
-        case .Bishop:
-            // The move is diagonal
-            if let error = errorForDiagonalMove() {
-                return .Error(error)
-            }
-        case .Rook:
-            // The move is along an axis
-            if let error = errorForAxialMove() {
-                return .Error(error)
-            }
-        case .Queen:
-            // The move is along an axis or diagonal
-            if move.isAxial {
-                if let error = errorForAxialMove() {
-                    return .Error(error)
-                }
-            } else if move.isDiagonal {
-                if let error = errorForDiagonalMove() {
-                    return .Error(error)
-                }
-            } else {
-                return .Error(.WrongMovementKind(piece))
-            }
-        case .King:
-            guard board[move.end] == nil else {
-                return .Error(.ObstructingPiece(move.end))
-            }
-            if /* Castle */ abs(move.fileChange) == 2 {
-                switch move.end {
-                case .C1:
-                    guard castlingAvailability.contains(.WhiteQueenside) else {
-                        return .Error(.NoAvailabilityOption(.WhiteQueenside))
-                    }
-                case .G1:
-                    guard castlingAvailability.contains(.WhiteKingside) else {
-                        return .Error(.NoAvailabilityOption(.WhiteKingside))
-                    }
-                case .C8:
-                    guard castlingAvailability.contains(.BlackQueenside) else {
-                        return .Error(.NoAvailabilityOption(.BlackQueenside))
-                    }
-                case .G8:
-                    guard castlingAvailability.contains(.BlackKingside) else {
-                        return .Error(.NoAvailabilityOption(.BlackKingside))
-                    }
-                default:
-                    return .Error(.WrongMovementKind(piece))
-                }
-                // The area between the king and rook is empty
-                let rookFile: File = move.isRightward ? .G : .A
-                for file in move.start.file.between(rookFile) {
-                    let square = Square(file: file, rank: move.start.rank)
-                    guard board[square] == nil else {
-                        return .Error(.ObstructingPiece(square))
-                    }
-                }
-            } else {
-                // The king moved 1 unit in any direction
-                guard abs(move.fileChange) < 2 && abs(move.rankChange) < 2 else {
-                    return .Error(.WrongMovementKind(piece))
-                }
-            }
-        }
-        return .Value(piece)
-    }
-
-    /// Returns `true` if the move is valid for the given color or any color if
-    /// `nil`.
-    ///
-    /// Prefer calling `executeMove(_:)` with a try/catch when checking for
-    /// errors before executing a move instead of `isValidMove(_:for:)`.
-    @warn_unused_result
-    public func isValidMove(move: Move, for color: Color? = nil) -> Bool {
-        if case .Value = _resultOf(move, for: color) {
-            return true
-        } else {
-            return false
-        }
+    public func isValidMove(move: Move) -> Bool {
+        let moves = movesBitboardForPiece(at: move.start)
+        return moves & Bitboard(square: move.end) != 0
     }
 
     /// Executes a move without checking the validity of the move.
-    @inline(never)
-    private func _executeMove(move: Move, piece: Piece, promotion: (() -> Piece)?) throws {
-        func execute(capture: Piece? = nil) {
-            board.swap(move.start, move.end)
-            _moveHistory.append((move, piece, capture))
-        }
-        switch piece {
-        case .Pawn(let color):
-            if /* En passant */ move.isDiagonal && board[move.end] == nil {
-                execute(board.removePiece(at: (move.end.file, move.start.rank)))
-            } else if /* Promotion */ move.end.rank == (color.isWhite ? 8 : 1) {
+    private func _executeMove(move: Move, promotion: (() -> Piece)?) throws {
+        let piece = board[move.start]!
+        var endPiece = piece
+        var capture = board[move.end]
+        var captureSquare = move.end
+        if case .Pawn = piece {
+            if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion?()
-                if let promotion = promotion {
-                    guard promotion.canPromote(color) else {
-                        throw MoveExecutionError.InvalidPromotionPiece(promotion)
+                if let p = promotion {
+                    guard p.color == playerTurn else {
+                        throw MoveExecutionError.InvalidPromotionPiece(p)
                     }
                 }
-                board.removePiece(at: move.start)
-                let capture = board[move.end]
-                board[move.end] = promotion ?? .Queen(color)
-                _moveHistory.append((move, piece, capture))
-            } else {
-                execute(board.removePiece(at: move.end))
+                endPiece = promotion ?? .Queen(playerTurn)
+            } else if move.end == enPassantTarget {
+                capture = Piece.Pawn(playerTurn.inverse())
+                captureSquare = Square(file: move.end.file, rank: move.start.rank)
             }
-        case .King(let color):
-            if color.isWhite {
-                castlingAvailability.remove(.WhiteKingside)
-                castlingAvailability.remove(.WhiteQueenside)
-            } else {
-                castlingAvailability.remove(.BlackKingside)
-                castlingAvailability.remove(.BlackQueenside)
-            }
-            if /* Castle */ abs(move.fileChange) == 2 {
-                let rank = move.start.rank
-                let movedRight = move.end.file == .G
-                let oldRookFile: File = movedRight ? .H : .A
-                let newRookFile: File = movedRight ? .F : .D
-                board.swap((oldRookFile, rank), (newRookFile, rank))
-                execute()
-            } else {
-                execute(board.removePiece(at: move.end))
-            }
-        case .Rook:
+        } else if case .Rook = piece {
             switch move.start {
-            case .A1:
-                castlingAvailability.remove(.WhiteQueenside)
-            case .H1:
-                castlingAvailability.remove(.WhiteKingside)
-            case .A8:
-                castlingAvailability.remove(.BlackKingside)
-            case .H8:
-                castlingAvailability.remove(.BlackQueenside)
+            case .A1: castlingAvailability.remove(.WhiteQueenside)
+            case .H1: castlingAvailability.remove(.WhiteKingside)
+            case .A8: castlingAvailability.remove(.BlackQueenside)
+            case .H8: castlingAvailability.remove(.BlackKingside)
             default:
                 break
             }
-            execute(board.removePiece(at: move.end))
-        default:
-            execute(board.removePiece(at: move.end))
+        } else if case .King = piece {
+            for option in castlingAvailability where option.color == playerTurn {
+                castlingAvailability.remove(option)
+            }
+            if abs(move.fileChange) == 2 {
+                let (old, new) = move._castleSquares()
+                let rook = Piece.Rook(playerTurn)
+                board[rook][old] = false
+                board[rook][new] = true
+            }
         }
+        _moveHistory.append((move, piece, capture))
+        if let capture = capture {
+            board[capture][captureSquare] = false
+        }
+        board[piece][move.start] = false
+        board[endPiece][move.end] = true
         playerTurn.invert()
     }
 
     /// Executes the move or throws on error.
     public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
-        let result = _resultOf(move, for: playerTurn)
-        guard case let .Value(piece) = result else {
-            throw result.error!
-        }
-        try _executeMove(move, piece: piece, promotion: promotion)
+        guard isValidMove(move) else { throw MoveExecutionError.IllegalMove }
+        try _executeMove(move, promotion: promotion)
     }
 
     /// Executes the move or throws on error.
@@ -689,33 +402,29 @@ public final class Game {
 
     /// Undoes the previous move and returns it, if any.
     public func undoMove() -> Move? {
-        guard let (move, piece, _) = _moveHistory.popLast() else {
+        guard let (move, piece, capture) = _moveHistory.popLast() else {
             return nil
         }
-        board[move.start] = board.removePiece(at: move.end)
-        func append() { _undoHistory.append((move, nil)) }
-        switch piece {
-        case .King where abs(move.fileChange) == 2:
-            let (new, old) = move.isRightward ? (File.F, File.H) : (.D, .A)
-            let rank = move.start.rank
-            board[(old, rank)] = board.removePiece(at: (new, rank))
-            append()
-        case .Pawn where abs(move.fileChange) == 1:
-            guard let previous = _moveHistory.last else { break }
-            if case .Pawn = previous.piece where abs(previous.move.rankChange) == 2 {
-                board[previous.move.end] = previous.piece
+        var captureSquare = move.end
+        var promotion: Piece? = nil
+        if case .Pawn = piece {
+            if move.end == enPassantTarget {
+                captureSquare = Square(file: move.end.file, rank: move.start.rank)
+            } else if move.end.rank == Rank(endFor: playerTurn.inverse()) {
+                promotion = board[move.end]
             }
-            append()
-        default:
-            guard _moveHistory.count > 1 else { break }
-            let other = _moveHistory[_moveHistory.endIndex - 2]
-            let dest: Rank = move.isUpward ? .Eight : .One
-            if case .Pawn = other.piece where move.end.rank == dest {
-                _undoHistory.append((move, piece))
-            } else {
-                append()
-            }
+        } else if case .King = piece where abs(move.fileChange) == 2 {
+            let (old, new) = move._castleSquares()
+            let rook = Piece.Rook(playerTurn.inverse())
+            board[rook][old] = true
+            board[rook][new] = false
         }
+        _undoHistory.append((move, promotion))
+        if let capture = capture {
+            board[capture][captureSquare] = true
+        }
+        board[piece][move.end] = false
+        board[piece][move.start] = true
         playerTurn.invert()
         return move
     }
@@ -725,8 +434,7 @@ public final class Game {
         guard let (move, promotion) = _undoHistory.popLast() else {
             return nil
         }
-        let piece = board[move.start]!
-        try! _executeMove(move, piece: piece, promotion: promotion.map { p in { p } })
+        try! _executeMove(move, promotion: promotion.map { p in { p } })
         return move
     }
 
@@ -737,32 +445,11 @@ private typealias _MoveResult = _Result<Piece, MoveExecutionError>
 /// An error in move execution.
 public enum MoveExecutionError: ErrorType {
 
-    /// The previous move to an attempted en passant was not a double step.
-    case NoPreviousDoubleStep
-
-    /// No piece found at square.
-    case NoPieceToMove(Square)
-
-    /// The move's start and end are the same.
-    case NoMovement
-
-    /// The piece being captured is the same color as that being moved.
-    case SameColorCapturePiece
-
-    /// A piece is obstructing a traversal at square.
-    case ObstructingPiece(Square)
+    /// Attempted illegal move.
+    case IllegalMove
 
     /// Could not promote with a piece.
     case InvalidPromotionPiece(Piece)
-
-    /// Moving a piece of a different color than the player turn.
-    case WrongPieceColor(Color)
-
-    /// Attempt wrong kind of move for piece.
-    case WrongMovementKind(Piece)
-
-    /// Attempted to castle without availability option.
-    case NoAvailabilityOption(CastlingAvailability.Option)
 
 }
 

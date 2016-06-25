@@ -26,7 +26,7 @@
 //
 
 import XCTest
-import Fischer
+@testable import Fischer
 
 class FischerTests: XCTestCase {
 
@@ -201,11 +201,10 @@ class FischerTests: XCTestCase {
         for file in File.all {
             let move = Move(start: Square(location: (file, 2)), end: Square(location: (file, 5)))
             XCTAssertThrowsError(try game.executeMove(move)) { error in
-                guard case let MoveExecutionError.WrongMovementKind(piece) = error else {
-                    XCTFail("Expected MoveExecutionError.WrongMovementKind(Pawn(White)), got \(error)")
+                guard case MoveExecutionError.IllegalMove = error else {
+                    XCTFail("Expected MoveExecutionError.IllegalMove, got \(error)")
                     return
                 }
-                XCTAssertEqual(piece, Piece.Pawn(.White))
             }
         }
         do {
