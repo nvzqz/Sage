@@ -43,7 +43,7 @@ public final class Game {
     }
 
     /// A chess game outcome.
-    public enum Outcome: Hashable {
+    public enum Outcome: Hashable, CustomStringConvertible {
 
         /// A win for a `Color`.
         case Win(Color)
@@ -54,6 +54,18 @@ public final class Game {
         /// The hash value.
         public var hashValue: Int {
             return winColor?.hashValue ?? 2
+        }
+
+        /// A textual representation of `self`.
+        public var description: String {
+            switch self {
+            case .Win(.White):
+                return "1-0"
+            case .Win(.Black):
+                return "0-1"
+            case .Draw:
+                return "1/2-1/2"
+            }
         }
 
         /// The color for the winning player.
