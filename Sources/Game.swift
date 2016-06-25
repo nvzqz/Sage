@@ -99,7 +99,7 @@ public final class Game {
         public var castlingAvailability: CastlingAvailability
 
         /// The en passant target location.
-        public var enPassantTarget: Location?
+        public var enPassantTarget: Square?
 
         /// The halfmove number.
         public var halfmoves: UInt
@@ -116,7 +116,7 @@ public final class Game {
         public init(board: Board = Board(),
                     playerTurn: PlayerTurn = .White,
                     castlingAvailability: CastlingAvailability = .all,
-                    enPassantTarget: Location? = nil,
+                    enPassantTarget: Square? = nil,
                     halfmoves: UInt = 0,
                     fullmoves: UInt = 1) {
             self.board = board
@@ -148,17 +148,14 @@ public final class Game {
                 let halfmoves = UInt(parts[4]),
                 let fullmoves = UInt(parts[5]) where fullmoves > 0
                 else { return nil }
-            var target: Location? = nil
+            var target: Square? = nil
             let targetStr = parts[3]
             let targetChars = targetStr.characters
             if targetChars.count == 2 {
-                guard let file = targetChars.first.flatMap(File.init),
-                    let rank = targetChars.last.flatMap({ char in
-                        return Int(String(char)).flatMap(Rank.init(_:))
-                    }) else {
-                        return nil
+                guard let square = Square.init(targetStr) else {
+                    return nil
                 }
-                target = (file, rank)
+                target = square
             } else {
                 guard targetStr == "-" else {
                     return nil
@@ -177,7 +174,7 @@ public final class Game {
         public func fen() -> String {
             return board.fen()
                 + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailability) "
-                + (enPassantTarget.map({ f, r in "\(f)\(r)".lowercaseString }) ?? "-")
+                + (enPassantTarget.map({ "\($0)".lowercaseString }) ?? "-")
                 + " \(halfmoves) \(fullmoves)"
         }
 
@@ -240,10 +237,14 @@ public final class Game {
     }
 
     /// The target move location for an en passant.
-    public var enPassantTarget: Location? {
-        guard let (move, piece, _) = _moveHistory.last, case .Pawn = piece
-            where abs(move.rankChange) == 2 else { return nil }
-        return (move.start.file, move.isUpward ? .Three : .Six)
+    public var enPassantTarget: Square? {
+        guard let (move, piece, _) = _moveHistory.last, case .Pawn = piece else {
+            return nil
+        }
+        guard abs(move.rankChange) == 2 else {
+            return nil
+        }
+        return Square(file: move.start.file, rank: move.isUpward ? .Three : .Six)
     }
 
     /// The current position for `self`.
@@ -346,7 +347,7 @@ public final class Game {
                         guard let target = enPassantTarget else {
                             return false
                         }
-                        return move.end.location == target
+                        return move.end == target
                     }
                 } else {
                     guard board[move.end] == nil else {
