@@ -416,6 +416,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         self = filled(toward: direction, stoppers: stoppers)
     }
 
+    /// Swaps the bits between the two squares.
+    public mutating func swap(first: Square, _ second: Square) {
+        (self[first], self[second]) = (self[second], self[first])
+    }
+
     /// Removes the least significant bit and returns its index, if any.
     public mutating func popLSB() -> Int? {
         let lsb = self.lsb.rawValue
