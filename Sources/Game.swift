@@ -279,7 +279,7 @@ public final class Game {
     /// The available moves for the current player.
     @warn_unused_result
     public func availableMoves() -> [Move] {
-        return Array(board.map({ movesForPiece(at: $0.location) }).flatten())
+        return Array(Square.all.map(movesForPiece).flatten())
     }
 
     /// Returns the moves currently available for the piece at `square`, if any.
