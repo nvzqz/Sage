@@ -206,20 +206,14 @@ public final class Game {
 
     }
 
-    /// A move history record.
-    private typealias _MoveRecord = (move: Move, piece: Piece, capture: Piece?)
-
-    /// An undo history record.
-    private typealias _UndoRecord = (move: Move, promotion: Piece?)
-
     /// A player turn.
     public typealias PlayerTurn = Color
 
     /// All of the conducted moves in the game.
-    private var _moveHistory: [_MoveRecord]
+    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?)]
 
     /// All of the undone moves in the game.
-    private var _undoHistory: [_UndoRecord]
+    private var _undoHistory: [(move: Move, promotion: Piece?)]
 
     /// The game's board.
     public private(set) var board: Board
