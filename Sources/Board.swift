@@ -387,6 +387,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }).reduce(0, combine: |)
     }
 
+    /// Returns the bitboard for all pieces.
+    @warn_unused_result
+    public func bitboard() -> Bitboard {
+        return _bitboards.reduce(0, combine: { $0 | $1.1 })
+    }
+
     /// Returns the spaces at `file`.
     @warn_unused_result
     public func spaces(at file: File) -> [Space] {
