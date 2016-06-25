@@ -439,7 +439,17 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// Swaps the pieces between the two squares.
     public mutating func swap(first: Square, _ second: Square) {
-        (self[first], self[second]) = (self[second], self[first])
+        switch (self[first], self[second]) {
+        case let (firstPiece?, secondPiece?):
+            self[firstPiece].swap(first, second)
+            self[secondPiece].swap(first, second)
+        case let (firstPiece?, nil):
+            self[firstPiece].swap(first, second)
+        case let (nil, secondPiece?):
+            self[secondPiece].swap(first, second)
+        default:
+            break
+        }
     }
 
     /// Returns the locations where `piece` exists.
