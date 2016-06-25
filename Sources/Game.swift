@@ -90,6 +90,20 @@ public final class Game {
             return !isWin
         }
 
+        /// Create an outcome from `string`.
+        public init?(_ string: String) {
+            switch string {
+            case "1-0":
+                self = .Win(.White)
+            case "0-1":
+                self = .Win(.Black)
+            case "1/2-1/2":
+                self = .Draw
+            default:
+                return nil
+            }
+        }
+
         /// The point value for a player. Can be 1 for win, 0.5 for draw, or
         /// 0 for loss.
         public func valueFor(player color: Color) -> Double {
