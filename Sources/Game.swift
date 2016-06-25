@@ -95,8 +95,8 @@ public final class Game {
         /// The active player turn.
         public var playerTurn: PlayerTurn
 
-        /// The castling availability.
-        public var castlingAvailability: CastlingAvailability
+        /// The castling rights.
+        public var castlingRights: CastlingRights
 
         /// The en passant target location.
         public var enPassantTarget: Square?
@@ -115,13 +115,13 @@ public final class Game {
         /// Create a position.
         public init(board: Board = Board(),
                     playerTurn: PlayerTurn = .White,
-                    castlingAvailability: CastlingAvailability = .all,
+                    castlingRights: CastlingRights = .all,
                     enPassantTarget: Square? = nil,
                     halfmoves: UInt = 0,
                     fullmoves: UInt = 1) {
             self.board = board
             self.playerTurn = playerTurn
-            self.castlingAvailability = castlingAvailability
+            self.castlingRights = castlingRights
             self.enPassantTarget = enPassantTarget
             self.halfmoves = halfmoves
             self.fullmoves = fullmoves
@@ -131,7 +131,7 @@ public final class Game {
         public init(game: Game) {
             self.board = game.board
             self.playerTurn = game.playerTurn
-            self.castlingAvailability = game.castlingAvailability
+            self.castlingRights = game.castlingRights
             self.enPassantTarget = game.enPassantTarget
             self.halfmoves = game.halfmoves
             self.fullmoves = game.fullmoves
@@ -144,7 +144,7 @@ public final class Game {
                 let board = Board(fen: parts[0])
                 where parts[1].characters.count == 1,
                 let playerTurn = parts[1].characters.first.flatMap(Color.init),
-                let availability = CastlingAvailability(string: parts[2]),
+                let rights = CastlingRights(string: parts[2]),
                 let halfmoves = UInt(parts[4]),
                 let fullmoves = UInt(parts[5]) where fullmoves > 0
                 else { return nil }
@@ -163,7 +163,7 @@ public final class Game {
             }
             self.init(board: board,
                       playerTurn: playerTurn,
-                      castlingAvailability: availability,
+                      castlingRights: rights,
                       enPassantTarget: target,
                       halfmoves: halfmoves,
                       fullmoves: fullmoves)
@@ -173,7 +173,7 @@ public final class Game {
         @warn_unused_result
         public func fen() -> String {
             return board.fen()
-                + " \(playerTurn.isWhite ? "w" : "b") \(castlingAvailability) "
+                + " \(playerTurn.isWhite ? "w" : "b") \(castlingRights) "
                 + (enPassantTarget.map({ "\($0)".lowercaseString }) ?? "-")
                 + " \(halfmoves) \(fullmoves)"
         }
@@ -201,8 +201,8 @@ public final class Game {
     /// The current player's turn.
     public private(set) var playerTurn: PlayerTurn
 
-    /// The castling availability.
-    public private(set) var castlingAvailability: CastlingAvailability
+    /// The castling rights.
+    public private(set) var castlingRights: CastlingRights
 
     /// The game's mode.
     public var mode: Mode
@@ -260,7 +260,7 @@ public final class Game {
         self._undoHistory = []
         self.board = Board(variant: variant)
         self.playerTurn = .White
-        self.castlingAvailability = .all
+        self.castlingRights = .all
         self.mode = mode
         self.variant = variant
     }
@@ -312,7 +312,7 @@ public final class Game {
         }
 
         if case .King = piece where squareBitboard == Bitboard(startFor: piece) {
-            for option in castlingAvailability {
+            for option in castlingRights {
                 if option.color == playerTurn && allBitboard & option.emptySquares == 0 {
                     movesBitboard |= Bitboard(square: option.castleSquare)
                 }
@@ -362,16 +362,16 @@ public final class Game {
             }
         } else if case .Rook = piece {
             switch move.start {
-            case .A1: castlingAvailability.remove(.WhiteQueenside)
-            case .H1: castlingAvailability.remove(.WhiteKingside)
-            case .A8: castlingAvailability.remove(.BlackQueenside)
-            case .H8: castlingAvailability.remove(.BlackKingside)
+            case .A1: castlingRights.remove(.WhiteQueenside)
+            case .H1: castlingRights.remove(.WhiteKingside)
+            case .A8: castlingRights.remove(.BlackQueenside)
+            case .H8: castlingRights.remove(.BlackKingside)
             default:
                 break
             }
         } else if case .King = piece {
-            for option in castlingAvailability where option.color == playerTurn {
-                castlingAvailability.remove(option)
+            for option in castlingRights where option.color == playerTurn {
+                castlingRights.remove(option)
             }
             if abs(move.fileChange) == 2 {
                 let (old, new) = move._castleSquares()
@@ -461,7 +461,7 @@ public func == (lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
 /// Returns `true` if the positions are the same.
 public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
     return lhs.playerTurn == rhs.playerTurn
-        && lhs.castlingAvailability == rhs.castlingAvailability
+        && lhs.castlingRights == rhs.castlingRights
         && lhs.halfmoves == rhs.halfmoves
         && lhs.fullmoves == rhs.fullmoves
         && {
