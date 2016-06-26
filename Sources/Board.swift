@@ -417,7 +417,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// Returns `true` if the king for `color` is in check.
     @warn_unused_result
-    public func kingIsChecked(player color: Color) -> Bool {
+    public func kingIsChecked(for color: Color) -> Bool {
         return attackersToKing(for: color) != 0
     }
 
