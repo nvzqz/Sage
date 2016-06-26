@@ -210,10 +210,10 @@ public final class Game {
     public typealias PlayerTurn = Color
 
     /// All of the conducted moves in the game.
-    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?)]
+    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?, kingAttackers: Bitboard)]
 
     /// All of the undone moves in the game.
-    private var _undoHistory: [(move: Move, promotion: Piece?)]
+    private var _undoHistory: [(move: Move, promotion: Piece?, kingAttackers: Bitboard)]
 
     /// The game's board.
     public private(set) var board: Board
@@ -229,6 +229,19 @@ public final class Game {
 
     /// The game's variant.
     public let variant: Variant
+
+    /// Attackers to the current player's king.
+    private private(set) var attackersToKing: Bitboard
+
+    /// The current player's king is in check.
+    public var kingIsChecked: Bool {
+        return attackersToKing != 0
+    }
+
+    /// The current player's king is checked by two or more pieces.
+    public var kingIsDoubleChecked: Bool {
+        return attackersToKing.count > 1
+    }
 
     /// All of the moves played in the game.
     public var playedMoves: [Move] {
@@ -248,7 +261,7 @@ public final class Game {
     /// The current halfmove clock.
     public var halfmoves: UInt {
         var n: UInt = 0
-        for (_, piece, capture) in _moveHistory.reverse() {
+        for (_, piece, capture, _) in _moveHistory.reverse() {
             if capture != nil { break }
             if case .Pawn = piece { break }
             n += 1
@@ -258,7 +271,7 @@ public final class Game {
 
     /// The target move location for an en passant.
     public var enPassantTarget: Square? {
-        guard let (move, piece, _) = _moveHistory.last, case .Pawn = piece else {
+        guard let (move, piece, _, _) = _moveHistory.last, case .Pawn = piece else {
             return nil
         }
         guard abs(move.rankChange) == 2 else {
@@ -283,6 +296,7 @@ public final class Game {
         self.castlingRights = .all
         self.mode = mode
         self.variant = variant
+        self.attackersToKing = 0
     }
 
     /// Returns the captured pieces for a color, or for all if color is `nil`.
@@ -400,7 +414,7 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-        _moveHistory.append((move, piece, capture))
+        _moveHistory.append((move, piece, capture, attackersToKing))
         if let capture = capture {
             board[capture][captureSquare] = false
         }
@@ -413,6 +427,11 @@ public final class Game {
     public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
         guard isValidMove(move) else { throw MoveExecutionError.IllegalMove }
         try _executeMove(move, promotion: promotion)
+        if kingIsChecked {
+            attackersToKing = 0
+        } else {
+            attackersToKing = board.attackersToKing(for: playerTurn)
+        }
     }
 
     /// Executes the move or throws on error.
@@ -422,7 +441,7 @@ public final class Game {
 
     /// Undoes the previous move and returns it, if any.
     public func undoMove() -> Move? {
-        guard let (move, piece, capture) = _moveHistory.popLast() else {
+        guard let (move, piece, capture, attackers) = _moveHistory.popLast() else {
             return nil
         }
         var captureSquare = move.end
@@ -439,22 +458,24 @@ public final class Game {
             board[rook][old] = true
             board[rook][new] = false
         }
-        _undoHistory.append((move, promotion))
+        _undoHistory.append((move, promotion, attackers))
         if let capture = capture {
             board[capture][captureSquare] = true
         }
         board[piece][move.end] = false
         board[piece][move.start] = true
         playerTurn.invert()
+        attackersToKing = attackers
         return move
     }
 
     /// Redoes the previous undone move and returns it, if any.
     public func redoMove() -> Move? {
-        guard let (move, promotion) = _undoHistory.popLast() else {
+        guard let (move, promotion, attackers) = _undoHistory.popLast() else {
             return nil
         }
         try! _executeMove(move, promotion: promotion.map { p in { p } })
+        attackersToKing = attackers
         return move
     }
 
