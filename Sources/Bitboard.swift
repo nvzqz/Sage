@@ -437,9 +437,14 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         return lsb
     }
 
+    /// Removes the least significant bit and returns its index, if any.
+    public mutating func popLSBIndex() -> Int? {
+        return _index(lsb: popLSB())
+    }
+
     /// Removes the least significant bit and returns its square, if any.
     public mutating func popLSBSquare() -> Square? {
-        return _index(lsb: popLSB()).flatMap({ Square(rawValue: $0) })
+        return popLSBIndex().flatMap({ Square(rawValue: $0) })
     }
 
     /// Returns moves from `square` to the squares in `self`.
