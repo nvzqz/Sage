@@ -243,7 +243,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// The `Bool` value for the bit at `square`.
     public subscript(square: Square) -> Bool {
         get {
-            return 1 << UInt64(square.rawValue) & rawValue != 0
+            return _bitboardTable[square.rawValue].rawValue & rawValue != 0
         }
         set {
             let bit = Bitboard(square: square)
