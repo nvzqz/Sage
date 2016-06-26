@@ -243,7 +243,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// The `Bool` value for the bit at `square`.
     public subscript(square: Square) -> Bool {
         get {
-            return _bitboardTable[square.rawValue].rawValue & rawValue != 0
+            return intersects(with: _bitboardTable[square.rawValue])
         }
         set {
             let bit = Bitboard(square: square)
@@ -346,6 +346,12 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         case .King:
             return _kingAttacks()
         }
+    }
+
+    /// Returns `true` if `self` intersects with `other`.
+    @warn_unused_result
+    public func intersects(with other: Bitboard) -> Bool {
+        return rawValue & other.rawValue != 0
     }
 
     /// Returns `self` flipped horizontally.

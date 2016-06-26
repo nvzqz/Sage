@@ -372,7 +372,7 @@ public final class Game {
     @warn_unused_result
     public func isValidMove(move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
-        return moves & Bitboard(square: move.end) != 0
+        return Bitboard(square: move.end).intersects(with: moves)
     }
 
     /// Executes a move without checking the validity of the move.
