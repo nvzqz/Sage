@@ -33,6 +33,9 @@ private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
                          44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
                          10, 25, 14, 19, 09, 13, 08, 07, 06]
 
+/// A lookup table of bitboards for all squares.
+private let _bitboardTable = (0 ..< 64).map { Bitboard(rawValue: 1 << $0) }
+
 /// Returns the index of the lsb value.
 private func _index(lsb value: UInt64) -> Int? {
     guard value != 0 else {
@@ -234,7 +237,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// Create a bitboard mask for `square`.
     public init(square: Square) {
-        rawValue = 1 << UInt64(square.rawValue)
+        self = _bitboardTable[square.rawValue]
     }
 
     /// The `Bool` value for the bit at `square`.
