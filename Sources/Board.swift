@@ -393,6 +393,22 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return _bitboards.reduce(0, combine: { $0 | $1.1 })
     }
 
+    /// Returns the attackers to `square` corresponding to `color`.
+    @warn_unused_result
+    public func attackers(to square: Square, color: Color) -> Bitboard {
+        let all = bitboard()
+        let pieces: [Piece] = [.Pawn(color), .Knight(color),
+                               .Bishop(color), .Rook(color),
+                               .King(color)]
+        let attacks = pieces.map({ piece in
+            square.attacks(for: piece, stoppers: all)
+        })
+        let queens = (attacks[2] | attacks[3]) & self[.Queen(color)]
+        return zip(pieces, attacks)
+            .map({ self[$0] & $1 })
+            .reduce(queens, combine: |)
+    }
+
     /// Returns the spaces at `file`.
     @warn_unused_result
     public func spaces(at file: File) -> [Space] {
