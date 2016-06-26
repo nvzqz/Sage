@@ -409,6 +409,13 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
             .reduce(queens, combine: |)
     }
 
+    /// Returns `true` if the king for `color` is in check.
+    @warn_unused_result
+    public func kingIsChecked(player color: Color) -> Bool {
+        let kingSquare = squareForKing(for: color)
+        return attackers(to: kingSquare, color: color.inverse()) != 0
+    }
+
     /// Returns the spaces at `file`.
     @warn_unused_result
     public func spaces(at file: File) -> [Space] {
