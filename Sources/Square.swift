@@ -229,7 +229,7 @@ public enum Square: Int, CustomStringConvertible {
     /// The file of `self`.
     public var file: File {
         get {
-            return File(column: rawValue % 8)!
+            return File(column: rawValue & 7)!
         }
         set(newFile) {
             self = Square(file: newFile, rank: rank)

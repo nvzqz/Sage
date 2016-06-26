@@ -456,7 +456,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     /// Returns the ranks of `self` as eight 8-bit integers.
     @warn_unused_result
     public func ranks() -> [UInt8] {
-        return (0 ..< 8).map { UInt8((rawValue >> ($0 * 8)) % 256) }
+        return (0 ..< 8).map { UInt8((rawValue >> ($0 * 8)) & 255) }
     }
 
 }

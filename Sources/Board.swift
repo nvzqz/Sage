@@ -68,7 +68,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
         /// The space's color.
         public var color: Color {
-            return (file.index % 2 != rank.index % 2) ? .White : .Black
+            return (file.index & 1 != rank.index & 1) ? .White : .Black
         }
 
         /// The space's name.
