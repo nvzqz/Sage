@@ -117,7 +117,37 @@ public enum Piece: Hashable, CustomStringConvertible {
 
     /// The piece can be promoted. Only pawns are promotable.
     public var isPromotable: Bool {
+        return isPawn
+    }
+
+    /// The piece is `Pawn`.
+    public var isPawn: Bool {
         if case .Pawn = self { return true } else { return false }
+    }
+
+    /// The piece `Knight`.
+    public var isKnight: Bool {
+        if case .Knight = self { return true } else { return false }
+    }
+
+    /// The piece is `Bishop`.
+    public var isBishop: Bool {
+        if case .Bishop = self { return true } else { return false }
+    }
+
+    /// The piece is `Rook`.
+    public var isRook: Bool {
+        if case .Rook = self { return true } else { return false }
+    }
+
+    /// The piece is `Queen`.
+    public var isQueen: Bool {
+        if case .Queen = self { return true } else { return false }
+    }
+
+    /// The piece is `King`.
+    public var isKing: Bool {
+        if case .King = self { return true } else { return false }
     }
 
     /// A textual representation of `self`.
