@@ -37,11 +37,11 @@ private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
 private let _bitboardTable = (0 ..< 64).map { Bitboard(rawValue: 1 << $0) }
 
 /// Returns the index of the lsb value.
-private func _index(lsb value: UInt64) -> Int? {
+private func _index(lsb value: Bitboard) -> Int? {
     guard value != 0 else {
         return nil
     }
-    return _lsbTable[Int((value &* 0x03f79d71b4cb0a89) >> 58)]
+    return _lsbTable[Int((value.rawValue &* 0x03f79d71b4cb0a89) >> 58)]
 }
 
 /// Returns the pawn attack table for `color`.
@@ -155,7 +155,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
 
     /// The least significant bit index of `self`.
     public var lsbIndex: Int? {
-        return _index(lsb: lsb.rawValue)
+        return _index(lsb: lsb)
     }
 
     /// The square of the least significant bit of `self`.
@@ -430,16 +430,16 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
         (self[first], self[second]) = (self[second], self[first])
     }
 
-    /// Removes the least significant bit and returns its index, if any.
-    public mutating func popLSB() -> Int? {
-        let lsb = self.lsb.rawValue
-        rawValue -= lsb
-        return _index(lsb: lsb)
+    /// Removes the least significant bit and returns it.
+    public mutating func popLSB() -> Bitboard {
+        let lsb = self.lsb
+        rawValue -= lsb.rawValue
+        return lsb
     }
 
     /// Removes the least significant bit and returns its square, if any.
     public mutating func popLSBSquare() -> Square? {
-        return popLSB().flatMap({ Square(rawValue: $0) })
+        return _index(lsb: popLSB()).flatMap({ Square(rawValue: $0) })
     }
 
     /// Returns moves from `square` to the squares in `self`.
