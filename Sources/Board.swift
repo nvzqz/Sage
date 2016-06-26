@@ -409,11 +409,16 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
             .reduce(queens, combine: |)
     }
 
+    /// Returns the attackers to the king for `color`.
+    @warn_unused_result
+    public func attackersToKing(for color: Color) -> Bitboard {
+        return attackers(to: squareForKing(for: color), color: color.inverse())
+    }
+
     /// Returns `true` if the king for `color` is in check.
     @warn_unused_result
     public func kingIsChecked(player color: Color) -> Bool {
-        let kingSquare = squareForKing(for: color)
-        return attackers(to: kingSquare, color: color.inverse()) != 0
+        return attackersToKing(for: color) != 0
     }
 
     /// Returns the spaces at `file`.
