@@ -432,6 +432,7 @@ public final class Game {
         } else {
             attackersToKing = board.attackersToKing(for: playerTurn)
         }
+        _undoHistory = []
     }
 
     /// Executes the move or throws on error.
