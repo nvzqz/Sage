@@ -322,6 +322,13 @@ public final class Game {
         guard let piece = board[square] where piece.color == playerTurn else {
             return 0
         }
+
+        if kingIsDoubleChecked {
+            guard piece.isKing else {
+                return 0
+            }
+        }
+
         let playerBitboard = board.bitboard(for: playerTurn)
         let enemyBitboard = board.bitboard(for: playerTurn.inverse())
         let allBitboard = playerBitboard | enemyBitboard
@@ -351,6 +358,14 @@ public final class Game {
                     movesBitboard |= Bitboard(square: option.castleSquare)
                 }
             }
+        }
+
+        for moveSquare in movesBitboard.squares {
+            try! _executeMove(square >>> moveSquare, promotion: nil)
+            if kingIsChecked {
+                movesBitboard[moveSquare] = false
+            }
+            undoMove()
         }
 
         return movesBitboard
