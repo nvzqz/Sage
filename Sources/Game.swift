@@ -360,9 +360,10 @@ public final class Game {
             }
         }
 
+        let player = playerTurn
         for moveSquare in movesBitboard.squares {
             try! _executeMove(square >>> moveSquare, promotion: nil)
-            if kingIsChecked {
+            if board.attackersToKing(for: player) != 0 {
                 movesBitboard[moveSquare] = false
             }
             undoMove()
