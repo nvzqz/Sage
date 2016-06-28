@@ -477,6 +477,18 @@ public final class Game {
         try executeMove(move, promotion: { promotion })
     }
 
+    /// Returns the last move on the move stack, if any.
+    @warn_unused_result
+    public func moveToUndo() -> Move? {
+        return _moveHistory.last?.move
+    }
+
+    /// Returns the last move on the undo stack, if any.
+    @warn_unused_result
+    public func moveToRedo() -> Move? {
+        return _undoHistory.last?.move
+    }
+
     /// Undoes the previous move and returns it, if any.
     public func undoMove() -> Move? {
         guard let (move, piece, capture, attackers) = _moveHistory.popLast() else {
