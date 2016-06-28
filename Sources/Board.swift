@@ -154,6 +154,28 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     }
 
+    /// A generator for the spaces of a chess board.
+    public struct Generator: GeneratorType {
+
+        private let _board: Board
+        private var _index: Int
+
+        private init(_ board: Board) {
+            self._board = board
+            self._index = 0
+        }
+
+        /// Advances to the next space on the board.
+        public mutating func next() -> Board.Space? {
+            guard let square = Square(rawValue: _index) else {
+                return nil
+            }
+            defer { _index += 1 }
+            return _board.space(at: square)
+        }
+        
+    }
+
     /// A board side.
     public enum Side {
 
@@ -541,30 +563,8 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     ///
     /// - Complexity: O(1).
     @warn_unused_result
-    public func generate() -> BoardGenerator {
-        return BoardGenerator(self)
-    }
-
-}
-
-/// A generator for the spaces of a chess board.
-public struct BoardGenerator: GeneratorType {
-
-    private let _board: Board
-    private var _index: Int
-
-    private init(_ board: Board) {
-        self._board = board
-        self._index = 0
-    }
-
-    /// Advances to the next space on the board.
-    public mutating func next() -> Board.Space? {
-        guard let square = Square(rawValue: _index) else {
-            return nil
-        }
-        defer { _index += 1 }
-        return _board.space(at: square)
+    public func generate() -> Generator {
+        return Generator(self)
     }
 
 }
