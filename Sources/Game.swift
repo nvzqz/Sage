@@ -404,14 +404,14 @@ public final class Game {
         return movesForPiece(at: Square(location: location))
     }
 
-    /// Returns `true` if the move is valid.
+    /// Returns `true` if the move is legal.
     @warn_unused_result
-    public func isValidMove(move: Move) -> Bool {
+    public func isLegalMove(move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
         return Bitboard(square: move.end).intersects(with: moves)
     }
 
-    /// Executes a move without checking the validity of the move.
+    /// Executes a move without checking the legality of the move.
     private func _executeMove(move: Move, promotion: (() -> Piece)?) throws {
         let piece = board[move.start]!
         var endPiece = piece
@@ -461,7 +461,7 @@ public final class Game {
 
     /// Executes the move or throws on error.
     public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
-        guard isValidMove(move) else {
+        guard isLegalMove(move) else {
             throw MoveExecutionError.IllegalMove(move, playerTurn, board)
         }
         try _executeMove(move, promotion: promotion)
