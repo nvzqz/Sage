@@ -491,6 +491,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return bitboard(for: piece).squares
     }
 
+    /// Returns the squares where pieces for `color` exist.
+    @warn_unused_result
+    public func squares(for color: Color) -> [Square] {
+        return bitboard(for: color).squares
+    }
+
     /// Returns the square of the king for `color`.
     @warn_unused_result
     public func squareForKing(for color: Color) -> Square {
