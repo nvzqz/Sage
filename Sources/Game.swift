@@ -285,6 +285,18 @@ public final class Game {
         return Position(game: self)
     }
 
+    /// Create a game from another.
+    private init(game: Game) {
+        self._moveHistory    = game._moveHistory
+        self._undoHistory    = game._undoHistory
+        self.board           = game.board
+        self.playerTurn      = game.playerTurn
+        self.castlingRights  = game.castlingRights
+        self.mode            = game.mode
+        self.variant         = game.variant
+        self.attackersToKing = game.attackersToKing
+    }
+
     /// Creates a new chess game.
     ///
     /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
@@ -297,6 +309,14 @@ public final class Game {
         self.mode = mode
         self.variant = variant
         self.attackersToKing = 0
+    }
+
+    /// Returns a copy of `self`.
+    ///
+    /// - Complexity: O(1).
+    @warn_unused_result
+    public func copy() -> Game {
+        return Game(game: self)
     }
 
     /// Returns the captured pieces for a color, or for all if color is `nil`.
