@@ -209,7 +209,7 @@ public final class Game {
     public typealias PlayerTurn = Color
 
     /// All of the conducted moves in the game.
-    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?, kingAttackers: Bitboard)]
+    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?, kingAttackers: Bitboard, halfmoves: UInt)]
 
     /// All of the undone moves in the game.
     private var _undoHistory: [(move: Move, promotion: Piece?, kingAttackers: Bitboard)]
@@ -258,19 +258,11 @@ public final class Game {
     }
 
     /// The current halfmove clock.
-    public var halfmoves: UInt {
-        var n: UInt = 0
-        for (_, piece, capture, _) in _moveHistory.reverse() {
-            if capture != nil { break }
-            if case .Pawn = piece { break }
-            n += 1
-        }
-        return n
-    }
+    public private(set) var halfmoves: UInt
 
     /// The target move location for an en passant.
     public var enPassantTarget: Square? {
-        guard let (move, piece, _, _) = _moveHistory.last, case .Pawn = piece else {
+        guard let (move, piece, _, _, _) = _moveHistory.last, case .Pawn = piece else {
             return nil
         }
         guard abs(move.rankChange) == 2 else {
@@ -294,6 +286,7 @@ public final class Game {
         self.mode            = game.mode
         self.variant         = game.variant
         self.attackersToKing = game.attackersToKing
+        self.halfmoves       = game.halfmoves
     }
 
     /// Creates a new chess game.
@@ -308,6 +301,7 @@ public final class Game {
         self.mode = mode
         self.variant = variant
         self.attackersToKing = 0
+        self.halfmoves = 0
     }
 
     /// Returns a copy of `self`.
@@ -338,10 +332,12 @@ public final class Game {
     /// Returns the moves bitboard currently available for the piece at `square`, if any.
     @warn_unused_result
     public func movesBitboardForPiece(at square: Square) -> Bitboard {
+        if halfmoves >= 100 {
+            return 0
+        }
         guard let piece = board[square] where piece.color == playerTurn else {
             return 0
         }
-
         if kingIsDoubleChecked {
             guard piece.isKing else {
                 return 0
@@ -449,10 +445,19 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-        _moveHistory.append((move, piece, capture, attackersToKing))
+
+        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves))
+
         if let capture = capture {
             board[capture][captureSquare] = false
         }
+
+        if capture == nil && !piece.isPawn {
+            halfmoves += 1
+        } else {
+            halfmoves = 0
+        }
+
         board[piece][move.start] = false
         board[endPiece][move.end] = true
         playerTurn.invert()
@@ -491,7 +496,7 @@ public final class Game {
 
     /// Undoes the previous move and returns it, if any.
     public func undoMove() -> Move? {
-        guard let (move, piece, capture, attackers) = _moveHistory.popLast() else {
+        guard let (move, piece, capture, attackers, halfmoves) = _moveHistory.popLast() else {
             return nil
         }
         var captureSquare = move.end
@@ -519,6 +524,7 @@ public final class Game {
         board[piece][move.start] = true
         playerTurn.invert()
         attackersToKing = attackers
+        self.halfmoves = halfmoves
         return move
     }
 
