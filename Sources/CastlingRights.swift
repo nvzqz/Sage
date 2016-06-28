@@ -167,8 +167,7 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
 
         private var _base: SetGenerator<Right>
 
-        /// Advance to the next element and return it, or `nil` if no next
-        /// element exists.
+        /// Advance to the next element and return it, or `nil` if no next element exists.
         public mutating func next() -> Right? {
             return _base.next()
         }
@@ -231,8 +230,7 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         return _rights.contains(member)
     }
 
-    /// Returns the set of elements contained in `self`, in `other`, or in
-    /// both `self` and `other`.
+    /// Returns the set of elements contained in `self`, in `other`, or in both `self` and `other`.
     @warn_unused_result(mutable_variant="unionInPlace")
     public func union(other: CastlingRights) -> CastlingRights {
         return CastlingRights(_rights.union(other._rights))
@@ -244,8 +242,7 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         return CastlingRights(_rights.intersect(other._rights))
     }
 
-    /// Returns the set of elements contained in `self` or in `other`,
-    /// but not in both `self` and `other`.
+    /// Returns the set of elements contained in `self` or in `other`, but not in both `self` and `other`.
     @warn_unused_result(mutable_variant="exclusiveOrInPlace")
     public func exclusiveOr(other: CastlingRights) -> CastlingRights {
         return CastlingRights(_rights.exclusiveOr(other._rights))
@@ -256,14 +253,12 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         _rights.unionInPlace(other._rights)
     }
 
-    /// Removes all elements of `self` that are not also present in
-    /// `other`.
+    /// Removes all elements of `self` that are not also present in `other`.
     public mutating func intersectInPlace(other: CastlingRights) {
         _rights.unionInPlace(other._rights)
     }
 
-    /// Replaces `self` with a set containing all elements contained in
-    /// either `self` or `other`, but not both.
+    /// Replaces `self` with a set containing all elements contained in either `self` or `other`, but not both.
     public mutating func exclusiveOrInPlace(other: CastlingRights) {
         _rights.exclusiveOrInPlace(other._rights)
     }
@@ -273,9 +268,8 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         _rights.insert(member)
     }
 
-    /// If `member` is contained in `self`, removes and returns it.
-    /// Otherwise, removes all elements subsumed by `member` and returns
-    /// `nil`.
+    /// If `member` is contained in `self`, removes and returns it. Otherwise, removes all elements subsumed by `member`
+    /// and returns `nil`.
     ///
     /// - Postcondition: `self.intersect([member]).isEmpty`
     public mutating func remove(member: Right) -> Right? {

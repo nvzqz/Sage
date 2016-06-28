@@ -1,0 +1,20 @@
+included:
+    - Sources
+    - Tests
+
+disabled_rules: # rule identifiers to exclude from running
+    - valid_docs
+    - cyclomatic_complexity
+    - variable_name
+    - type_name
+    - force_try
+    - type_body_length
+    - file_length
+    - comma
+
+opt_in_rules: # some rules are only opt-in
+    - empty_count
+    - missing_docs
+
+# configurable rules can be customized from this configuration file
+line_length: 120

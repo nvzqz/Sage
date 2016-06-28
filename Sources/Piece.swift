@@ -113,8 +113,7 @@ public enum Piece: Hashable, CustomStringConvertible {
         }
     }
 
-    /// The piece's relative value. Can be used to determine how valuable a
-    /// piece or combination of pieces is.
+    /// The piece's relative value. Can be used to determine how valuable a piece or combination of pieces is.
     public var relativeValue: Double {
         switch self {
         case .Pawn:   return 1

@@ -36,7 +36,7 @@ public enum File: Int, Comparable, CustomStringConvertible {
 
         /// Right direction.
         case Right
-        
+
     }
 
     /// File "A".

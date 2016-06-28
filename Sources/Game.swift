@@ -104,8 +104,7 @@ public final class Game {
             }
         }
 
-        /// The point value for a player. Can be 1 for win, 0.5 for draw, or
-        /// 0 for loss.
+        /// The point value for a player. Can be 1 for win, 0.5 for draw, or 0 for loss.
         public func valueFor(player color: Color) -> Double {
             return winColor.map({ $0 == color ? 1 : 0 }) ?? 0.5
         }
@@ -170,9 +169,9 @@ public final class Game {
                 let board = Board(fen: parts[0])
                 where parts[1].characters.count == 1,
                 let playerTurn = parts[1].characters.first.flatMap(Color.init),
-                let rights = CastlingRights(string: parts[2]),
-                let halfmoves = UInt(parts[4]),
-                let fullmoves = UInt(parts[5]) where fullmoves > 0
+                rights = CastlingRights(string: parts[2]),
+                halfmoves = UInt(parts[4]),
+                fullmoves = UInt(parts[5]) where fullmoves > 0
                 else { return nil }
             var target: Square? = nil
             let targetStr = parts[3]

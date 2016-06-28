@@ -159,67 +159,67 @@ public enum Square: Int, CustomStringConvertible {
 
     /// C6 square.
     case C6
-    
+
     /// D6 square.
     case D6
-    
+
     /// E6 square.
     case E6
-    
+
     /// F6 square.
     case F6
-    
+
     /// G6 square.
     case G6
-    
+
     /// H6 square.
     case H6
-    
+
     /// A7 square.
     case A7
-    
+
     /// B7 square.
     case B7
-    
+
     /// C7 square.
     case C7
-    
+
     /// D7 square.
     case D7
-    
+
     /// E7 square.
     case E7
-    
+
     /// F7 square.
     case F7
-    
+
     /// G7 square.
     case G7
-    
+
     /// H7 square.
     case H7
-    
+
     /// A8 square.
     case A8
-    
+
     /// B8 square.
     case B8
-    
+
     /// C8 square.
     case C8
-    
+
     /// D8 square.
     case D8
-    
+
     /// E8 square.
     case E8
-    
+
     /// F8 square.
     case F8
-    
+
     /// G8 square.
     case G8
-    
+
     /// H8 square.
     case H8
 
@@ -309,8 +309,7 @@ public enum Square: Int, CustomStringConvertible {
     /// Returns a bitboard mask of attacks for a piece at `self`.
     ///
     /// - Parameter piece: The piece for the attacks.
-    /// - Parameter stoppers: The pieces stopping a sliding move. The returned
-    ///   bitboard includes the stopped space.
+    /// - Parameter stoppers: The pieces stopping a sliding move. The returned bitboard includes the stopped space.
     ///
     /// - SeeAlso: `attackMoves(for:stoppers:)`
     @warn_unused_result

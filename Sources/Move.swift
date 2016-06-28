@@ -98,8 +98,8 @@ public struct Move: Hashable, CustomStringConvertible {
             && abs(fileChange) == 2
     }
 
-    /// The move is a knight jump two spaces horizontally and one space
-    /// vertically, or two spaces vertically and one space horizontally.
+    /// The move is a knight jump two spaces horizontally and one space vertically, or two spaces vertically and one
+    /// space horizontally.
     public var isKnightJump: Bool {
         let fileChange = abs(self.fileChange)
         let rankChange = abs(self.rankChange)

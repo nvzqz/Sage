@@ -36,7 +36,7 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
 
         /// Down direction.
         case Down
-        
+
     }
 
     /// Rank 1.

@@ -173,7 +173,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
             defer { _index += 1 }
             return _board.space(at: square)
         }
-        
+
     }
 
     /// A board side.
@@ -232,8 +232,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// Create a chess board.
     ///
-    /// - Parameter variant: The variant to populate the board for. Won't
-    ///   populate if `nil`. Default is `Standard`.
+    /// - Parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = .Standard) {
         if let variant = variant {
             _bitboards = [:]
@@ -246,12 +245,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
                 }
             }
         } else {
-            _bitboards = [.Pawn(.White):   0, .Knight(.White): 0,
-                          .Bishop(.White): 0, .Rook(.White):   0,
-                          .Queen(.White):  0, .King(.White):   0,
-                          .Pawn(.Black):   0, .Knight(.Black): 0,
-                          .Bishop(.Black): 0, .Rook(.Black):   0,
-                          .Queen(.Black):  0, .King(.Black):   0]
+            _bitboards = [.Pawn(.White):   0, .Knight(.White): 0, .Bishop(.White): 0, .Rook(.White):   0,
+                          .Queen(.White):  0, .King(.White):   0, .Pawn(.Black):   0, .Knight(.Black): 0,
+                          .Bishop(.Black): 0, .Rook(.Black):   0, .Queen(.Black):  0, .King(.Black):   0]
         }
     }
 
@@ -338,8 +334,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }
     }
 
-    /// Populates `self` with with all of the pieces at their proper locations
-    /// for the given chess variant.
+    /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
     public mutating func populate(for variant: Variant = .Standard) {
         self = Board(variant: variant)
     }
@@ -584,11 +579,10 @@ extension Board: CustomPlaygroundQuickLookable {
         }
         return .View(view)
     }
-        
+
 }
 
 #endif
-
 
 /// Returns `true` if both boards are the same.
 @warn_unused_result
