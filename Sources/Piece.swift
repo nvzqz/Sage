@@ -60,6 +60,11 @@ public enum Piece: Hashable, CustomStringConvertible {
     /// An array of all black pieces.
     public static let blackPieces: [Piece] = all.filter({ $0.color == .Black })
 
+    /// Returns an array of all pieces for `color`.
+    public static func pieces(for color: Color) -> [Piece] {
+        return color.isWhite ? whitePieces : blackPieces
+    }
+
     /// The piece's color.
     public var color: Color {
         get {
