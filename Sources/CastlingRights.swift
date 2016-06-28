@@ -135,7 +135,7 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
             }
         }
 
-        /// Create an `Right` from `color` and `side`.
+        /// Create a `Right` from `color` and `side`.
         public init(color: Color, side: Board.Side) {
             switch (color, side) {
             case (.White, .Kingside):
@@ -149,7 +149,7 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
             }
         }
 
-        /// Create an `Right` from a `Character`.
+        /// Create a `Right` from a `Character`.
         public init?(character: Character) {
             switch character {
             case "K": self = .WhiteKingside
