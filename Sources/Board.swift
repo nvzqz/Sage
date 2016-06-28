@@ -234,8 +234,8 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     ///
     /// - Parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = .Standard) {
+        _bitboards = [:]
         if let variant = variant {
-            _bitboards = [:]
             for piece in Piece.all {
                 _bitboards[piece] = Bitboard(startFor: piece)
             }
@@ -245,9 +245,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
                 }
             }
         } else {
-            _bitboards = [.Pawn(.White):   0, .Knight(.White): 0, .Bishop(.White): 0, .Rook(.White):   0,
-                          .Queen(.White):  0, .King(.White):   0, .Pawn(.Black):   0, .Knight(.Black): 0,
-                          .Bishop(.Black): 0, .Rook(.Black):   0, .Queen(.Black):  0, .King(.Black):   0]
+            for piece in Piece.all {
+                _bitboards[piece] = 0
+            }
         }
     }
 
