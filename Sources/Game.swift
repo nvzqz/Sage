@@ -498,8 +498,6 @@ public final class Game {
 
 }
 
-private typealias _MoveResult = _Result<Piece, MoveExecutionError>
-
 /// An error in move execution.
 public enum MoveExecutionError: ErrorType {
 
