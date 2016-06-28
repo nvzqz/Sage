@@ -501,6 +501,9 @@ public final class Game {
         if let capture = capture {
             board[capture][captureSquare] = true
         }
+        if let promotion = promotion {
+            board[promotion][move.end] = false
+        }
         board[piece][move.end] = false
         board[piece][move.start] = true
         playerTurn.invert()
