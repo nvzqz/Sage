@@ -276,6 +276,20 @@ public final class Game {
         return Position(game: self)
     }
 
+    /// The outcome for `self` if no moves are available.
+    public var outcome: Outcome? {
+        let moves = _availableMoves(considerHalfmoves: false)
+        if moves.isEmpty {
+            if kingIsChecked {
+                return .Win(playerTurn.inverse())
+            } else {
+                return .Draw
+            }
+        } else {
+            return nil
+        }
+    }
+
     /// Create a game from another.
     private init(game: Game) {
         self._moveHistory    = game._moveHistory
@@ -323,16 +337,10 @@ public final class Game {
         }
     }
 
-    /// Returns the available moves for the current player.
-    @warn_unused_result
-    public func availableMoves() -> [Move] {
-        return Array(Square.all.map(movesForPiece).flatten())
-    }
-
     /// Returns the moves bitboard currently available for the piece at `square`, if any.
     @warn_unused_result
-    public func movesBitboardForPiece(at square: Square) -> Bitboard {
-        if halfmoves >= 100 {
+    private func _movesBitboardForPiece(at square: Square, considerHalfmoves: Bool) -> Bitboard {
+        if considerHalfmoves && halfmoves >= 100 {
             return 0
         }
         guard let piece = board[square] where piece.color == playerTurn else {
@@ -389,8 +397,32 @@ public final class Game {
 
     /// Returns the moves currently available for the piece at `square`, if any.
     @warn_unused_result
+    private func _movesForPiece(at square: Square, considerHalfmoves flag: Bool) -> [Move] {
+        return _movesBitboardForPiece(at: square, considerHalfmoves: flag).moves(from: square)
+    }
+
+    /// Returns the available moves for the current player.
+    @warn_unused_result
+    private func _availableMoves(considerHalfmoves flag: Bool) -> [Move] {
+        return Array(Square.all.map({ _movesForPiece(at: $0, considerHalfmoves: flag) }).flatten())
+    }
+
+    /// Returns the available moves for the current player.
+    @warn_unused_result
+    public func availableMoves() -> [Move] {
+        return _availableMoves(considerHalfmoves: true)
+    }
+
+    /// Returns the moves bitboard currently available for the piece at `square`, if any.
+    @warn_unused_result
+    public func movesBitboardForPiece(at square: Square) -> Bitboard {
+        return _movesBitboardForPiece(at: square, considerHalfmoves: true)
+    }
+
+    /// Returns the moves currently available for the piece at `square`, if any.
+    @warn_unused_result
     public func movesForPiece(at square: Square) -> [Move] {
-        return movesBitboardForPiece(at: square).moves(from: square)
+        return _movesForPiece(at: square, considerHalfmoves: true)
     }
 
     /// Returns the moves currently available for the piece at `location`, if any.
