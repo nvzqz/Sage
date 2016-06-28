@@ -397,14 +397,13 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     @warn_unused_result
     public func attackers(to square: Square, color: Color) -> Bitboard {
         let all = bitboard()
-        let pieces: [Piece] = [.Pawn(color), .Knight(color),
-                               .Bishop(color), .Rook(color),
-                               .King(color)]
-        let attacks = pieces.map({ piece in
+        let attackPieces = Piece.pieces(for: color)
+        let playerPieces = Piece.pieces(for: color.inverse())
+        let attacks = playerPieces.map({ piece in
             square.attacks(for: piece, stoppers: all)
         })
         let queens = (attacks[2] | attacks[3]) & self[.Queen(color)]
-        return zip(pieces, attacks)
+        return zip(attackPieces, attacks)
             .map({ self[$0] & $1 })
             .reduce(queens, combine: |)
     }
