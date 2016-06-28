@@ -54,6 +54,12 @@ public enum Piece: Hashable, CustomStringConvertible {
                                       .Bishop(.Black), .Rook(.Black),
                                       .Queen(.Black),  .King(.Black)]
 
+    /// An array of all white pieces.
+    public static let whitePieces: [Piece] = all.filter({ $0.color == .White })
+
+    /// An array of all black pieces.
+    public static let blackPieces: [Piece] = all.filter({ $0.color == .Black })
+
     /// The piece's color.
     public var color: Color {
         get {
