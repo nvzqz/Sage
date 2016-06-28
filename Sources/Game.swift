@@ -461,7 +461,9 @@ public final class Game {
 
     /// Executes the move or throws on error.
     public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
-        guard isValidMove(move) else { throw MoveExecutionError.IllegalMove }
+        guard isValidMove(move) else {
+            throw MoveExecutionError.IllegalMove(move, playerTurn, board)
+        }
         try _executeMove(move, promotion: promotion)
         if kingIsChecked {
             attackersToKing = 0
@@ -522,7 +524,7 @@ public final class Game {
 public enum MoveExecutionError: ErrorType {
 
     /// Attempted illegal move.
-    case IllegalMove
+    case IllegalMove(Move, Color, Board)
 
     /// Could not promote with a piece.
     case InvalidPromotionPiece(Piece)
