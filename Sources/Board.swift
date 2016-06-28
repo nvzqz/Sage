@@ -433,7 +433,10 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// Returns the attackers to the king for `color`.
     @warn_unused_result
     public func attackersToKing(for color: Color) -> Bitboard {
-        return attackers(to: squareForKing(for: color), color: color.inverse())
+        guard let square = squareForKing(for: color) else {
+            return 0
+        }
+        return attackers(to: square, color: color.inverse())
     }
 
     /// Returns `true` if the king for `color` is in check.
@@ -519,13 +522,10 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return bitboard(for: color).squares
     }
 
-    /// Returns the square of the king for `color`.
+    /// Returns the square of the king for `color`, if any.
     @warn_unused_result
-    public func squareForKing(for color: Color) -> Square {
-        guard let index = bitboard(for: .King(color)).lsbIndex else {
-            fatalError("Board does not contain king piece")
-        }
-        return Square(rawValue: index)!
+    public func squareForKing(for color: Color) -> Square? {
+        return bitboard(for: .King(color)).lsbSquare
     }
 
     /// Returns `true` if `self` contains `piece`.
