@@ -256,6 +256,11 @@ public enum Square: Int, CustomStringConvertible {
         }
     }
 
+    /// The square's color.
+    public var color: Color {
+        return (file.index & 1 != rank.index & 1) ? .White : .Black
+    }
+
     /// A textual representation of `self`.
     public var description: String {
         return "\(file)\(rank)"
