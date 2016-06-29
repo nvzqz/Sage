@@ -239,7 +239,7 @@ public enum Square: Int, CustomStringConvertible {
     /// The rank of `self`.
     public var rank: Rank {
         get {
-            return Rank(row: rawValue / 8)!
+            return Rank(row: rawValue >> 3)!
         }
         set(newRank) {
             self = Square(file: file, rank: newRank)
@@ -263,7 +263,7 @@ public enum Square: Int, CustomStringConvertible {
 
     /// Create a square from `file` and `rank`.
     public init(file: File, rank: Rank) {
-        self.init(rawValue: file.index + (8 * rank.index))!
+        self.init(rawValue: file.index + (rank.index << 3))!
     }
 
     /// Create a square from `location`.
