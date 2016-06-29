@@ -230,6 +230,36 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return Set(self).hashValue
     }
 
+    /// An ASCII art representation of `self`.
+    ///
+    /// The ASCII representation for the starting board:
+    ///
+    /// ```
+    ///   +-----------------+
+    /// 8 | r n b q k b n r |
+    /// 7 | p p p p p p p p |
+    /// 6 | . . . . . . . . |
+    /// 5 | . . . . . . . . |
+    /// 4 | . . . . . . . . |
+    /// 3 | . . . . . . . . |
+    /// 2 | P P P P P P P P |
+    /// 1 | R N B Q K B N R |
+    ///   +-----------------+
+    ///     a b c d e f g h
+    /// ```
+    public var ascii: String {
+        let edge = "  +-----------------+\n"
+        var result = edge
+        for rank in Rank.all.reverse() {
+            let str = File.all
+                .map({ file in "\(self[(file, rank)]?.character ?? ".")"})
+                .joinWithSeparator(" ")
+            result += "\(rank) | \(str) |\n"
+        }
+        result += "\(edge)    a b c d e f g h  "
+        return result
+    }
+
     /// Create a chess board.
     ///
     /// - Parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
