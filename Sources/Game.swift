@@ -285,6 +285,8 @@ public final class Game {
             } else {
                 return .Draw
             }
+        } else if halfmoves >= 100 {
+            return .Draw
         } else {
             return nil
         }
