@@ -196,6 +196,36 @@ class FischerTests: XCTestCase {
         } }
     }
 
+    func testGameRandomMoves() {
+        let game = Game()
+        do {
+            while true {
+                guard let move = game.availableMoves().random() else {
+                    break
+                }
+                let enemyColor = game.playerTurn.inverse()
+                let enemyKingSpace = game.board.squareForKing(for: enemyColor)
+                guard move.end != enemyKingSpace else {
+                    XCTFail("Attempted attack to king for \(enemyColor) at \(move.end)")
+                    return
+                }
+                try game.executeMove(move)
+            }
+            guard let outcome = game.outcome else {
+                XCTFail("Expected outcome for complete game")
+                return
+            }
+            if let color = outcome.winColor {
+                guard game.kingIsChecked && game.board.kingIsChecked(for: color.inverse()) else {
+                    XCTFail("\(color.inverse()) should be in check if \(color) wins")
+                    return
+                }
+            }
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
     func testGameDoubleStep() {
         let game = Game()
         for file in File.all {
@@ -228,6 +258,14 @@ class FischerTests: XCTestCase {
         } catch {
             XCTFail(String(error))
         }
+    }
+
+}
+
+extension Array {
+
+    func random() -> Element? {
+        return isEmpty ? nil : self[Int(arc4random_uniform(UInt32(count)))]
     }
 
 }
