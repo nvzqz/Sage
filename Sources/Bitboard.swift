@@ -148,14 +148,14 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     ///
     /// ```
     ///   +-----------------+
-    /// 8 | * * * * * * * * |
-    /// 7 | * * * * * * * * |
+    /// 8 | 1 1 1 1 1 1 1 1 |
+    /// 7 | 1 1 1 1 1 1 1 1 |
     /// 6 | . . . . . . . . |
     /// 5 | . . . . . . . . |
     /// 4 | . . . . . . . . |
     /// 3 | . . . . . . . . |
-    /// 2 | * * * * * * * * |
-    /// 1 | * * * * * * * * |
+    /// 2 | 1 1 1 1 1 1 1 1 |
+    /// 1 | 1 1 1 1 1 1 1 1 |
     ///   +-----------------+
     ///     a b c d e f g h
     /// ```
@@ -164,7 +164,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         var result = edge
         for rank in Rank.all.reverse() {
             let str = File.all
-                .map({ file in self[(file, rank)] ? "*" : "." })
+                .map({ file in self[(file, rank)] ? "1" : "." })
                 .joinWithSeparator(" ")
             result += "\(rank) | \(str) |\n"
         }
