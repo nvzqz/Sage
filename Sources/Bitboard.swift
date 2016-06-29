@@ -26,15 +26,15 @@
 //
 
 /// A lookup table of least significant bit indices.
-private let _lsbTable = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
-                         42, 38, 29, 17, 04, 62, 55, 59, 36, 53, 51,
-                         43, 22, 45, 39, 33, 30, 24, 18, 12, 05, 63,
-                         47, 56, 27, 60, 41, 37, 16, 54, 35, 52, 21,
-                         44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
-                         10, 25, 14, 19, 09, 13, 08, 07, 06]
+private let _lsbTable: ContiguousArray<Int> = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
+                                               42, 38, 29, 17, 04, 62, 55, 59, 36, 53, 51,
+                                               43, 22, 45, 39, 33, 30, 24, 18, 12, 05, 63,
+                                               47, 56, 27, 60, 41, 37, 16, 54, 35, 52, 21,
+                                               44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
+                                               10, 25, 14, 19, 09, 13, 08, 07, 06]
 
 /// A lookup table of bitboards for all squares.
-private let _bitboardTable = (0 ..< 64).map { Bitboard(rawValue: 1 << $0) }
+private let _bitboardTable = ContiguousArray((0 ..< 64).map { Bitboard(rawValue: 1 << $0) })
 
 /// Returns the index of the lsb value.
 private func _index(lsb value: Bitboard) -> Int? {
@@ -45,7 +45,7 @@ private func _index(lsb value: Bitboard) -> Int? {
 }
 
 /// Returns the pawn attack table for `color`.
-internal func _pawnAttackTable(for color: Color) -> [Bitboard] {
+internal func _pawnAttackTable(for color: Color) -> ContiguousArray<Bitboard> {
     if color.isWhite {
         return _whitePawnAttackTable
     } else {
@@ -54,24 +54,24 @@ internal func _pawnAttackTable(for color: Color) -> [Bitboard] {
 }
 
 /// A lookup table of all white pawn attack bitboards.
-internal let _whitePawnAttackTable: [Bitboard] = Square.all.map { square in
+internal let _whitePawnAttackTable = ContiguousArray(Square.all.map { square in
     return Bitboard(square: square)._pawnAttacks(for: .White)
-}
+})
 
 /// A lookup table of all black pawn attack bitboards.
-internal let _blackPawnAttackTable: [Bitboard] = Square.all.map { square in
+internal let _blackPawnAttackTable = ContiguousArray(Square.all.map { square in
     return Bitboard(square: square)._pawnAttacks(for: .Black)
-}
+})
 
 /// A lookup table of all king attack bitboards.
-internal let _kingAttackTable: [Bitboard] = Square.all.map { square in
+internal let _kingAttackTable = ContiguousArray(Square.all.map { square in
     return Bitboard(square: square)._kingAttacks()
-}
+})
 
 /// A lookup table of all knight attack bitboards.
-internal let _knightAttackTable: [Bitboard] = Square.all.map { square in
+internal let _knightAttackTable = ContiguousArray(Square.all.map { square in
     return Bitboard(square: square)._knightAttacks()
-}
+})
 
 /// Mask for bits not in File A.
 private let _notFileA: Bitboard = 0xfefefefefefefefe
