@@ -142,6 +142,36 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         return rawValue.hashValue
     }
 
+    /// An ASCII art representation of `self`.
+    ///
+    /// The ASCII representation for the starting board's bitboard:
+    ///
+    /// ```
+    ///   +-----------------+
+    /// 8 | * * * * * * * * |
+    /// 7 | * * * * * * * * |
+    /// 6 | . . . . . . . . |
+    /// 5 | . . . . . . . . |
+    /// 4 | . . . . . . . . |
+    /// 3 | . . . . . . . . |
+    /// 2 | * * * * * * * * |
+    /// 1 | * * * * * * * * |
+    ///   +-----------------+
+    ///     a b c d e f g h
+    /// ```
+    public var ascii: String {
+        let edge = "  +-----------------+\n"
+        var result = edge
+        for rank in Rank.all.reverse() {
+            let str = File.all
+                .map({ file in self[(file, rank)] ? "*" : "." })
+                .joinWithSeparator(" ")
+            result += "\(rank) | \(str) |\n"
+        }
+        result += "\(edge)    a b c d e f g h  "
+        return result
+    }
+
     /// The number of bits set in `self`.
     public var count: Int {
         var n = rawValue
