@@ -86,7 +86,7 @@ private let _notFileH: Bitboard = 0x7f7f7f7f7f7f7f7f
 private let _notFileGH: Bitboard = 0x3f3f3f3f3f3f3f3f
 
 /// A board of 64 bits.
-public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hashable {
+public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, CustomStringConvertible {
 
     /// A bitboard shift direction.
     public enum ShiftDirection {
@@ -129,6 +129,13 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Equatable, Hash
     ///
     /// `Self(rawValue: self.rawValue)!` is equivalent to `self`.
     public var rawValue: UInt64
+
+    /// A textual representation of `self`.
+    public var description: String {
+        let num = String(rawValue, radix: 16)
+        let str = Repeat(count: 16 - num.characters.count, repeatedValue: "0").joinWithSeparator("")
+        return "Bitboard(0x\(str + num))"
+    }
 
     /// The hash value.
     public var hashValue: Int {
