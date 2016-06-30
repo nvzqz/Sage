@@ -97,7 +97,7 @@
 		5273A7681CF2648E00426C1F /* Fischer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fischer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A7721CF264B500426C1F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5273A7731CF3676800426C1F /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
-		5273A7741CF3677200426C1F /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		5273A7741CF3677200426C1F /* LICENSE.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		5273A7751CF3807300426C1F /* Fischer.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Fischer.playground; sourceTree = "<group>"; };
 		5273A7761CF3824700426C1F /* Board.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
 		5273A77B1CF382E200426C1F /* Piece.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
@@ -191,7 +191,7 @@
 				5273A7751CF3807300426C1F /* Fischer.playground */,
 				5273A7731CF3676800426C1F /* Package.swift */,
 				5289BADA1D2288E400A85979 /* .swiftlint.yml */,
-				5273A7741CF3677200426C1F /* LICENSE.md */,
+				5273A7741CF3677200426C1F /* LICENSE.txt */,
 			);
 			sourceTree = "<group>";
 		};
