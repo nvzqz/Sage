@@ -290,6 +290,11 @@ public final class Game {
         }
     }
 
+    /// The game has no more available moves.
+    public var isFinished: Bool {
+        return availableMoves().isEmpty
+    }
+
     /// Create a game from another.
     private init(game: Game) {
         self._moveHistory    = game._moveHistory
