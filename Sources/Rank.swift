@@ -76,7 +76,7 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
     }
 
     /// Create a `Rank` from a zero-based row index.
-    public init?(row index: Int) {
+    public init?(index: Int) {
         self.init(rawValue: index + 1)
     }
 

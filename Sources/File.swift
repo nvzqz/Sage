@@ -100,7 +100,7 @@ public enum File: Int, Comparable, CustomStringConvertible {
     }
 
     /// Create a `File` from a zero-based column index.
-    public init?(column index: Int) {
+    public init?(index: Int) {
         self.init(rawValue: index + 1)
     }
 
