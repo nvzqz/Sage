@@ -144,16 +144,6 @@ public final class Game {
             self.fullmoves = fullmoves
         }
 
-        /// Create a position for a game.
-        public init(game: Game) {
-            self.board = game.board
-            self.playerTurn = game.playerTurn
-            self.castlingRights = game.castlingRights
-            self.enPassantTarget = game.enPassantTarget
-            self.halfmoves = game.halfmoves
-            self.fullmoves = game.fullmoves
-        }
-
         /// Create a position from a valid FEN string.
         ///
         /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
@@ -271,7 +261,12 @@ public final class Game {
 
     /// The current position for `self`.
     public var position: Position {
-        return Position(game: self)
+        return Position(board: board,
+                        playerTurn: playerTurn,
+                        castlingRights: castlingRights,
+                        enPassantTarget: enPassantTarget,
+                        halfmoves: halfmoves,
+                        fullmoves: fullmoves)
     }
 
     /// The outcome for `self` if no moves are available.
