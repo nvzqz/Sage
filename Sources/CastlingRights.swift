@@ -249,7 +249,7 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
 
     /// Removes all elements of `self` that are not also present in `other`.
     public mutating func intersectInPlace(other: CastlingRights) {
-        _rights.unionInPlace(other._rights)
+        _rights.intersectInPlace(other._rights)
     }
 
     /// Replaces `self` with a set containing all elements contained in either `self` or `other`, but not both.
