@@ -25,13 +25,13 @@
 //  THE SOFTWARE.
 //
 
-/// A chess variant.
+/// A chess variant that defines how a `Board` is populated or how a `Game` is played.
 public enum Variant {
 
     /// Standard chess.
     case Standard
 
-    /// Upside down chess.
+    /// Upside down chess where the piece colors swap starting squares.
     case UpsideDown
 
     /// `self` is standard variant.

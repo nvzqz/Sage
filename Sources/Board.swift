@@ -31,7 +31,9 @@
     import UIKit
 #endif
 
-/// A chess board.
+/// A chess board used to map `Square`s to `Piece`s.
+///
+/// Pieces map to separate instances of `Bitboard` which can be retreived with `bitboard(for:)`.
 public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     /// A chess board space.
@@ -284,6 +286,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// Create a chess board from a valid FEN string.
     ///
     /// - Warning: Only to be used with the board part of a full FEN string.
+    ///
+    /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+    ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
     public init?(fen: String) {
         func pieces(for string: String) -> [Piece?]? {
             var pieces: [Piece?] = []
@@ -441,6 +446,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns the attackers to `square` corresponding to `color`.
+    ///
+    /// - Parameter square: The `Square` being attacked.
+    /// - Parameter color: The `Color` of the attackers.
     @warn_unused_result
     public func attackers(to square: Square, color: Color) -> Bitboard {
         let all = bitboard()
@@ -456,6 +464,11 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns the attackers to the king for `color`.
+    ///
+    /// - Parameter color: The `Color` of the potentially attacked king.
+    ///
+    /// - Returns: A bitboard of all attackers, or 0 if the king does not exist or if there are no pieces attacking the
+    ///            king.
     @warn_unused_result
     public func attackersToKing(for color: Color) -> Bitboard {
         guard let square = squareForKing(for: color) else {
@@ -560,6 +573,9 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     }
 
     /// Returns the FEN string for the board.
+    ///
+    /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+    ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
     @warn_unused_result
     public func fen() -> String {
         func fenForRank(rank: Rank) -> String {

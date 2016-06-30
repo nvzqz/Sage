@@ -163,6 +163,9 @@ public final class Game {
         }
 
         /// Create a position from a valid FEN string.
+        ///
+        /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+        ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
         public init?(fen: String) {
             let parts = fen.characters.split(" ").map(String.init)
             guard parts.count == 6,
@@ -195,6 +198,9 @@ public final class Game {
         }
 
         /// Returns the FEN string for the position.
+        ///
+        /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+        ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
         @warn_unused_result
         public func fen() -> String {
             return board.fen()
@@ -497,7 +503,13 @@ public final class Game {
         playerTurn.invert()
     }
 
-    /// Executes the move or throws on error.
+    /// Executes `move`, updating the state for `self`.
+    ///
+    /// - Parameter move: The move to be executed.
+    /// - Parameter promotion: An optional closure returning a promotion piece if a pawn promotion occurs. The default
+    ///                        value is `nil`.
+    ///
+    /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
         guard isLegalMove(move) else {
             throw MoveExecutionError.IllegalMove(move, playerTurn, board)
@@ -511,7 +523,12 @@ public final class Game {
         _undoHistory = []
     }
 
-    /// Executes the move or throws on error.
+    /// Executes `move`, updating the state for `self`.
+    ///
+    /// - Parameter move: The move to be executed.
+    /// - Parameter promotion: A piece for a pawn promotion.
+    ///
+    /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func executeMove(move: Move, promotion: Piece) throws {
         try executeMove(move, promotion: { promotion })
     }
@@ -575,6 +592,8 @@ public final class Game {
 }
 
 /// An error in move execution.
+///
+/// Thrown by the `executeMove(_:promotion:)` method for a `Board` instance.
 public enum MoveExecutionError: ErrorType {
 
     /// Attempted illegal move.

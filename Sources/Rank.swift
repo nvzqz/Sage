@@ -26,6 +26,8 @@
 //
 
 /// A chess board rank.
+///
+/// `Rank`s refer to the eight rows of a chess board, beginning with 1 at the bottom and ending with 8 at the top.
 public enum Rank: Int, Comparable, CustomStringConvertible {
 
     /// A direction in rank.

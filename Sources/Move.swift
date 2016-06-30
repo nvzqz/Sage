@@ -25,7 +25,7 @@
 //  THE SOFTWARE.
 //
 
-/// A chess move.
+/// A chess move from a start `Square` to an end `Square`.
 public struct Move: Hashable, CustomStringConvertible {
 
     /// The move's start square.

@@ -25,10 +25,12 @@
 //  THE SOFTWARE.
 //
 
-/// A chess location.
+/// A pair of a chess board `File` and `Rank`.
 public typealias Location = (file: File, rank: Rank)
 
-/// A board location square.
+/// A chess board square.
+///
+/// A `Square` can be one of sixty-four possible values, ranging from `A1` to `H8`.
 public enum Square: Int, CustomStringConvertible {
 
     /// A1 square.

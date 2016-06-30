@@ -26,6 +26,8 @@
 //
 
 /// A chess board file.
+///
+/// `File`s refer to the eight columns of a chess board, beginning with `A` and ending with `H` from left to right.
 public enum File: Int, Comparable, CustomStringConvertible {
 
     /// A direction in file.

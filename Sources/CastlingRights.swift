@@ -26,6 +26,8 @@
 //
 
 /// Castling rights of a `Game`.
+///
+/// Defines whether a `Color` has the right to castle for a `Board.Side`.
 public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConvertible {
 
     /// A castling right.

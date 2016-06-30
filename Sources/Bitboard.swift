@@ -85,7 +85,17 @@ private let _notFileH: Bitboard = 0x7f7f7f7f7f7f7f7f
 /// Mask for bits not in Files G and H.
 private let _notFileGH: Bitboard = 0x3f3f3f3f3f3f3f3f
 
-/// A board of 64 bits.
+/// A bitmap of sixty-four bits suitable for storing squares for various pieces.
+///
+/// The first bit refers to `Square.A1` the last (64th) bit refers to `Square.H8`.
+///
+/// Due to their compact nature, bitboards can store information such as positions in memory very efficiently. Bitboards
+/// can also be used to answer questions about the state of a `Board` quickly with very few operations.
+///
+/// Bitboards used internally within `Board` to store positions for all twelve cases of `Piece`.
+///
+/// - SeeAlso: [Bitboard (Wikipedia)](https://en.wikipedia.org/wiki/Bitboard),
+///            [Bitboards (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Bitboards)
 public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, CustomStringConvertible {
 
     /// A bitboard shift direction.
@@ -190,12 +200,12 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         return Bitboard(rawValue: rawValue & (0 &- rawValue))
     }
 
-    /// The least significant bit index of `self`.
+    /// The index for the least significant bit of `self`.
     public var lsbIndex: Int? {
         return _index(lsb: lsb)
     }
 
-    /// The square of the least significant bit of `self`.
+    /// The square for the least significant bit of `self`.
     public var lsbSquare: Square? {
         return lsbIndex.flatMap({ Square(rawValue: $0) })
     }
@@ -273,11 +283,15 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     }
 
     /// Create a bitboard mask for `square`.
+    ///
+    /// - Complexity: O(1).
     public init(square: Square) {
         self = _bitboardTable[square.rawValue]
     }
 
     /// The `Bool` value for the bit at `square`.
+    ///
+    /// - Complexity: O(1).
     public subscript(square: Square) -> Bool {
         get {
             return intersects(with: _bitboardTable[square.rawValue])
@@ -293,6 +307,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     }
 
     /// The `Bool` value for the bit at `location`.
+    ///
+    /// - Complexity: O(1).
     public subscript(location: Location) -> Bool {
         get {
             return self[Square(location: location)]
