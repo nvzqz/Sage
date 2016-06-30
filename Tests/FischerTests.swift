@@ -199,10 +199,7 @@ class FischerTests: XCTestCase {
     func testGameRandomMoves() {
         let game = Game()
         do {
-            while true {
-                guard let move = game.availableMoves().random() else {
-                    break
-                }
+            while let move = game.availableMoves().random() {
                 let enemyColor = game.playerTurn.inverse()
                 let enemyKingSpace = game.board.squareForKing(for: enemyColor)
                 guard move.end != enemyKingSpace else {
@@ -255,6 +252,37 @@ class FischerTests: XCTestCase {
             try game.execute(move: Move(start: .C4, end: .C5))
             try game.execute(move: Move(start: .D7, end: .D5))
             try game.execute(move: Move(start: .C5, end: .D6))
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
+    func testGameUndoAndRedo() {
+        do {
+            let game = Game()
+            let startBoard = game.board
+            var endBoard = startBoard
+            var moves = [Move]()
+
+            while let move = game.availableMoves().random() {
+                try game.execute(move: move)
+                moves.append(move)
+                endBoard = game.board
+            }
+            var redoMoves = moves.reverse() as [Move]
+
+            while let move = game.moveToUndo() {
+                XCTAssertEqual(move, game.undoMove())
+                XCTAssertEqual(move, moves.popLast())
+            }
+            XCTAssert(moves.isEmpty)
+            XCTAssertEqual(game.board, startBoard)
+
+            while let move = game.moveToRedo() {
+                XCTAssertEqual(move, game.redoMove())
+                XCTAssertEqual(move, redoMoves.popLast())
+            }
+            XCTAssertEqual(game.board, endBoard)
         } catch {
             XCTFail(String(error))
         }
