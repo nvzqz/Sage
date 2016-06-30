@@ -113,6 +113,7 @@
 		529514DE1D16224F00BB244D /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
 		529515001D173E2F00BB244D /* Bitboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitboard.swift; sourceTree = "<group>"; };
 		529515051D19CFF500BB244D /* Square.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
+		52DF64131D2555390016BA9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		52E89C611CF53E1A0071AE69 /* InternalTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +193,7 @@
 				5273A7731CF3676800426C1F /* Package.swift */,
 				5289BADA1D2288E400A85979 /* .swiftlint.yml */,
 				5273A7741CF3677200426C1F /* LICENSE.txt */,
+				52DF64131D2555390016BA9D /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
