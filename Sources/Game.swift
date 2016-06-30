@@ -393,7 +393,7 @@ public final class Game {
 
         let player = playerTurn
         for moveSquare in movesBitboard.squares {
-            try! _execute(move: square >>> moveSquare, promotion: nil)
+            try! _execute(move: square >>> moveSquare)
             if board.attackersToKing(for: player) != 0 {
                 movesBitboard[moveSquare] = false
             }
@@ -447,20 +447,18 @@ public final class Game {
     }
 
     /// Executes a move without checking the legality of the move.
-    private func _execute(move move: Move, promotion: (() -> Piece)?) throws {
+    private func _execute(move move: Move, @noescape promotion: () -> Piece) throws {
         let piece = board[move.start]!
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
         if case .Pawn = piece {
             if move.end.rank == Rank(endFor: playerTurn) {
-                let promotion = promotion?()
-                if let p = promotion {
-                    guard p.color == playerTurn else {
-                        throw MoveExecutionError.InvalidPromotionPiece(p)
-                    }
+                let promotion = promotion()
+                guard promotion.color == playerTurn else {
+                    throw MoveExecutionError.InvalidPromotionPiece(promotion)
                 }
-                endPiece = promotion ?? .Queen(playerTurn)
+                endPiece = promotion
             } else if move.end == enPassantTarget {
                 capture = Piece.Pawn(playerTurn.inverse())
                 captureSquare = Square(file: move.end.file, rank: move.start.rank)
@@ -503,14 +501,18 @@ public final class Game {
         playerTurn.invert()
     }
 
+    /// Executes a move without checking the legality of the move.
+    private func _execute(move move: Move) throws {
+        try _execute(move: move, promotion: { .Queen(playerTurn) })
+    }
+
     /// Executes `move`, updating the state for `self`.
     ///
     /// - Parameter move: The move to be executed.
-    /// - Parameter promotion: An optional closure returning a promotion piece if a pawn promotion occurs. The default
-    ///                        value is `nil`.
+    /// - Parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
     ///
     /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
-    public func execute(move move: Move, promotion: (() -> Piece)? =  nil) throws {
+    public func execute(move move: Move, @noescape  promotion: () -> Piece) throws {
         guard isLegal(move: move) else {
             throw MoveExecutionError.IllegalMove(move, playerTurn, board)
         }
@@ -531,6 +533,15 @@ public final class Game {
     /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move move: Move, promotion: Piece) throws {
         try execute(move: move, promotion: { promotion })
+    }
+
+    /// Executes `move`, updating the state for `self`.
+    ///
+    /// - Parameter move: The move to be executed.
+    ///
+    /// - Throws: `MoveExecutionError` if `move` is illegal.
+    public func execute(move move: Move) throws {
+        try execute(move: move, promotion: .Queen(playerTurn))
     }
 
     /// Returns the last move on the move stack, if any.
@@ -584,7 +595,11 @@ public final class Game {
         guard let (move, promotion, attackers) = _undoHistory.popLast() else {
             return nil
         }
-        try! _execute(move: move, promotion: promotion.map { p in { p } })
+        if let promotion = promotion {
+            try! _execute(move: move, promotion: { promotion })
+        } else {
+            try! _execute(move: move)
+        }
         attackersToKing = attackers
         return move
     }
