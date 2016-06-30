@@ -393,7 +393,7 @@ public final class Game {
 
         let player = playerTurn
         for moveSquare in movesBitboard.squares {
-            try! _executeMove(square >>> moveSquare, promotion: nil)
+            try! _execute(move: square >>> moveSquare, promotion: nil)
             if board.attackersToKing(for: player) != 0 {
                 movesBitboard[moveSquare] = false
             }
@@ -441,13 +441,13 @@ public final class Game {
 
     /// Returns `true` if the move is legal.
     @warn_unused_result
-    public func isLegalMove(move: Move) -> Bool {
+    public func isLegal(move move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
         return Bitboard(square: move.end).intersects(with: moves)
     }
 
     /// Executes a move without checking the legality of the move.
-    private func _executeMove(move: Move, promotion: (() -> Piece)?) throws {
+    private func _execute(move move: Move, promotion: (() -> Piece)?) throws {
         let piece = board[move.start]!
         var endPiece = piece
         var capture = board[move.end]
@@ -510,11 +510,11 @@ public final class Game {
     ///                        value is `nil`.
     ///
     /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
-    public func executeMove(move: Move, promotion: (() -> Piece)? =  nil) throws {
-        guard isLegalMove(move) else {
+    public func execute(move move: Move, promotion: (() -> Piece)? =  nil) throws {
+        guard isLegal(move: move) else {
             throw MoveExecutionError.IllegalMove(move, playerTurn, board)
         }
-        try _executeMove(move, promotion: promotion)
+        try _execute(move: move, promotion: promotion)
         if kingIsChecked {
             attackersToKing = 0
         } else {
@@ -529,8 +529,8 @@ public final class Game {
     /// - Parameter promotion: A piece for a pawn promotion.
     ///
     /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
-    public func executeMove(move: Move, promotion: Piece) throws {
-        try executeMove(move, promotion: { promotion })
+    public func execute(move move: Move, promotion: Piece) throws {
+        try execute(move: move, promotion: { promotion })
     }
 
     /// Returns the last move on the move stack, if any.
@@ -584,7 +584,7 @@ public final class Game {
         guard let (move, promotion, attackers) = _undoHistory.popLast() else {
             return nil
         }
-        try! _executeMove(move, promotion: promotion.map { p in { p } })
+        try! _execute(move: move, promotion: promotion.map { p in { p } })
         attackersToKing = attackers
         return move
     }
@@ -593,7 +593,7 @@ public final class Game {
 
 /// An error in move execution.
 ///
-/// Thrown by the `executeMove(_:promotion:)` method for a `Board` instance.
+/// Thrown by the `execute(move:promotion:)` method for a `Board` instance.
 public enum MoveExecutionError: ErrorType {
 
     /// Attempted illegal move.

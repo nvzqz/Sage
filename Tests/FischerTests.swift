@@ -209,7 +209,7 @@ class FischerTests: XCTestCase {
                     XCTFail("Attempted attack to king for \(enemyColor) at \(move.end)")
                     return
                 }
-                try game.executeMove(move)
+                try game.execute(move: move)
             }
             guard let outcome = game.outcome else {
                 XCTFail("Expected outcome for complete game")
@@ -230,7 +230,7 @@ class FischerTests: XCTestCase {
         let game = Game()
         for file in File.all {
             let move = Move(start: Square(location: (file, 2)), end: Square(location: (file, 5)))
-            XCTAssertThrowsError(try game.executeMove(move)) { error in
+            XCTAssertThrowsError(try game.execute(move: move)) { error in
                 guard case MoveExecutionError.IllegalMove = error else {
                     XCTFail("Expected MoveExecutionError.IllegalMove, got \(error)")
                     return
@@ -239,8 +239,8 @@ class FischerTests: XCTestCase {
         }
         do {
             for file in File.all {
-                try game.executeMove(Move(start: Square(location: (file, 2)), end: Square(location: (file, 4))))
-                try game.executeMove(Move(start: Square(location: (file, 7)), end: Square(location: (file, 5))))
+                try game.execute(move: Move(start: Square(location: (file, 2)), end: Square(location: (file, 4))))
+                try game.execute(move: Move(start: Square(location: (file, 7)), end: Square(location: (file, 5))))
             }
         } catch {
             XCTFail(String(error))
@@ -250,11 +250,11 @@ class FischerTests: XCTestCase {
     func testGameEnPassant() {
         let game = Game()
         do {
-            try game.executeMove(Move(start: .C2, end: .C4))
-            try game.executeMove(Move(start: .C7, end: .C6))
-            try game.executeMove(Move(start: .C4, end: .C5))
-            try game.executeMove(Move(start: .D7, end: .D5))
-            try game.executeMove(Move(start: .C5, end: .D6))
+            try game.execute(move: Move(start: .C2, end: .C4))
+            try game.execute(move: Move(start: .C7, end: .C6))
+            try game.execute(move: Move(start: .C4, end: .C5))
+            try game.execute(move: Move(start: .D7, end: .D5))
+            try game.execute(move: Move(start: .C5, end: .D6))
         } catch {
             XCTFail(String(error))
         }
