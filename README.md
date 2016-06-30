@@ -21,9 +21,8 @@ while !game.isFinished {
 
 ### Move Generation
 
-Fischer is capable of generating legal moves for the current player.
-
-It fully supports special moves such as en passant and castling.
+Fischer is capable of generating legal moves for the current player with full
+support for special moves such as en passant and castling.
 
 - `availableMoves()` will return all moves currently available.
 
