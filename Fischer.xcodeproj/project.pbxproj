@@ -212,6 +212,7 @@
 		5273A7701CF264B500426C1F /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				528C2E3C1CF3E51100F7D2EC /* Game.swift */,
 				5273A7761CF3824700426C1F /* Board.swift */,
 				529515001D173E2F00BB244D /* Bitboard.swift */,
 				5273A77B1CF382E200426C1F /* Piece.swift */,
@@ -220,7 +221,6 @@
 				5273A78A1CF38A0500426C1F /* Rank.swift */,
 				529515051D19CFF500BB244D /* Square.swift */,
 				528C2E411CF3E7F500F7D2EC /* Move.swift */,
-				528C2E3C1CF3E51100F7D2EC /* Game.swift */,
 				529514DE1D16224F00BB244D /* Variant.swift */,
 				529514D91D138B4100BB244D /* CastlingRights.swift */,
 				52E89C611CF53E1A0071AE69 /* InternalTypes.swift */,
