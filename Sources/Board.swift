@@ -168,9 +168,11 @@ public struct Board: Hashable, CustomStringConvertible {
 
     }
 
+    /// An iterator for `Board` used as a base for both `Iterator` and `Generator`.
     private struct _MutualIterator {
 
         let _board: Board
+
         var _index: Int
 
         init(_ board: Board) {

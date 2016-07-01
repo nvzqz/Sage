@@ -197,26 +197,25 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     }
 
+    /// An iterator for `Bitboard` used as a base for both `Iterator` and `Generator`.
     private struct _MutualIterator {
 
         let _bitboard: Bitboard
+
         var _index: Int
 
         init(_ bitboard: Bitboard) {
-            _bitboard = bitboard
-            _index = 0
+            self._bitboard = bitboard
+            self._index = 0
         }
 
         mutating func next() -> Bool? {
             guard let square = Square(rawValue: _index) else {
                 return nil
             }
-            defer {
-                _index += 1
-            }
+            defer { _index += 1 }
             return _bitboard[square]
         }
-
 
     }
 
