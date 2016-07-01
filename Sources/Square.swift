@@ -23,7 +23,7 @@ public typealias Location = (file: File, rank: Rank)
 /// A chess board square.
 ///
 /// A `Square` can be one of sixty-four possible values, ranging from `A1` to `H8`.
-public enum Square: Int, CustomStringConvertible {
+public enum Square: Int, Comparable, CustomStringConvertible {
 
     #if swift(>=3)
 
@@ -542,4 +542,9 @@ extension Square {
         return attacks(for: piece, stoppers: stoppers).moves(from: self)
     }
 
+}
+
+/// Returns `true` if `lhs` has a smaller `rawValue` than `rhs`.
+public func < (lhs: Square, rhs: Square) -> Bool {
+    return lhs.rawValue < rhs.rawValue
 }
