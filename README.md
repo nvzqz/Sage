@@ -1,4 +1,4 @@
-# Fischer
+![Fischer](https://raw.githubusercontent.com/nvzqz/Fischer/assets/Banner.png)
 
 Fischer is a cross-platform chess library for Swift.
 
