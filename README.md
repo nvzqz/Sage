@@ -191,6 +191,28 @@ print(board.bitboard().ascii)
 //     a b c d e f g h
 ```
 
+### Forsyth–Edwards Notation
+
+The `Game.Position` and `Board` types can both generate a FEN string.
+
+```swift
+let game = Game()
+
+print(game.position.fen())
+// rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+
+print(game.board.fen())
+// rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+```
+
+They can also be initialized from a FEN string.
+
+```swift
+assert(Board(fen: game.board.fen()) == game.board)
+
+assert(Game.Position(fen: game.position.fen()) == game.position)
+```
+
 ## License
 
 Fischer is published under version 2.0 of the Apache License.
