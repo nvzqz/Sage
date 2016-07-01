@@ -361,6 +361,11 @@ extension CastlingRights: Sequence {
 
 extension CastlingRights: SetAlgebra {
 
+    /// A Boolean value that indicates whether the set has no elements.
+    public var isEmpty: Bool {
+        return _rights.isEmpty
+    }
+
     /// Returns a Boolean value that indicates whether the given element exists
     /// in the set.
     @warn_unused_result
@@ -420,6 +425,35 @@ extension CastlingRights: SetAlgebra {
     /// adds the members of the given set that are not already in the set.
     public mutating func formSymmetricDifference(_ other: CastlingRights) {
         _rights.formSymmetricDifference(other._rights)
+    }
+
+    /// Returns a new set containing the elements of this set that do not occur
+    /// in the given set.
+    public func subtracting(_ other: CastlingRights) -> CastlingRights {
+        return CastlingRights(_rights.subtracting(other._rights))
+    }
+
+    /// Returns a Boolean value that indicates whether the set is a subset of
+    /// another set.
+    public func isSubset(of other: CastlingRights) -> Bool {
+        return _rights.isSubset(of: other._rights)
+    }
+
+    /// Returns a Boolean value that indicates whether the set has no members in
+    /// common with the given set.
+    public func isDisjoint(with other: CastlingRights) -> Bool {
+        return _rights.isDisjoint(with: other._rights)
+    }
+
+    /// Returns a Boolean value that indicates whether the set is a superset of
+    /// the given set.
+    public func isSuperset(of other: CastlingRights) -> Bool {
+        return _rights.isSuperset(of: other._rights)
+    }
+
+    /// Removes the elements of the given set from this set.
+    public mutating func subtract(_ other: CastlingRights) {
+        _rights.subtract(other)
     }
 
 }
