@@ -2,6 +2,43 @@
 
 Fischer is a cross-platform chess library for Swift.
 
+## Installation
+
+### Compatibility
+
+- Platforms:
+    - macOS
+    - iOS
+    - watchOS
+    - tvOS
+    - Linux
+- Xcode 7.3 and 8.0
+- Swift 2.2 and 3.0
+
+### Install Using Swift Package Manager
+The [Swift Package Manager](https://swift.org/package-manager/) is a
+decentralized dependency manager for Swift.
+
+1. Add the project to your `Package.swift`.
+
+    ```swift
+    import PackageDescription
+
+    let package = Package(
+        name: "MyAwesomeProject",
+        dependencies: [
+            .Package(url: "https://github.com/nvzqz/Fischer.git",
+                     majorVersion: 1)
+        ]
+    )
+    ```
+
+2. Import the Fischer module.
+
+    ```swift
+    import Fischer
+    ```
+
 ## Features
 
 ### Game Management
