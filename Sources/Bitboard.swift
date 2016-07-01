@@ -197,6 +197,60 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     }
 
+    private struct _MutualIterator {
+
+        let _bitboard: Bitboard
+        var _index: Int
+
+        init(_ bitboard: Bitboard) {
+            _bitboard = bitboard
+            _index = 0
+        }
+
+        mutating func next() -> Bool? {
+            guard let square = Square(rawValue: _index) else {
+                return nil
+            }
+            defer {
+                _index += 1
+            }
+            return _bitboard[square]
+        }
+
+
+    }
+
+    #if swift(>=3)
+
+    /// An iterator for the squares of a `Bitboard`.
+    public struct Iterator: IteratorProtocol {
+
+        private var _base: _MutualIterator
+
+        /// Advances and returns the next element of the underlying sequence, or
+        /// `nil` if no next element exists.
+        public mutating func next() -> Bool? {
+            return _base.next()
+        }
+
+    }
+
+    #else
+
+    /// A generator for the squares of a `Bitboard`.
+    public struct Generator: GeneratorType {
+
+        private var _base: _MutualIterator
+
+        /// Advance to the next element and return it, or `nil` if no next element exists.
+        public mutating func next() -> Bool? {
+            return _base.next()
+        }
+
+    }
+
+    #endif
+
     /// The empty bitset.
     public static var allZeros: Bitboard {
         return Bitboard(rawValue: 0)
@@ -713,13 +767,45 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 }
 
 #if swift(>=3)
-extension Bitboard: BitwiseOperations {
+
+extension Bitboard: Sequence, BitwiseOperations {
+
+    /// A value less than or equal to the number of elements in
+    /// the sequence, calculated nondestructively.
+    ///
+    /// - Complexity: O(1).
+    public var underestimatedCount: Int {
+        return 64
+    }
+
+    /// Returns an iterator over the squares of the board.
+    public func makeIterator() -> Iterator {
+        return Iterator(_base: _MutualIterator(self))
+    }
 
 }
+
 #else
-extension Bitboard: BitwiseOperationsType {
+
+extension Bitboard: SequenceType, BitwiseOperationsType {
+
+    /// Returns a value less than or equal to the number of elements in
+    /// `self`, **nondestructively**.
+    ///
+    /// - Complexity: O(1).
+    public func underestimateCount() -> Int {
+        return 64
+    }
+
+    /// Returns a generator over the squares of the board.
+    ///
+    /// - Complexity: O(1).
+    public func generate() -> Generator {
+        return Generator(_base: _MutualIterator(self))
+    }
 
 }
+
 #endif
 
 extension Bitboard: IntegerLiteralConvertible {
