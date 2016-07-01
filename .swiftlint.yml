@@ -8,8 +8,9 @@ disabled_rules: # rule identifiers to exclude from running
     - variable_name
     - type_name
     - force_try
-    - type_body_length
     - file_length
+    - type_body_length
+    - function_body_length
     - comma
 
 opt_in_rules: # some rules are only opt-in
