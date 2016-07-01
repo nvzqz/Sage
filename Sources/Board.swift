@@ -155,7 +155,7 @@ public struct Board: Hashable, CustomStringConvertible {
                     label.font = .systemFont(ofSize: fontSize)
                 #else
                     label.textAlignment = .Center
-                    text.font = .systemFontOfSize(fontSize)
+                    label.font = .systemFontOfSize(fontSize)
                 #endif
                 label.text = str
                 label.textColor = tc
