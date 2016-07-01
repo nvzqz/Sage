@@ -2,6 +2,15 @@
 
 Fischer is a cross-platform chess library for Swift.
 
+## Features
+
+- [x] Chess game management
+- [x] Chess board structuring
+- [x] Move generation / validation
+- [x] En passant and castling
+- [x] Pawn promotions
+- [x] FEN for games and boards
+
 ## Installation
 
 ### Compatibility
@@ -79,7 +88,7 @@ manager for Objective-C and Swift.
     import Fischer
     ```
 
-## Features
+## Usage
 
 ### Game Management
 
