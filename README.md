@@ -93,7 +93,7 @@ perform any other operations before choosing a promotion piece.
 ```swift
 try game.execute(move: move) {
     ...
-    return .Queen(game.playerTurn)
+    return .queen(game.playerTurn)
 }
 ```
 
@@ -104,7 +104,7 @@ a king or pawn.
 A piece can be given without a closure. The default promotion piece is a queen.
 
 ```swift
-try game.execute(move: move, promotion: .Queen(game.playerTurn))
+try game.execute(move: move, promotion: .queen(game.playerTurn))
 ```
 
 ### Pretty Printing
