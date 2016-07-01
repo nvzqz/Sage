@@ -39,6 +39,46 @@ decentralized dependency manager for Swift.
     import Fischer
     ```
 
+### Install Using CocoaPods
+[CocoaPods](https://cocoapods.org/) is a centralized dependency manager for
+Objective-C and Swift. Go [here](https://guides.cocoapods.org/using/index.html)
+to learn more.
+
+1. Add the project to your [Podfile](https://guides.cocoapods.org/using/the-podfile.html).
+
+    ```ruby
+    use_frameworks!
+
+    pod 'Fischer', '~> 1.0.0'
+    ```
+
+2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
+
+3. Import the Fischer framework.
+
+    ```swift
+    import Fischer
+    ```
+
+### Install Using Carthage
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency
+manager for Objective-C and Swift.
+
+1. Add the project to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
+
+    ```
+    github "nvzqz/Fischer"
+    ```
+
+2. Run `carthage update` and follow [the additional steps](https://github.com/Carthage/Carthage#getting-started)
+   in order to add Fischer to your project.
+
+3. Import the Fischer framework.
+
+    ```swift
+    import Fischer
+    ```
+
 ## Features
 
 ### Game Management
