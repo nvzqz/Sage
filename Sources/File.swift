@@ -19,11 +19,21 @@
 
 /// A chess board file.
 ///
-/// `File`s refer to the eight columns of a chess board, beginning with `A` and ending with `H` from left to right.
+/// Files refer to the eight columns of a chess board, beginning with A and ending with H from left to right.
 public enum File: Int, Comparable, CustomStringConvertible {
 
     /// A direction in file.
     public enum Direction {
+
+        #if swift(>=3)
+
+        /// Left direction.
+        case left
+
+        /// Right direction.
+        case right
+
+        #else
 
         /// Left direction.
         case Left
@@ -31,7 +41,37 @@ public enum File: Int, Comparable, CustomStringConvertible {
         /// Right direction.
         case Right
 
+        #endif
+
     }
+
+    #if swift(>=3)
+
+    /// File "A".
+    case a = 1
+
+    /// File "B".
+    case b = 2
+
+    /// File "C".
+    case c = 3
+
+    /// File "D".
+    case d = 4
+
+    /// File "E".
+    case e = 5
+
+    /// File "F".
+    case f = 6
+
+    /// File "G".
+    case g = 7
+
+    /// File "H".
+    case h = 8
+
+    #else
 
     /// File "A".
     case A = 1
@@ -57,8 +97,23 @@ public enum File: Int, Comparable, CustomStringConvertible {
     /// File "H".
     case H = 8
 
+    #endif
+
+}
+
+extension File {
+
+    #if swift(>=3)
+
+    /// An array of all files.
+    public static let all: [File] = [.a, .b, .c, .d, .e, .f, .g, .h]
+
+    #else
+
     /// An array of all files.
     public static let all: [File] = [.A, .B, .C, .D, .E, .F, .G, .H]
+
+    #endif
 
     /// The column index of `self`.
     public var index: Int {
@@ -72,31 +127,58 @@ public enum File: Int, Comparable, CustomStringConvertible {
 
     /// The character value of `self`.
     public var character: Character {
-        switch self {
-        case .A: return "A"
-        case .B: return "B"
-        case .C: return "C"
-        case .D: return "D"
-        case .E: return "E"
-        case .F: return "F"
-        case .G: return "G"
-        case .H: return "H"
-        }
+        #if swift(>=3)
+            switch self {
+            case .a: return "A"
+            case .b: return "B"
+            case .c: return "C"
+            case .d: return "D"
+            case .e: return "E"
+            case .f: return "F"
+            case .g: return "G"
+            case .h: return "H"
+            }
+        #else
+            switch self {
+            case .A: return "A"
+            case .B: return "B"
+            case .C: return "C"
+            case .D: return "D"
+            case .E: return "E"
+            case .F: return "F"
+            case .G: return "G"
+            case .H: return "H"
+            }
+        #endif
     }
 
     /// Create an instance from a character value.
     public init?(_ character: Character) {
-        switch character {
-        case "A", "a": self = .A
-        case "B", "b": self = .B
-        case "C", "c": self = .C
-        case "D", "d": self = .D
-        case "E", "e": self = .E
-        case "F", "f": self = .F
-        case "G", "g": self = .G
-        case "H", "h": self = .H
-        default: return nil
-        }
+        #if swift(>=3)
+            switch character {
+            case "A", "a": self = .a
+            case "B", "b": self = .b
+            case "C", "c": self = .c
+            case "D", "d": self = .d
+            case "E", "e": self = .e
+            case "F", "f": self = .f
+            case "G", "g": self = .g
+            case "H", "h": self = .h
+            default: return nil
+            }
+        #else
+            switch character {
+            case "A", "a": self = .A
+            case "B", "b": self = .B
+            case "C", "c": self = .C
+            case "D", "d": self = .D
+            case "E", "e": self = .E
+            case "F", "f": self = .F
+            case "G", "g": self = .G
+            case "H", "h": self = .H
+            default: return nil
+            }
+        #endif
     }
 
     /// Create a `File` from a zero-based column index.
@@ -105,48 +187,58 @@ public enum File: Int, Comparable, CustomStringConvertible {
     }
 
     /// Returns a rank from advancing `self` by `value`.
+    @warn_unused_result
     public func advanced(by value: Int) -> File? {
         return File(rawValue: rawValue + value)
     }
 
     /// The next file after `self`.
+    @warn_unused_result
     public func next() -> File? {
-        return File(rawValue: rawValue.successor())
+        return File(rawValue: (rawValue + 1))
     }
 
     /// The previous file to `self`.
+    @warn_unused_result
     public func previous() -> File? {
-        return File(rawValue: rawValue.predecessor())
+        return File(rawValue: (rawValue - 1))
     }
 
     /// The opposite file of `self`.
+    @warn_unused_result
     public func opposite() -> File {
         return File(rawValue: 9 - rawValue)!
     }
 
     /// The files from `self` to `other`.
-    public func to(other: File) -> [File] {
+    @warn_unused_result
+    public func to(_ other: File) -> [File] {
         if other > self {
-            return (rawValue...other.rawValue)
-                .flatMap({ File(rawValue: $0) })
+            return (rawValue...other.rawValue).flatMap(File.init(rawValue:))
         } else if other < self {
-            return (other.rawValue...rawValue)
-                .reverse()
-                .flatMap({ File(rawValue: $0) })
+            #if swift(>=3)
+                let values = (other.rawValue...rawValue).reversed()
+            #else
+                let values = (other.rawValue...rawValue).reverse()
+            #endif
+            return values.flatMap(File.init(rawValue:))
         } else {
             return [self]
         }
     }
 
     /// The files between `self` and `other`.
-    public func between(other: File) -> [File] {
+    @warn_unused_result
+    public func between(_ other: File) -> [File] {
         if other > self {
-            return (rawValue.successor() ..< other.rawValue)
-                .flatMap({ File(rawValue: $0) })
+            return (rawValue + 1 ..< other.rawValue).flatMap(File.init(rawValue:))
         } else if other < self {
-            return (other.rawValue.successor() ..< rawValue)
-                .reverse()
-                .flatMap({ File(rawValue: $0) })
+            #if swift(>=3)
+                let values = (other.rawValue + 1 ..< rawValue).reversed()
+            #else
+                let values = (other.rawValue + 1 ..< rawValue).reverse()
+            #endif
+            return values.flatMap(File.init(rawValue:))
         } else {
             return []
         }
@@ -172,6 +264,7 @@ extension File: ExtendedGraphemeClusterLiteralConvertible {
 }
 
 /// Returns `true` if one file is further left than the other.
+@warn_unused_result
 public func < (lhs: File, rhs: File) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

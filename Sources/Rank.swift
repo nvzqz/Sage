@@ -25,13 +25,53 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
     /// A direction in rank.
     public enum Direction {
 
+        #if swift(>=3)
+
+        /// Up direction.
+        case up
+
+        /// Down direction.
+        case down
+
+        #else
+
         /// Up direction.
         case Up
 
         /// Down direction.
         case Down
 
+        #endif
+
     }
+
+    #if swift(>=3)
+
+    /// Rank 1.
+    case one = 1
+
+    /// Rank 2.
+    case two = 2
+
+    /// Rank 3.
+    case three = 3
+
+    /// Rank 4.
+    case four = 4
+
+    /// Rank 5.
+    case five = 5
+
+    /// Rank 6.
+    case six = 6
+
+    /// Rank 7.
+    case seven = 7
+
+    /// Rank 8.
+    case eight = 8
+
+    #else
 
     /// Rank 1.
     case One = 1
@@ -56,6 +96,12 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
 
     /// Rank 8.
     case Eight = 8
+
+    #endif
+
+}
+
+extension Rank {
 
     /// An array of all ranks.
     public static let all: [Rank] = [1, 2, 3, 4, 5, 6, 7, 8]
@@ -82,27 +128,27 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
 
     /// Creates the starting `Rank` for the color.
     public init(startFor color: Color) {
-        self = color.isWhite ? .One : .Eight
+        self = color.isWhite ? 1 : 8
     }
 
     /// Creates the ending `Rank` for the color.
     public init(endFor color: Color) {
-        self = color.isWhite ? .Eight : .One
+        self = color.isWhite ? 8 : 1
     }
 
     /// Returns a rank from advancing `self` by `value` with respect to `color`.
-    public func advanced(by value: Int, for color: Color = .White) -> Rank? {
+    public func advanced(by value: Int, for color: Color = ._white) -> Rank? {
         return Rank(rawValue: rawValue + (color.isWhite ? value : -value))
     }
 
     /// The next rank after `self`.
     public func next() -> Rank? {
-        return Rank(rawValue: rawValue.successor())
+        return Rank(rawValue: (rawValue + 1))
     }
 
     /// The previous rank to `self`.
     public func previous() -> Rank? {
-        return Rank(rawValue: rawValue.predecessor())
+        return Rank(rawValue: (rawValue - 1))
     }
 
     /// The opposite rank of `self`.
@@ -111,28 +157,32 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
     }
 
     /// The files from `self` to `other`.
-    public func to(other: Rank) -> [Rank] {
+    public func to(_ other: Rank) -> [Rank] {
         if other > self {
-            return (rawValue...other.rawValue)
-                .flatMap({ Rank(rawValue: $0) })
+            return (rawValue...other.rawValue).flatMap(Rank.init(rawValue:))
         } else if other < self {
-            return (other.rawValue...rawValue)
-                .reverse()
-                .flatMap({ Rank(rawValue: $0) })
+            #if swift(>=3)
+                let values = (other.rawValue...rawValue).reversed()
+            #else
+                let values = (other.rawValue...rawValue).reverse()
+            #endif
+            return values.flatMap(Rank.init(rawValue:))
         } else {
             return [self]
         }
     }
 
     /// The files between `self` and `other`.
-    public func between(other: Rank) -> [Rank] {
+    public func between(_ other: Rank) -> [Rank] {
         if other > self {
-            return (rawValue.successor() ..< other.rawValue)
-                .flatMap({ Rank(rawValue: $0) })
+            return (rawValue + 1 ..< other.rawValue).flatMap(Rank.init(rawValue:))
         } else if other < self {
-            return (other.rawValue.successor() ..< rawValue)
-                .reverse()
-                .flatMap({ Rank(rawValue: $0) })
+            #if swift(>=3)
+                let values = (other.rawValue + 1 ..< rawValue).reversed()
+            #else
+                let values = (other.rawValue + 1 ..< rawValue).reverse()
+            #endif
+            return values.flatMap(Rank.init(rawValue:))
         } else {
             return []
         }
@@ -153,6 +203,7 @@ extension Rank: IntegerLiteralConvertible {
 }
 
 /// Returns `true` if one rank is higher than the other.
+@warn_unused_result
 public func < (lhs: Rank, rhs: Rank) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

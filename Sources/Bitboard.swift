@@ -47,12 +47,12 @@ internal func _pawnAttackTable(for color: Color) -> ContiguousArray<Bitboard> {
 
 /// A lookup table of all white pawn attack bitboards.
 internal let _whitePawnAttackTable = ContiguousArray(Square.all.map { square in
-    return Bitboard(square: square)._pawnAttacks(for: .White)
+    return Bitboard(square: square)._pawnAttacks(for: ._white)
 })
 
 /// A lookup table of all black pawn attack bitboards.
 internal let _blackPawnAttackTable = ContiguousArray(Square.all.map { square in
-    return Bitboard(square: square)._pawnAttacks(for: .Black)
+    return Bitboard(square: square)._pawnAttacks(for: ._black)
 })
 
 /// A lookup table of all king attack bitboards.
@@ -88,10 +88,62 @@ private let _notFileGH: Bitboard = 0x3f3f3f3f3f3f3f3f
 ///
 /// - SeeAlso: [Bitboard (Wikipedia)](https://en.wikipedia.org/wiki/Bitboard),
 ///            [Bitboards (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Bitboards)
-public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, CustomStringConvertible {
+public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     /// A bitboard shift direction.
     public enum ShiftDirection {
+
+        #if swift(>=3)
+
+        /// North direction.
+        case north
+
+        /// South direction.
+        case south
+
+        /// East direction.
+        case east
+
+        /// West direction.
+        case west
+
+        /// Northeast direction.
+        case northeast
+
+        /// Southeast direction.
+        case southeast
+
+        /// Northwest direction.
+        case northwest
+
+        /// Southwest direction.
+        case southwest
+
+        /// North regardless of Swift version.
+        internal static let _north = ShiftDirection.north
+
+        /// South regardless of Swift version.
+        internal static let _south = ShiftDirection.south
+
+        /// East regardless of Swift version.
+        internal static let _east = ShiftDirection.east
+
+        /// West regardless of Swift version.
+        internal static let _west = ShiftDirection.west
+
+        /// Northeast regardless of Swift version.
+        internal static let _northeast = ShiftDirection.northeast
+
+        /// Southeast regardless of Swift version.
+        internal static let _southeast = ShiftDirection.southeast
+
+        /// Northwest regardless of Swift version.
+        internal static let _northwest = ShiftDirection.northwest
+
+        /// Southwest regardless of Swift version.
+        internal static let _southwest = ShiftDirection.southwest
+
+        #else
 
         /// North direction.
         case North
@@ -117,6 +169,32 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         /// Southwest direction.
         case Southwest
 
+        /// North regardless of Swift version.
+        internal static let _north = ShiftDirection.North
+
+        /// South regardless of Swift version.
+        internal static let _south = ShiftDirection.South
+
+        /// East regardless of Swift version.
+        internal static let _east = ShiftDirection.East
+
+        /// West regardless of Swift version.
+        internal static let _west = ShiftDirection.West
+
+        /// Northeast regardless of Swift version.
+        internal static let _northeast = ShiftDirection.Northeast
+
+        /// Southeast regardless of Swift version.
+        internal static let _southeast = ShiftDirection.Southeast
+
+        /// Northwest regardless of Swift version.
+        internal static let _northwest = ShiftDirection.Northwest
+
+        /// Southwest regardless of Swift version.
+        internal static let _southwest = ShiftDirection.Southwest
+
+        #endif
+
     }
 
     /// The empty bitset.
@@ -135,7 +213,11 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     /// A textual representation of `self`.
     public var description: String {
         let num = String(rawValue, radix: 16)
-        let str = Repeat(count: 16 - num.characters.count, repeatedValue: "0").joinWithSeparator("")
+        #if swift(>=3)
+            let str = repeatElement("0", count: 16 - num.characters.count).joined(separator: "")
+        #else
+            let str = Repeat(count: 16 - num.characters.count, repeatedValue: "0").joinWithSeparator("")
+        #endif
         return "Bitboard(0x\(str + num))"
     }
 
@@ -164,10 +246,18 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     public var ascii: String {
         let edge = "  +-----------------+\n"
         var result = edge
-        for rank in Rank.all.reverse() {
-            let str = File.all
-                .map({ file in self[(file, rank)] ? "1" : "." })
-                .joinWithSeparator(" ")
+        #if swift(>=3)
+            let ranks = Rank.all.reversed()
+        #else
+            let ranks = Rank.all.reverse()
+        #endif
+        for rank in ranks {
+            let strings = File.all.map({ file in self[(file, rank)] ? "1" : "." })
+            #if swift(>=3)
+                let str = strings.joined(separator: " ")
+            #else
+                let str = strings.joinWithSeparator(" ")
+            #endif
             result += "\(rank) | \(str) |\n"
         }
         result += "\(edge)    a b c d e f g h  "
@@ -224,21 +314,52 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
 
     /// Create a starting bitboard for `piece`.
     public init(startFor piece: Piece) {
-        switch piece {
-        case .Pawn(.White):   self = 0x000000000000FF00
-        case .Knight(.White): self = 0x0000000000000042
-        case .Bishop(.White): self = 0x0000000000000024
-        case .Rook(.White):   self = 0x0000000000000081
-        case .Queen(.White):  self = 0x0000000000000008
-        case .King(.White):   self = 0x0000000000000010
-        case .Pawn(.Black):   self = 0x00FF000000000000
-        case .Knight(.Black): self = 0x4200000000000000
-        case .Bishop(.Black): self = 0x2400000000000000
-        case .Rook(.Black):   self = 0x8100000000000000
-        case .Queen(.Black):  self = 0x0800000000000000
-        case .King(.Black):   self = 0x1000000000000000
-        }
+        #if swift(>=3)
+            switch piece {
+            case .pawn(.white):   self = 0x000000000000FF00
+            case .knight(.white): self = 0x0000000000000042
+            case .bishop(.white): self = 0x0000000000000024
+            case .rook(.white):   self = 0x0000000000000081
+            case .queen(.white):  self = 0x0000000000000008
+            case .king(.white):   self = 0x0000000000000010
+            case .pawn(.black):   self = 0x00FF000000000000
+            case .knight(.black): self = 0x4200000000000000
+            case .bishop(.black): self = 0x2400000000000000
+            case .rook(.black):   self = 0x8100000000000000
+            case .queen(.black):  self = 0x0800000000000000
+            case .king(.black):   self = 0x1000000000000000
+            }
+        #else
+            switch piece {
+            case .Pawn(.White):   self = 0x000000000000FF00
+            case .Knight(.White): self = 0x0000000000000042
+            case .Bishop(.White): self = 0x0000000000000024
+            case .Rook(.White):   self = 0x0000000000000081
+            case .Queen(.White):  self = 0x0000000000000008
+            case .King(.White):   self = 0x0000000000000010
+            case .Pawn(.Black):   self = 0x00FF000000000000
+            case .Knight(.Black): self = 0x4200000000000000
+            case .Bishop(.Black): self = 0x2400000000000000
+            case .Rook(.Black):   self = 0x8100000000000000
+            case .Queen(.Black):  self = 0x0800000000000000
+            case .King(.Black):   self = 0x1000000000000000
+            }
+        #endif
     }
+
+    #if swift(>=3)
+
+    /// Create a bitboard from `squares`.
+    public init<S: Sequence where S.Iterator.Element == Square>(squares: S) {
+        rawValue = squares.reduce(0) { $0 | (1 << UInt64($1.rawValue)) }
+    }
+
+    /// Create a bitboard from `locations`.
+    public init<S: Sequence where S.Iterator.Element == Location>(locations: S) {
+        self.init(squares: locations.map(Square.init(location:)))
+    }
+
+    #else
 
     /// Create a bitboard from `squares`.
     public init<S: SequenceType where S.Generator.Element == Square>(squares: S) {
@@ -250,6 +371,8 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         self.init(squares: locations.map(Square.init(location:)))
     }
 
+    #endif
+
     /// Create a bitboard from the start and end of `move`.
     public init(move: Move) {
         self.init(squares: [move.start, move.end])
@@ -257,16 +380,29 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
 
     /// Create a bitboard mask for `file`.
     public init(file: File) {
-        switch file {
-        case .A: rawValue = 0x0101010101010101
-        case .B: rawValue = 0x0202020202020202
-        case .C: rawValue = 0x0404040404040404
-        case .D: rawValue = 0x0808080808080808
-        case .E: rawValue = 0x1010101010101010
-        case .F: rawValue = 0x2020202020202020
-        case .G: rawValue = 0x4040404040404040
-        case .H: rawValue = 0x8080808080808080
-        }
+        #if swift(>=3)
+            switch file {
+            case .a: rawValue = 0x0101010101010101
+            case .b: rawValue = 0x0202020202020202
+            case .c: rawValue = 0x0404040404040404
+            case .d: rawValue = 0x0808080808080808
+            case .e: rawValue = 0x1010101010101010
+            case .f: rawValue = 0x2020202020202020
+            case .g: rawValue = 0x4040404040404040
+            case .h: rawValue = 0x8080808080808080
+            }
+        #else
+            switch file {
+            case .A: rawValue = 0x0101010101010101
+            case .B: rawValue = 0x0202020202020202
+            case .C: rawValue = 0x0404040404040404
+            case .D: rawValue = 0x0808080808080808
+            case .E: rawValue = 0x1010101010101010
+            case .F: rawValue = 0x2020202020202020
+            case .G: rawValue = 0x4040404040404040
+            case .H: rawValue = 0x8080808080808080
+            }
+        #endif
     }
 
     /// Create a bitboard mask for `rank`.
@@ -286,7 +422,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     /// - Complexity: O(1).
     public subscript(square: Square) -> Bool {
         get {
-            return intersects(with: _bitboardTable[square.rawValue])
+            return intersects(_bitboardTable[square.rawValue])
         }
         set {
             let bit = Bitboard(square: square)
@@ -313,20 +449,16 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     /// Returns the pawn pushes available for `color` in `self`.
     @warn_unused_result
     internal func _pawnPushes(for color: Color, empty: Bitboard) -> Bitboard {
-        if color.isWhite {
-            return shifted(toward: .North) & empty
-        } else {
-            return shifted(toward: .South) & empty
-        }
+        return (color.isWhite ? shifted(toward: ._north) : shifted(toward: ._south)) & empty
     }
 
     /// Returns the attacks available to the pawns for `color` in `self`.
     @warn_unused_result
     internal func _pawnAttacks(for color: Color) -> Bitboard {
         if color.isWhite {
-            return shifted(toward: .Northeast) | shifted(toward: .Northwest)
+            return shifted(toward: ._northeast) | shifted(toward: ._northwest)
         } else {
-            return shifted(toward: .Southeast) | shifted(toward: .Southwest)
+            return shifted(toward: ._southeast) | shifted(toward: ._southwest)
         }
     }
 
@@ -343,19 +475,19 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     /// Returns the attacks available to the bishop in `self`.
     @warn_unused_result
     internal func _bishopAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
-        return filled(toward: .Northeast, stoppers: bitboard).shifted(toward: .Northeast)
-            |  filled(toward: .Northwest, stoppers: bitboard).shifted(toward: .Northwest)
-            |  filled(toward: .Southeast, stoppers: bitboard).shifted(toward: .Southeast)
-            |  filled(toward: .Southwest, stoppers: bitboard).shifted(toward: .Southwest)
+        return filled(toward: ._northeast, stoppers: bitboard).shifted(toward: ._northeast)
+            |  filled(toward: ._northwest, stoppers: bitboard).shifted(toward: ._northwest)
+            |  filled(toward: ._southeast, stoppers: bitboard).shifted(toward: ._southeast)
+            |  filled(toward: ._southwest, stoppers: bitboard).shifted(toward: ._southwest)
     }
 
     /// Returns the attacks available to the rook in `self`.
     @warn_unused_result
     internal func _rookAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
-        return filled(toward: .North, stoppers: bitboard).shifted(toward: .North)
-            |  filled(toward: .South, stoppers: bitboard).shifted(toward: .South)
-            |  filled(toward: .East,  stoppers: bitboard).shifted(toward: .East)
-            |  filled(toward: .West,  stoppers: bitboard).shifted(toward: .West)
+        return filled(toward: ._north, stoppers: bitboard).shifted(toward: ._north)
+            |  filled(toward: ._south, stoppers: bitboard).shifted(toward: ._south)
+            |  filled(toward: ._east,  stoppers: bitboard).shifted(toward: ._east)
+            |  filled(toward: ._west,  stoppers: bitboard).shifted(toward: ._west)
     }
 
     /// Returns the attacks available to the queen in `self`.
@@ -367,41 +499,57 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     /// Returns the attacks available to the king in `self`.
     @warn_unused_result
     internal func _kingAttacks() -> Bitboard {
-        let attacks = shifted(toward: .East) | shifted(toward: .West)
+        let attacks = shifted(toward: ._east) | shifted(toward: ._west)
         let bitboard = self | attacks
         return attacks
-            | bitboard.shifted(toward: .North)
-            | bitboard.shifted(toward: .South)
+            | bitboard.shifted(toward: ._north)
+            | bitboard.shifted(toward: ._south)
     }
 
     /// Returns the attacks available to `piece` in `self`.
-    @warn_unused_result
     internal func _attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
-        switch piece {
-        case .Pawn(let color):
-            return _pawnAttacks(for: color)
-        case .Knight:
-            return _knightAttacks()
-        case .Bishop:
-            return _bishopAttacks(stoppers: stoppers)
-        case .Rook:
-            return _rookAttacks(stoppers: stoppers)
-        case .Queen:
-            return _queenAttacks(stoppers: stoppers)
-        case .King:
-            return _kingAttacks()
-        }
+        #if swift(>=3)
+            switch piece {
+            case .pawn(let color):
+                return _pawnAttacks(for: color)
+            case .knight:
+                return _knightAttacks()
+            case .bishop:
+                return _bishopAttacks(stoppers: stoppers)
+            case .rook:
+                return _rookAttacks(stoppers: stoppers)
+            case .queen:
+                return _queenAttacks(stoppers: stoppers)
+            case .king:
+                return _kingAttacks()
+            }
+        #else
+            switch piece {
+            case .Pawn(let color):
+                return _pawnAttacks(for: color)
+            case .Knight:
+                return _knightAttacks()
+            case .Bishop:
+                return _bishopAttacks(stoppers: stoppers)
+            case .Rook:
+                return _rookAttacks(stoppers: stoppers)
+            case .Queen:
+                return _queenAttacks(stoppers: stoppers)
+            case .King:
+                return _kingAttacks()
+            }
+        #endif
     }
 
-    /// Returns `true` if `self` intersects with `other`.
+    /// Returns `true` if `self` intersects `other`.
     @warn_unused_result
-    public func intersects(with other: Bitboard) -> Bool {
+    public func intersects(_ other: Bitboard) -> Bool {
         return rawValue & other.rawValue != 0
     }
 
     /// Returns `self` flipped horizontally.
-    @warn_unused_result(mutable_variant="flipHorizontally")
-    public func flippedHorizontally() -> Bitboard {
+    @warn_unused_result
+    private func _flippedHorizontally() -> Bitboard {
         let x = 0x5555555555555555 as Bitboard
         let y = 0x3333333333333333 as Bitboard
         let z = 0x0F0F0F0F0F0F0F0F as Bitboard
@@ -412,14 +560,9 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         return n
     }
 
-    /// Flips `self` horizontally.
-    public mutating func flipHorizontally() {
-        self = flippedHorizontally()
-    }
-
     /// Returns `self` flipped vertically.
-    @warn_unused_result(mutable_variant="flipVertically")
-    public func flippedVertically() -> Bitboard {
+    @warn_unused_result
+    private func _flippedVertically() -> Bitboard {
         let x = 0x00FF00FF00FF00FF as Bitboard
         let y = 0x0000FFFF0000FFFF as Bitboard
         var n = self
@@ -429,10 +572,66 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         return n
     }
 
-    /// Flips `self` vertically.
-    public mutating func flipVertically() {
-        self = flippedVertically()
+    /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
+    @warn_unused_result
+    private func _filled(toward direction: ShiftDirection, stoppers: Bitboard) -> Bitboard {
+        let empty = ~stoppers
+        var bitboard = self
+        for _ in 0 ..< 7 {
+            bitboard |= empty & bitboard.shifted(toward: direction)
+        }
+        return bitboard
     }
+
+    #if swift(>=3)
+
+    /// Returns `self` flipped horizontally.
+    @warn_unused_result(mutable_variant:"flipHorizontally")
+    public func flippedHorizontally() -> Bitboard {
+        return _flippedHorizontally()
+    }
+
+    /// Returns `self` flipped vertically.
+    @warn_unused_result(mutable_variant:"flipVertically")
+    public func flippedVertically() -> Bitboard {
+        return _flippedVertically()
+    }
+
+    /// Returns the bits of `self` shifted once toward `direction`.
+    @warn_unused_result(mutable_variant:"shift")
+    public func shifted(toward direction: ShiftDirection) -> Bitboard {
+        switch direction {
+        case .north:     return  self << 8
+        case .south:     return  self >> 8
+        case .east:      return (self << 1) & _notFileA
+        case .northeast: return (self << 9) & _notFileA
+        case .southeast: return (self >> 7) & _notFileA
+        case .west:      return (self >> 1) & _notFileH
+        case .southwest: return (self >> 9) & _notFileH
+        case .northwest: return (self << 7) & _notFileH
+        }
+    }
+
+    /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
+    @warn_unused_result(mutable_variant:"fill")
+    public func filled(toward direction: ShiftDirection, stoppers: Bitboard = 0) -> Bitboard {
+        return _filled(toward: direction, stoppers: stoppers)
+    }
+
+    #else
+
+    /// Returns `self` flipped horizontally.
+    @warn_unused_result(mutable_variant="flipHorizontally")
+    public func flippedHorizontally() -> Bitboard {
+        return _flippedHorizontally()
+    }
+
+    /// Returns `self` flipped vertically.
+    @warn_unused_result(mutable_variant="flipVertically")
+    public func flippedVertically() -> Bitboard {
+        return _flippedVertically()
+    }
+
 
     /// Returns the bits of `self` shifted once toward `direction`.
     @warn_unused_result(mutable_variant="shift")
@@ -449,20 +648,27 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
         }
     }
 
-    /// Shifts the bits of `self` once toward `direction`.
-    public mutating func shift(toward direction: ShiftDirection) {
-        self = shifted(toward: direction)
-    }
-
     /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
     @warn_unused_result(mutable_variant="fill")
     public func filled(toward direction: ShiftDirection, stoppers: Bitboard = 0) -> Bitboard {
-        let empty = ~stoppers
-        var bitboard = self
-        for _ in 0 ..< 7 {
-            bitboard |= empty & bitboard.shifted(toward: direction)
-        }
-        return bitboard
+        return _filled(toward: direction, stoppers: stoppers)
+    }
+
+    #endif
+
+    /// Flips `self` horizontally.
+    public mutating func flipHorizontally() {
+        self = flippedHorizontally()
+    }
+
+    /// Flips `self` vertically.
+    public mutating func flipVertically() {
+        self = flippedVertically()
+    }
+
+    /// Shifts the bits of `self` once toward `direction`.
+    public mutating func shift(toward direction: ShiftDirection) {
+        self = shifted(toward: direction)
     }
 
     /// Fills the bits of `self` toward `direction` stopped by `stoppers`.
@@ -471,7 +677,7 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     }
 
     /// Swaps the bits between the two squares.
-    public mutating func swap(first: Square, _ second: Square) {
+    public mutating func swap(_ first: Square, _ second: Square) {
         (self[first], self[second]) = (self[second], self[first])
     }
 
@@ -505,6 +711,16 @@ public struct Bitboard: BitwiseOperationsType, RawRepresentable, Hashable, Custo
     }
 
 }
+
+#if swift(>=3)
+extension Bitboard: BitwiseOperations {
+
+}
+#else
+extension Bitboard: BitwiseOperationsType {
+
+}
+#endif
 
 extension Bitboard: IntegerLiteralConvertible {
     /// Create an instance initialized to `value`.
@@ -551,18 +767,34 @@ public func >> (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue >> rhs.rawValue)
 }
 
-/// Shifts the bits of `lhs` right by `rhs`.
-public func >>= (inout lhs: Bitboard, rhs: Bitboard) {
-    lhs.rawValue >>= rhs.rawValue
-}
-
 /// Returns the bits of `lhs` shifted left by `rhs`.
 @warn_unused_result
 public func << (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue << rhs.rawValue)
 }
 
+#if swift(>=3)
+
+/// Shifts the bits of `lhs` right by `rhs`.
+public func >>= (lhs: inout Bitboard, rhs: Bitboard) {
+    lhs.rawValue >>= rhs.rawValue
+}
+
+/// Shifts the bits of `lhs` left by `rhs`.
+public func <<= (lhs: inout Bitboard, rhs: Bitboard) {
+    lhs.rawValue <<= rhs.rawValue
+}
+
+#else
+
+/// Shifts the bits of `lhs` right by `rhs`.
+public func >>= (inout lhs: Bitboard, rhs: Bitboard) {
+    lhs.rawValue >>= rhs.rawValue
+}
+
 /// Shifts the bits of `lhs` left by `rhs`.
 public func <<= (inout lhs: Bitboard, rhs: Bitboard) {
     lhs.rawValue <<= rhs.rawValue
 }
+
+#endif

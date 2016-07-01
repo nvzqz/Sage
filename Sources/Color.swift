@@ -20,20 +20,44 @@
 /// A chess color.
 public enum Color: String, CustomStringConvertible {
 
+    #if swift(>=3)
+
+    /// White chess color.
+    case white
+
+    /// Black chess color.
+    case black
+
+    /// White color regardless of Swift version.
+    internal static let _white = Color.white
+
+    /// Black color regardless of Swift version.
+    internal static let _black = Color.black
+
+    #else
+
     /// White chess color.
     case White
 
     /// Black chess color.
     case Black
 
+    /// White color regardless of Swift version.
+    internal static let _white = Color.White
+
+    /// Black color regardless of Swift version.
+    internal static let _black = Color.Black
+
+    #endif
+
     /// Whether the color is white or not.
     public var isWhite: Bool {
-        return self == .White
+        return self == ._white
     }
 
     /// Whether the color is black or not.
     public var isBlack: Bool {
-        return self == .Black
+        return self == ._black
     }
 
     /// A textual representation of `self`.
@@ -49,20 +73,29 @@ public enum Color: String, CustomStringConvertible {
     /// Create a color from a character of any case.
     public init?(character: Character) {
         switch character {
-        case "W", "w": self = .White
-        case "B", "b": self = .Black
+        case "W", "w": self = ._white
+        case "B", "b": self = ._black
         default: return nil
         }
     }
 
+    #if swift(>=3)
+
+    /// Returns the inverse of `self`.
+    @warn_unused_result(mutable_variant:"invert")
+    public func inverse() -> Color {
+        return self.isWhite ? ._black : ._white
+    }
+
+    #else
+
     /// Returns the inverse of `self`.
     @warn_unused_result(mutable_variant="invert")
     public func inverse() -> Color {
-        switch self {
-        case .White: return .Black
-        case .Black: return .White
-        }
+        return self.isWhite ? ._black : ._white
     }
+
+    #endif
 
     /// Inverts the color of `self`.
     public mutating func invert() {

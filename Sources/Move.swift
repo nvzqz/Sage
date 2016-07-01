@@ -84,9 +84,14 @@ public struct Move: Hashable, CustomStringConvertible {
 
     /// The move is a castle.
     public var isCastle: Bool {
+        #if swift(>=3)
+            let e = File.e
+        #else
+            let e = File.E
+        #endif
         return start.rank == end.rank
             && (start.rank == 1 || start.rank == 8)
-            && start.file == .E
+            && start.file == e
             && abs(fileChange) == 2
     }
 
@@ -101,24 +106,44 @@ public struct Move: Hashable, CustomStringConvertible {
 
     /// The move's direction in file, if any.
     public var fileDirection: File.Direction? {
-        if self.isLeftward {
-            return .Left
-        } else if self.isRightward {
-            return .Right
-        } else {
-            return .None
-        }
+        #if swift(>=3)
+            if self.isLeftward {
+                return .left
+            } else if self.isRightward {
+                return .right
+            } else {
+                return .none
+            }
+        #else
+            if self.isLeftward {
+                return .Left
+            } else if self.isRightward {
+                return .Right
+            } else {
+                return .None
+            }
+        #endif
     }
 
     /// The move's direction in rank, if any.
     public var rankDirection: Rank.Direction? {
-        if self.isUpward {
-            return .Up
-        } else if self.isDownward {
-            return .Down
-        } else {
-            return .None
-        }
+        #if swift(>=3)
+            if self.isUpward {
+                return .up
+            } else if self.isDownward {
+                return .down
+            } else {
+                return .none
+            }
+        #else
+            if self.isUpward {
+                return .Up
+            } else if self.isDownward {
+                return .Down
+            } else {
+                return .None
+            }
+        #endif
     }
 
     /// A textual representation of `self`.
@@ -146,34 +171,41 @@ public struct Move: Hashable, CustomStringConvertible {
     /// A castle move for `color` in `direction`.
     public init(castle color: Color, direction: File.Direction) {
         let rank: Rank = color.isWhite ? 1 : 8
-        self = Move(start: Square(file: .E, rank: rank),
-                    end: Square(file: direction == .Left ? .C : .G, rank: rank))
+        #if swift(>=3)
+            self = Move(start: Square(file: .e, rank: rank),
+                        end: Square(file: direction == .left ? .c : .g, rank: rank))
+        #else
+            self = Move(start: Square(file: .E, rank: rank),
+                        end: Square(file: direction == .Left ? .C : .G, rank: rank))
+        #endif
     }
 
     /// Returns the castle squares for a rook.
-    @warn_unused_result
     internal func _castleSquares() -> (old: Square, new: Square) {
         let rank = start.rank
         let movedLeft = self.isLeftward
-        let old = Square(file: movedLeft ? .A : .H, rank: rank)
-        let new = Square(file: movedLeft ? .D : .F, rank: rank)
+        #if swift(>=3)
+            let old = Square(file: movedLeft ? .a : .h, rank: rank)
+            let new = Square(file: movedLeft ? .d : .f, rank: rank)
+        #else
+            let old = Square(file: movedLeft ? .A : .H, rank: rank)
+            let new = Square(file: movedLeft ? .D : .F, rank: rank)
+        #endif
         return (old, new)
     }
 
     /// Returns a move with the end and start of `self` reversed.
-    @warn_unused_result
     public func reversed() -> Move {
         return Move(start: end, end: start)
     }
 
     /// Returns the result of rotating `self` 180 degrees.
-    @warn_unused_result
     public func rotated() -> Move {
-        let s = Square(file: start.file.opposite(),
-                       rank: start.rank.opposite())
-        let e = Square(file: end.file.opposite(),
-                       rank: end.rank.opposite())
-        return Move(start: s, end: e)
+        let start = Square(file: self.start.file.opposite(),
+                           rank: self.start.rank.opposite())
+        let end = Square(file: self.end.file.opposite(),
+                         rank: self.end.rank.opposite())
+        return start >>> end
     }
 
 }

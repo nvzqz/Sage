@@ -20,10 +20,29 @@
 /// Castling rights of a `Game`.
 ///
 /// Defines whether a `Color` has the right to castle for a `Board.Side`.
-public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConvertible {
+public struct CastlingRights: CustomStringConvertible {
 
     /// A castling right.
     public enum Right: String, CustomStringConvertible {
+
+        #if swift(>=3)
+
+        /// White can castle kingside.
+        case whiteKingside
+
+        /// White can castle queenside.
+        case whiteQueenside
+
+        /// Black can castle kingside.
+        case blackKingside
+
+        /// Black can castle queenside.
+        case blackQueenside
+
+        /// All rights.
+        public static let all: [Right] = [.whiteKingside, .whiteQueenside, .blackKingside, .blackQueenside]
+
+        #else
 
         /// White can castle kingside.
         case WhiteKingside
@@ -38,20 +57,28 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         case BlackQueenside
 
         /// All rights.
-        public static var all: [Right] {
-            return [.WhiteKingside, .WhiteQueenside,
-                    .BlackKingside, .BlackQueenside]
-        }
+        public static let all: [Right] = [.WhiteKingside, .WhiteQueenside, .BlackKingside, .BlackQueenside]
+
+        #endif
 
         /// The color for `self`.
         public var color: Color {
             get {
-                switch self {
-                case .WhiteKingside, .WhiteQueenside:
-                    return .White
-                default:
-                    return .Black
-                }
+                #if swift(>=3)
+                    switch self {
+                    case .whiteKingside, .whiteQueenside:
+                        return .white
+                    default:
+                        return .black
+                    }
+                #else
+                    switch self {
+                    case .WhiteKingside, .WhiteQueenside:
+                        return .White
+                    default:
+                        return .Black
+                    }
+                #endif
             }
             set {
                 self = Right(color: newValue, side: side)
@@ -61,12 +88,21 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         /// The board side for `self`.
         public var side: Board.Side {
             get {
-                switch self {
-                case .WhiteKingside, .BlackKingside:
-                    return .Kingside
-                default:
-                    return .Queenside
-                }
+                #if swift(>=3)
+                    switch self {
+                    case .whiteKingside, .blackKingside:
+                        return .kingside
+                    default:
+                        return .queenside
+                    }
+                #else
+                    switch self {
+                    case .WhiteKingside, .BlackKingside:
+                        return .Kingside
+                    default:
+                        return .Queenside
+                    }
+                #endif
             }
             set {
                 self = Right(color: color, side: side)
@@ -75,44 +111,75 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
 
         /// The squares expected to be empty for a castle.
         public var emptySquares: Bitboard {
-            switch self {
-            case .WhiteKingside:
-                return 0b01100000
-            case .WhiteQueenside:
-                return 0b00001110
-            case .BlackKingside:
-                return 0b01100000 << 56
-            case .BlackQueenside:
-                return 0b00001110 << 56
-            }
+            #if swift(>=3)
+                switch self {
+                case .whiteKingside:
+                    return 0b01100000
+                case .whiteQueenside:
+                    return 0b00001110
+                case .blackKingside:
+                    return 0b01100000 << 56
+                case .blackQueenside:
+                    return 0b00001110 << 56
+                }
+            #else
+                switch self {
+                case .WhiteKingside:
+                    return 0b01100000
+                case .WhiteQueenside:
+                    return 0b00001110
+                case .BlackKingside:
+                    return 0b01100000 << 56
+                case .BlackQueenside:
+                    return 0b00001110 << 56
+                }
+            #endif
         }
 
         /// The castle destination square of a king.
         public var castleSquare: Square {
-            switch self {
-            case .WhiteKingside:
-                return .G1
-            case .WhiteQueenside:
-                return .C1
-            case .BlackKingside:
-                return .G8
-            case .BlackQueenside:
-                return .C8
-            }
+            #if swift(>=3)
+                switch self {
+                case .whiteKingside:
+                    return .g1
+                case .whiteQueenside:
+                    return .c1
+                case .blackKingside:
+                    return .g8
+                case .blackQueenside:
+                    return .c8
+                }
+            #else
+                switch self {
+                case .WhiteKingside:
+                    return .G1
+                case .WhiteQueenside:
+                    return .C1
+                case .BlackKingside:
+                    return .G8
+                case .BlackQueenside:
+                    return .C8
+                }
+            #endif
         }
 
         /// The character for `self`.
         public var character: Character {
-            switch self {
-            case .WhiteKingside:
-                return "K"
-            case .WhiteQueenside:
-                return "Q"
-            case .BlackKingside:
-                return "k"
-            case .BlackQueenside:
-                return "q"
-            }
+            #if swift(>=3)
+                switch self {
+                case .whiteKingside:  return "K"
+                case .whiteQueenside: return "Q"
+                case .blackKingside:  return "k"
+                case .blackQueenside: return "q"
+                }
+            #else
+                switch self {
+                case .WhiteKingside:  return "K"
+                case .WhiteQueenside: return "Q"
+                case .BlackKingside:  return "k"
+                case .BlackQueenside: return "q"
+                }
+            #endif
         }
 
         /// A textual representation of `self`.
@@ -121,40 +188,80 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         }
 
         private var _bit: Int {
-            switch self {
-            case .WhiteKingside:  return 0b0001
-            case .WhiteQueenside: return 0b0010
-            case .BlackKingside:  return 0b0100
-            case .BlackQueenside: return 0b1000
-            }
+            #if swift(>=3)
+                switch self {
+                case .whiteKingside:  return 0b0001
+                case .whiteQueenside: return 0b0010
+                case .blackKingside:  return 0b0100
+                case .blackQueenside: return 0b1000
+                }
+            #else
+                switch self {
+                case .WhiteKingside:  return 0b0001
+                case .WhiteQueenside: return 0b0010
+                case .BlackKingside:  return 0b0100
+                case .BlackQueenside: return 0b1000
+                }
+            #endif
         }
 
         /// Create a `Right` from `color` and `side`.
         public init(color: Color, side: Board.Side) {
-            switch (color, side) {
-            case (.White, .Kingside):
-                self = .WhiteKingside
-            case (.White, .Queenside):
-                self = .WhiteQueenside
-            case (.Black, .Kingside):
-                self = .BlackKingside
-            case (.Black, .Queenside):
-                self = .BlackQueenside
-            }
+            #if swift(>=3)
+                switch (color, side) {
+                case (.white, .kingside):  self = .whiteKingside
+                case (.white, .queenside): self = .whiteQueenside
+                case (.black, .kingside):  self = .blackKingside
+                case (.black, .queenside): self = .blackQueenside
+                }
+            #else
+                switch (color, side) {
+                case (.White, .Kingside):  self = .WhiteKingside
+                case (.White, .Queenside): self = .WhiteQueenside
+                case (.Black, .Kingside):  self = .BlackKingside
+                case (.Black, .Queenside): self = .BlackQueenside
+                }
+            #endif
         }
 
         /// Create a `Right` from a `Character`.
         public init?(character: Character) {
-            switch character {
-            case "K": self = .WhiteKingside
-            case "Q": self = .WhiteQueenside
-            case "k": self = .BlackKingside
-            case "q": self = .BlackQueenside
-            default: return nil
-            }
+            #if swift(>=3)
+                switch character {
+                case "K": self = .whiteKingside
+                case "Q": self = .whiteQueenside
+                case "k": self = .blackKingside
+                case "q": self = .blackQueenside
+                default: return nil
+                }
+            #else
+                switch character {
+                case "K": self = .WhiteKingside
+                case "Q": self = .WhiteQueenside
+                case "k": self = .BlackKingside
+                case "q": self = .BlackQueenside
+                default: return nil
+                }
+            #endif
         }
 
     }
+
+    #if swift(>=3)
+
+    /// An iterator over the members of `CastlingRights`.
+    public struct Iterator: IteratorProtocol {
+
+        private var _base: SetIterator<Right>
+
+        /// Advance to the next element and return it, or `nil` if no next element exists.
+        public mutating func next() -> Right? {
+            return _base.next()
+        }
+
+    }
+
+    #else
 
     /// A generator over the members of `CastlingRights`.
     public struct Generator: GeneratorType {
@@ -168,6 +275,8 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
 
     }
 
+    #endif
+
     /// All castling rights.
     public static let all = CastlingRights(Right.all)
 
@@ -177,7 +286,11 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
     /// A textual representation of `self`.
     public var description: String {
         if !_rights.isEmpty {
-            return String(_rights.map({ $0.character }).sort())
+            #if swift(>=3)
+                return String(_rights.map({ $0.character }).sorted())
+            #else
+                return String(_rights.map({ $0.character }).sort())
+            #endif
         } else {
             return "-"
         }
@@ -209,6 +322,19 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         }
     }
 
+    #if swift(>=3)
+
+    /// Creates a set of rights from a sequence.
+    public init<S: Sequence where S.Iterator.Element == Right>(_ sequence: S) {
+        if let set = sequence as? Set<Right> {
+            _rights = set
+        } else {
+            _rights = Set(sequence)
+        }
+    }
+
+    #else
+
     /// Creates a set of rights from a sequence.
     public init<S: SequenceType where S.Generator.Element == Right>(_ sequence: S) {
         if let set = sequence as? Set<Right> {
@@ -217,6 +343,102 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
             _rights = Set(sequence)
         }
     }
+
+    #endif
+
+}
+
+#if swift(>=3)
+
+extension CastlingRights: Sequence {
+
+    /// Returns an iterator over the members.
+    public func makeIterator() -> Iterator {
+        return Iterator(_base: _rights.makeIterator())
+    }
+
+}
+
+extension CastlingRights: SetAlgebra {
+
+    /// Returns a Boolean value that indicates whether the given element exists
+    /// in the set.
+    @warn_unused_result
+    public func contains(_ member: Right) -> Bool {
+        return _rights.contains(member)
+    }
+
+    /// Returns a new set with the elements of both this and the given set.
+    @warn_unused_result(mutable_variant:"formUnion")
+    public func union(_ other: CastlingRights) -> CastlingRights {
+        return CastlingRights(_rights.union(other._rights))
+    }
+
+    /// Returns a new set with the elements that are common to both this set and
+    /// the given set.
+    @warn_unused_result(mutable_variant:"formIntersection")
+    public func intersection(_ other: CastlingRights) -> CastlingRights {
+        return CastlingRights(_rights.intersection(other._rights))
+    }
+
+    /// Returns a new set with the elements that are either in this set or in the
+    /// given set, but not in both.
+    @warn_unused_result(mutable_variant:"formSymmetricDifference")
+    public func symmetricDifference(_ other: CastlingRights) -> CastlingRights {
+        return CastlingRights(_rights.symmetricDifference(other._rights))
+    }
+
+    /// Inserts the given element in the set if it is not already present.
+    @discardableResult
+    public mutating func insert(_ newMember: Right) -> (inserted: Bool, memberAfterInsert: Right) {
+        return _rights.insert(newMember)
+    }
+
+    /// Removes the given element and any elements subsumed by the given element.
+    @discardableResult
+    public mutating func remove(_ member: Right) -> Right? {
+        return _rights.remove(member)
+    }
+
+    /// Inserts the given element into the set unconditionally.
+    @discardableResult
+    public mutating func update(with newMember: Right) -> Right? {
+        return _rights.update(with: newMember)
+    }
+
+    /// Adds the elements of the given set to the set.
+    public mutating func formUnion(_ other: CastlingRights) {
+        _rights.formUnion(other._rights)
+    }
+
+    /// Removes the elements of this set that aren't also in the given set.
+    public mutating func formIntersection(_ other: CastlingRights) {
+        _rights.formIntersection(other._rights)
+    }
+
+    /// Removes the elements of the set that are also in the given set and
+    /// adds the members of the given set that are not already in the set.
+    public mutating func formSymmetricDifference(_ other: CastlingRights) {
+        _rights.formSymmetricDifference(other._rights)
+    }
+
+}
+
+#else
+
+extension CastlingRights: SequenceType {
+
+    /// Returns a generator over the members.
+    ///
+    /// - Complexity: O(1).
+    @warn_unused_result
+    public func generate() -> Generator {
+        return Generator(_base: _rights.generate())
+    }
+
+}
+
+extension CastlingRights: SetAlgebraType {
 
     /// Returns `true` if `self` contains `member`.
     @warn_unused_result
@@ -262,22 +484,14 @@ public struct CastlingRights: SetAlgebraType, SequenceType, CustomStringConverti
         _rights.insert(member)
     }
 
-    /// If `member` is contained in `self`, removes and returns it. Otherwise, removes all elements subsumed by `member`
-    /// and returns `nil`.
-    ///
-    /// - Postcondition: `self.intersect([member]).isEmpty`
+    /// Remove the member from the set and return it if it was present.
     public mutating func remove(member: Right) -> Right? {
         return _rights.remove(member)
     }
 
-    /// Returns a generator over the members.
-    ///
-    /// - Complexity: O(1).
-    public func generate() -> Generator {
-        return Generator(_base: _rights.generate())
-    }
-
 }
+
+#endif
 
 extension CastlingRights: Hashable {
     /// The hash value.

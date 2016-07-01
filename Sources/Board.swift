@@ -26,7 +26,7 @@
 /// A chess board used to map `Square`s to `Piece`s.
 ///
 /// Pieces map to separate instances of `Bitboard` which can be retreived with `bitboard(for:)`.
-public struct Board: Hashable, SequenceType, CustomStringConvertible {
+public struct Board: Hashable, CustomStringConvertible {
 
     /// A chess board space.
     public struct Space: Hashable, CustomStringConvertible {
@@ -62,7 +62,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
         /// The space's color.
         public var color: Color {
-            return (file.index & 1 != rank.index & 1) ? .White : .Black
+            return (file.index & 1 != rank.index & 1) ? ._white : ._black
         }
 
         /// The space's name.
@@ -118,25 +118,45 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
             let fontSize = size * 0.625
             let view = _View(frame: frame)
             let str = piece.map({ String($0.specialCharacter(background: color)) }) ?? ""
-            let bg: _Color = color.isWhite ? .whiteColor() : .blackColor()
-            let tc: _Color = color.isWhite ? .blackColor() : .whiteColor()
+            #if swift(>=3)
+                let white = _Color.white()
+                let black = _Color.black()
+            #else
+                let white = _Color.whiteColor()
+                let black = _Color.blackColor()
+            #endif
+            let bg: _Color = color.isWhite ? white : black
+            let tc: _Color = color.isWhite ? black : white
             #if os(OSX)
                 view.wantsLayer = true
-                view.layer?.backgroundColor = bg.CGColor
                 let text = NSText(frame: textFrame)
-                text.alignment = .Center
-                text.font = .systemFontOfSize(fontSize)
+                #if swift(>=3)
+                    view.layer?.backgroundColor = bg.cgColor
+                    text.alignment = .center
+                    text.font = .systemFont(ofSize: fontSize)
+                    text.isEditable = false
+                    text.isSelectable = false
+                #else
+                    view.layer?.backgroundColor = bg.CGColor
+                    text.alignment = .Center
+                    text.font = .systemFontOfSize(fontSize)
+                    text.editable = false
+                    text.selectable = false
+                #endif
                 text.string = str
                 text.drawsBackground = false
                 text.textColor = tc
-                text.editable = false
-                text.selectable = false
                 view.addSubview(text)
             #else
-                view.backgroundColor = color.isWhite ? .whiteColor() : .blackColor()
+                view.backgroundColor = bg
                 let label = UILabel(frame: textFrame)
-                label.textAlignment = .Center
-                label.font = .systemFontOfSize(fontSize)
+                #if swift(>=3)
+                    label.textAlignment = .center
+                    label.font = .systemFont(ofSize: fontSize)
+                #else
+                    label.textAlignment = .Center
+                    text.font = .systemFontOfSize(fontSize)
+                #endif
                 label.text = str
                 label.textColor = tc
                 view.addSubview(label)
@@ -148,19 +168,17 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     }
 
-    /// A generator for the spaces of a chess board.
-    public struct Generator: GeneratorType {
+    private struct _MutualIterator {
 
-        private let _board: Board
-        private var _index: Int
+        let _board: Board
+        var _index: Int
 
-        private init(_ board: Board) {
+        init(_ board: Board) {
             self._board = board
             self._index = 0
         }
 
-        /// Advances to the next space on the board.
-        public mutating func next() -> Board.Space? {
+        mutating func next() -> Board.Space? {
             guard let square = Square(rawValue: _index) else {
                 return nil
             }
@@ -170,8 +188,48 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
 
     }
 
+    #if swift(>=3)
+
+    /// An iterator for the spaces of a chess board.
+    public struct Iterator: IteratorProtocol {
+
+        private var _base: _MutualIterator
+
+        /// Advances to the next space on the board and returns it.
+        public mutating func next() -> Board.Space? {
+            return _base.next()
+        }
+
+    }
+
+    #else
+
+    /// A generator for the spaces of a chess board.
+    public struct Generator: GeneratorType {
+
+        private var _base: _MutualIterator
+
+        /// Advances to the next space on the board and returns it.
+        public mutating func next() -> Board.Space? {
+            return _base.next()
+        }
+
+    }
+
+    #endif
+
     /// A board side.
     public enum Side {
+
+        #if swift(>=3)
+
+        /// Right side of the board.
+        case kingside
+
+        /// Right side of the board.
+        case queenside
+
+        #else
 
         /// Right side of the board.
         case Kingside
@@ -179,14 +237,24 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         /// Right side of the board.
         case Queenside
 
+        #endif
+
         /// `self` is kingside.
         public var isKingside: Bool {
-            return self == .Kingside
+            #if swift(>=3)
+                return self == .kingside
+            #else
+                return self == .Kingside
+            #endif
         }
 
         /// `self` is queenside.
         public var isQueenside: Bool {
-            return self == .Queenside
+            #if swift(>=3)
+                return self == .queenside
+            #else
+                return self == .Queenside
+            #endif
         }
 
     }
@@ -244,10 +312,18 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     public var ascii: String {
         let edge = "  +-----------------+\n"
         var result = edge
-        for rank in Rank.all.reverse() {
-            let str = File.all
-                .map({ file in "\(self[(file, rank)]?.character ?? ".")"})
-                .joinWithSeparator(" ")
+        #if swift(>=3)
+            let reversed = Rank.all.reversed()
+        #else
+            let reversed = Rank.all.reverse()
+        #endif
+        for rank in reversed {
+            let strings = File.all.map({ file in "\(self[(file, rank)]?.character ?? ".")" })
+            #if swift(>=3)
+                let str = strings.joined(separator: " ")
+            #else
+                let str = strings.joinWithSeparator(" ")
+            #endif
             result += "\(rank) | \(str) |\n"
         }
         result += "\(edge)    a b c d e f g h  "
@@ -257,7 +333,7 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// Create a chess board.
     ///
     /// - Parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
-    public init(variant: Variant? = .Standard) {
+    public init(variant: Variant? = ._standard) {
         _bitboards = [:]
         if let variant = variant {
             for piece in Piece.all {
@@ -292,7 +368,11 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
                     pieces.append(piece)
                 } else if let num = Int(String(char)) {
                     guard 1...8 ~= num else { return nil }
-                    pieces += Array(count: num, repeatedValue: nil)
+                    #if swift(>=3)
+                        pieces += Array(repeating: nil, count: num)
+                    #else
+                        pieces += Array(count: num, repeatedValue: nil)
+                    #endif
                 } else {
                     return nil
                 }
@@ -302,12 +382,18 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         guard !fen.characters.contains(" ") else {
             return nil
         }
-        let parts = fen.characters.split("/").map(String.init)
+        #if swift(>=3)
+            let parts = fen.characters.split(separator: "/").map(String.init)
+            let ranks = Rank.all.reversed()
+        #else
+            let parts = fen.characters.split("/").map(String.init)
+            let ranks = Rank.all.reverse()
+        #endif
         guard parts.count == 8 else {
             return nil
         }
         var board = Board(variant: nil)
-        for (rank, part) in zip(Rank.all.reverse(), parts) {
+        for (rank, part) in zip(ranks, parts) {
             guard let pieces = pieces(for: part) else {
                 return nil
             }
@@ -361,19 +447,8 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }
     }
 
-    /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
-    public mutating func populate(for variant: Variant = .Standard) {
-        self = Board(variant: variant)
-    }
-
-    /// Clears all the pieces from `self`.
-    public mutating func clear() {
-        self = Board(variant: nil)
-    }
-
     /// Returns `self` flipped horizontally.
-    @warn_unused_result(mutable_variant="flipHorizontally")
-    public func flippedHorizontally() -> Board {
+    private func _flippedHorizontally() -> Board {
         var board = self
         for (p, b) in _bitboards {
             board._bitboards[p] = b.flippedHorizontally()
@@ -381,19 +456,63 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return board
     }
 
-    /// Flips `self` horizontally.
-    public mutating func flipHorizontally() {
-        self = flippedHorizontally()
-    }
-
     /// Returns `self` flipped vertically.
-    @warn_unused_result(mutable_variant="flipVertically")
-    public func flippedVertically() -> Board {
+    private func _flippedVertically() -> Board {
         var board = self
         for (p, b) in _bitboards {
             board._bitboards[p] = b.flippedVertically()
         }
         return board
+    }
+
+    /// Clears all the pieces from `self`.
+    public mutating func clear() {
+        self = Board(variant: nil)
+    }
+
+    #if swift(>=3)
+
+    /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
+    public mutating func populate(for variant: Variant = .standard) {
+        self = Board(variant: variant)
+    }
+
+    /// Returns `self` flipped horizontally.
+    @warn_unused_result(mutable_variant:"flipHorizontally")
+    public func flippedHorizontally() -> Board {
+        return _flippedHorizontally()
+    }
+
+    /// Returns `self` flipped vertically.
+    @warn_unused_result(mutable_variant:"flipVertically")
+    public func flippedVertically() -> Board {
+        return _flippedVertically()
+    }
+
+    #else
+
+    /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
+    public mutating func populate(for variant: Variant = .Standard) {
+        self = Board(variant: variant)
+    }
+
+    /// Returns `self` flipped horizontally.
+    @warn_unused_result(mutable_variant="flipHorizontally")
+    public func flippedHorizontally() -> Board {
+        return _flippedHorizontally()
+    }
+
+    /// Returns `self` flipped vertically.
+    @warn_unused_result(mutable_variant="flipVertically")
+    public func flippedVertically() -> Board {
+        return _flippedVertically()
+    }
+
+    #endif
+
+    /// Flips `self` horizontally.
+    public mutating func flipHorizontally() {
+        self = flippedHorizontally()
     }
 
     /// Flips `self` vertically.
@@ -449,7 +568,12 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         let attacks = playerPieces.map({ piece in
             square.attacks(for: piece, stoppers: all)
         })
-        let queens = (attacks[2] | attacks[3]) & self[.Queen(color)]
+        #if swift(>=3)
+            let queen = Piece.queen(color)
+        #else
+            let queen = Piece.Queen(color)
+        #endif
+        let queens = (attacks[2] | attacks[3]) & self[queen]
         return zip(attackPieces, attacks)
             .map({ self[$0] & $1 })
             .reduce(queens, combine: |)
@@ -499,10 +623,26 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         return Space(piece: self[square], square: square)
     }
 
+    #if swift(>=3)
+
+    /// Removes a piece at `square`, and returns it.
+    @discardableResult
+    public mutating func removePiece(at square: Square) -> Piece? {
+        if let piece = self[square] {
+            self[piece][square] = false
+            return piece
+        } else {
+            return nil
+        }
+    }
+
     /// Removes a piece at `location`, and returns it.
+    @discardableResult
     public mutating func removePiece(at location: Location) -> Piece? {
         return removePiece(at: Square(location: location))
     }
+
+    #else
 
     /// Removes a piece at `square`, and returns it.
     public mutating func removePiece(at square: Square) -> Piece? {
@@ -514,13 +654,20 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
         }
     }
 
+    /// Removes a piece at `location`, and returns it.
+    public mutating func removePiece(at location: Location) -> Piece? {
+        return removePiece(at: Square(location: location))
+    }
+
+    #endif
+
     /// Swaps the pieces between the two locations.
-    public mutating func swap(first: Location, _ second: Location) {
+    public mutating func swap(_ first: Location, _ second: Location) {
         swap(Square(location: first), Square(location: second))
     }
 
     /// Swaps the pieces between the two squares.
-    public mutating func swap(first: Square, _ second: Square) {
+    public mutating func swap(_ first: Square, _ second: Square) {
         switch (self[first], self[second]) {
         case let (firstPiece?, secondPiece?):
             self[firstPiece].swap(first, second)
@@ -555,12 +702,16 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     /// Returns the square of the king for `color`, if any.
     @warn_unused_result
     public func squareForKing(for color: Color) -> Square? {
-        return bitboard(for: .King(color)).lsbSquare
+        #if swift(>=3)
+            let king = Piece.king(color)
+        #else
+            let king = Piece.King(color)
+        #endif
+        return bitboard(for: king).lsbSquare
     }
 
     /// Returns `true` if `self` contains `piece`.
-    @warn_unused_result
-    public func contains(piece: Piece) -> Bool {
+    public func contains(_ piece: Piece) -> Bool {
         return _bitboards[piece]?.isEmpty == false
     }
 
@@ -568,9 +719,8 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
     ///
     /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
     ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
-    @warn_unused_result
     public func fen() -> String {
-        func fenForRank(rank: Rank) -> String {
+        func fen(forRank rank: Rank) -> String {
             var fen = ""
             var accumulator = 0
             for space in spaces(at: rank) {
@@ -582,41 +732,84 @@ public struct Board: Hashable, SequenceType, CustomStringConvertible {
                     fen += String(piece.character)
                 } else {
                     accumulator += 1
-                    if space.file == .H {
+                    #if swift(>=3)
+                        let h = File.h
+                    #else
+                        let h = File.H
+                    #endif
+                    if space.file == h {
                         fen += String(accumulator)
                     }
                 }
             }
             return fen
         }
-        return Rank.all.reverse().map(fenForRank).joinWithSeparator("/")
-    }
-
-    /// Returns a generator over the spaces of the board.
-    ///
-    /// - Complexity: O(1).
-    @warn_unused_result
-    public func generate() -> Generator {
-        return Generator(self)
+        #if swift(>=3)
+            return Rank.all.reversed().map(fen).joined(separator: "/")
+        #else
+            return Rank.all.reverse().map(fen).joinWithSeparator("/")
+        #endif
     }
 
 }
+
+#if swift(>=3)
+
+extension Board: Sequence {
+    /// Returns an iterator over the spaces of the board.
+    public func makeIterator() -> Iterator {
+        return Iterator(_base: _MutualIterator(self))
+    }
+}
+
+#else
+
+extension Board: SequenceType {
+    /// Returns a generator over the spaces of the board.
+    ///
+    /// - Complexity: O(1).
+    public func generate() -> Generator {
+        return Generator(_base: _MutualIterator(self))
+    }
+}
+
+#endif
 
 #if os(OSX) || os(iOS) || os(tvOS)
 
 extension Board: CustomPlaygroundQuickLookable {
 
     /// Returns the `PlaygroundQuickLook` for `self`.
-    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+    private var _customPlaygroundQuickLook: PlaygroundQuickLook {
         let spaceSize: CGFloat = 80
         let boardSize = spaceSize * 8
         let frame = CGRect(x: 0, y: 0, width: boardSize, height: boardSize)
         let view = _View(frame: frame)
-        for space in self {
-            view.addSubview(space._view(spaceSize))
-        }
-        return .View(view)
+        #if swift(>=3)
+            for space in self {
+                view.addSubview(space._view(size: spaceSize))
+            }
+            return .view(view)
+        #else
+            for space in self {
+                view.addSubview(space._view(spaceSize))
+            }
+            return .View(view)
+        #endif
     }
+
+    #if swift(>=3)
+    /// A custom playground quick look for this instance.
+    public var customPlaygroundQuickLook: PlaygroundQuickLook {
+        return _customPlaygroundQuickLook
+    }
+    #else
+    /// Returns the `PlaygroundQuickLook` for `self`.
+    @warn_unused_result
+    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
+        return _customPlaygroundQuickLook
+    }
+    #endif
 
 }
 
