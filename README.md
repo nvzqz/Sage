@@ -213,6 +213,25 @@ assert(Board(fen: game.board.fen()) == game.board)
 assert(Game.Position(fen: game.position.fen()) == game.position)
 ```
 
+### Squares to Moves
+
+`Sequence` and `Square` have two methods that return an array of moves that go
+from/to `self` to/from the parameter.
+
+```swift
+print([.a1, .h3, .b5].moves(from: .b4))
+// [B4 >>> A1, B4 >>> H3, B4 >>> B5]
+
+print([.c3, .d2, .f1].moves(to: .a6))
+// [C3 >>> A6, D2 >>> A6, F1 >>> A6]
+
+print(Square.d4.moves(from: [.c2, .f8, .h2]))
+// [C2 >>> D4, F8 >>> D4, H2 >>> D4]
+
+print(Square.a4.moves(to: [.c3, .d4, .f6]))
+// [A4 >>> C3, A4 >>> D4, A4 >>> F6]
+```
+
 ## License
 
 Fischer is published under version 2.0 of the Apache License.
