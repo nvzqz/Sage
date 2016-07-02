@@ -263,7 +263,7 @@ print(Square.a4.moves(to: [.c3, .d4, .f6]))
 
 `Board` conforms to the `CustomPlaygroundQuickLookable` protocol.
 
-![Playground quick look](https://raw.githubusercontent.com/nvzqz/Fischer/assets/BoardPlaygroundView@2x.png)
+![Playground quick look](https://raw.githubusercontent.com/nvzqz/Fischer/assets/BoardPlaygroundView.png)
 
 ## License
 
