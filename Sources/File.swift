@@ -129,25 +129,25 @@ extension File {
     public var character: Character {
         #if swift(>=3)
             switch self {
-            case .a: return "A"
-            case .b: return "B"
-            case .c: return "C"
-            case .d: return "D"
-            case .e: return "E"
-            case .f: return "F"
-            case .g: return "G"
-            case .h: return "H"
+            case .a: return "a"
+            case .b: return "b"
+            case .c: return "c"
+            case .d: return "d"
+            case .e: return "e"
+            case .f: return "f"
+            case .g: return "g"
+            case .h: return "h"
             }
         #else
             switch self {
-            case .A: return "A"
-            case .B: return "B"
-            case .C: return "C"
-            case .D: return "D"
-            case .E: return "E"
-            case .F: return "F"
-            case .G: return "G"
-            case .H: return "H"
+            case .A: return "a"
+            case .B: return "b"
+            case .C: return "c"
+            case .D: return "d"
+            case .E: return "e"
+            case .F: return "f"
+            case .G: return "g"
+            case .H: return "h"
             }
         #endif
     }
