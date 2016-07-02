@@ -16,10 +16,10 @@ Fischer is a cross-platform chess library for Swift.
 ### Compatibility
 
 - Platforms:
-    - macOS
-    - iOS
-    - watchOS
-    - tvOS
+    - macOS 10.9+
+    - iOS 8.0+
+    - watchOS 2.0+
+    - tvOS 9.0+
     - Linux
 - Xcode 7.3 and 8.0
 - Swift 2.2 and 3.0
