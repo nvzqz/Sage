@@ -501,20 +501,73 @@ public final class Game {
     }
 
     #if swift(>=3)
+
     /// Returns `true` if the move is legal.
     @warn_unused_result
     public func isLegal(move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
         return Bitboard(square: move.end).intersects(moves)
     }
+
+    /// Executes a move without checking the legality of the move.
+    private func _execute(_ move: Move, promotion: @noescape () -> Piece) throws {
+        let piece = board[move.start]!
+        var endPiece = piece
+        var capture = board[move.end]
+        var captureSquare = move.end
+        if piece.isPawn {
+            if move.end.rank == Rank(endFor: playerTurn) {
+                let promotion = promotion()
+                guard promotion.color == playerTurn else {
+                    throw MoveExecutionError.invalidPromotionPiece(promotion)
+                }
+                endPiece = promotion
+            } else if move.end == enPassantTarget {
+                capture = Piece.pawn(playerTurn.inverse())
+                captureSquare = Square(file: move.end.file, rank: move.start.rank)
+            }
+        } else if piece.isRook {
+            switch move.start {
+            case .a1: castlingRights.remove(.whiteQueenside)
+            case .h1: castlingRights.remove(.whiteKingside)
+            case .a8: castlingRights.remove(.blackQueenside)
+            case .h8: castlingRights.remove(.blackKingside)
+            default:
+                break
+            }
+        } else if piece.isKing {
+            for option in castlingRights where option.color == playerTurn {
+                castlingRights.remove(option)
+            }
+            if abs(move.fileChange) == 2 {
+                let (old, new) = move._castleSquares()
+                let rook = Piece.rook(playerTurn)
+                board[rook][old] = false
+                board[rook][new] = true
+            }
+        }
+        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves))
+        if let capture = capture {
+            board[capture][captureSquare] = false
+        }
+        if capture == nil && !piece.isPawn {
+            halfmoves += 1
+        } else {
+            halfmoves = 0
+        }
+        board[piece][move.start] = false
+        board[endPiece][move.end] = true
+        playerTurn.invert()
+    }
+
     #else
+
     /// Returns `true` if the move is legal.
     @warn_unused_result
     public func isLegal(move move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
         return Bitboard(square: move.end).intersects(moves)
     }
-    #endif
 
     /// Executes a move without checking the legality of the move.
     private func _execute(_ move: Move, @noescape promotion: () -> Piece) throws {
@@ -526,73 +579,48 @@ public final class Game {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
                 guard promotion.color == playerTurn else {
-                    #if swift(>=3)
-                        throw MoveExecutionError.invalidPromotionPiece(promotion)
-                    #else
-                        throw MoveExecutionError.InvalidPromotionPiece(promotion)
-                    #endif
+                    throw MoveExecutionError.InvalidPromotionPiece(promotion)
                 }
                 endPiece = promotion
             } else if move.end == enPassantTarget {
-                #if swift(>=3)
-                    capture = Piece.pawn(playerTurn.inverse())
-                #else
-                    capture = Piece.Pawn(playerTurn.inverse())
-                #endif
+                capture = Piece.Pawn(playerTurn.inverse())
                 captureSquare = Square(file: move.end.file, rank: move.start.rank)
             }
         } else if piece.isRook {
-            #if swift(>=3)
-                switch move.start {
-                case .a1: castlingRights.remove(.whiteQueenside)
-                case .h1: castlingRights.remove(.whiteKingside)
-                case .a8: castlingRights.remove(.blackQueenside)
-                case .h8: castlingRights.remove(.blackKingside)
-                default:
-                    break
-                }
-            #else
-                switch move.start {
-                case .A1: castlingRights.remove(.WhiteQueenside)
-                case .H1: castlingRights.remove(.WhiteKingside)
-                case .A8: castlingRights.remove(.BlackQueenside)
-                case .H8: castlingRights.remove(.BlackKingside)
-                default:
-                    break
-                }
-            #endif
+            switch move.start {
+            case .A1: castlingRights.remove(.WhiteQueenside)
+            case .H1: castlingRights.remove(.WhiteKingside)
+            case .A8: castlingRights.remove(.BlackQueenside)
+            case .H8: castlingRights.remove(.BlackKingside)
+            default:
+                break
+            }
         } else if piece.isKing {
             for option in castlingRights where option.color == playerTurn {
                 castlingRights.remove(option)
             }
             if abs(move.fileChange) == 2 {
                 let (old, new) = move._castleSquares()
-                #if swift(>=3)
-                    let rook = Piece.rook(playerTurn)
-                #else
-                    let rook = Piece.Rook(playerTurn)
-                #endif
+                let rook = Piece.Rook(playerTurn)
                 board[rook][old] = false
                 board[rook][new] = true
             }
         }
-
         _moveHistory.append((move, piece, capture, attackersToKing, halfmoves))
-
         if let capture = capture {
             board[capture][captureSquare] = false
         }
-
         if capture == nil && !piece.isPawn {
             halfmoves += 1
         } else {
             halfmoves = 0
         }
-
         board[piece][move.start] = false
         board[endPiece][move.end] = true
         playerTurn.invert()
     }
+
+    #endif
 
     /// Executes a move without checking the legality of the move.
     private func _execute(_ move: Move) throws {
