@@ -542,4 +542,22 @@ extension Square {
         return attacks(for: piece, stoppers: stoppers).moves(from: self)
     }
 
+    #if swift(>=3)
+
+    /// Returns moves from `self` to the squares in `squares`.
+    @warn_unused_result
+    public func moves<S: Sequence where S.Iterator.Element == Square>(to squares: S) -> [Move] {
+        return squares.moves(from: self)
+    }
+
+    #else
+
+    /// Returns moves from `self` to the squares in `squares`.
+    @warn_unused_result
+    public func moves<S: SequenceType where S.Generator.Element == Square>(to squares: S) -> [Move] {
+        return squares.moves(from: self)
+    }
+
+    #endif
+
 }
