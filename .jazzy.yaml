@@ -5,3 +5,4 @@ swift_version: 3
 author: Nikolai Vazquez
 author_url: https://github.com/nvzqz
 theme: fullwidth
+clean: true
