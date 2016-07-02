@@ -259,6 +259,12 @@ print(Square.a4.moves(to: [.c3, .d4, .f6]))
 // [a4 >>> c3, a4 >>> d4, a4 >>> f6]
 ```
 
+### Playground Quick Look
+
+`Board` conforms to the `CustomPlaygroundQuickLookable` protocol.
+
+![Playground quick look](https://raw.githubusercontent.com/nvzqz/Fischer/assets/BoardPlaygroundView@2x.png)
+
 ## License
 
 Fischer is published under [version 2.0 of the Apache License](https://www.apache.org/licenses/LICENSE-2.0).
