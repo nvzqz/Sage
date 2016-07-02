@@ -246,16 +246,16 @@ from/to `self` to/from the parameter.
 
 ```swift
 print([.a1, .h3, .b5].moves(from: .b4))
-// [B4 >>> A1, B4 >>> H3, B4 >>> B5]
+// [b4 >>> a1, b4 >>> h3, b4 >>> b5]
 
 print([.c3, .d2, .f1].moves(to: .a6))
-// [C3 >>> A6, D2 >>> A6, F1 >>> A6]
+// [c3 >>> a6, d2 >>> a6, f1 >>> a6]
 
 print(Square.d4.moves(from: [.c2, .f8, .h2]))
-// [C2 >>> D4, F8 >>> D4, H2 >>> D4]
+// [c2 >>> d4, f8 >>> d4, h2 >>> d4]
 
 print(Square.a4.moves(to: [.c3, .d4, .f6]))
-// [A4 >>> C3, A4 >>> D4, A4 >>> F6]
+// [a4 >>> c3, a4 >>> d4, a4 >>> f6]
 ```
 
 ## License
