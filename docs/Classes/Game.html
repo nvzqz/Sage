@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Game Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Game" class="dashAnchor"></a>
+    <a title="Game Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">Fischer Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/nvzqz/Fischer"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">Fischer Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Game Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Game.html">Game</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Game/Mode.html">– Mode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Game/Outcome.html">– Outcome</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Game/Position.html">– Position</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/Color.html">Color</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/File.html">File</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/File/Direction.html">– Direction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MoveExecutionError.html">MoveExecutionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Piece.html">Piece</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Rank.html">Rank</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Rank/Direction.html">– Direction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Square.html">Square</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/Variant.html">Variant</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi1aFTVS_8BitboardS0__S0_">&amp;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi1lFTOS_4RankS0__Sb">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi1lFTOS_4FileS0__Sb">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2llFTVS_8BitboardS0__S0_">&lt;&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi3lleFTRVS_8BitboardS0__T_">&lt;&lt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTVS_14CastlingRightsS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTVS_4MoveS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTOS_5PieceS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTOCS_4Game7OutcomeS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTVCS_4Game8PositionS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTVS_5BoardS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2eeFTVVS_5Board5SpaceS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi2ggFTVS_8BitboardS0__S0_">&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi3ggeFTRVS_8BitboardS0__T_">&gt;&gt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi3gggFTT4fileOS_4File4rankOS_4Rank_T4fileS0_4rankS1___VS_4Move">&gt;&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi3gggFTOS_6SquareS0__VS_4Move">&gt;&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi1xFTVS_8BitboardS0__S0_">^(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischeroi1oFTVS_8BitboardS0__S0_">|(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Functions.html#/s:ZF7Fischerop1tFVS_8BitboardS0_">~(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/Bitboard.html">Bitboard</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Bitboard/ShiftDirection.html">– ShiftDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Bitboard/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Board.html">Board</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Board/Space.html">– Space</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Board/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Board/Side.html">– Side</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CastlingRights.html">CastlingRights</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CastlingRights/Right.html">– Right</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/CastlingRights/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/Move.html">Move</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Typealiases.html#/s:7Fischer8Location">Location</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Game</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">final</span> <span class="kd">class</span> <span class="kt">Game</span></code></pre>
+
+                </div>
+              </div>
+            <p>A chess game.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:OC7Fischer4Game4Mode"></a>
+                    <a name="//apple_ref/swift/Enum/Mode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OC7Fischer4Game4Mode">Mode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A chess game mode.</p>
+
+                        <a href="../Classes/Game/Mode.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Mode</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C7Fischer4Game10PlayerTurn"></a>
+                    <a name="//apple_ref/swift/Alias/PlayerTurn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C7Fischer4Game10PlayerTurn">PlayerTurn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A player turn.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">PlayerTurn</span> <span class="o">=</span> <span class="kt"><a href="../Enums/Color.html">Color</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:OC7Fischer4Game7Outcome"></a>
+                    <a name="//apple_ref/swift/Enum/Outcome" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OC7Fischer4Game7Outcome">Outcome</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A chess game outcome.</p>
+
+                        <a href="../Classes/Game/Outcome.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Outcome</span><span class="p">:</span> <span class="kt">Hashable</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:VC7Fischer4Game8Position"></a>
+                    <a name="//apple_ref/swift/Struct/Position" class="dashAnchor"></a>
+                    <a class="token" href="#/s:VC7Fischer4Game8Position">Position</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A game position.</p>
+
+                        <a href="../Classes/Game/Position.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Position</span><span class="p">:</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">CustomStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game5boardVS_5Board"></a>
+                    <a name="//apple_ref/swift/Property/board" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game5boardVS_5Board">board</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The game&rsquo;s board.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">board</span><span class="p">:</span> <span class="kt"><a href="../Structs/Board.html">Board</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game10playerTurnOS_5Color"></a>
+                    <a name="//apple_ref/swift/Property/playerTurn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game10playerTurnOS_5Color">playerTurn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The current player&rsquo;s turn.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">playerTurn</span><span class="p">:</span> <span class="kt"><a href="../Classes/Game.html#/s:C7Fischer4Game10PlayerTurn">PlayerTurn</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game14castlingRightsVS_14CastlingRights"></a>
+                    <a name="//apple_ref/swift/Property/castlingRights" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game14castlingRightsVS_14CastlingRights">castlingRights</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The castling rights.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">castlingRights</span><span class="p">:</span> <span class="kt"><a href="../Structs/CastlingRights.html">CastlingRights</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game4modeOS0_4Mode"></a>
+                    <a name="//apple_ref/swift/Property/mode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game4modeOS0_4Mode">mode</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The game&rsquo;s mode.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">mode</span><span class="p">:</span> <span class="kt"><a href="../Classes/Game/Mode.html">Mode</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game7variantOS_7Variant"></a>
+                    <a name="//apple_ref/swift/Property/variant" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game7variantOS_7Variant">variant</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The game&rsquo;s variant.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">variant</span><span class="p">:</span> <span class="kt"><a href="../Enums/Variant.html">Variant</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game13kingIsCheckedSb"></a>
+                    <a name="//apple_ref/swift/Property/kingIsChecked" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game13kingIsCheckedSb">kingIsChecked</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The current player&rsquo;s king is in check.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">kingIsChecked</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game19kingIsDoubleCheckedSb"></a>
+                    <a name="//apple_ref/swift/Property/kingIsDoubleChecked" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game19kingIsDoubleCheckedSb">kingIsDoubleChecked</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The current player&rsquo;s king is checked by two or more pieces.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">kingIsDoubleChecked</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game11playedMovesGSaVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Property/playedMoves" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game11playedMovesGSaVS_4Move_">playedMoves</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>All of the moves played in the game.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">playedMoves</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game9moveCountSi"></a>
+                    <a name="//apple_ref/swift/Property/moveCount" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game9moveCountSi">moveCount</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The amount of moves executed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">moveCount</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game9fullmovesSu"></a>
+                    <a name="//apple_ref/swift/Property/fullmoves" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game9fullmovesSu">fullmoves</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The current fullmove number.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">fullmoves</span><span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game9halfmovesSu"></a>
+                    <a name="//apple_ref/swift/Property/halfmoves" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game9halfmovesSu">halfmoves</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The current halfmove clock.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="k">var</span> <span class="nv">halfmoves</span><span class="p">:</span> <span class="kt">UInt</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game15enPassantTargetGSqOS_6Square_"></a>
+                    <a name="//apple_ref/swift/Property/enPassantTarget" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game15enPassantTargetGSqOS_6Square_">enPassantTarget</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The target move location for an en passant.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">enPassantTarget</span><span class="p">:</span> <span class="kt"><a href="../Enums/Square.html">Square</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game8positionVS0_8Position"></a>
+                    <a name="//apple_ref/swift/Property/position" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game8positionVS0_8Position">position</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The current position for <code>self</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">position</span><span class="p">:</span> <span class="kt"><a href="../Classes/Game/Position.html">Position</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game7outcomeGSqOS0_7Outcome_"></a>
+                    <a name="//apple_ref/swift/Property/outcome" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game7outcomeGSqOS0_7Outcome_">outcome</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The outcome for <code>self</code> if no moves are available.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">outcome</span><span class="p">:</span> <span class="kt"><a href="../Classes/Game/Outcome.html">Outcome</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC7Fischer4Game10isFinishedSb"></a>
+                    <a name="//apple_ref/swift/Property/isFinished" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC7Fischer4Game10isFinishedSb">isFinished</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The game has no more available moves.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isFinished</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4GamecFT4modeOS0_4Mode7variantOS_7Variant_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(mode:variant:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4GamecFT4modeOS0_4Mode7variantOS_7Variant_S0_">init(mode:variant:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a new chess game.</p>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter mode: The game&rsquo;s mode. Default is <code>humanVsHuman</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">mode</span><span class="p">:</span> <span class="kt"><a href="../Classes/Game/Mode.html">Mode</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">humanVsHuman</span><span class="p">,</span> <span class="nv">variant</span><span class="p">:</span> <span class="kt"><a href="../Enums/Variant.html">Variant</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">standard</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mode</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The game’s mode. Default is <code>humanVsHuman</code>.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game4copyFT_S0_"></a>
+                    <a name="//apple_ref/swift/Method/copy()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game4copyFT_S0_">copy()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns a copy of <code>self</code>.</p>
+
+<div class="aside aside-complexity">
+    <p class="aside-title">Complexity</p>
+    O(1).
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">copy</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Game</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game14capturedPiecesFT3forGSqOS_5Color__GSaOS_5Piece_"></a>
+                    <a name="//apple_ref/swift/Method/capturedPieces(for:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game14capturedPiecesFT3forGSqOS_5Color__GSaOS_5Piece_">capturedPieces(for:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the captured pieces for a color, or for all if color is <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">capturedPieces</span><span class="p">(</span><span class="k">for</span> <span class="nv">color</span><span class="p">:</span> <span class="kt"><a href="../Enums/Color.html">Color</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Enums/Piece.html">Piece</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game14availableMovesFT_GSaVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/availableMoves()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game14availableMovesFT_GSaVS_4Move_">availableMoves()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the available moves for the current player.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">availableMoves</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game21movesBitboardForPieceFT2atOS_6Square_VS_8Bitboard"></a>
+                    <a name="//apple_ref/swift/Method/movesBitboardForPiece(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game21movesBitboardForPieceFT2atOS_6Square_VS_8Bitboard">movesBitboardForPiece(at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the moves bitboard currently available for the piece at <code>square</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">movesBitboardForPiece</span><span class="p">(</span><span class="n">at</span> <span class="nv">square</span><span class="p">:</span> <span class="kt"><a href="../Enums/Square.html">Square</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Bitboard.html">Bitboard</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game21movesBitboardForPieceFT2atT4fileOS_4File4rankOS_4Rank__VS_8Bitboard"></a>
+                    <a name="//apple_ref/swift/Method/movesBitboardForPiece(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game21movesBitboardForPieceFT2atT4fileOS_4File4rankOS_4Rank__VS_8Bitboard">movesBitboardForPiece(at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the moves bitboard currently available for the piece at <code>location</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">movesBitboardForPiece</span><span class="p">(</span><span class="n">at</span> <span class="nv">location</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Fischer8Location">Location</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Bitboard.html">Bitboard</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game13movesForPieceFT2atOS_6Square_GSaVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/movesForPiece(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game13movesForPieceFT2atOS_6Square_GSaVS_4Move_">movesForPiece(at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the moves currently available for the piece at <code>square</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">movesForPiece</span><span class="p">(</span><span class="n">at</span> <span class="nv">square</span><span class="p">:</span> <span class="kt"><a href="../Enums/Square.html">Square</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game13movesForPieceFT2atT4fileOS_4File4rankOS_4Rank__GSaVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/movesForPiece(at:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game13movesForPieceFT2atT4fileOS_4File4rankOS_4Rank__GSaVS_4Move_">movesForPiece(at:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the moves currently available for the piece at <code>location</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">movesForPiece</span><span class="p">(</span><span class="n">at</span> <span class="nv">location</span><span class="p">:</span> <span class="kt"><a href="../Typealiases.html#/s:7Fischer8Location">Location</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game7isLegalFT4moveVS_4Move_Sb"></a>
+                    <a name="//apple_ref/swift/Method/isLegal(move:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game7isLegalFT4moveVS_4Move_Sb">isLegal(move:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns <code>true</code> if the move is legal.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">isLegal</span><span class="p">(</span><span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game7executeFzT4moveVS_4Move9promotionFT_OS_5Piece_T_"></a>
+                    <a name="//apple_ref/swift/Method/execute(move:promotion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game7executeFzT4moveVS_4Move9promotionFT_OS_5Piece_T_">execute(move:promotion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes <code>move</code>, updating the state for <code>self</code>.</p>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter move: The move to be executed.
+
+</div>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    <p>Parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.</p>
+
+</div>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Enums/MoveExecutionError.html">MoveExecutionError</a></code> if <code>move</code> is illegal or if <code>promotion</code> is invalid.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">,</span> <span class="nv">promotion</span><span class="p">:</span> <span class="kd">@noescape</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Enums/Piece.html">Piece</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>move</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The move to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>promotion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A closure returning a promotion piece if a pawn promotion occurs.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game7executeFzT4moveVS_4Move9promotionOS_5Piece_T_"></a>
+                    <a name="//apple_ref/swift/Method/execute(move:promotion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game7executeFzT4moveVS_4Move9promotionOS_5Piece_T_">execute(move:promotion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes <code>move</code>, updating the state for <code>self</code>.</p>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    Parameter move: The move to be executed.
+
+</div>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    <p>Parameter promotion: A piece for a pawn promotion.</p>
+
+</div>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Enums/MoveExecutionError.html">MoveExecutionError</a></code> if <code>move</code> is illegal or if <code>promotion</code> is invalid.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">,</span> <span class="nv">promotion</span><span class="p">:</span> <span class="kt"><a href="../Enums/Piece.html">Piece</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>move</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The move to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>promotion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A piece for a pawn promotion.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game7executeFzT4moveVS_4Move_T_"></a>
+                    <a name="//apple_ref/swift/Method/execute(move:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game7executeFzT4moveVS_4Move_T_">execute(move:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes <code>move</code>, updating the state for <code>self</code>.</p>
+
+<div class="aside aside-parameter">
+    <p class="aside-title">Parameter</p>
+    <p>Parameter move: The move to be executed.</p>
+
+</div>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Enums/MoveExecutionError.html">MoveExecutionError</a></code> if <code>move</code> is illegal.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>move</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The move to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game10moveToUndoFT_GSqVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/moveToUndo()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game10moveToUndoFT_GSqVS_4Move_">moveToUndo()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the last move on the move stack, if any.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveToUndo</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game10moveToRedoFT_GSqVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/moveToRedo()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game10moveToRedoFT_GSqVS_4Move_">moveToRedo()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the last move on the undo stack, if any.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveToRedo</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game8undoMoveFT_GSqVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/undoMove()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game8undoMoveFT_GSqVS_4Move_">undoMove()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Undoes the previous move and returns it, if any.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">undoMove</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC7Fischer4Game8redoMoveFT_GSqVS_4Move_"></a>
+                    <a name="//apple_ref/swift/Method/redoMove()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC7Fischer4Game8redoMoveFT_GSqVS_4Move_">redoMove()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Redoes the previous undone move and returns it, if any.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">redoMove</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2016-07-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

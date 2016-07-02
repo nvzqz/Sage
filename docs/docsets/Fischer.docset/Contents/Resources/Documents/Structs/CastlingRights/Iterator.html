@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Iterator Struct Reference</title>
+    <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../../js/jquery.min.js" defer></script>
+    <script src="../../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Struct/Iterator" class="dashAnchor"></a>
+    <a title="Iterator Struct Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../../index.html">Fischer Docs</a> (100% documented)</p>
+        <p class="header-right"><a href="https://github.com/nvzqz/Fischer"><img src="../../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../../index.html">Fischer Reference</a>
+        <img id="carat" src="../../img/carat.png" />
+        Iterator Struct Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/Game.html">Game</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Game/Mode.html">– Mode</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Game/Outcome.html">– Outcome</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Game/Position.html">– Position</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Enums/Color.html">Color</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/File.html">File</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/File/Direction.html">– Direction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/MoveExecutionError.html">MoveExecutionError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/Piece.html">Piece</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/Rank.html">Rank</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/Rank/Direction.html">– Direction</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/Square.html">Square</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Enums/Variant.html">Variant</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Extensions/Sequence.html">Sequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi1aFTVS_8BitboardS0__S0_">&amp;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi1lFTOS_4RankS0__Sb">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi1lFTOS_4FileS0__Sb">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2llFTVS_8BitboardS0__S0_">&lt;&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi3lleFTRVS_8BitboardS0__T_">&lt;&lt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTVS_14CastlingRightsS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTVS_4MoveS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTOS_5PieceS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTOCS_4Game7OutcomeS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTVCS_4Game8PositionS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTVS_5BoardS0__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2eeFTVVS_5Board5SpaceS1__Sb">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi2ggFTVS_8BitboardS0__S0_">&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi3ggeFTRVS_8BitboardS0__T_">&gt;&gt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi3gggFTT4fileOS_4File4rankOS_4Rank_T4fileS0_4rankS1___VS_4Move">&gt;&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi3gggFTOS_6SquareS0__VS_4Move">&gt;&gt;&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi1xFTVS_8BitboardS0__S0_">^(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischeroi1oFTVS_8BitboardS0__S0_">|(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Functions.html#/s:ZF7Fischerop1tFVS_8BitboardS0_">~(_:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Structs.html">Structs</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Structs/Bitboard.html">Bitboard</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Bitboard/ShiftDirection.html">– ShiftDirection</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Bitboard/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Board.html">Board</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Board/Space.html">– Space</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Board/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Board/Side.html">– Side</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/CastlingRights.html">CastlingRights</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/CastlingRights/Right.html">– Right</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/CastlingRights/Iterator.html">– Iterator</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Structs/Move.html">Move</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../../Typealiases.html">Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Typealiases.html#/s:7Fischer8Location">Location</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Iterator</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Iterator</span><span class="p">:</span> <span class="kt">IteratorProtocol</span></code></pre>
+
+                </div>
+              </div>
+            <p>An iterator over the members of <code><a href="../../Structs/CastlingRights.html">CastlingRights</a></code>.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FVV7Fischer14CastlingRights8Iterator4nextFT_GSqOS0_5Right_"></a>
+                    <a name="//apple_ref/swift/Method/next()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FVV7Fischer14CastlingRights8Iterator4nextFT_GSqOS0_5Right_">next()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Advance to the next element and return it, or <code>nil</code> if no next element exists.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">next</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../../Structs/CastlingRights/Right.html">Right</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2016-07-02)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
