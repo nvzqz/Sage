@@ -1,6 +1,7 @@
-module: "Fischer"
-module_version: "1.0.0"
-github_url: "https://github.com/nvzqz/Fischer"
-swift_version: "3.0"
-author: "Nikolai Vazquez"
-author_url: "https://github.com/nvzqz"
+module: Fischer
+module_version: 1.0.0
+github_url: https://github.com/nvzqz/Fischer
+swift_version: 3
+author: Nikolai Vazquez
+author_url: https://github.com/nvzqz
+theme: fullwidth
