@@ -503,10 +503,10 @@ extension Square {
 
     /// Returns a bitboard mask of attacks for a piece at `self`.
     ///
-    /// - Parameter piece: The piece for the attacks.
-    /// - Parameter stoppers: The pieces stopping a sliding move. The returned bitboard includes the stopped space.
+    /// - parameter piece: The piece for the attacks.
+    /// - parameter stoppers: The pieces stopping a sliding move. The returned bitboard includes the stopped space.
     ///
-    /// - SeeAlso: `attackMoves(for:stoppers:)`
+    /// - seealso: `attackMoves(for:stoppers:)`
     @warn_unused_result
     public func attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
         #if swift(>=3)
@@ -536,7 +536,7 @@ extension Square {
 
     /// Returns an array of attack moves for a piece at `self`.
     ///
-    /// - SeeAlso: `attacks(for:stoppers:)`
+    /// - seealso: `attacks(for:stoppers:)`
     @warn_unused_result
     public func attackMoves(for piece: Piece, stoppers: Bitboard = 0) -> [Move] {
         return attacks(for: piece, stoppers: stoppers).moves(from: self)

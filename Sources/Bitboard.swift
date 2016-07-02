@@ -86,7 +86,7 @@ private let _notFileGH: Bitboard = 0x3f3f3f3f3f3f3f3f
 ///
 /// Bitboards used internally within `Board` to store positions for all twelve cases of `Piece`.
 ///
-/// - SeeAlso: [Bitboard (Wikipedia)](https://en.wikipedia.org/wiki/Bitboard),
+/// - seealso: [Bitboard (Wikipedia)](https://en.wikipedia.org/wiki/Bitboard),
 ///            [Bitboards (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Bitboards)
 public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
@@ -448,14 +448,14 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     /// Create a bitboard mask for `square`.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public init(square: Square) {
         self = _bitboardTable[square.rawValue]
     }
 
     /// The `Bool` value for the bit at `square`.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public subscript(square: Square) -> Bool {
         get {
             return intersects(_bitboardTable[square.rawValue])
@@ -472,7 +472,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     /// The `Bool` value for the bit at `location`.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public subscript(location: Location) -> Bool {
         get {
             return self[Square(location: location)]
@@ -749,7 +749,7 @@ extension Bitboard: Sequence, BitwiseOperations {
     /// A value less than or equal to the number of elements in
     /// the sequence, calculated nondestructively.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public var underestimatedCount: Int {
         return count
     }
@@ -768,14 +768,14 @@ extension Bitboard: SequenceType, BitwiseOperationsType {
     /// Returns a value less than or equal to the number of elements in
     /// `self`, **nondestructively**.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public func underestimateCount() -> Int {
         return count
     }
 
     /// Returns a generator over the squares of the board.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public func generate() -> Generator {
         return Generator(_base: _MutualIterator(self))
     }
@@ -793,7 +793,7 @@ extension Bitboard: IntegerLiteralConvertible {
 
 /// Returns the intersection of bits set in `lhs` and `rhs`.
 ///
-/// - Complexity: O(1).
+/// - complexity: O(1).
 @warn_unused_result
 public func & (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue & rhs.rawValue)
@@ -801,7 +801,7 @@ public func & (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 
 /// Returns the union of bits set in `lhs` and `rhs`.
 ///
-/// - Complexity: O(1).
+/// - complexity: O(1).
 @warn_unused_result
 public func | (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue | rhs.rawValue)
@@ -809,7 +809,7 @@ public func | (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 
 /// Returns the bits that are set in exactly one of `lhs` and `rhs`.
 ///
-/// - Complexity: O(1).
+/// - complexity: O(1).
 @warn_unused_result
 public func ^ (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue ^ rhs.rawValue)
@@ -817,7 +817,7 @@ public func ^ (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 
 /// Returns `x ^ ~Self.allZeros`.
 ///
-/// - Complexity: O(1).
+/// - complexity: O(1).
 @warn_unused_result
 public prefix func ~ (x: Bitboard) -> Bitboard {
     return Bitboard(rawValue: ~x.rawValue)

@@ -334,7 +334,7 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Create a chess board.
     ///
-    /// - Parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
+    /// - parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = ._standard) {
         _bitboards = [:]
         if let variant = variant {
@@ -357,7 +357,7 @@ public struct Board: Hashable, CustomStringConvertible {
     ///
     /// - Warning: Only to be used with the board part of a full FEN string.
     ///
-    /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+    /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
     ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
     public init?(fen: String) {
         func pieces(for string: String) -> [Piece?]? {
@@ -560,8 +560,8 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the attackers to `square` corresponding to `color`.
     ///
-    /// - Parameter square: The `Square` being attacked.
-    /// - Parameter color: The `Color` of the attackers.
+    /// - parameter square: The `Square` being attacked.
+    /// - parameter color: The `Color` of the attackers.
     @warn_unused_result
     public func attackers(to square: Square, color: Color) -> Bitboard {
         let all = bitboard()
@@ -583,9 +583,9 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the attackers to the king for `color`.
     ///
-    /// - Parameter color: The `Color` of the potentially attacked king.
+    /// - parameter color: The `Color` of the potentially attacked king.
     ///
-    /// - Returns: A bitboard of all attackers, or 0 if the king does not exist or if there are no pieces attacking the
+    /// - returns: A bitboard of all attackers, or 0 if the king does not exist or if there are no pieces attacking the
     ///            king.
     @warn_unused_result
     public func attackersToKing(for color: Color) -> Bitboard {
@@ -719,7 +719,7 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the FEN string for the board.
     ///
-    /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+    /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
     ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
     public func fen() -> String {
         func fen(forRank rank: Rank) -> String {
@@ -769,7 +769,7 @@ extension Board: Sequence {
 extension Board: SequenceType {
     /// Returns a generator over the spaces of the board.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     public func generate() -> Generator {
         return Generator(_base: _MutualIterator(self))
     }

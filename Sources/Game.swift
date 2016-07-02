@@ -187,7 +187,7 @@ public final class Game {
 
         /// Create a position from a valid FEN string.
         ///
-        /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+        /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
         ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
         public init?(fen: String) {
             #if swift(>=3)
@@ -226,7 +226,7 @@ public final class Game {
 
         /// Returns the FEN string for the position.
         ///
-        /// - SeeAlso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
+        /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
         ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
         @warn_unused_result
         public func fen() -> String {
@@ -352,7 +352,7 @@ public final class Game {
     #if swift(>=3)
     /// Creates a new chess game.
     ///
-    /// - Parameter mode: The game's mode. Default is `humanVsHuman`.
+    /// - parameter mode: The game's mode. Default is `humanVsHuman`.
     public init(mode: Mode = .humanVsHuman, variant: Variant = .standard) {
         self._moveHistory = []
         self._undoHistory = []
@@ -367,7 +367,7 @@ public final class Game {
     #else
     /// Creates a new chess game.
     ///
-    /// - Parameter mode: The game's mode. Default is `HumanVsHuman`.
+    /// - parameter mode: The game's mode. Default is `HumanVsHuman`.
     public init(mode: Mode = .HumanVsHuman, variant: Variant = .Standard) {
         self._moveHistory = []
         self._undoHistory = []
@@ -383,7 +383,7 @@ public final class Game {
 
     /// Returns a copy of `self`.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     @warn_unused_result
     public func copy() -> Game {
         return Game(game: self)
@@ -636,10 +636,10 @@ public final class Game {
 
     /// Executes `move`, updating the state for `self`.
     ///
-    /// - Parameter move: The move to be executed.
-    /// - Parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
+    /// - parameter move: The move to be executed.
+    /// - parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
     ///
-    /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move: Move, promotion: @noescape () -> Piece) throws {
         guard isLegal(move: move) else {
             throw MoveExecutionError.illegalMove(move, playerTurn, board)
@@ -655,19 +655,19 @@ public final class Game {
 
     /// Executes `move`, updating the state for `self`.
     ///
-    /// - Parameter move: The move to be executed.
-    /// - Parameter promotion: A piece for a pawn promotion.
+    /// - parameter move: The move to be executed.
+    /// - parameter promotion: A piece for a pawn promotion.
     ///
-    /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move: Move, promotion: Piece) throws {
         try execute(move: move, promotion: { promotion })
     }
 
     /// Executes `move`, updating the state for `self`.
     ///
-    /// - Parameter move: The move to be executed.
+    /// - parameter move: The move to be executed.
     ///
-    /// - Throws: `MoveExecutionError` if `move` is illegal.
+    /// - throws: `MoveExecutionError` if `move` is illegal.
     public func execute(move: Move) throws {
         try execute(move: move, promotion: .queen(playerTurn))
     }
@@ -676,10 +676,10 @@ public final class Game {
 
     /// Executes `move`, updating the state for `self`.
     ///
-    /// - Parameter move: The move to be executed.
-    /// - Parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
+    /// - parameter move: The move to be executed.
+    /// - parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
     ///
-    /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move move: Move, @noescape promotion: () -> Piece) throws {
         guard isLegal(move: move) else {
             throw MoveExecutionError.IllegalMove(move, playerTurn, board)
@@ -695,19 +695,19 @@ public final class Game {
 
     /// Executes `move`, updating the state for `self`.
     ///
-    /// - Parameter move: The move to be executed.
-    /// - Parameter promotion: A piece for a pawn promotion.
+    /// - parameter move: The move to be executed.
+    /// - parameter promotion: A piece for a pawn promotion.
     ///
-    /// - Throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move move: Move, promotion: Piece) throws {
         try execute(move: move, promotion: { promotion })
     }
 
     /// Executes `move`, updating the state for `self`.
     ///
-    /// - Parameter move: The move to be executed.
+    /// - parameter move: The move to be executed.
     ///
-    /// - Throws: `MoveExecutionError` if `move` is illegal.
+    /// - throws: `MoveExecutionError` if `move` is illegal.
     public func execute(move move: Move) throws {
         #if swift(>=3)
             let queen = Piece.queen(playerTurn)

@@ -303,7 +303,7 @@ public struct CastlingRights: CustomStringConvertible {
 
     /// Creates a `CastlingRights` from a `String`.
     ///
-    /// - Returns: `nil` if `string` is empty or invalid.
+    /// - returns: `nil` if `string` is empty or invalid.
     public init?(string: String) {
         guard !string.isEmpty else {
             return nil
@@ -464,7 +464,7 @@ extension CastlingRights: SequenceType {
 
     /// Returns a generator over the members.
     ///
-    /// - Complexity: O(1).
+    /// - complexity: O(1).
     @warn_unused_result
     public func generate() -> Generator {
         return Generator(_base: _rights.generate())
