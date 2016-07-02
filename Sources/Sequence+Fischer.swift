@@ -26,6 +26,12 @@ extension Sequence where Iterator.Element == Square {
         return self.map({ square >>> $0 })
     }
 
+    /// Returns moves from the squares in `self` to `square`.
+    @warn_unused_result
+    public func moves(to square: Square) -> [Move] {
+        return self.map({ $0 >>> square })
+    }
+
 }
 
 #else
@@ -36,6 +42,12 @@ extension SequenceType where Generator.Element == Square {
     @warn_unused_result
     public func moves(from square: Square) -> [Move] {
         return self.map({ square >>> $0 })
+    }
+
+    /// Returns moves from the squares in `self` to `square`.
+    @warn_unused_result
+    public func moves(to square: Square) -> [Move] {
+        return self.map({ $0 >>> square })
     }
 
 }
