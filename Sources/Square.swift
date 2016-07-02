@@ -573,3 +573,25 @@ extension Square {
     #endif
 
 }
+
+extension Square: StringLiteralConvertible {
+
+    /// Create an instance initialized to `value`.
+    public init(stringLiteral value: String) {
+        guard let square = Square(value) else {
+            fatalError("Invalid string for square: \"\(value)\"")
+        }
+        self = square
+    }
+
+    /// Create an instance initialized to `value`.
+    public init(unicodeScalarLiteral value: String) {
+        self.init(stringLiteral: value)
+    }
+
+    /// Create an instance initialized to `value`.
+    public init(extendedGraphemeClusterLiteral value: String) {
+        self.init(stringLiteral: value)
+    }
+
+}
