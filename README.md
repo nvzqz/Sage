@@ -2,6 +2,23 @@
 
 Fischer is a cross-platform chess library for Swift.
 
+- [Features](#features)
+- [Installation](#installation)
+    - [Compatibility](#compatibility)
+    - [Swift Package Manager](#install-using-swift-package-manager)
+    - [CocoaPods](#install-using-cocoapods)
+    - [Carthage](#install-using-carthage)
+- [Usage](#usage)
+    - [Game Management](#game-management)
+    - [Move Generation](#move-generation)
+    - [Move Validation](#move-validation)
+    - [Undo and Redo Moves](#undo-and-redo-moves)
+    - [Promotion Handling](#promotion-handling)
+    - [Pretty Printing](#pretty-printing)
+    - [Forsyth–Edwards Notation](#forsythedwards-notation)
+    - [Squares to Moves](#squares-to-moves)
+- [License](#license)
+
 ## Features
 
 - [x] Chess game management
