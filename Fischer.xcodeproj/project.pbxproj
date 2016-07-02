@@ -57,6 +57,10 @@
 		529515071D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
 		529515081D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
 		529515091D19CFF500BB244D /* Square.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529515051D19CFF500BB244D /* Square.swift */; };
+		52D2BB141D277E5400C868E5 /* Sequence+Fischer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D2BB131D277E5400C868E5 /* Sequence+Fischer.swift */; };
+		52D2BB151D277E5400C868E5 /* Sequence+Fischer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D2BB131D277E5400C868E5 /* Sequence+Fischer.swift */; };
+		52D2BB161D277E5400C868E5 /* Sequence+Fischer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D2BB131D277E5400C868E5 /* Sequence+Fischer.swift */; };
+		52D2BB171D277E5400C868E5 /* Sequence+Fischer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D2BB131D277E5400C868E5 /* Sequence+Fischer.swift */; };
 		52E89C621CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
@@ -113,6 +117,7 @@
 		529514DE1D16224F00BB244D /* Variant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Variant.swift; sourceTree = "<group>"; };
 		529515001D173E2F00BB244D /* Bitboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bitboard.swift; sourceTree = "<group>"; };
 		529515051D19CFF500BB244D /* Square.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Square.swift; sourceTree = "<group>"; };
+		52D2BB131D277E5400C868E5 /* Sequence+Fischer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Fischer.swift"; sourceTree = "<group>"; };
 		52DF64131D2555390016BA9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		52E89C611CF53E1A0071AE69 /* InternalTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalTypes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -225,6 +230,7 @@
 				528C2E411CF3E7F500F7D2EC /* Move.swift */,
 				529514DE1D16224F00BB244D /* Variant.swift */,
 				529514D91D138B4100BB244D /* CastlingRights.swift */,
+				52D2BB131D277E5400C868E5 /* Sequence+Fischer.swift */,
 				52E89C611CF53E1A0071AE69 /* InternalTypes.swift */,
 			);
 			path = Sources;
@@ -589,6 +595,7 @@
 				528C2E421CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514DF1D16224F00BB244D /* Variant.swift in Sources */,
 				5273A77C1CF382E200426C1F /* Piece.swift in Sources */,
+				52D2BB141D277E5400C868E5 /* Sequence+Fischer.swift in Sources */,
 				528C2E3D1CF3E51100F7D2EC /* Game.swift in Sources */,
 				5273A7861CF389E000426C1F /* File.swift in Sources */,
 				529515011D173E2F00BB244D /* Bitboard.swift in Sources */,
@@ -608,6 +615,7 @@
 				528C2E431CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514E01D16224F00BB244D /* Variant.swift in Sources */,
 				5273A77D1CF382E200426C1F /* Piece.swift in Sources */,
+				52D2BB151D277E5400C868E5 /* Sequence+Fischer.swift in Sources */,
 				528C2E3E1CF3E51400F7D2EC /* Game.swift in Sources */,
 				5273A7871CF389E000426C1F /* File.swift in Sources */,
 				529515021D173E2F00BB244D /* Bitboard.swift in Sources */,
@@ -627,6 +635,7 @@
 				528C2E441CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514E11D16224F00BB244D /* Variant.swift in Sources */,
 				5273A77E1CF382E200426C1F /* Piece.swift in Sources */,
+				52D2BB161D277E5400C868E5 /* Sequence+Fischer.swift in Sources */,
 				528C2E3F1CF3E51500F7D2EC /* Game.swift in Sources */,
 				5273A7881CF389E000426C1F /* File.swift in Sources */,
 				529515031D173E2F00BB244D /* Bitboard.swift in Sources */,
@@ -646,6 +655,7 @@
 				528C2E451CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514E21D16224F00BB244D /* Variant.swift in Sources */,
 				5273A77F1CF382E200426C1F /* Piece.swift in Sources */,
+				52D2BB171D277E5400C868E5 /* Sequence+Fischer.swift in Sources */,
 				528C2E401CF3E51500F7D2EC /* Game.swift in Sources */,
 				5273A7891CF389E000426C1F /* File.swift in Sources */,
 				529515041D173E2F00BB244D /* Bitboard.swift in Sources */,
