@@ -26,6 +26,7 @@ Fischer is a cross-platform chess library for Swift.
     - [Pretty Printing](#pretty-printing)
     - [Forsyth–Edwards Notation](#forsythedwards-notation)
     - [Squares to Moves](#squares-to-moves)
+    - [Playground Quick Look](#playground-quick-look)
 - [License](#license)
 
 ## Features
