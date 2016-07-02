@@ -447,7 +447,7 @@ public final class Game {
         }
 
         let player = playerTurn
-        for moveSquare in movesBitboard.squares {
+        for moveSquare in movesBitboard {
             try! _execute(square >>> moveSquare)
             if board.attackersToKing(for: player) != 0 {
                 movesBitboard[moveSquare] = false

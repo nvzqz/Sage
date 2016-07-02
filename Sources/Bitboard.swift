@@ -200,21 +200,14 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// An iterator for `Bitboard` used as a base for both `Iterator` and `Generator`.
     private struct _MutualIterator {
 
-        let _bitboard: Bitboard
-
-        var _index: Int
+        var _bitboard: Bitboard
 
         init(_ bitboard: Bitboard) {
             self._bitboard = bitboard
-            self._index = 0
         }
 
-        mutating func next() -> Bool? {
-            guard let square = Square(rawValue: _index) else {
-                return nil
-            }
-            defer { _index += 1 }
-            return _bitboard[square]
+        mutating func next() -> Square? {
+            return _bitboard.popLSBSquare()
         }
 
     }
@@ -228,7 +221,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
         /// Advances and returns the next element of the underlying sequence, or
         /// `nil` if no next element exists.
-        public mutating func next() -> Bool? {
+        public mutating func next() -> Square? {
             return _base.next()
         }
 
@@ -242,7 +235,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
         private var _base: _MutualIterator
 
         /// Advance to the next element and return it, or `nil` if no next element exists.
-        public mutating func next() -> Bool? {
+        public mutating func next() -> Square? {
             return _base.next()
         }
 
@@ -343,16 +336,6 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// The square for the least significant bit of `self`.
     public var lsbSquare: Square? {
         return lsbIndex.flatMap({ Square(rawValue: $0) })
-    }
-
-    /// The squares in `self` whose bits are set.
-    public var squares: [Square] {
-        var result: [Square] = []
-        var board = self
-        while let square = board.popLSBSquare() {
-            result.append(square)
-        }
-        return result
     }
 
     /// Convert from a raw value of `UInt64`.
@@ -754,7 +737,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// Returns moves from `square` to the squares in `self`.
     @warn_unused_result
     public func moves(from square: Square) -> [Move] {
-        return squares.map({ square >>> $0 })
+        return self.map({ square >>> $0 })
     }
 
     /// Returns the ranks of `self` as eight 8-bit integers.
@@ -774,7 +757,7 @@ extension Bitboard: Sequence, BitwiseOperations {
     ///
     /// - Complexity: O(1).
     public var underestimatedCount: Int {
-        return 64
+        return count
     }
 
     /// Returns an iterator over the squares of the board.
@@ -793,7 +776,7 @@ extension Bitboard: SequenceType, BitwiseOperationsType {
     ///
     /// - Complexity: O(1).
     public func underestimateCount() -> Int {
-        return 64
+        return count
     }
 
     /// Returns a generator over the squares of the board.

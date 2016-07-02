@@ -686,19 +686,19 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Returns the locations where `piece` exists.
     @warn_unused_result
     public func locations(for piece: Piece) -> [Location] {
-        return squares(for: piece).map { $0.location }
+        return bitboard(for: piece).map({ $0.location })
     }
 
     /// Returns the squares where `piece` exists.
     @warn_unused_result
     public func squares(for piece: Piece) -> [Square] {
-        return bitboard(for: piece).squares
+        return Array(bitboard(for: piece))
     }
 
     /// Returns the squares where pieces for `color` exist.
     @warn_unused_result
     public func squares(for color: Color) -> [Square] {
-        return bitboard(for: color).squares
+        return Array(bitboard(for: color))
     }
 
     /// Returns the square of the king for `color`, if any.
