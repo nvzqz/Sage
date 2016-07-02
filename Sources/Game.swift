@@ -829,15 +829,6 @@ public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
         && lhs.castlingRights == rhs.castlingRights
         && lhs.halfmoves == rhs.halfmoves
         && lhs.fullmoves == rhs.fullmoves
-        && {
-            switch (lhs.enPassantTarget, rhs.enPassantTarget) {
-            case let (lhsTarget?, rhsTarget?):
-                return lhsTarget == rhsTarget
-            case (nil, nil):
-                return true
-            default:
-                return false
-            }
-        }()
+        && lhs.enPassantTarget == rhs.enPassantTarget
         && lhs.board == rhs.board
 }
