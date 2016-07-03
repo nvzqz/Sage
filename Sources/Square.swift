@@ -514,24 +514,24 @@ extension Square {
     @warn_unused_result
     public func attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
         #if swift(>=3)
-            switch piece {
+            switch piece.kind {
             case .king:
                 return kingAttacks()
             case .knight:
                 return knightAttacks()
-            case .pawn(let color):
-                return _pawnAttackTable(for: color)[rawValue]
+            case .pawn:
+                return _pawnAttackTable(for: piece.color)[rawValue]
             default:
                 return Bitboard(square: self)._attacks(for: piece, stoppers: stoppers)
             }
         #else
-            switch piece {
+            switch piece.kind {
             case .King:
                 return kingAttacks()
             case .Knight:
                 return knightAttacks()
-            case .Pawn(let color):
-                return _pawnAttackTable(for: color)[rawValue]
+            case .Pawn:
+                return _pawnAttackTable(for: piece.color)[rawValue]
             default:
                 return Bitboard(square: self)._attacks(for: piece, stoppers: stoppers)
             }

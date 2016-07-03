@@ -300,7 +300,7 @@ public final class Game {
 
     /// The target move location for an en passant.
     public var enPassantTarget: Square? {
-        guard let (move, piece, _, _, _) = _moveHistory.last where piece.isPawn else {
+        guard let (move, piece, _, _, _) = _moveHistory.last where piece.kind.isPawn else {
             return nil
         }
         guard abs(move.rankChange) == 2 else {
@@ -410,7 +410,7 @@ public final class Game {
             return 0
         }
         if kingIsDoubleChecked {
-            guard piece.isKing else {
+            guard piece.kind.isKing else {
                 return 0
             }
         }
@@ -424,7 +424,7 @@ public final class Game {
         var movesBitboard: Bitboard = 0
         let attacks = square.attacks(for: piece, stoppers: allBitboard)
 
-        if piece.isPawn {
+        if piece.kind.isPawn {
             let enPassant = enPassantTarget.map({ Bitboard(square: $0) }) ?? 0
             let pushes = squareBitboard._pawnPushes(for: playerTurn,
                                                     empty: emptyBitboard)
@@ -438,7 +438,7 @@ public final class Game {
             movesBitboard |= attacks & ~playerBitboard
         }
 
-        if piece.isKing && squareBitboard == Bitboard(startFor: piece) {
+        if piece.kind.isKing && squareBitboard == Bitboard(startFor: piece) {
             for option in castlingRights {
                 if option.color == playerTurn && allBitboard & option.emptySquares == 0 {
                     movesBitboard |= Bitboard(square: option.castleSquare)
@@ -515,7 +515,7 @@ public final class Game {
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
-        if piece.isPawn {
+        if piece.kind.isPawn {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
                 guard promotion.color == playerTurn else {
@@ -523,10 +523,10 @@ public final class Game {
                 }
                 endPiece = promotion
             } else if move.end == enPassantTarget {
-                capture = Piece.pawn(playerTurn.inverse())
+                capture = Piece(pawn: playerTurn.inverse())
                 captureSquare = Square(file: move.end.file, rank: move.start.rank)
             }
-        } else if piece.isRook {
+        } else if piece.kind.isRook {
             switch move.start {
             case .a1: castlingRights.remove(.whiteQueenside)
             case .h1: castlingRights.remove(.whiteKingside)
@@ -535,13 +535,13 @@ public final class Game {
             default:
                 break
             }
-        } else if piece.isKing {
+        } else if piece.kind.isKing {
             for option in castlingRights where option.color == playerTurn {
                 castlingRights.remove(option)
             }
             if abs(move.fileChange) == 2 {
                 let (old, new) = move._castleSquares()
-                let rook = Piece.rook(playerTurn)
+                let rook = Piece(rook: playerTurn)
                 board[rook][old] = false
                 board[rook][new] = true
             }
@@ -550,7 +550,7 @@ public final class Game {
         if let capture = capture {
             board[capture][captureSquare] = false
         }
-        if capture == nil && !piece.isPawn {
+        if capture == nil && !piece.kind.isPawn {
             halfmoves += 1
         } else {
             halfmoves = 0
@@ -575,7 +575,7 @@ public final class Game {
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
-        if piece.isPawn {
+        if piece.kind.isPawn {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
                 guard promotion.color == playerTurn else {
@@ -583,10 +583,10 @@ public final class Game {
                 }
                 endPiece = promotion
             } else if move.end == enPassantTarget {
-                capture = Piece.Pawn(playerTurn.inverse())
+                capture = Piece(pawn: playerTurn.inverse())
                 captureSquare = Square(file: move.end.file, rank: move.start.rank)
             }
-        } else if piece.isRook {
+        } else if piece.kind.isRook {
             switch move.start {
             case .A1: castlingRights.remove(.WhiteQueenside)
             case .H1: castlingRights.remove(.WhiteKingside)
@@ -595,13 +595,13 @@ public final class Game {
             default:
                 break
             }
-        } else if piece.isKing {
+        } else if piece.kind.isKing {
             for option in castlingRights where option.color == playerTurn {
                 castlingRights.remove(option)
             }
             if abs(move.fileChange) == 2 {
                 let (old, new) = move._castleSquares()
-                let rook = Piece.Rook(playerTurn)
+                let rook = Piece(rook: playerTurn)
                 board[rook][old] = false
                 board[rook][new] = true
             }
@@ -610,7 +610,7 @@ public final class Game {
         if let capture = capture {
             board[capture][captureSquare] = false
         }
-        if capture == nil && !piece.isPawn {
+        if capture == nil && !piece.kind.isPawn {
             halfmoves += 1
         } else {
             halfmoves = 0
@@ -624,12 +624,7 @@ public final class Game {
 
     /// Executes a move without checking the legality of the move.
     private func _execute(_ move: Move) throws {
-        #if swift(>=3)
-            let queen = Piece.queen(playerTurn)
-        #else
-            let queen = Piece.Queen(playerTurn)
-        #endif
-        try _execute(move, promotion: { queen })
+        try _execute(move, promotion: { Piece(queen: playerTurn) })
     }
 
     #if swift(>=3)
@@ -669,7 +664,7 @@ public final class Game {
     ///
     /// - throws: `MoveExecutionError` if `move` is illegal.
     public func execute(move: Move) throws {
-        try execute(move: move, promotion: .queen(playerTurn))
+        try execute(move: move, promotion: Piece(queen: playerTurn))
     }
 
     #else
@@ -709,12 +704,7 @@ public final class Game {
     ///
     /// - throws: `MoveExecutionError` if `move` is illegal.
     public func execute(move move: Move) throws {
-        #if swift(>=3)
-            let queen = Piece.queen(playerTurn)
-        #else
-            let queen = Piece.Queen(playerTurn)
-        #endif
-        try execute(move: move, promotion: queen)
+        try execute(move: move, promotion: Piece(queen: playerTurn))
     }
 
     #endif
@@ -738,19 +728,15 @@ public final class Game {
         }
         var captureSquare = move.end
         var promotion: Piece? = nil
-        if piece.isPawn {
+        if piece.kind.isPawn {
             if move.end == enPassantTarget {
                 captureSquare = Square(file: move.end.file, rank: move.start.rank)
             } else if move.end.rank == Rank(endFor: playerTurn.inverse()) {
                 promotion = board[move.end]
             }
-        } else if piece.isKing && abs(move.fileChange) == 2 {
+        } else if piece.kind.isKing && abs(move.fileChange) == 2 {
             let (old, new) = move._castleSquares()
-            #if swift(>=3)
-                let rook = Piece.rook(playerTurn.inverse())
-            #else
-                let rook = Piece.Rook(playerTurn.inverse())
-            #endif
+            let rook = Piece(rook: playerTurn.inverse())
             board[rook][old] = true
             board[rook][new] = false
         }

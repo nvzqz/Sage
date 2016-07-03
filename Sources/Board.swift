@@ -575,12 +575,7 @@ public struct Board: Hashable, CustomStringConvertible {
         let attacks = playerPieces.map({ piece in
             square.attacks(for: piece, stoppers: all)
         })
-        #if swift(>=3)
-            let queen = Piece.queen(color)
-        #else
-            let queen = Piece.Queen(color)
-        #endif
-        let queens = (attacks[2] | attacks[3]) & self[queen]
+        let queens = (attacks[2] | attacks[3]) & self[Piece(queen: color)]
         return zip(attackPieces, attacks)
             .map({ self[$0] & $1 })
             .reduce(queens, combine: |)
@@ -709,12 +704,7 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Returns the square of the king for `color`, if any.
     @warn_unused_result
     public func squareForKing(for color: Color) -> Square? {
-        #if swift(>=3)
-            let king = Piece.king(color)
-        #else
-            let king = Piece.King(color)
-        #endif
-        return bitboard(for: king).lsbSquare
+        return bitboard(for: Piece(king: color)).lsbSquare
     }
 
     /// Returns `true` if `self` contains `piece`.

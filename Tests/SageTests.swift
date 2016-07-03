@@ -54,13 +54,13 @@ class SageTests: XCTestCase {
             if let piece = board[(file, rank)] {
                 let color = piece.color
                 XCTAssertTrue((color.isWhite ? [1, 2] : [7, 8]).contains(rank))
-                if piece.isPawn {
+                if piece.kind.isPawn {
                     XCTAssertTrue([2, 7].contains(rank))
                 } else {
                     XCTAssertTrue([1, 8].contains(rank))
                 }
                 #if swift(>=3)
-                    switch piece {
+                    switch piece.kind {
                     case .pawn:
                         break
                     case .knight:
@@ -75,7 +75,7 @@ class SageTests: XCTestCase {
                         XCTAssertEqual(file, File.e)
                     }
                 #else
-                    switch piece {
+                    switch piece.kind {
                     case .Pawn:
                         break
                     case .Knight:
@@ -112,13 +112,13 @@ class SageTests: XCTestCase {
     func testBoardSubscript() {
         var board = Board()
         #if swift(>=3)
-            XCTAssertEqual(.pawn(.white), board[.a2])
-            XCTAssertEqual(.king(.black), board[.e8])
-            let piece = Piece.pawn(.black)
+            XCTAssertEqual(Piece(pawn: .white), board[.a2])
+            XCTAssertEqual(Piece(king: .black), board[.e8])
+            let piece = Piece(pawn: .black)
         #else
-            XCTAssertEqual(.Pawn(.White), board[.A2])
-            XCTAssertEqual(.King(.Black), board[.E8])
-            let piece = Piece.Pawn(.Black)
+            XCTAssertEqual(Piece(pawn: .White), board[.A2])
+            XCTAssertEqual(Piece(king: .Black), board[.E8])
+            let piece = Piece(pawn: .Black)
         #endif
         let location = ("A", 3) as Location
         XCTAssertNil(board[location])

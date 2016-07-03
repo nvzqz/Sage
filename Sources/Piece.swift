@@ -18,75 +18,168 @@
 //
 
 /// A chess piece.
-public enum Piece: Hashable, CustomStringConvertible {
+public struct Piece: Hashable, CustomStringConvertible {
 
-    #if swift(>=3)
+    /// A piece kind.
+    public enum Kind: Int {
 
-    /// Pawn piece.
-    case pawn(Color)
+        #if swift(>=3)
 
-    /// Knight piece.
-    case knight(Color)
+        /// Pawn piece kind.
+        case pawn
 
-    /// Bishop piece.
-    case bishop(Color)
+        /// Knight piece kind.
+        case knight
 
-    /// Rook piece.
-    case rook(Color)
+        /// Bishop piece kind.
+        case bishop
 
-    /// Queen piece.
-    case queen(Color)
+        /// Rook piece kind.
+        case rook
 
-    /// King piece.
-    case king(Color)
+        /// Queen piece kind.
+        case queen
 
-    #else
+        /// King piece kind.
+        case king
 
-    /// Pawn piece.
-    case Pawn(Color)
+        /// An array of all piece kinds.
+        public static let all: [Kind] = [.pawn, .knight, .bishop, .rook, .queen, .king]
 
-    /// Knight piece.
-    case Knight(Color)
+        #else
 
-    /// Bishop piece.
-    case Bishop(Color)
+        /// Pawn piece kind.
+        case Pawn
 
-    /// Rook piece.
-    case Rook(Color)
+        /// Knight piece kind.
+        case Knight
 
-    /// Queen piece.
-    case Queen(Color)
+        /// Bishop piece kind.
+        case Bishop
 
-    /// King piece.
-    case King(Color)
+        /// Rook piece kind.
+        case Rook
 
-    #endif
+        /// Queen piece kind.
+        case Queen
 
-}
+        /// King piece kind.
+        case King
 
-extension Piece {
+        /// An array of all piece kinds.
+        public static let all: [Kind] = [.Pawn, .Knight, .Bishop, .Rook, .Queen, .King]
 
-    #if swift(>=3)
+        #endif
+
+        /// The piece kind's name.
+        public var name: String {
+            #if swift(>=3)
+                switch self {
+                case .pawn:   return "Pawn"
+                case .knight: return "Knight"
+                case .bishop: return "Bishop"
+                case .rook:   return "Rook"
+                case .queen:  return "Queen"
+                case .king:   return "King"
+                }
+            #else
+                switch self {
+                case .Pawn:   return "Pawn"
+                case .Knight: return "Knight"
+                case .Bishop: return "Bishop"
+                case .Rook:   return "Rook"
+                case .Queen:  return "Queen"
+                case .King:   return "King"
+                }
+            #endif
+        }
+
+        /// The piece kind's relative value. Can be used to determine how valuable a piece or combination of pieces is.
+        public var relativeValue: Double {
+            #if swift(>=3)
+                switch self {
+                case .pawn:   return 1
+                case .knight: return 3
+                case .bishop: return 3.25
+                case .rook:   return 5
+                case .queen:  return 9
+                case .king:   return .infinity
+                }
+            #else
+                switch self {
+                case .Pawn:   return 1
+                case .Knight: return 3
+                case .Bishop: return 3.25
+                case .Rook:   return 5
+                case .Queen:  return 9
+                case .King:   return .infinity
+                }
+            #endif
+        }
+
+        /// The piece is `Pawn`.
+        public var isPawn: Bool {
+            #if swift(>=3)
+                return self == .pawn
+            #else
+                return self == .Pawn
+            #endif
+        }
+
+        /// The piece `Knight`.
+        public var isKnight: Bool {
+            #if swift(>=3)
+                return self == .knight
+            #else
+                return self == .Knight
+            #endif
+        }
+
+        /// The piece is `Bishop`.
+        public var isBishop: Bool {
+            #if swift(>=3)
+                return self == .bishop
+            #else
+                return self == .Bishop
+            #endif
+        }
+
+        /// The piece is `Rook`.
+        public var isRook: Bool {
+            #if swift(>=3)
+                return self == .rook
+            #else
+                return self == .Rook
+            #endif
+        }
+
+        /// The piece is `Queen`.
+        public var isQueen: Bool {
+            #if swift(>=3)
+                return self == .queen
+            #else
+                return self == .Queen
+            #endif
+        }
+
+        /// The piece is `King`.
+        public var isKing: Bool {
+            #if swift(>=3)
+                return self == .king
+            #else
+                return self == .King
+            #endif
+        }
+
+    }
 
     /// An array of all pieces.
-    public static let all: [Piece] = [.pawn(.white),   .knight(.white),
-                                      .bishop(.white), .rook(.white),
-                                      .queen(.white),  .king(.white),
-                                      .pawn(.black),   .knight(.black),
-                                      .bishop(.black), .rook(.black),
-                                      .queen(.black),  .king(.black)]
+    public static let all: [Piece] = {
+        return [._white, ._black].reduce([]) { pieces, color in
+            return pieces + Kind.all.map({ Piece(kind: $0, color: color) })
+        }
+    }()
 
-    #else
-
-    /// An array of all pieces.
-    public static let all: [Piece] = [.Pawn(.White),   .Knight(.White),
-                                      .Bishop(.White), .Rook(.White),
-                                      .Queen(.White),  .King(.White),
-                                      .Pawn(.Black),   .Knight(.Black),
-                                      .Bishop(.Black), .Rook(.Black),
-                                      .Queen(.Black),  .King(.Black)]
-
-    #endif
 
     /// An array of all white pieces.
     public static let whitePieces: [Piece] = all.filter({ $0.color.isWhite })
@@ -99,259 +192,132 @@ extension Piece {
         return color.isWhite ? whitePieces : blackPieces
     }
 
-    /// The piece's color.
-    public var color: Color {
-        get {
-            #if swift(>=3)
-                switch self {
-                case let .pawn(color):   return color
-                case let .rook(color):   return color
-                case let .knight(color): return color
-                case let .bishop(color): return color
-                case let .king(color):   return color
-                case let .queen(color):  return color
-                }
-            #else
-                switch self {
-                case let .Pawn(color):   return color
-                case let .Rook(color):   return color
-                case let .Knight(color): return color
-                case let .Bishop(color): return color
-                case let .King(color):   return color
-                case let .Queen(color):  return color
-                }
-            #endif
-        }
-        set(newColor) {
-            #if swift(>=3)
-                switch self {
-                case .pawn:   self = .pawn(newColor)
-                case .rook:   self = .rook(newColor)
-                case .knight: self = .knight(newColor)
-                case .bishop: self = .bishop(newColor)
-                case .king:   self = .king(newColor)
-                case .queen:  self = .queen(newColor)
-                }
-            #else
-                switch self {
-                case .Pawn:   self = .Pawn(newColor)
-                case .Rook:   self = .Rook(newColor)
-                case .Knight: self = .Knight(newColor)
-                case .Bishop: self = .Bishop(newColor)
-                case .King:   self = .King(newColor)
-                case .Queen:  self = .Queen(newColor)
-                }
-            #endif
-        }
-    }
+    /// The piece's kind.
+    public var kind: Kind
 
-    /// The piece's name.
-    public var name: String {
-        #if swift(>=3)
-            switch self {
-            case .pawn:   return "Pawn"
-            case .knight: return "Knight"
-            case .bishop: return "Bishop"
-            case .rook:   return "Rook"
-            case .queen:  return "Queen"
-            case .king:   return "King"
-            }
-        #else
-            switch self {
-            case .Pawn:   return "Pawn"
-            case .Knight: return "Knight"
-            case .Bishop: return "Bishop"
-            case .Rook:   return "Rook"
-            case .Queen:  return "Queen"
-            case .King:   return "King"
-            }
-        #endif
-    }
+    /// The piece's color.
+    public var color: Color
 
     /// The character for the piece. Uppercase if white or lowercase if black.
     public var character: Character {
         #if swift(>=3)
-            switch self {
-            case let .pawn(color):   return color.isWhite ? "P" : "p"
-            case let .knight(color): return color.isWhite ? "N" : "n"
-            case let .bishop(color): return color.isWhite ? "B" : "b"
-            case let .rook(color):   return color.isWhite ? "R" : "r"
-            case let .queen(color):  return color.isWhite ? "Q" : "q"
-            case let .king(color):   return color.isWhite ? "K" : "k"
+            switch kind {
+            case .pawn:   return color.isWhite ? "P" : "p"
+            case .knight: return color.isWhite ? "N" : "n"
+            case .bishop: return color.isWhite ? "B" : "b"
+            case .rook:   return color.isWhite ? "R" : "r"
+            case .queen:  return color.isWhite ? "Q" : "q"
+            case .king:   return color.isWhite ? "K" : "k"
             }
         #else
-            switch self {
-            case let .Pawn(color):   return color.isWhite ? "P" : "p"
-            case let .Knight(color): return color.isWhite ? "N" : "n"
-            case let .Bishop(color): return color.isWhite ? "B" : "b"
-            case let .Rook(color):   return color.isWhite ? "R" : "r"
-            case let .Queen(color):  return color.isWhite ? "Q" : "q"
-            case let .King(color):   return color.isWhite ? "K" : "k"
+            switch kind {
+            case .Pawn:   return color.isWhite ? "P" : "p"
+            case .Knight: return color.isWhite ? "N" : "n"
+            case .Bishop: return color.isWhite ? "B" : "b"
+            case .Rook:   return color.isWhite ? "R" : "r"
+            case .Queen:  return color.isWhite ? "Q" : "q"
+            case .King:   return color.isWhite ? "K" : "k"
             }
-        #endif
-    }
-
-    /// The piece's relative value. Can be used to determine how valuable a piece or combination of pieces is.
-    public var relativeValue: Double {
-        #if swift(>=3)
-            switch self {
-            case .pawn:   return 1
-            case .knight: return 3
-            case .bishop: return 3.25
-            case .rook:   return 5
-            case .queen:  return 9
-            case .king:   return .infinity
-            }
-        #else
-            switch self {
-            case .Pawn:   return 1
-            case .Knight: return 3
-            case .Bishop: return 3.25
-            case .Rook:   return 5
-            case .Queen:  return 9
-            case .King:   return .infinity
-            }
-        #endif
-    }
-
-    /// The piece can be promoted. Only pawns are promotable.
-    public var isPromotable: Bool {
-        return isPawn
-    }
-
-    /// The piece is `Pawn`.
-    public var isPawn: Bool {
-        #if swift(>=3)
-            if case .pawn = self { return true } else { return false }
-        #else
-            if case .Pawn = self { return true } else { return false }
-        #endif
-    }
-
-    /// The piece `Knight`.
-    public var isKnight: Bool {
-        #if swift(>=3)
-            if case .knight = self { return true } else { return false }
-        #else
-            if case .Knight = self { return true } else { return false }
-        #endif
-    }
-
-    /// The piece is `Bishop`.
-    public var isBishop: Bool {
-        #if swift(>=3)
-            if case .bishop = self { return true } else { return false }
-        #else
-            if case .Bishop = self { return true } else { return false }
-        #endif
-    }
-
-    /// The piece is `Rook`.
-    public var isRook: Bool {
-        #if swift(>=3)
-            if case .rook = self { return true } else { return false }
-        #else
-            if case .Rook = self { return true } else { return false }
-        #endif
-    }
-
-    /// The piece is `Queen`.
-    public var isQueen: Bool {
-        #if swift(>=3)
-            if case .queen = self { return true } else { return false }
-        #else
-            if case .Queen = self { return true } else { return false }
-        #endif
-    }
-
-    /// The piece is `King`.
-    public var isKing: Bool {
-        #if swift(>=3)
-            if case .king = self { return true } else { return false }
-        #else
-            if case .King = self { return true } else { return false }
         #endif
     }
 
     /// A textual representation of `self`.
     public var description: String {
-        return "\(name)(\(color))"
+        return "\(kind.name)(\(color))"
     }
 
-    /// The hash value.
     public var hashValue: Int {
+        return (kind.hashValue << 1) | color.hashValue
+    }
+
+    /// Create a piece from `kind` and `color`.
+    public init(kind: Kind, color: Color) {
+        self.kind = kind
+        self.color = color
+    }
+
+    /// Create a pawn piece with `color`.
+    public init(pawn color: Color) {
         #if swift(>=3)
-            switch self {
-            case let .pawn(color):   return (0 << 1) | color.hashValue
-            case let .knight(color): return (1 << 1) | color.hashValue
-            case let .bishop(color): return (2 << 1) | color.hashValue
-            case let .rook(color):   return (3 << 1) | color.hashValue
-            case let .queen(color):  return (4 << 1) | color.hashValue
-            case let .king(color):   return (5 << 1) | color.hashValue
-            }
+            self.init(kind: .pawn, color: color)
         #else
-            switch self {
-            case let .Pawn(color):   return (0 << 1) | color.hashValue
-            case let .Knight(color): return (1 << 1) | color.hashValue
-            case let .Bishop(color): return (2 << 1) | color.hashValue
-            case let .Rook(color):   return (3 << 1) | color.hashValue
-            case let .Queen(color):  return (4 << 1) | color.hashValue
-            case let .King(color):   return (5 << 1) | color.hashValue
-            }
+            self.init(kind: .Pawn, color: color)
+        #endif
+    }
+
+    /// Create a knight piece with `color`.
+    public init(knight color: Color) {
+        #if swift(>=3)
+            self.init(kind: .knight, color: color)
+        #else
+            self.init(kind: .Knight, color: color)
+        #endif
+    }
+
+    /// Create a bishop piece with `color`.
+    public init(bishop color: Color) {
+        #if swift(>=3)
+            self.init(kind: .bishop, color: color)
+        #else
+            self.init(kind: .Bishop, color: color)
+        #endif
+    }
+
+    /// Create a rook piece with `color`.
+    public init(rook color: Color) {
+        #if swift(>=3)
+            self.init(kind: .rook, color: color)
+        #else
+            self.init(kind: .Rook, color: color)
+        #endif
+    }
+
+    /// Create a queen piece with `color`.
+    public init(queen color: Color) {
+        #if swift(>=3)
+            self.init(kind: .queen, color: color)
+        #else
+            self.init(kind: .Queen, color: color)
+        #endif
+    }
+
+    /// Create a king piece with `color`.
+    public init(king color: Color) {
+        #if swift(>=3)
+            self.init(kind: .king, color: color)
+        #else
+            self.init(kind: .King, color: color)
         #endif
     }
 
     /// Create a piece from a character.
     public init?(character: Character) {
-        #if swift(>=3)
-            switch character {
-            case "P": self = .pawn(.white)
-            case "p": self = .pawn(.black)
-            case "N": self = .knight(.white)
-            case "n": self = .knight(.black)
-            case "B": self = .bishop(.white)
-            case "b": self = .bishop(.black)
-            case "R": self = .rook(.white)
-            case "r": self = .rook(.black)
-            case "Q": self = .queen(.white)
-            case "q": self = .queen(.black)
-            case "K": self = .king(.white)
-            case "k": self = .king(.black)
-            default:
-                return nil
-            }
-        #else
-            switch character {
-            case "P": self = .Pawn(.White)
-            case "p": self = .Pawn(.Black)
-            case "N": self = .Knight(.White)
-            case "n": self = .Knight(.Black)
-            case "B": self = .Bishop(.White)
-            case "b": self = .Bishop(.Black)
-            case "R": self = .Rook(.White)
-            case "r": self = .Rook(.Black)
-            case "Q": self = .Queen(.White)
-            case "q": self = .Queen(.Black)
-            case "K": self = .King(.White)
-            case "k": self = .King(.Black)
-            default:
+        switch character {
+        case "P": self.init(pawn: ._white)
+        case "p": self.init(pawn: ._black)
+        case "N": self.init(knight: ._white)
+        case "n": self.init(knight: ._black)
+        case "B": self.init(bishop: ._white)
+        case "b": self.init(bishop: ._black)
+        case "R": self.init(rook: ._white)
+        case "r": self.init(rook: ._black)
+        case "Q": self.init(queen: ._white)
+        case "q": self.init(queen: ._black)
+        case "K": self.init(king: ._white)
+        case "k": self.init(king: ._black)
+        default:
             return nil
-            }
-        #endif
+        }
     }
 
     /// Returns `true` if `self` can be a promotion for the piece.
     public func canPromote(_ other: Piece) -> Bool {
-        #if swift(>=3)
-            if case let .pawn(color) = other { return canPromote(color) } else { return false }
-        #else
-            if case let .Pawn(color) = other { return canPromote(color) } else { return false }
-        #endif
+        return other.kind.isPawn ? canPromote(other.color) : false
     }
 
     /// Returns `true` if `self` can be a promotion for the color.
     public func canPromote(_ color: Color? = nil) -> Bool {
-        if self.isPawn || self.isKing {
+        if kind.isPawn || kind.isKing {
             return false
         } else {
             if let color = color {
@@ -365,22 +331,22 @@ extension Piece {
     /// The special character for the piece.
     public func specialCharacter(background color: Color = ._white) -> Character {
         #if swift(>=3)
-            switch self {
-            case let .pawn(c):   return color == c ? "♙" : "♟"
-            case let .knight(c): return color == c ? "♘" : "♞"
-            case let .bishop(c): return color == c ? "♗" : "♝"
-            case let .rook(c):   return color == c ? "♖" : "♜"
-            case let .queen(c):  return color == c ? "♕" : "♛"
-            case let .king(c):   return color == c ? "♔" : "♚"
+            switch kind {
+            case .pawn:   return color == self.color ? "♙" : "♟"
+            case .knight: return color == self.color ? "♘" : "♞"
+            case .bishop: return color == self.color ? "♗" : "♝"
+            case .rook:   return color == self.color ? "♖" : "♜"
+            case .queen:  return color == self.color ? "♕" : "♛"
+            case .king:   return color == self.color ? "♔" : "♚"
             }
         #else
-            switch self {
-            case let .Pawn(c):   return color == c ? "♙" : "♟"
-            case let .Knight(c): return color == c ? "♘" : "♞"
-            case let .Bishop(c): return color == c ? "♗" : "♝"
-            case let .Rook(c):   return color == c ? "♖" : "♜"
-            case let .Queen(c):  return color == c ? "♕" : "♛"
-            case let .King(c):   return color == c ? "♔" : "♚"
+            switch kind {
+            case .Pawn:   return color == self.color ? "♙" : "♟"
+            case .Knight: return color == self.color ? "♘" : "♞"
+            case .Bishop: return color == self.color ? "♗" : "♝"
+            case .Rook:   return color == self.color ? "♖" : "♜"
+            case .Queen:  return color == self.color ? "♕" : "♛"
+            case .King:   return color == self.color ? "♔" : "♚"
             }
         #endif
     }
@@ -390,5 +356,6 @@ extension Piece {
 /// Returns `true` if both pieces are the same.
 @warn_unused_result
 public func == (lhs: Piece, rhs: Piece) -> Bool {
-    return lhs.hashValue == rhs.hashValue
+    return lhs.kind == rhs.kind
+        && lhs.color == rhs.color
 }

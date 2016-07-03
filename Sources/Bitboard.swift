@@ -350,37 +350,27 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     /// Create a starting bitboard for `piece`.
     public init(startFor piece: Piece) {
+        let value: Bitboard
         #if swift(>=3)
-            switch piece {
-            case .pawn(.white):   self = 0x000000000000FF00
-            case .knight(.white): self = 0x0000000000000042
-            case .bishop(.white): self = 0x0000000000000024
-            case .rook(.white):   self = 0x0000000000000081
-            case .queen(.white):  self = 0x0000000000000008
-            case .king(.white):   self = 0x0000000000000010
-            case .pawn(.black):   self = 0x00FF000000000000
-            case .knight(.black): self = 0x4200000000000000
-            case .bishop(.black): self = 0x2400000000000000
-            case .rook(.black):   self = 0x8100000000000000
-            case .queen(.black):  self = 0x0800000000000000
-            case .king(.black):   self = 0x1000000000000000
+            switch piece.kind {
+            case .pawn:   value = 0xFF00
+            case .knight: value = 0x0042
+            case .bishop: value = 0x0024
+            case .rook:   value = 0x0081
+            case .queen:  value = 0x0008
+            case .king:   value = 0x0010
             }
         #else
-            switch piece {
-            case .Pawn(.White):   self = 0x000000000000FF00
-            case .Knight(.White): self = 0x0000000000000042
-            case .Bishop(.White): self = 0x0000000000000024
-            case .Rook(.White):   self = 0x0000000000000081
-            case .Queen(.White):  self = 0x0000000000000008
-            case .King(.White):   self = 0x0000000000000010
-            case .Pawn(.Black):   self = 0x00FF000000000000
-            case .Knight(.Black): self = 0x4200000000000000
-            case .Bishop(.Black): self = 0x2400000000000000
-            case .Rook(.Black):   self = 0x8100000000000000
-            case .Queen(.Black):  self = 0x0800000000000000
-            case .King(.Black):   self = 0x1000000000000000
+            switch piece.kind {
+            case .Pawn:   value = 0xFF00
+            case .Knight: value = 0x0042
+            case .Bishop: value = 0x0024
+            case .Rook:   value = 0x0081
+            case .Queen:  value = 0x0008
+            case .King:   value = 0x0010
             }
         #endif
+        self = piece.color.isWhite ? value : value << (piece.kind.isPawn ? 40 : 56)
     }
 
     #if swift(>=3)
@@ -545,9 +535,9 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// Returns the attacks available to `piece` in `self`.
     internal func _attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
         #if swift(>=3)
-            switch piece {
-            case .pawn(let color):
-                return _pawnAttacks(for: color)
+            switch piece.kind {
+            case .pawn:
+                return _pawnAttacks(for: piece.color)
             case .knight:
                 return _knightAttacks()
             case .bishop:
@@ -560,9 +550,9 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
                 return _kingAttacks()
             }
         #else
-            switch piece {
-            case .Pawn(let color):
-                return _pawnAttacks(for: color)
+            switch piece.kind {
+            case .Pawn:
+                return _pawnAttacks(for: piece.color)
             case .Knight:
                 return _knightAttacks()
             case .Bishop:
