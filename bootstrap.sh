@@ -13,7 +13,7 @@ SWIFT_URL="https://swift.org/builds/swift-3.0-preview-1/ubuntu1404/swift-3.0-PRE
 apt-get update
 apt-get install -y git clang libicu-dev
 
-curl -O $SWIFT_URL
+curl -sO $SWIFT_URL
 tar zxf $SWIFT_TAR
 echo "export PATH=/home/vagrant/$SWIFT_DIR/usr/bin:$PATH" >> .profile
 chown -R vagrant $SWIFT_DIR
