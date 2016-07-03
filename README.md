@@ -1,15 +1,15 @@
-[![Fischer](https://raw.githubusercontent.com/nvzqz/Fischer/assets/Banner.png)](https://github.com/nvzqz/Fischer)
+[![Sage](https://raw.githubusercontent.com/nvzqz/Sage/assets/Banner.png)](https://github.com/nvzqz/Sage)
 
 <p align="center">
 <a href="https://developer.apple.com/swift/"><img alt="Swift 2.2 | 3.0" src="https://img.shields.io/badge/swift-2.2%20%7C%203.0-orange.svg"></a>
 <img alt="Platforms" src="https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey.svg">
-<a href="https://cocoapods.org/pods/Fischer"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Fischer.svg"></a>
+<a href="https://cocoapods.org/pods/Sage"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Sage.svg"></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"></a>
 <a href="https://swift.org/package-manager/"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SPM-compatible-orange.svg"></a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
 </p>
 
-Fischer is a cross-platform chess library for Swift.
+Sage is a cross-platform chess library for Swift.
 
 - [Features](#features)
 - [Installation](#installation)
@@ -38,7 +38,7 @@ Fischer is a cross-platform chess library for Swift.
 - [x] En passant and castling
 - [x] Pawn promotions
 - [x] FEN for games and boards
-- [x] [Documentation](https://nvzqz.github.io/Fischer/docs/)
+- [x] [Documentation](https://nvzqz.github.io/Sage/docs/)
 
 ## Installation
 
@@ -65,16 +65,16 @@ decentralized dependency manager for Swift.
     let package = Package(
         name: "MyAwesomeProject",
         dependencies: [
-            .Package(url: "https://github.com/nvzqz/Fischer.git",
+            .Package(url: "https://github.com/nvzqz/Sage.git",
                      majorVersion: 1)
         ]
     )
     ```
 
-2. Import the Fischer module.
+2. Import the Sage module.
 
     ```swift
-    import Fischer
+    import Sage
     ```
 
 ### Install Using CocoaPods
@@ -87,15 +87,15 @@ to learn more.
     ```ruby
     use_frameworks!
 
-    pod 'Fischer', '~> 1.0.0'
+    pod 'Sage', '~> 1.0.0'
     ```
 
 2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
 
-3. Import the Fischer framework.
+3. Import the Sage framework.
 
     ```swift
-    import Fischer
+    import Sage
     ```
 
 ### Install Using Carthage
@@ -105,16 +105,16 @@ manager for Objective-C and Swift.
 1. Add the project to your [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile).
 
     ```
-    github "nvzqz/Fischer"
+    github "nvzqz/Sage"
     ```
 
 2. Run `carthage update` and follow [the additional steps](https://github.com/Carthage/Carthage#getting-started)
-   in order to add Fischer to your project.
+   in order to add Sage to your project.
 
-3. Import the Fischer framework.
+3. Import the Sage framework.
 
     ```swift
-    import Fischer
+    import Sage
     ```
 
 ## Usage
@@ -124,7 +124,7 @@ manager for Objective-C and Swift.
 Running a chess game can be as simple as setting up a loop.
 
 ```swift
-import Fischer
+import Sage
 
 let game = Game()
 
@@ -136,7 +136,7 @@ while !game.isFinished {
 
 ### Move Generation
 
-Fischer is capable of generating legal moves for the current player with full
+Sage is capable of generating legal moves for the current player with full
 support for special moves such as en passant and castling.
 
 - `availableMoves()` will return all moves currently available.
@@ -148,7 +148,7 @@ support for special moves such as en passant and castling.
 
 ### Move Validation
 
-Fischer can also validate whether a move is legal with the `isLegal(move:)`
+Sage can also validate whether a move is legal with the `isLegal(move:)`
 method for a `Game` state.
 
 The `execute(move:)` family of methods calls this method, so it would be faster
@@ -278,8 +278,8 @@ print(Square.a4.moves(to: [.c3, .d4, .f6]))
 
 `Board` conforms to the `CustomPlaygroundQuickLookable` protocol.
 
-![Playground quick look](https://raw.githubusercontent.com/nvzqz/Fischer/assets/BoardPlaygroundView.png)
+![Playground quick look](https://raw.githubusercontent.com/nvzqz/Sage/assets/BoardPlaygroundView.png)
 
 ## License
 
-Fischer is published under [version 2.0 of the Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+Sage is published under [version 2.0 of the Apache License](https://www.apache.org/licenses/LICENSE-2.0).

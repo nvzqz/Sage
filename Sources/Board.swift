@@ -1,6 +1,6 @@
 //
 //  Board.swift
-//  Fischer
+//  Sage
 //
 //  Copyright 2016 Nikolai Vazquez
 //

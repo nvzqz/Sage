@@ -1,6 +1,6 @@
 //
 //  Package.swift
-//  Fischer
+//  Sage
 //
 //  Copyright 2016 Nikolai Vazquez
 //
@@ -20,5 +20,5 @@
 import PackageDescription
 
 let package = Package(
-    name: "Fischer"
+    name: "Sage"
 )

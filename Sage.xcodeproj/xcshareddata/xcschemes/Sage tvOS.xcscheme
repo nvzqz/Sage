@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5273A74D1CF2647F00426C1F"
-               BuildableName = "Fischer.framework"
-               BlueprintName = "Fischer iOS"
-               ReferencedContainer = "container:Fischer.xcodeproj">
+               BlueprintIdentifier = "5273A7671CF2648E00426C1F"
+               BuildableName = "Sage.framework"
+               BlueprintName = "Sage tvOS"
+               ReferencedContainer = "container:Sage.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,20 +32,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "529514BC1D137B9000BB244D"
-               BuildableName = "Fischer iOS Tests.xctest"
-               BlueprintName = "Fischer iOS Tests"
-               ReferencedContainer = "container:Fischer.xcodeproj">
+               BlueprintIdentifier = "529514CB1D137BAD00BB244D"
+               BuildableName = "Sage tvOS Tests.xctest"
+               BlueprintName = "Sage tvOS Tests"
+               ReferencedContainer = "container:Sage.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5273A74D1CF2647F00426C1F"
-            BuildableName = "Fischer.framework"
-            BlueprintName = "Fischer iOS"
-            ReferencedContainer = "container:Fischer.xcodeproj">
+            BlueprintIdentifier = "5273A7671CF2648E00426C1F"
+            BuildableName = "Sage.framework"
+            BlueprintName = "Sage tvOS"
+            ReferencedContainer = "container:Sage.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -64,10 +64,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5273A74D1CF2647F00426C1F"
-            BuildableName = "Fischer.framework"
-            BlueprintName = "Fischer iOS"
-            ReferencedContainer = "container:Fischer.xcodeproj">
+            BlueprintIdentifier = "5273A7671CF2648E00426C1F"
+            BuildableName = "Sage.framework"
+            BlueprintName = "Sage tvOS"
+            ReferencedContainer = "container:Sage.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -82,10 +82,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5273A74D1CF2647F00426C1F"
-            BuildableName = "Fischer.framework"
-            BlueprintName = "Fischer iOS"
-            ReferencedContainer = "container:Fischer.xcodeproj">
+            BlueprintIdentifier = "5273A7671CF2648E00426C1F"
+            BuildableName = "Sage.framework"
+            BlueprintName = "Sage tvOS"
+            ReferencedContainer = "container:Sage.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

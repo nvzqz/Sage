@@ -1,6 +1,6 @@
 //
-//  FischerTests.swift
-//  Fischer
+//  SageTests.swift
+//  Sage
 //
 //  Copyright 2016 Nikolai Vazquez
 //
@@ -18,9 +18,9 @@
 //
 
 import XCTest
-@testable import Fischer
+@testable import Sage
 
-class FischerTests: XCTestCase {
+class SageTests: XCTestCase {
 
     func testBoardInitializer() {
         #if swift(>=3)

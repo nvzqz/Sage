@@ -1,6 +1,6 @@
 //
-//  Sequence+Fischer.swift
-//  Fischer
+//  Sequence+Sage.swift
+//  Sage
 //
 //  Copyright 2016 Nikolai Vazquez
 //

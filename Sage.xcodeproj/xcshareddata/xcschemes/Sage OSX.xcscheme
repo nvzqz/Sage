@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5273A75A1CF2648700426C1F"
-               BuildableName = "Fischer.framework"
-               BlueprintName = "Fischer watchOS"
-               ReferencedContainer = "container:Fischer.xcodeproj">
+               BlueprintIdentifier = "5273A73F1CF2647800426C1F"
+               BuildableName = "Sage.framework"
+               BlueprintName = "Sage OSX"
+               ReferencedContainer = "container:Sage.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "524583A41D0DE7B9002311F3"
+               BuildableName = "Sage OSX Tests.xctest"
+               BlueprintName = "Sage OSX Tests"
+               ReferencedContainer = "container:Sage.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "5273A73F1CF2647800426C1F"
+            BuildableName = "Sage.framework"
+            BlueprintName = "Sage OSX"
+            ReferencedContainer = "container:Sage.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -45,10 +64,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5273A75A1CF2648700426C1F"
-            BuildableName = "Fischer.framework"
-            BlueprintName = "Fischer watchOS"
-            ReferencedContainer = "container:Fischer.xcodeproj">
+            BlueprintIdentifier = "5273A73F1CF2647800426C1F"
+            BuildableName = "Sage.framework"
+            BlueprintName = "Sage OSX"
+            ReferencedContainer = "container:Sage.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -63,10 +82,10 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5273A75A1CF2648700426C1F"
-            BuildableName = "Fischer.framework"
-            BlueprintName = "Fischer watchOS"
-            ReferencedContainer = "container:Fischer.xcodeproj">
+            BlueprintIdentifier = "5273A73F1CF2647800426C1F"
+            BuildableName = "Sage.framework"
+            BlueprintName = "Sage OSX"
+            ReferencedContainer = "container:Sage.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>
