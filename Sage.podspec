@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-    s.name                      = "Fischer"
+    s.name                      = "Sage"
     s.version                   = "1.0.0"
     s.summary                   = "A cross-platform chess library for Swift."
     s.homepage                  = "https://github.com/nvzqz/#{s.name}"
