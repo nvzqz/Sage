@@ -351,7 +351,7 @@ extension Piece {
 
     /// Returns `true` if `self` can be a promotion for the color.
     public func canPromote(_ color: Color? = nil) -> Bool {
-        if self.isPawn || self.isPawn {
+        if self.isPawn || self.isKing {
             return false
         } else {
             if let color = color {
