@@ -25,6 +25,7 @@ Fischer is a cross-platform chess library for Swift.
     - [Promotion Handling](#promotion-handling)
     - [Pretty Printing](#pretty-printing)
     - [Forsyth–Edwards Notation](#forsythedwards-notation)
+    - [Iterating Through a Board](#iterating-through-a-board)
     - [Squares to Moves](#squares-to-moves)
     - [Playground Quick Look](#playground-quick-look)
 - [License](#license)
@@ -239,6 +240,19 @@ They can also be initialized from a FEN string.
 assert(Board(fen: game.board.fen()) == game.board)
 
 assert(Game.Position(fen: game.position.fen()) == game.position)
+```
+
+### Iterating Through a Board
+
+The `Board` type conforms to `Sequence`, making iterating through its spaces
+seamless.
+
+```swift
+for space in Board() {
+    if let piece = space.piece {
+        print("\(piece) at \(space.square)")
+    }
+}
 ```
 
 ### Squares to Moves
