@@ -111,7 +111,7 @@ public struct Board: Hashable, CustomStringConvertible {
 
         internal func _view(size: CGFloat) -> _View {
             let frame = CGRect(x: CGFloat(file.index) * size,
-                               y: CGFloat(rank.index) * size,
+                               y: CGFloat(Rank.eight.index - rank.index) * size,
                                width: size,
                                height: size)
             var textFrame = CGRect(x: 0, y: 0, width: size, height: size)
