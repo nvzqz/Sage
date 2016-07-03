@@ -394,12 +394,16 @@ public enum Square: Int, CustomStringConvertible {
 
     /// B8 square.
     case B8
+
     /// C8 square.
     case C8
+
     /// D8 square.
     case D8
+
     /// E8 square.
     case E8
+
     /// F8 square.
     case F8
 
