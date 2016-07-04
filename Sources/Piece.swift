@@ -226,8 +226,17 @@ public struct Piece: Hashable, CustomStringConvertible {
         return "\(kind.name)(\(color))"
     }
 
+    /// The hash value.
     public var hashValue: Int {
         return (kind.hashValue << 1) | color.hashValue
+    }
+
+    /// Create a piece from an integer value.
+    internal init?(value: Int) {
+        guard let kind = Kind(rawValue: value >> 1) else {
+            return nil
+        }
+        self.init(kind: kind, color: value & 1 == 0 ? ._white : ._black)
     }
 
     /// Create a piece from `kind` and `color`.
