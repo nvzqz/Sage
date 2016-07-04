@@ -519,7 +519,7 @@ public final class Game {
         if piece.kind.isPawn {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
-                guard promotion.color == playerTurn else {
+                guard promotion.canPromote(playerTurn) else {
                     throw MoveExecutionError.invalidPromotionPiece(promotion)
                 }
                 endPiece = promotion
@@ -580,7 +580,7 @@ public final class Game {
         if piece.kind.isPawn {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
-                guard promotion.color == playerTurn else {
+                guard promotion.canPromote(playerTurn) else {
                     throw MoveExecutionError.InvalidPromotionPiece(promotion)
                 }
                 endPiece = promotion
