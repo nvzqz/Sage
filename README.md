@@ -28,7 +28,7 @@ Sage is a cross-platform chess library for Swift.
     - [Iterating Through a Board](#iterating-through-a-board)
     - [Squares to Moves](#squares-to-moves)
     - [Playground Usage](#playground-usage)
-        - [Board Quick Look](#playground-quick-look)
+        - [Board Quick Look](#board-quick-look)
 - [License](#license)
 
 ## Features
