@@ -515,6 +515,7 @@ public final class Game {
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
+        let rights = castlingRights
         if piece.kind.isPawn {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
@@ -546,7 +547,7 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves))
+        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves, rights))
         if let capture = capture {
             board[capture][captureSquare] = false
         }
