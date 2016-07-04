@@ -17,6 +17,7 @@ Sage is a cross-platform chess library for Swift.
     - [Swift Package Manager](#install-using-swift-package-manager)
     - [CocoaPods](#install-using-cocoapods)
     - [Carthage](#install-using-carthage)
+    - [Manually](#install-manually)
 - [Usage](#usage)
     - [Game Management](#game-management)
     - [Move Generation](#move-generation)
@@ -123,6 +124,10 @@ manager for Objective-C and Swift.
     ```swift
     import Sage
     ```
+
+### Install Manually
+1. Download and drop ```/Sources```folder in your project.  
+2. Congratulations!  
 
 ## Usage
 
