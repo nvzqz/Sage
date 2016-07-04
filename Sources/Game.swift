@@ -247,7 +247,7 @@ public final class Game {
     public typealias PlayerTurn = Color
 
     /// All of the conducted moves in the game.
-    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?, kingAttackers: Bitboard, halfmoves: UInt)]
+    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?, kingAttackers: Bitboard, halfmoves: UInt, rights: CastlingRights)]
 
     /// All of the undone moves in the game.
     private var _undoHistory: [(move: Move, promotion: Piece?, kingAttackers: Bitboard)]
@@ -300,7 +300,7 @@ public final class Game {
 
     /// The target move location for an en passant.
     public var enPassantTarget: Square? {
-        guard let (move, piece, _, _, _) = _moveHistory.last where piece.kind.isPawn else {
+        guard let (move, piece, _, _, _, _) = _moveHistory.last where piece.kind.isPawn else {
             return nil
         }
         guard abs(move.rankChange) == 2 else {
@@ -575,6 +575,7 @@ public final class Game {
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
+        let rights = castlingRights
         if piece.kind.isPawn {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
@@ -606,7 +607,7 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves))
+        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves, rights))
         if let capture = capture {
             board[capture][captureSquare] = false
         }
@@ -723,7 +724,7 @@ public final class Game {
 
     /// Undoes the previous move and returns it, if any.
     private func _undoMove() -> Move? {
-        guard let (move, piece, capture, attackers, halfmoves) = _moveHistory.popLast() else {
+        guard let (move, piece, capture, attackers, halfmoves, rights) = _moveHistory.popLast() else {
             return nil
         }
         var captureSquare = move.end
@@ -752,6 +753,7 @@ public final class Game {
         playerTurn.invert()
         attackersToKing = attackers
         self.halfmoves = halfmoves
+        self.castlingRights = rights
         return move
     }
 
