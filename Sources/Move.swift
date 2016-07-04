@@ -82,19 +82,6 @@ public struct Move: Hashable, CustomStringConvertible {
         return end.rank > start.rank
     }
 
-    /// The move is a castle.
-    public var isCastle: Bool {
-        #if swift(>=3)
-            let e = File.e
-        #else
-            let e = File.E
-        #endif
-        return start.rank == end.rank
-            && (start.rank == 1 || start.rank == 8)
-            && start.file == e
-            && abs(fileChange) == 2
-    }
-
     /// The move is a knight jump two spaces horizontally and one space vertically, or two spaces vertically and one
     /// space horizontally.
     public var isKnightJump: Bool {
@@ -206,6 +193,27 @@ public struct Move: Hashable, CustomStringConvertible {
         let end = Square(file: self.end.file.opposite(),
                          rank: self.end.rank.opposite())
         return start >>> end
+    }
+
+    /// Returns `true` if `self` is castle move for `color`.
+    ///
+    /// - parameter color: The color to check the rank against. If `nil`, the rank can be either 1 or 8. The default
+    ///                    value is `nil`.
+    public func isCastle(for color: Color? = nil) -> Bool {
+        #if swift(>=3)
+            let e = File.e
+        #else
+            let e = File.E
+        #endif
+        let startRank = start.rank
+        if let color = color {
+            guard startRank == Rank(startFor: color) else { return false }
+        } else {
+            guard startRank == 1 || startRank == 8 else { return false }
+        }
+        return startRank == end.rank
+            && start.file == e
+            && abs(fileChange) == 2
     }
 
 }
