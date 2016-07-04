@@ -91,6 +91,12 @@ to learn more.
     pod 'Sage', '~> 1.0.0'
     ```
 
+    If you want to be on the bleeding edge, replace the last line with:
+
+    ```ruby
+    pod 'Sage', :git => 'https://github.com/nvzqz/Sage.git'
+    ```
+
 2. Run `pod install` and open the `.xcworkspace` file to launch Xcode.
 
 3. Import the Sage framework.
