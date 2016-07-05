@@ -43,6 +43,24 @@ public struct Piece: Hashable, CustomStringConvertible {
         /// King piece kind.
         case king
 
+        /// Pawn regardless of Swift veersion.
+        internal static let _pawn = Kind.pawn
+
+        /// Knight regardless of Swift veersion.
+        internal static let _knight = Kind.knight
+
+        /// Bishop regardless of Swift veersion.
+        internal static let _bishop = Kind.bishop
+
+        /// Rook regardless of Swift veersion.
+        internal static let _rook = Kind.rook
+
+        /// Queen regardless of Swift veersion.
+        internal static let _queen = Kind.queen
+
+        /// King regardless of Swift veersion.
+        internal static let _king = Kind.king
+
         /// An array of all piece kinds.
         public static let all: [Kind] = [.pawn, .knight, .bishop, .rook, .queen, .king]
 
@@ -65,6 +83,24 @@ public struct Piece: Hashable, CustomStringConvertible {
 
         /// King piece kind.
         case King
+
+        /// Pawn regardless of Swift veersion.
+        internal static let _pawn = Kind.Pawn
+
+        /// Knight regardless of Swift veersion.
+        internal static let _knight = Kind.Knight
+
+        /// Bishop regardless of Swift veersion.
+        internal static let _bishop = Kind.Bishop
+
+        /// Rook regardless of Swift veersion.
+        internal static let _rook = Kind.Rook
+
+        /// Queen regardless of Swift veersion.
+        internal static let _queen = Kind.Queen
+
+        /// King regardless of Swift veersion.
+        internal static let _king = Kind.King
 
         /// An array of all piece kinds.
         public static let all: [Kind] = [.Pawn, .Knight, .Bishop, .Rook, .Queen, .King]
