@@ -275,6 +275,16 @@ public struct PGN {
     /// The moves in standard algebraic notation.
     public var moves: [String]
 
+    /// The game outcome.
+    public var outcome: Game.Outcome? {
+        #if swift(>=3)
+            let resultTag = Tag.result
+        #else
+            let resultTag = Tag.Result
+        #endif
+        return tagPairs[resultTag].flatMap(Game.Outcome.init)
+    }
+
     /// Create PGN with `tagPairs`.
     public init(tagPairs: [Tag: String] = [:], moves: [String] = []) {
         self.tagPairs = tagPairs
