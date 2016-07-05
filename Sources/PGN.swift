@@ -270,7 +270,7 @@ public struct PGN {
     }
 
     /// The tag pairs for `self`.
-    public var tagPairs: [Tag: String]
+    public var tagPairs: [String: String]
 
     /// The moves in standard algebraic notation.
     public var moves: [String]
@@ -282,13 +282,31 @@ public struct PGN {
         #else
             let resultTag = Tag.Result
         #endif
-        return tagPairs[resultTag].flatMap(Game.Outcome.init)
+        return self[resultTag].flatMap(Game.Outcome.init)
     }
 
-    /// Create PGN with `tagPairs`.
-    public init(tagPairs: [Tag: String] = [:], moves: [String] = []) {
+    /// Create PGN with `tagPairs` and `moves`.
+    public init(tagPairs: [String: String] = [:], moves: [String] = []) {
         self.tagPairs = tagPairs
         self.moves = moves
+    }
+
+    /// Create PGN with `tagPairs` and `moves`.
+    public init(tagPairs: [Tag: String], moves: [String] = []) {
+        self.init(moves: moves)
+        for (tag, value) in tagPairs {
+            self[tag] = value
+        }
+    }
+
+    /// Get or set the value for `tag`.
+    public subscript(tag: Tag) -> String? {
+        get {
+            return tagPairs[tag.rawValue]
+        }
+        set {
+            tagPairs[tag.rawValue] = newValue
+        }
     }
 
 }
