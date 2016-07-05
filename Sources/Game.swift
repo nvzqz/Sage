@@ -248,6 +248,38 @@ public final class Game {
 
     }
 
+    #if swift(>=3)
+
+    /// An error in move execution.
+    ///
+    /// Thrown by the `execute(move:promotion:)` method for a `Game` instance.
+    public enum ExecutionError: ErrorProtocol {
+
+        /// Attempted illegal move.
+        case illegalMove(Move, Color, Board)
+
+        /// Could not promote with a piece.
+        case invalidPromotionPiece(Piece)
+
+    }
+
+    #else
+
+    /// An error in move execution.
+    ///
+    /// Thrown by the `execute(move:promotion:)` method for a `Game` instance.
+    public enum ExecutionError: ErrorType {
+
+        /// Attempted illegal move.
+        case IllegalMove(Move, Color, Board)
+
+        /// Could not promote with a piece.
+        case InvalidPromotionPiece(Piece)
+
+    }
+
+    #endif
+
     /// A player turn.
     public typealias PlayerTurn = Color
 
@@ -525,7 +557,7 @@ public final class Game {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
                 guard promotion.canPromote(playerTurn) else {
-                    throw MoveExecutionError.invalidPromotionPiece(promotion)
+                    throw ExecutionError.invalidPromotionPiece(promotion)
                 }
                 endPiece = promotion
             } else if move.end == enPassantTarget {
@@ -586,7 +618,7 @@ public final class Game {
             if move.end.rank == Rank(endFor: playerTurn) {
                 let promotion = promotion()
                 guard promotion.canPromote(playerTurn) else {
-                    throw MoveExecutionError.InvalidPromotionPiece(promotion)
+                    throw ExecutionError.InvalidPromotionPiece(promotion)
                 }
                 endPiece = promotion
             } else if move.end == enPassantTarget {
@@ -641,10 +673,10 @@ public final class Game {
     /// - parameter move: The move to be executed.
     /// - parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
     ///
-    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `ExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move: Move, promotion: @noescape () -> Piece) throws {
         guard isLegal(move: move) else {
-            throw MoveExecutionError.illegalMove(move, playerTurn, board)
+            throw ExecutionError.illegalMove(move, playerTurn, board)
         }
         try _execute(move, promotion: promotion)
         if kingIsChecked {
@@ -660,7 +692,7 @@ public final class Game {
     /// - parameter move: The move to be executed.
     /// - parameter promotion: A piece for a pawn promotion.
     ///
-    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `ExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move: Move, promotion: Piece) throws {
         try execute(move: move, promotion: { promotion })
     }
@@ -669,7 +701,7 @@ public final class Game {
     ///
     /// - parameter move: The move to be executed.
     ///
-    /// - throws: `MoveExecutionError` if `move` is illegal.
+    /// - throws: `ExecutionError` if `move` is illegal.
     public func execute(move: Move) throws {
         try execute(move: move, promotion: Piece(queen: playerTurn))
     }
@@ -681,10 +713,10 @@ public final class Game {
     /// - parameter move: The move to be executed.
     /// - parameter promotion: A closure returning a promotion piece if a pawn promotion occurs.
     ///
-    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `ExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move move: Move, @noescape promotion: () -> Piece) throws {
         guard isLegal(move: move) else {
-            throw MoveExecutionError.IllegalMove(move, playerTurn, board)
+            throw ExecutionError.IllegalMove(move, playerTurn, board)
         }
         try _execute(move, promotion: promotion)
         if kingIsChecked {
@@ -700,7 +732,7 @@ public final class Game {
     /// - parameter move: The move to be executed.
     /// - parameter promotion: A piece for a pawn promotion.
     ///
-    /// - throws: `MoveExecutionError` if `move` is illegal or if `promotion` is invalid.
+    /// - throws: `ExecutionError` if `move` is illegal or if `promotion` is invalid.
     public func execute(move move: Move, promotion: Piece) throws {
         try execute(move: move, promotion: { promotion })
     }
@@ -709,7 +741,7 @@ public final class Game {
     ///
     /// - parameter move: The move to be executed.
     ///
-    /// - throws: `MoveExecutionError` if `move` is illegal.
+    /// - throws: `ExecutionError` if `move` is illegal.
     public func execute(move move: Move) throws {
         try execute(move: move, promotion: Piece(queen: playerTurn))
     }
@@ -805,38 +837,6 @@ public final class Game {
     #endif
 
 }
-
-#if swift(>=3)
-
-/// An error in move execution.
-///
-/// Thrown by the `execute(move:promotion:)` method for a `Board` instance.
-public enum MoveExecutionError: ErrorProtocol {
-
-    /// Attempted illegal move.
-    case illegalMove(Move, Color, Board)
-
-    /// Could not promote with a piece.
-    case invalidPromotionPiece(Piece)
-
-}
-
-#else
-
-/// An error in move execution.
-///
-/// Thrown by the `execute(move:promotion:)` method for a `Board` instance.
-public enum MoveExecutionError: ErrorType {
-
-    /// Attempted illegal move.
-    case IllegalMove(Move, Color, Board)
-
-    /// Could not promote with a piece.
-    case InvalidPromotionPiece(Piece)
-
-}
-
-#endif
 
 /// Returns `true` if the outcomes are the same.
 @warn_unused_result

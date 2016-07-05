@@ -299,12 +299,12 @@ class SageTests: XCTestCase {
             let move = Move(start: Square(location: (file, 2)), end: Square(location: (file, 5)))
             XCTAssertThrowsError(try game.execute(move: move)) { error in
                 #if swift(>=3)
-                    guard case MoveExecutionError.illegalMove = error else {
+                    guard case Game.ExecutionError.illegalMove = error else {
                         XCTFail("Expected MoveExecutionError.IllegalMove, got \(error)")
                         return
                     }
                 #else
-                    guard case MoveExecutionError.IllegalMove = error else {
+                    guard case Game.ExecutionError.IllegalMove = error else {
                         XCTFail("Expected MoveExecutionError.IllegalMove, got \(error)")
                         return
                     }
