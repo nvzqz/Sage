@@ -123,9 +123,14 @@ public final class Game {
             return !isWin
         }
 
-        /// Create an outcome from `string`.
+        /// Create an outcome from `string`. Ignores whitespace.
         public init?(_ string: String) {
-            switch string {
+            #if swift(>=3)
+                let stripped = string.characters.split(separator: " ").map(String.init).joined(separator: "")
+            #else
+                let stripped = string.characters.split(" ").map(String.init).joinWithSeparator("")
+            #endif
+            switch stripped {
             case "1-0":
                 self = ._win(._white)
             case "0-1":
