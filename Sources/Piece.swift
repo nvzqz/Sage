@@ -207,6 +207,16 @@ public struct Piece: Hashable, CustomStringConvertible {
             #endif
         }
 
+        /// Returns `true` if `self` can be a promotion for a pawn.
+        public func canPromote() -> Bool {
+            return !(isPawn || isKing)
+        }
+
+        /// Returns `true` if `self` can be a promotion for `other`.
+        public func canPromote(_ other: Kind) -> Bool {
+            return canPromote() ? other.isPawn : false
+        }
+
     }
 
     /// An array of all pieces.
@@ -355,21 +365,18 @@ public struct Piece: Hashable, CustomStringConvertible {
         }
     }
 
-    /// Returns `true` if `self` can be a promotion for the piece.
+    /// Returns `true` if `self` can be a promotion for `other`.
     public func canPromote(_ other: Piece) -> Bool {
-        return other.kind.isPawn ? canPromote(other.color) : false
+        return kind.canPromote(other.kind) && color == other.color
     }
 
-    /// Returns `true` if `self` can be a promotion for the color.
+    /// Returns `true` if `self` can be a promotion for `color`.
     public func canPromote(_ color: Color? = nil) -> Bool {
-        if kind.isPawn || kind.isKing {
-            return false
+        guard kind.canPromote() else { return false }
+        if let color = color {
+            return self.color == color
         } else {
-            if let color = color {
-                return self.color == color
-            } else {
-                return true
-            }
+            return true
         }
     }
 
