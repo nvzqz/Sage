@@ -371,13 +371,8 @@ public struct Piece: Hashable, CustomStringConvertible {
     }
 
     /// Returns `true` if `self` can be a promotion for `color`.
-    public func canPromote(_ color: Color? = nil) -> Bool {
-        guard kind.canPromote() else { return false }
-        if let color = color {
-            return self.color == color
-        } else {
-            return true
-        }
+    public func canPromote(_ color: Color) -> Bool {
+        return kind.canPromote() ? self.color == color : false
     }
 
     /// The special character for the piece.
