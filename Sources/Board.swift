@@ -284,9 +284,14 @@ public struct Board: Hashable, CustomStringConvertible {
         return pieces.filter({ $0.color.isBlack })
     }
 
+    /// A bitboard for the occupied spaces of `self`.
+    public var occupiedSpaces: Bitboard {
+        return _bitboards.reduce(0, combine: |)
+    }
+
     /// A bitboard for the empty spaces of `self`.
     public var emptySpaces: Bitboard {
-        return ~_bitboards.reduce(0, combine: |)
+        return ~occupiedSpaces
     }
 
     /// A textual representation of `self`.
@@ -552,19 +557,13 @@ public struct Board: Hashable, CustomStringConvertible {
         return Piece.pieces(for: color).map({ self[$0] }).reduce(0, combine: |)
     }
 
-    /// Returns the bitboard for all pieces.
-    @warn_unused_result
-    public func bitboard() -> Bitboard {
-        return _bitboards.reduce(0, combine: |)
-    }
-
     /// Returns the attackers to `square` corresponding to `color`.
     ///
     /// - parameter square: The `Square` being attacked.
     /// - parameter color: The `Color` of the attackers.
     @warn_unused_result
     public func attackers(to square: Square, color: Color) -> Bitboard {
-        let all = bitboard()
+        let all = occupiedSpaces
         let attackPieces = Piece.pieces(for: color)
         let playerPieces = Piece.pieces(for: color.inverse())
         let attacks = playerPieces.map({ piece in
