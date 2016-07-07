@@ -18,22 +18,37 @@
 //
 
 /// A lookup table of least significant bit indices.
-private let _lsbTable: ContiguousArray<Int> = [00, 01, 48, 02, 57, 49, 28, 03, 61, 58, 50,
-                                               42, 38, 29, 17, 04, 62, 55, 59, 36, 53, 51,
-                                               43, 22, 45, 39, 33, 30, 24, 18, 12, 05, 63,
-                                               47, 56, 27, 60, 41, 37, 16, 54, 35, 52, 21,
-                                               44, 32, 23, 11, 46, 26, 40, 15, 34, 20, 31,
-                                               10, 25, 14, 19, 09, 13, 08, 07, 06]
+private let _lsbTable: ContiguousArray<Int> = [00, 01, 48, 02, 57, 49, 28, 03,
+                                               61, 58, 50, 42, 38, 29, 17, 04,
+                                               62, 55, 59, 36, 53, 51, 43, 22,
+                                               45, 39, 33, 30, 24, 18, 12, 05,
+                                               63, 47, 56, 27, 60, 41, 37, 16,
+                                               54, 35, 52, 21, 44, 32, 23, 11,
+                                               46, 26, 40, 15, 34, 20, 31, 10,
+                                               25, 14, 19, 09, 13, 08, 07, 06]
+
+/// A lookup table of most significant bit indices.
+private let _msbTable: ContiguousArray<Int> = [00, 47, 01, 56, 48, 27, 02, 60,
+                                               57, 49, 41, 37, 28, 16, 03, 61,
+                                               54, 58, 35, 52, 50, 42, 21, 44,
+                                               38, 32, 29, 23, 17, 11, 04, 62,
+                                               46, 55, 26, 59, 40, 36, 15, 53,
+                                               34, 51, 20, 43, 31, 22, 10, 45,
+                                               25, 39, 14, 33, 19, 30, 09, 24,
+                                               13, 18, 08, 12, 07, 06, 05, 63]
 
 /// A lookup table of bitboards for all squares.
 private let _bitboardTable = ContiguousArray((0 ..< 64).map { Bitboard(rawValue: 1 << $0) })
+
+/// The De Bruijn multiplier.
+private let _debruijn64: UInt64 = 0x03f79d71b4cb0a89
 
 /// Returns the index of the lsb value.
 private func _index(lsb value: Bitboard) -> Int? {
     guard value != 0 else {
         return nil
     }
-    return _lsbTable[Int((value.rawValue &* 0x03f79d71b4cb0a89) >> 58)]
+    return _lsbTable[Int((value.rawValue &* _debruijn64) >> 58)]
 }
 
 /// Returns the pawn attack table for `color`.
@@ -336,6 +351,35 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// The square for the least significant bit of `self`.
     public var lsbSquare: Square? {
         return lsbIndex.flatMap({ Square(rawValue: $0) })
+    }
+
+    private var _msbShifted: UInt64 {
+        var x = rawValue
+        x |= x >> 1
+        x |= x >> 2
+        x |= x >> 4
+        x |= x >> 8
+        x |= x >> 16
+        x |= x >> 32
+        return x
+    }
+
+    /// The most significant bit.
+    public var msb: Bitboard {
+        return Bitboard(rawValue: (_msbShifted >> 1) + 1)
+    }
+
+    /// The index for the most significant bit of `self`.
+    public var msbIndex: Int? {
+        guard rawValue != 0 else {
+            return nil
+        }
+        return _msbTable[Int((_msbShifted &* _debruijn64) >> 58)]
+    }
+
+    /// The square for the most significant bit of `self`.
+    public var msbSquare: Square? {
+        return msbIndex.flatMap({ Square(rawValue: $0) })
     }
 
     /// Convert from a raw value of `UInt64`.
@@ -722,6 +766,26 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// Removes the least significant bit and returns its square, if any.
     public mutating func popLSBSquare() -> Square? {
         return popLSBIndex().flatMap({ Square(rawValue: $0) })
+    }
+
+    /// Removes the most significant bit and returns it.
+    public mutating func popMSB() -> Bitboard {
+        let msb = self.msb
+        rawValue -= msb.rawValue
+        return msb
+    }
+
+    /// Removes the most significant bit and returns its index, if any.
+    public mutating func popMSBIndex() -> Int? {
+        guard rawValue != 0 else { return nil }
+        let shifted = _msbShifted
+        rawValue -= (shifted >> 1) + 1
+        return _msbTable[Int((shifted &* _debruijn64) >> 58)]
+    }
+
+    /// Removes the most significant bit and returns its square, if any.
+    public mutating func popMSBSquare() -> Square? {
+        return popMSBIndex().flatMap({ Square(rawValue: $0) })
     }
 
     /// Returns the ranks of `self` as eight 8-bit integers.
