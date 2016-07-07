@@ -97,6 +97,18 @@ class SageTests: XCTestCase {
         XCTAssertTrue(Board(variant: nil).pieces.isEmpty)
     }
 
+    func testBoardFromCharacters() {
+        let board = Board(pieces: [["r", "n", "b", "q", "k", "b", "n", "r"],
+                                   ["p", "p", "p", "p", "p", "p", "p", "p"],
+                                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                                   ["P", "P", "P", "P", "P", "P", "P", "P"],
+                                   ["R", "N", "B", "Q", "K", "B", "N", "R"]])
+        XCTAssertEqual(board, Board())
+    }
+
     func testBoardSequence() {
         let board = Board()
         let spaces = Array(board)

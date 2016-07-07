@@ -347,7 +347,7 @@ public struct Board: Hashable, CustomStringConvertible {
     /// - parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = ._standard) {
         #if swift(>=3)
-            _bitboards = ContiguousArray(repeatElement(0, count: 12))
+            _bitboards = ContiguousArray(repeating: 0, count: 12)
         #else
             _bitboards = ContiguousArray(count: 12, repeatedValue: 0)
         #endif
@@ -414,6 +414,36 @@ public struct Board: Hashable, CustomStringConvertible {
             }
         }
         self = board
+    }
+
+    /// Create a chess board from arrays of piece characters.
+    ///
+    /// Returns `nil` if a piece can't be initialized from a character. Characters beyond the 8x8 area are ignored.
+    /// Empty spaces are denoted with a whitespace or period.
+    ///
+    /// ```swift
+    /// Board(pieces: [["r", "n", "b", "q", "k", "b", "n", "r"],
+    ///                ["p", "p", "p", "p", "p", "p", "p", "p"],
+    ///                [" ", " ", " ", " ", " ", " ", " ", " "],
+    ///                [" ", " ", " ", " ", " ", " ", " ", " "],
+    ///                [" ", " ", " ", " ", " ", " ", " ", " "],
+    ///                [" ", " ", " ", " ", " ", " ", " ", " "],
+    ///                ["P", "P", "P", "P", "P", "P", "P", "P"],
+    ///                ["R", "N", "B", "Q", "K", "B", "N", "R"]])
+    /// ```
+    public init?(pieces: [[Character]]) {
+        self.init(variant: nil)
+        for rankIndex in pieces.indices {
+            guard let rank = Rank(index: rankIndex)?.opposite() else { break }
+            for fileIndex in pieces[rankIndex].indices {
+                guard let file = File(index: fileIndex) else { break }
+                let pieceChar = pieces[rankIndex][fileIndex]
+                if pieceChar != " " && pieceChar != "." {
+                    guard let piece = Piece(character: pieceChar) else { return nil }
+                    self[(file, rank)] = piece
+                }
+            }
+        }
     }
 
     /// Gets and sets a piece at `location`.
