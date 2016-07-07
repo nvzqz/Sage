@@ -52,20 +52,12 @@ public enum Variant {
 
     /// `self` is standard variant.
     public var isStandard: Bool {
-        #if swift(>=3)
-            return self == .standard
-        #else
-            return self == .Standard
-        #endif
+        return self == ._standard
     }
 
     /// `self` is upside down variant.
     public var isUpsideDown: Bool {
-        #if swift(>=3)
-            return self == .upsideDown
-        #else
-            return self == .UpsideDown
-        #endif
+        return self == ._upsideDown
     }
 
 }

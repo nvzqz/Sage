@@ -155,56 +155,32 @@ public struct Piece: Hashable, CustomStringConvertible {
 
         /// The piece is `Pawn`.
         public var isPawn: Bool {
-            #if swift(>=3)
-                return self == .pawn
-            #else
-                return self == .Pawn
-            #endif
+            return self == ._pawn
         }
 
         /// The piece `Knight`.
         public var isKnight: Bool {
-            #if swift(>=3)
-                return self == .knight
-            #else
-                return self == .Knight
-            #endif
+            return self == ._knight
         }
 
         /// The piece is `Bishop`.
         public var isBishop: Bool {
-            #if swift(>=3)
-                return self == .bishop
-            #else
-                return self == .Bishop
-            #endif
+            return self == ._bishop
         }
 
         /// The piece is `Rook`.
         public var isRook: Bool {
-            #if swift(>=3)
-                return self == .rook
-            #else
-                return self == .Rook
-            #endif
+            return self == ._rook
         }
 
         /// The piece is `Queen`.
         public var isQueen: Bool {
-            #if swift(>=3)
-                return self == .queen
-            #else
-                return self == .Queen
-            #endif
+            return self == ._queen
         }
 
         /// The piece is `King`.
         public var isKing: Bool {
-            #if swift(>=3)
-                return self == .king
-            #else
-                return self == .King
-            #endif
+            return self == ._king
         }
 
         /// Returns `true` if `self` can be a promotion for a pawn.
