@@ -509,12 +509,12 @@ public struct Board: Hashable, CustomStringConvertible {
         self = Board(variant: nil)
     }
 
-    #if swift(>=3)
-
     /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
-    public mutating func populate(for variant: Variant = .standard) {
+    public mutating func populate(for variant: Variant = ._standard) {
         self = Board(variant: variant)
     }
+
+    #if swift(>=3)
 
     /// Returns `self` flipped horizontally.
     @warn_unused_result(mutable_variant:"flipHorizontally")
@@ -529,11 +529,6 @@ public struct Board: Hashable, CustomStringConvertible {
     }
 
     #else
-
-    /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
-    public mutating func populate(for variant: Variant = .Standard) {
-        self = Board(variant: variant)
-    }
 
     /// Returns `self` flipped horizontally.
     @warn_unused_result(mutable_variant="flipHorizontally")
