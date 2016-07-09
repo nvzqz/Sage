@@ -34,6 +34,9 @@ public enum Color: String, CustomStringConvertible {
     /// Black color regardless of Swift version.
     internal static let _black = Color.black
 
+    /// An array of all colors.
+    public static let all: [Color] = [.white, .black]
+
     #else
 
     /// White chess color.
@@ -47,6 +50,9 @@ public enum Color: String, CustomStringConvertible {
 
     /// Black color regardless of Swift version.
     internal static let _black = Color.Black
+
+    /// An array of all colors.
+    public static let all: [Color] = [.White, .Black]
 
     #endif
 
