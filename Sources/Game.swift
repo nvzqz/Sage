@@ -284,7 +284,12 @@ public final class Game {
     public typealias PlayerTurn = Color
 
     /// All of the conducted moves in the game.
-    private var _moveHistory: [(move: Move, piece: Piece, capture: Piece?, kingAttackers: Bitboard, halfmoves: UInt, rights: CastlingRights)]
+    private var _moveHistory: [(move: Move,
+                                piece: Piece,
+                                capture: Piece?,
+                                kingAttackers: Bitboard,
+                                halfmoves: UInt,
+                                rights: CastlingRights)]
 
     /// All of the undone moves in the game.
     private var _undoHistory: [(move: Move, promotion: Piece.Kind?, kingAttackers: Bitboard)]
