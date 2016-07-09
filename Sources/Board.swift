@@ -479,7 +479,7 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Gets and sets the bitboard for `piece`.
     internal subscript(piece: Piece) -> Bitboard {
         get {
-            return _bitboards[piece.hashValue] ?? Bitboard()
+            return _bitboards[piece.hashValue]
         }
         set {
             _bitboards[piece.hashValue] = newValue
