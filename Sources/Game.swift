@@ -261,6 +261,16 @@ public final class Game {
         /// Could not promote with a piece kind.
         case invalidPromotion(Piece.Kind)
 
+        /// The error message.
+        public var message: String {
+            switch self {
+            case let .illegalMove(move, color, board):
+                return "Illegal move: \(move) for \(color) on \(board)"
+            case let .invalidPromotion(pieceKind):
+                return "Invalid promoton: \(pieceKind)"
+            }
+        }
+
     }
 
     #else
@@ -275,6 +285,16 @@ public final class Game {
 
         /// Could not promote with a piece kind.
         case InvalidPromotion(Piece.Kind)
+
+        /// The error message.
+        public var message: String {
+            switch self {
+            case let .IllegalMove(move, color, board):
+                return "Illegal move: \(move) for \(color) on \(board)"
+            case let .InvalidPromotion(pieceKind):
+                return "Invalid promoton: \(pieceKind)"
+            }
+        }
 
     }
 
