@@ -389,7 +389,7 @@ class SageTests: XCTestCase {
         }
     }
 
-    func testPGNParsing() {
+    func testPGNParsingAndExporting() {
         let immortalGame = String()
             + "[Event \"London\"]\n"
             + "[Site \"London\"]\n"
@@ -432,6 +432,13 @@ class SageTests: XCTestCase {
             let returnGamePGN = try PGN(parse: returnGame)
             XCTAssertEqual(returnGamePGN.moves.count, 85)
             XCTAssertEqual(returnGamePGN.outcome, Game.Outcome._draw)
+
+            let immortalGameExportedPGN = try PGN(parse: immortalGamePGN.exported())
+            let returnGameExportedPGN = try PGN(parse: returnGamePGN.exported())
+            XCTAssertEqual(immortalGameExportedPGN, immortalGamePGN)
+            XCTAssertEqual(returnGameExportedPGN, returnGamePGN)
+            XCTAssertNotEqual(immortalGameExportedPGN, returnGamePGN)
+            XCTAssertNotEqual(returnGameExportedPGN, immortalGamePGN)
         } catch {
             XCTFail(String(error))
         }
