@@ -378,7 +378,7 @@ public struct PGN {
                 let commentsStripped = try line._commentsStripped(strings: true)
                 let (tag, value) = try commentsStripped._tagPair()
                 tagPairs[tag] = value
-            } else if line.characters.first?.isDigit == true {
+            } else if line.characters.first != "%" {
                 let commentsStripped = try line._commentsStripped(strings: false)
                 let (moves, outcome) = try commentsStripped._moves()
                 self.moves += moves
@@ -568,7 +568,7 @@ private extension String {
                     #endif
                 }
             }
-            if index == lastIndex && !inComment {
+            if index >= startIndex && index == lastIndex && !inComment {
                 stripped += self[startIndex ... index]
             }
             afterEscape = false
