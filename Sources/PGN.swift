@@ -399,6 +399,65 @@ public struct PGN {
         }
     }
 
+    /// Returns `self` in export string format.
+    public func exported() -> String {
+        var result = ""
+        var tagPairs = self.tagPairs
+        let sevenTags = [("Event",  "?"),
+                         ("Site",   "?"),
+                         ("Date",   "????.??.??"),
+                         ("Round",  "?"),
+                         ("White",  "?"),
+                         ("Black",  "?"),
+                         ("Result", "*")]
+        for (tag, defaultValue) in sevenTags {
+            if let value = tagPairs[tag] {
+                tagPairs[tag] = nil
+                result += "[\(tag) \"\(value)\"]\n"
+            } else {
+                result += "[\(tag) \"\(defaultValue)\"]\n"
+            }
+        }
+        for (tag, value) in tagPairs {
+            result += "[\(tag) \"\(value)\"]\n"
+        }
+        #if swift(>=3)
+            let strideTo = stride(from: 0, to: moves.endIndex, by: 2)
+        #else
+            let strideTo = 0.stride(to: moves.endIndex, by: 2)
+        #endif
+        var moveLine = ""
+        for num in strideTo {
+            let moveNumber = (num + 2) / 2
+            var moveString = "\(moveNumber). \(moves[num])"
+            if num + 1 < moves.endIndex {
+                moveString += " \(moves[num + 1])"
+            }
+            if moveString.characters.count + moveLine.characters.count < 80 {
+                if !moveLine.isEmpty {
+                    moveString = " \(moveString)"
+                }
+                moveLine += moveString
+            } else {
+                result += "\n\(moveLine)"
+                moveLine = moveString
+            }
+        }
+        if !moveLine.isEmpty {
+            result += "\n\(moveLine)"
+        }
+        if let outcomeString = outcome?.description {
+            if moveLine.isEmpty {
+                result += "\n\(outcomeString)"
+            } else if outcomeString.characters.count + moveLine.characters.count < 80 {
+                result += " \(outcomeString)"
+            } else {
+                result += "\n\(outcomeString)"
+            }
+        }
+        return result
+    }
+
 }
 
 private extension Character {
