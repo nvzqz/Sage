@@ -29,7 +29,7 @@
 ///
 /// - seealso: [Portable Game Notation (Wikipedia)](https://en.wikipedia.org/wiki/Portable_Game_Notation),
 ///            [PGN Specification](https://www.chessclub.com/user/help/PGN-spec)
-public struct PGN {
+public struct PGN: Equatable {
 
     /// PGN tag.
     public enum Tag: String, CustomStringConvertible {
@@ -649,4 +649,10 @@ private extension String {
         return stripped
     }
 
+}
+
+/// Returns a Boolean value indicating whether two values are equal.
+public func == (lhs: PGN, rhs: PGN) -> Bool {
+    return lhs.tagPairs == rhs.tagPairs
+        && lhs.moves == rhs.moves
 }
