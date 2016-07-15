@@ -377,7 +377,6 @@ public struct Piece: Hashable, CustomStringConvertible {
 }
 
 /// Returns `true` if both pieces are the same.
-@warn_unused_result
 public func == (lhs: Piece, rhs: Piece) -> Bool {
     return lhs.kind == rhs.kind
         && lhs.color == rhs.color

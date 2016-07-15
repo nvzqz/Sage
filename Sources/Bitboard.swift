@@ -517,13 +517,11 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the pawn pushes available for `color` in `self`.
-    @warn_unused_result
     internal func _pawnPushes(for color: Color, empty: Bitboard) -> Bitboard {
         return (color.isWhite ? shifted(toward: ._north) : shifted(toward: ._south)) & empty
     }
 
     /// Returns the attacks available to the pawns for `color` in `self`.
-    @warn_unused_result
     internal func _pawnAttacks(for color: Color) -> Bitboard {
         if color.isWhite {
             return shifted(toward: ._northeast) | shifted(toward: ._northwest)
@@ -533,7 +531,6 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the attacks available to the knight in `self`.
-    @warn_unused_result
     internal func _knightAttacks() -> Bitboard {
         let x = self
         return (((x << 17) | (x >> 15)) & _notFileA)
@@ -543,7 +540,6 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the attacks available to the bishop in `self`.
-    @warn_unused_result
     internal func _bishopAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
         return filled(toward: ._northeast, stoppers: bitboard).shifted(toward: ._northeast)
             |  filled(toward: ._northwest, stoppers: bitboard).shifted(toward: ._northwest)
@@ -552,7 +548,6 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the attacks available to the rook in `self`.
-    @warn_unused_result
     internal func _rookAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
         return filled(toward: ._north, stoppers: bitboard).shifted(toward: ._north)
             |  filled(toward: ._south, stoppers: bitboard).shifted(toward: ._south)
@@ -561,13 +556,11 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the attacks available to the queen in `self`.
-    @warn_unused_result
     internal func _queenAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
         return _rookAttacks(stoppers: bitboard) | _bishopAttacks(stoppers: bitboard)
     }
 
     /// Returns the attacks available to the king in `self`.
-    @warn_unused_result
     internal func _kingAttacks() -> Bitboard {
         let attacks = shifted(toward: ._east) | shifted(toward: ._west)
         let bitboard = self | attacks
@@ -612,14 +605,12 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns `true` if `self` intersects `other`.
-    @warn_unused_result
     public func intersects(_ other: Bitboard) -> Bool {
         return rawValue & other.rawValue != 0
     }
 
     /// Returns `self` flipped horizontally.
-    @warn_unused_result
-    private func _flippedHorizontally() -> Bitboard {
+    public func flippedHorizontally() -> Bitboard {
         let x = 0x5555555555555555 as Bitboard
         let y = 0x3333333333333333 as Bitboard
         let z = 0x0F0F0F0F0F0F0F0F as Bitboard
@@ -631,8 +622,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns `self` flipped vertically.
-    @warn_unused_result
-    private func _flippedVertically() -> Bitboard {
+    public func flippedVertically() -> Bitboard {
         let x = 0x00FF00FF00FF00FF as Bitboard
         let y = 0x0000FFFF0000FFFF as Bitboard
         var n = self
@@ -643,8 +633,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
-    @warn_unused_result
-    private func _filled(toward direction: ShiftDirection, stoppers: Bitboard) -> Bitboard {
+    public func filled(toward direction: ShiftDirection, stoppers: Bitboard) -> Bitboard {
         let empty = ~stoppers
         var bitboard = self
         for _ in 0 ..< 7 {
@@ -655,20 +644,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     #if swift(>=3)
 
-    /// Returns `self` flipped horizontally.
-    @warn_unused_result(mutable_variant:"flipHorizontally")
-    public func flippedHorizontally() -> Bitboard {
-        return _flippedHorizontally()
-    }
-
-    /// Returns `self` flipped vertically.
-    @warn_unused_result(mutable_variant:"flipVertically")
-    public func flippedVertically() -> Bitboard {
-        return _flippedVertically()
-    }
-
     /// Returns the bits of `self` shifted once toward `direction`.
-    @warn_unused_result(mutable_variant:"shift")
     public func shifted(toward direction: ShiftDirection) -> Bitboard {
         switch direction {
         case .north:     return  self << 8
@@ -682,26 +658,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
         }
     }
 
-    /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
-    @warn_unused_result(mutable_variant:"fill")
-    public func filled(toward direction: ShiftDirection, stoppers: Bitboard = 0) -> Bitboard {
-        return _filled(toward: direction, stoppers: stoppers)
-    }
-
     #else
-
-    /// Returns `self` flipped horizontally.
-    @warn_unused_result(mutable_variant="flipHorizontally")
-    public func flippedHorizontally() -> Bitboard {
-        return _flippedHorizontally()
-    }
-
-    /// Returns `self` flipped vertically.
-    @warn_unused_result(mutable_variant="flipVertically")
-    public func flippedVertically() -> Bitboard {
-        return _flippedVertically()
-    }
-
 
     /// Returns the bits of `self` shifted once toward `direction`.
     @warn_unused_result(mutable_variant="shift")
@@ -716,12 +673,6 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
         case .Southwest: return (self >> 9) & _notFileH
         case .Northwest: return (self << 7) & _notFileH
         }
-    }
-
-    /// Returns the bits of `self` filled toward `direction` stopped by `stoppers`.
-    @warn_unused_result(mutable_variant="fill")
-    public func filled(toward direction: ShiftDirection, stoppers: Bitboard = 0) -> Bitboard {
-        return _filled(toward: direction, stoppers: stoppers)
     }
 
     #endif
@@ -789,7 +740,6 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Returns the ranks of `self` as eight 8-bit integers.
-    @warn_unused_result
     public func ranks() -> [UInt8] {
         return (0 ..< 8).map { UInt8((rawValue >> ($0 * 8)) & 255) }
     }
@@ -848,7 +798,6 @@ extension Bitboard: IntegerLiteralConvertible {
 /// Returns the intersection of bits set in `lhs` and `rhs`.
 ///
 /// - complexity: O(1).
-@warn_unused_result
 public func & (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue & rhs.rawValue)
 }
@@ -856,7 +805,6 @@ public func & (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 /// Returns the union of bits set in `lhs` and `rhs`.
 ///
 /// - complexity: O(1).
-@warn_unused_result
 public func | (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue | rhs.rawValue)
 }
@@ -864,7 +812,6 @@ public func | (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 /// Returns the bits that are set in exactly one of `lhs` and `rhs`.
 ///
 /// - complexity: O(1).
-@warn_unused_result
 public func ^ (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue ^ rhs.rawValue)
 }
@@ -872,19 +819,16 @@ public func ^ (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
 /// Returns `x ^ ~Self.allZeros`.
 ///
 /// - complexity: O(1).
-@warn_unused_result
 public prefix func ~ (x: Bitboard) -> Bitboard {
     return Bitboard(rawValue: ~x.rawValue)
 }
 
 /// Returns the bits of `lhs` shifted right by `rhs`.
-@warn_unused_result
 public func >> (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue >> rhs.rawValue)
 }
 
 /// Returns the bits of `lhs` shifted left by `rhs`.
-@warn_unused_result
 public func << (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
     return Bitboard(rawValue: lhs.rawValue << rhs.rawValue)
 }

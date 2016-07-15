@@ -511,7 +511,6 @@ extension Square {
     /// - parameter stoppers: The pieces stopping a sliding move. The returned bitboard includes the stopped space.
     ///
     /// - seealso: `attackMoves(for:stoppers:)`
-    @warn_unused_result
     public func attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
         #if swift(>=3)
             switch piece.kind {
@@ -541,7 +540,6 @@ extension Square {
     /// Returns an array of attack moves for a piece at `self`.
     ///
     /// - seealso: `attacks(for:stoppers:)`
-    @warn_unused_result
     public func attackMoves(for piece: Piece, stoppers: Bitboard = 0) -> [Move] {
         return attacks(for: piece, stoppers: stoppers).moves(from: self)
     }
@@ -549,13 +547,11 @@ extension Square {
     #if swift(>=3)
 
     /// Returns moves from the squares in `squares` to `self`.
-    @warn_unused_result
     public func moves<S: Sequence where S.Iterator.Element == Square>(from squares: S) -> [Move] {
         return squares.moves(to: self)
     }
 
     /// Returns moves from `self` to the squares in `squares`.
-    @warn_unused_result
     public func moves<S: Sequence where S.Iterator.Element == Square>(to squares: S) -> [Move] {
         return squares.moves(from: self)
     }
@@ -563,13 +559,11 @@ extension Square {
     #else
 
     /// Returns moves from the squares in `squares` to `self`.
-    @warn_unused_result
     public func moves<S: SequenceType where S.Generator.Element == Square>(from squares: S) -> [Move] {
         return squares.moves(to: self)
     }
 
     /// Returns moves from `self` to the squares in `squares`.
-    @warn_unused_result
     public func moves<S: SequenceType where S.Generator.Element == Square>(to squares: S) -> [Move] {
         return squares.moves(from: self)
     }

@@ -233,7 +233,6 @@ public final class Game {
         ///
         /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
         ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
-        @warn_unused_result
         public func fen() -> String {
             #if swift(>=3)
                 let transform = { "\($0 as Square)".lowercased() }
@@ -446,13 +445,11 @@ public final class Game {
     /// Returns a copy of `self`.
     ///
     /// - complexity: O(1).
-    @warn_unused_result
     public func copy() -> Game {
         return Game(game: self)
     }
 
     /// Returns the captured pieces for a color, or for all if color is `nil`.
-    @warn_unused_result
     public func capturedPieces(for color: Color? = nil) -> [Piece] {
         let pieces = _moveHistory.flatMap({ $0.capture })
         if let color = color {
@@ -463,7 +460,6 @@ public final class Game {
     }
 
     /// Returns the moves bitboard currently available for the piece at `square`, if any.
-    @warn_unused_result
     private func _movesBitboardForPiece(at square: Square, considerHalfmoves: Bool) -> Bitboard {
         if considerHalfmoves && halfmoves >= 100 {
             return 0
@@ -521,43 +517,36 @@ public final class Game {
     }
 
     /// Returns the moves currently available for the piece at `square`, if any.
-    @warn_unused_result
     private func _movesForPiece(at square: Square, considerHalfmoves flag: Bool) -> [Move] {
         return _movesBitboardForPiece(at: square, considerHalfmoves: flag).moves(from: square)
     }
 
     /// Returns the available moves for the current player.
-    @warn_unused_result
     private func _availableMoves(considerHalfmoves flag: Bool) -> [Move] {
         return Array(Square.all.map({ _movesForPiece(at: $0, considerHalfmoves: flag) }).flatten())
     }
 
     /// Returns the available moves for the current player.
-    @warn_unused_result
     public func availableMoves() -> [Move] {
         return _availableMoves(considerHalfmoves: true)
     }
 
     /// Returns the moves bitboard currently available for the piece at `square`.
-    @warn_unused_result
     public func movesBitboardForPiece(at square: Square) -> Bitboard {
         return _movesBitboardForPiece(at: square, considerHalfmoves: true)
     }
 
     /// Returns the moves bitboard currently available for the piece at `location`.
-    @warn_unused_result
     public func movesBitboardForPiece(at location: Location) -> Bitboard {
         return movesBitboardForPiece(at: Square(location: location))
     }
 
     /// Returns the moves currently available for the piece at `square`.
-    @warn_unused_result
     public func movesForPiece(at square: Square) -> [Move] {
         return _movesForPiece(at: square, considerHalfmoves: true)
     }
 
     /// Returns the moves currently available for the piece at `location`.
-    @warn_unused_result
     public func movesForPiece(at location: Location) -> [Move] {
         return movesForPiece(at: Square(location: location))
     }
@@ -565,7 +554,6 @@ public final class Game {
     #if swift(>=3)
 
     /// Returns `true` if the move is legal.
-    @warn_unused_result
     public func isLegal(move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
         return Bitboard(square: move.end).intersects(moves)
@@ -626,7 +614,6 @@ public final class Game {
     #else
 
     /// Returns `true` if the move is legal.
-    @warn_unused_result
     public func isLegal(move move: Move) -> Bool {
         let moves = movesBitboardForPiece(at: move.start)
         return Bitboard(square: move.end).intersects(moves)
@@ -774,13 +761,11 @@ public final class Game {
     #endif
 
     /// Returns the last move on the move stack, if any.
-    @warn_unused_result
     public func moveToUndo() -> Move? {
         return _moveHistory.last?.move
     }
 
     /// Returns the last move on the undo stack, if any.
-    @warn_unused_result
     public func moveToRedo() -> Move? {
         return _undoHistory.last?.move
     }
@@ -864,13 +849,11 @@ public final class Game {
 }
 
 /// Returns `true` if the outcomes are the same.
-@warn_unused_result
 public func == (lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
     return lhs.winColor == rhs.winColor
 }
 
 /// Returns `true` if the positions are the same.
-@warn_unused_result
 public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
     return lhs.playerTurn == rhs.playerTurn
         && lhs.castlingRights == rhs.castlingRights

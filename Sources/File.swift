@@ -187,31 +187,26 @@ extension File {
     }
 
     /// Returns a rank from advancing `self` by `value`.
-    @warn_unused_result
     public func advanced(by value: Int) -> File? {
         return File(rawValue: rawValue + value)
     }
 
     /// The next file after `self`.
-    @warn_unused_result
     public func next() -> File? {
         return File(rawValue: (rawValue + 1))
     }
 
     /// The previous file to `self`.
-    @warn_unused_result
     public func previous() -> File? {
         return File(rawValue: (rawValue - 1))
     }
 
     /// The opposite file of `self`.
-    @warn_unused_result
     public func opposite() -> File {
         return File(rawValue: 9 - rawValue)!
     }
 
     /// The files from `self` to `other`.
-    @warn_unused_result
     public func to(_ other: File) -> [File] {
         if other > self {
             return (rawValue...other.rawValue).flatMap(File.init(rawValue:))
@@ -228,7 +223,6 @@ extension File {
     }
 
     /// The files between `self` and `other`.
-    @warn_unused_result
     public func between(_ other: File) -> [File] {
         if other > self {
             return (rawValue + 1 ..< other.rawValue).flatMap(File.init(rawValue:))
@@ -264,7 +258,6 @@ extension File: ExtendedGraphemeClusterLiteralConvertible {
 }
 
 /// Returns `true` if one file is further left than the other.
-@warn_unused_result
 public func < (lhs: File, rhs: File) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

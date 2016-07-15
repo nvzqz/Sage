@@ -203,7 +203,6 @@ extension Rank: IntegerLiteralConvertible {
 }
 
 /// Returns `true` if one rank is higher than the other.
-@warn_unused_result
 public func < (lhs: Rank, rhs: Rank) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

@@ -368,27 +368,23 @@ extension CastlingRights: SetAlgebra {
 
     /// Returns a Boolean value that indicates whether the given element exists
     /// in the set.
-    @warn_unused_result
     public func contains(_ member: Right) -> Bool {
         return _rights.contains(member)
     }
 
     /// Returns a new set with the elements of both this and the given set.
-    @warn_unused_result(mutable_variant:"formUnion")
     public func union(_ other: CastlingRights) -> CastlingRights {
         return CastlingRights(_rights.union(other._rights))
     }
 
     /// Returns a new set with the elements that are common to both this set and
     /// the given set.
-    @warn_unused_result(mutable_variant:"formIntersection")
     public func intersection(_ other: CastlingRights) -> CastlingRights {
         return CastlingRights(_rights.intersection(other._rights))
     }
 
     /// Returns a new set with the elements that are either in this set or in the
     /// given set, but not in both.
-    @warn_unused_result(mutable_variant:"formSymmetricDifference")
     public func symmetricDifference(_ other: CastlingRights) -> CastlingRights {
         return CastlingRights(_rights.symmetricDifference(other._rights))
     }
@@ -465,7 +461,6 @@ extension CastlingRights: SequenceType {
     /// Returns a generator over the members.
     ///
     /// - complexity: O(1).
-    @warn_unused_result
     public func generate() -> Generator {
         return Generator(_base: _rights.generate())
     }
@@ -475,7 +470,6 @@ extension CastlingRights: SequenceType {
 extension CastlingRights: SetAlgebraType {
 
     /// Returns `true` if `self` contains `member`.
-    @warn_unused_result
     public func contains(member: Right) -> Bool {
         return _rights.contains(member)
     }
