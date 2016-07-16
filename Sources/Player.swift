@@ -76,13 +76,18 @@ public struct Player: Equatable {
     /// The player's name.
     public var name: String?
 
+    /// The player's elo rating.
+    public var elo: UInt?
+
     /// Create a player with `kind` and `name`.
     ///
     /// - parameter kind: The player's kind. Default is human.
     /// - parameter name: The player's name. Default is `nil`.
-    public init(kind: Kind = ._human, name: String? = nil) {
+    /// - parameter elo: The player's elo rating. Default is `nil`.
+    public init(kind: Kind = ._human, name: String? = nil, elo: UInt? = nil) {
         self.kind = kind
         self.name = name
+        self.elo = elo
     }
 
 }
@@ -91,4 +96,5 @@ public struct Player: Equatable {
 public func == (lhs: Player, rhs: Player) -> Bool {
     return lhs.kind == rhs.kind
         && lhs.name == rhs.name
+        && lhs.elo  == rhs.elo
 }
