@@ -308,9 +308,9 @@
 			productReference = 524583A51D0DE7B9002311F3 /* Sage OSX Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		5273A73F1CF2647800426C1F /* Sage OSX */ = {
+		5273A73F1CF2647800426C1F /* Sage macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Sage OSX" */;
+			buildConfigurationList = 5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Sage macOS" */;
 			buildPhases = (
 				5273A73B1CF2647800426C1F /* Sources */,
 				5273A73C1CF2647800426C1F /* Frameworks */,
@@ -322,7 +322,7 @@
 			);
 			dependencies = (
 			);
-			name = "Sage OSX";
+			name = "Sage macOS";
 			productName = "Sage OSX";
 			productReference = 5273A7401CF2647800426C1F /* Sage.framework */;
 			productType = "com.apple.product-type.framework";
@@ -467,7 +467,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5273A73F1CF2647800426C1F /* Sage OSX */,
+				5273A73F1CF2647800426C1F /* Sage macOS */,
 				5273A74D1CF2647F00426C1F /* Sage iOS */,
 				5273A75A1CF2648700426C1F /* Sage watchOS */,
 				5273A7671CF2648E00426C1F /* Sage tvOS */,
@@ -707,7 +707,7 @@
 /* Begin PBXTargetDependency section */
 		524583AC1D0DE7B9002311F3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 5273A73F1CF2647800426C1F /* Sage OSX */;
+			target = 5273A73F1CF2647800426C1F /* Sage macOS */;
 			targetProxy = 524583AB1D0DE7B9002311F3 /* PBXContainerItemProxy */;
 		};
 		529514C41D137B9000BB244D /* PBXTargetDependency */ = {
@@ -1518,7 +1518,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Sage OSX" */ = {
+		5273A7481CF2647800426C1F /* Build configuration list for PBXNativeTarget "Sage macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5273A7461CF2647800426C1F /* Debug */,
