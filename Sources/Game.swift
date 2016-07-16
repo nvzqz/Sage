@@ -511,6 +511,7 @@ public final class Game {
                 movesBitboard[moveSquare] = false
             }
             undoMove()
+            _undoHistory.removeLast()
         }
 
         return movesBitboard
