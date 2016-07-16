@@ -777,12 +777,13 @@ public final class Game {
             return nil
         }
         var captureSquare = move.end
-        var promotion: Piece.Kind? = nil
+        var promotionKind: Piece.Kind? = nil
         if piece.kind.isPawn {
             if move.end == enPassantTarget {
                 captureSquare = Square(file: move.end.file, rank: move.start.rank)
-            } else if move.end.rank == Rank(endFor: playerTurn.inverse()) {
-                promotion = board[move.end]?.kind
+            } else if move.end.rank == Rank(endFor: playerTurn.inverse()), let promotion = board[move.end] {
+                promotionKind = promotion.kind
+                board[promotion][move.end] = false
             }
         } else if piece.kind.isKing && abs(move.fileChange) == 2 {
             let (old, new) = move._castleSquares()
@@ -790,13 +791,10 @@ public final class Game {
             board[rook][old] = true
             board[rook][new] = false
         }
-        _undoHistory.append((move, promotion, attackers))
         if let capture = capture {
             board[capture][captureSquare] = true
         }
-        if let promotion = promotion {
-            board[Piece(kind: promotion, color: playerTurn.inverse())][move.end] = false
-        }
+        _undoHistory.append((move, promotionKind, attackers))
         board[piece][move.end] = false
         board[piece][move.start] = true
         playerTurn.invert()
