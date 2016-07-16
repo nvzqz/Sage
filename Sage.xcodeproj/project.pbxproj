@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5235BDA31D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
+		5235BDA41D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
+		5235BDA51D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
+		5235BDA61D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
 		524583AA1D0DE7B9002311F3 /* Sage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5273A7401CF2647800426C1F /* Sage.framework */; };
 		524583B21D0DF2E2002311F3 /* SageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524583B01D0DF2BB002311F3 /* SageTests.swift */; };
 		5273A7771CF3824700426C1F /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5273A7761CF3824700426C1F /* Board.swift */; };
@@ -96,6 +100,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5235BDA21D3A89A200B42FFD /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		524583A51D0DE7B9002311F3 /* Sage OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sage OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		524583A91D0DE7B9002311F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		524583B01D0DF2BB002311F3 /* SageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SageTests.swift; sourceTree = "<group>"; };
@@ -225,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				528C2E3C1CF3E51100F7D2EC /* Game.swift */,
+				5235BDA21D3A89A200B42FFD /* Player.swift */,
 				5273A7761CF3824700426C1F /* Board.swift */,
 				529515001D173E2F00BB244D /* Bitboard.swift */,
 				5273A77B1CF382E200426C1F /* Piece.swift */,
@@ -422,6 +428,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Nikolai Vazquez";
 				TargetAttributes = {
 					524583A41D0DE7B9002311F3 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -608,6 +615,7 @@
 				529515011D173E2F00BB244D /* Bitboard.swift in Sources */,
 				5273A7771CF3824700426C1F /* Board.swift in Sources */,
 				5273A78B1CF38A0500426C1F /* Rank.swift in Sources */,
+				5235BDA31D3A89A200B42FFD /* Player.swift in Sources */,
 				5273A7811CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -629,6 +637,7 @@
 				529515021D173E2F00BB244D /* Bitboard.swift in Sources */,
 				5273A7781CF3824700426C1F /* Board.swift in Sources */,
 				5273A78C1CF38A0500426C1F /* Rank.swift in Sources */,
+				5235BDA41D3A89A200B42FFD /* Player.swift in Sources */,
 				5273A7821CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -650,6 +659,7 @@
 				529515031D173E2F00BB244D /* Bitboard.swift in Sources */,
 				5273A7791CF3824700426C1F /* Board.swift in Sources */,
 				5273A78D1CF38A0500426C1F /* Rank.swift in Sources */,
+				5235BDA51D3A89A200B42FFD /* Player.swift in Sources */,
 				5273A7831CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -671,6 +681,7 @@
 				529515041D173E2F00BB244D /* Bitboard.swift in Sources */,
 				5273A77A1CF3824700426C1F /* Board.swift in Sources */,
 				5273A78E1CF38A0500426C1F /* Rank.swift in Sources */,
+				5235BDA61D3A89A200B42FFD /* Player.swift in Sources */,
 				5273A7841CF382EB00426C1F /* Color.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

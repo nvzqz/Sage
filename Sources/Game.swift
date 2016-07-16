@@ -20,35 +20,6 @@
 /// A chess game.
 public final class Game {
 
-    /// A chess game mode.
-    public enum Mode {
-
-        #if swift(>=3)
-
-        /// A game between two humans.
-        case humanVsHuman
-
-        /// A game between a human and a computer.
-        case humanVsComputer
-
-        /// A game between two computers.
-        case computerVsComputer
-
-        #else
-
-        /// A game between two humans.
-        case HumanVsHuman
-
-        /// A game between a human and a computer.
-        case HumanVsComputer
-
-        /// A game between two computers.
-        case ComputerVsComputer
-
-        #endif
-
-    }
-
     /// A chess game outcome.
     public enum Outcome: Hashable, CustomStringConvertible {
 
@@ -322,8 +293,11 @@ public final class Game {
     /// The castling rights.
     public private(set) var castlingRights: CastlingRights
 
-    /// The game's mode.
-    public var mode: Mode
+    /// The white player.
+    public var whitePlayer: Player
+
+    /// The black player.
+    public var blackPlayer: Player
 
     /// The game's variant.
     public let variant: Variant
@@ -404,43 +378,32 @@ public final class Game {
         self.board           = game.board
         self.playerTurn      = game.playerTurn
         self.castlingRights  = game.castlingRights
-        self.mode            = game.mode
+        self.whitePlayer     = game.whitePlayer
+        self.blackPlayer     = game.blackPlayer
         self.variant         = game.variant
         self.attackersToKing = game.attackersToKing
         self.halfmoves       = game.halfmoves
     }
 
-    #if swift(>=3)
     /// Creates a new chess game.
     ///
-    /// - parameter mode: The game's mode. Default is `humanVsHuman`.
-    public init(mode: Mode = .humanVsHuman, variant: Variant = .standard) {
+    /// - parameter whitePlayer: The game's white player. Default is a nameless human.
+    /// - parameter blackPlayer: The game's black player. Default is a nameless human.
+    /// - parameter variant: The game's chess variant. Default is standard.
+    public init(whitePlayer: Player = Player(),
+                blackPlayer: Player = Player(),
+                variant: Variant = ._standard) {
         self._moveHistory = []
         self._undoHistory = []
         self.board = Board(variant: variant)
-        self.playerTurn = .white
+        self.playerTurn = ._white
         self.castlingRights = .all
-        self.mode = mode
+        self.whitePlayer = whitePlayer
+        self.blackPlayer = blackPlayer
         self.variant = variant
         self.attackersToKing = 0
         self.halfmoves = 0
     }
-    #else
-    /// Creates a new chess game.
-    ///
-    /// - parameter mode: The game's mode. Default is `HumanVsHuman`.
-    public init(mode: Mode = .HumanVsHuman, variant: Variant = .Standard) {
-        self._moveHistory = []
-        self._undoHistory = []
-        self.board = Board(variant: variant)
-        self.playerTurn = .White
-        self.castlingRights = .all
-        self.mode = mode
-        self.variant = variant
-        self.attackersToKing = 0
-        self.halfmoves = 0
-    }
-    #endif
 
     /// Returns a copy of `self`.
     ///
