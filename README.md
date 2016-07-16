@@ -40,6 +40,7 @@ Sage is a cross-platform chess library for Swift.
 - [x] En passant and castling
 - [x] Pawn promotions
 - [x] FEN for games and boards
+- [x] PGN parsing and exporting
 - [x] [Documentation](https://nvzqz.github.io/Sage/docs/)
 
 ## Installation
