@@ -18,7 +18,7 @@
 //
 
 /// A chess game player.
-public struct Player: Equatable {
+public struct Player: Equatable, CustomStringConvertible {
 
     /// A player kind.
     public enum Kind: String, CustomStringConvertible {
@@ -78,6 +78,11 @@ public struct Player: Equatable {
 
     /// The player's elo rating.
     public var elo: UInt?
+
+    /// A textual representation of this instance.
+    public var description: String {
+        return "Player(kind: \(kind), name: \(name._altDescription), elo: \(elo._altDescription))"
+    }
 
     /// Create a player with `kind` and `name`.
     ///

@@ -26,3 +26,11 @@
     internal typealias _View = UIView
     internal typealias _Color = UIColor
 #endif
+
+internal extension Optional {
+
+    var _altDescription: String {
+        return self.map({ String($0) }) ?? "nil"
+    }
+
+}
