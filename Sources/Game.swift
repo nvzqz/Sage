@@ -114,8 +114,8 @@ public final class Game {
         }
 
         /// The point value for a player. Can be 1 for win, 0.5 for draw, or 0 for loss.
-        public func valueFor(player color: Color) -> Double {
-            return winColor.map({ $0 == color ? 1 : 0 }) ?? 0.5
+        public func value(for playerColor: Color) -> Double {
+            return winColor.map({ $0 == playerColor ? 1 : 0 }) ?? 0.5
         }
 
     }
