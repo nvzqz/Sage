@@ -126,8 +126,10 @@ manager for Objective-C and Swift.
     ```
 
 ### Install Manually
-1. Download and drop ```/Sources```folder in your project.  
-2. Congratulations!  
+
+1. Download and drop the `/Sources` folder into your project.
+
+2. Congratulations!
 
 ## Usage
 
@@ -177,24 +179,23 @@ To just check what moves are to be undone or redone, the `moveToUndo()` and
 ### Promotion Handling
 
 The `execute(move:promotion:)` method takes a closure that returns a promotion
-piece. This allows for the app to prompt the user for a promotion piece or
-perform any other operations before choosing a promotion piece.
+piece kind. This allows for the app to prompt the user for a promotion piece or
+perform any other operations before choosing a promotion piece kind.
 
 ```swift
 try game.execute(move: move) {
     ...
-    return .queen(game.playerTurn)
+    return .queen
 }
 ```
 
 The closure is only executed if the move is a pawn promotion. An error is thrown
-if the promotion piece is the wrong color or cannot promote a pawn, such as with
-a king or pawn.
+if the promotion piece kind cannot promote a pawn, such as with a king or pawn.
 
-A piece can be given without a closure. The default promotion piece is a queen.
+A piece kind can also be given without a closure. The default is a queen.
 
 ```swift
-try game.execute(move: move, promotion: .queen(game.playerTurn))
+try game.execute(move: move, promotion: .queen)
 ```
 
 ### Pretty Printing
@@ -218,7 +219,7 @@ print(board.ascii)
 //   +-----------------+
 //     a b c d e f g h
 
-print(board.bitboard().ascii)
+print(board.occupiedSpaces.ascii)
 //   +-----------------+
 // 8 | 1 1 1 1 1 1 1 1 |
 // 7 | 1 1 1 1 1 1 1 1 |
