@@ -18,9 +18,40 @@
 //
 
 import XCTest
+import Foundation
 @testable import Sage
 
 class SageTests: XCTestCase {
+
+    static var allTests: [(String, (SageTests) -> () throws -> Void)] {
+        return [
+            ("testBoardInitializer", testBoardInitializer),
+            ("testBoardEquality", testBoardEquality),
+            ("testBoardPopulate", testBoardPopulate),
+            ("testBoardFromCharacters", testBoardFromCharacters),
+            ("testBoardSequence", testBoardSequence),
+            ("testBoardSubscript", testBoardSubscript),
+            ("testBoardSwap", testBoardSwap),
+            ("testAllFiles", testAllFiles),
+            ("testAllRanks", testAllRanks),
+            ("testFileOpposite", testFileOpposite),
+            ("testRankOpposite", testRankOpposite),
+            ("testFileTo", testFileTo),
+            ("testRankTo", testRankTo),
+            ("testFileBetween", testFileBetween),
+            ("testRankBetween", testRankBetween),
+            ("testFileFromCharacter", testFileFromCharacter),
+            ("testRankFromNumber", testRankFromNumber),
+            ("testMoveEquality", testMoveEquality),
+            ("testMoveRotation", testMoveRotation),
+            ("testMoveOperator", testMoveOperator),
+            ("testGameRandomMoves", testGameRandomMoves),
+            ("testGameDoubleStep", testGameDoubleStep),
+            ("testGameEnPassant", testGameEnPassant),
+            ("testGameUndoAndRedo", testGameUndoAndRedo),
+            ("testPGNParsingAndExporting", testPGNParsingAndExporting)
+        ]
+    }
 
     func testBoardInitializer() {
         #if swift(>=3)
@@ -446,10 +477,25 @@ class SageTests: XCTestCase {
 
 }
 
+extension Int {
+
+    static func random(from value: Int) -> Int {
+        #if os(OSX) || os(iOS) || os(watchOS) || os(tvOS)
+            return Int(arc4random_uniform(UInt32(value)))
+        #elseif os(Linux)
+            srand(.init(time(nil)))
+            return Int(rand() % .init(value))
+        #else
+            fatalError("Unknown OS")
+        #endif
+    }
+
+}
+
 extension Array {
 
     func random() -> Element? {
-        return isEmpty ? nil : self[Int(arc4random_uniform(UInt32(count)))]
+        return !self.isEmpty ? self[.random(from: count)] : nil
     }
 
 }
