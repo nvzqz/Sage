@@ -6,15 +6,12 @@
 
 set -e
 
-SWIFT_DIR="swift-3.0-PREVIEW-1-ubuntu14.04"
-SWIFT_TAR="$SWIFT_DIR.tar.gz"
-SWIFT_URL="https://swift.org/builds/swift-3.0-preview-1/ubuntu1404/swift-3.0-PREVIEW-1/$SWIFT_TAR"
+sudo apt-get update
+sudo apt-get install -y git clang libicu-dev
 
-apt-get update
-apt-get install -y git clang libicu-dev
+export SWIFT_VERSION="swift-3.0-PREVIEW-2"
 
-curl -sO $SWIFT_URL
-tar zxf $SWIFT_TAR
-echo "export PATH=/home/vagrant/$SWIFT_DIR/usr/bin:$PATH" >> .profile
-chown -R vagrant $SWIFT_DIR
-rm $SWIFT_TAR
+eval "$(curl -sL https://gist.githubusercontent.com/kylef/5c0475ff02b7c7671d2a/raw/9f442512a46d7a2af7b850d65a7e9bd31edfb09b/swiftenv-install.sh)"
+
+echo 'export SWIFTENV_ROOT="$HOME/.swiftenv"' >> .profile
+echo 'export PATH="$SWIFTENV_ROOT/bin:$SWIFTENV_ROOT/shims:$PATH"' >> .profile
