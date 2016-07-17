@@ -1,9 +1,6 @@
 branches:
   only:
     - master
-os:
-  - osx
-  - linux
 matrix:
   include:
     - os: osx
