@@ -3,11 +3,14 @@
 <p align="center">
 <a href="https://developer.apple.com/swift/"><img alt="Swift 2.2 | 3.0" src="https://img.shields.io/badge/swift-2.2%20%7C%203.0-orange.svg"></a>
 <img alt="Platforms" src="https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey.svg">
+<a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=master"></a>
+<a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
+</p>
+
+<p align="center">
 <a href="https://cocoapods.org/pods/Sage"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Sage.svg"></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"></a>
 <a href="https://swift.org/package-manager/"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SPM-compatible-orange.svg"></a>
-<a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=master"></a>
-<a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
 </p>
 
 Sage is a cross-platform chess library for Swift.
