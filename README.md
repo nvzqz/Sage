@@ -94,7 +94,7 @@ to learn more.
     ```ruby
     use_frameworks!
 
-    pod 'Sage', '~> 1.0.0'
+    pod 'Sage', '~> 2.0.0'
     ```
 
     If you want to be on the bleeding edge, replace the last line with:
