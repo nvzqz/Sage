@@ -474,7 +474,7 @@ extension Square {
 
     /// Create a square from `file` and `rank`. Returns `nil` if either is `nil`.
     public init?(file: File?, rank: Rank?) {
-        guard let file = file, rank = rank else {
+        guard let file = file, let rank = rank else {
             return nil
         }
         self.init(file: file, rank: rank)
