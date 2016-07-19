@@ -3,7 +3,6 @@
 <p align="center">
 <a href="https://developer.apple.com/swift/"><img alt="Swift 2.2 | 3.0" src="https://img.shields.io/badge/swift-2.2%20%7C%203.0-orange.svg"></a>
 <img alt="Platforms" src="https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey.svg">
-<a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=master"></a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
 </p>
 
@@ -15,6 +14,7 @@
 
 Sage is a cross-platform chess library for Swift.
 
+- [Build Status](#build-status)
 - [Features](#features)
 - [Installation](#installation)
     - [Compatibility](#compatibility)
@@ -35,6 +35,13 @@ Sage is a cross-platform chess library for Swift.
     - [Playground Usage](#playground-usage)
         - [Board Quick Look](#board-quick-look)
 - [License](#license)
+
+## Build Status
+
+| Branch    | Status |
+| --------- | ------ |
+| `master`  | <a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=master"></a>  |
+| `develop` | <a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=develop"></a> |
 
 ## Features
 
