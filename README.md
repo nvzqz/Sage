@@ -14,6 +14,8 @@
 
 Sage is a cross-platform chess library for Swift.
 
+Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develop) branch.
+
 - [Build Status](#build-status)
 - [Features](#features)
 - [Installation](#installation)
