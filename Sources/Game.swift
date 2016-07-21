@@ -168,20 +168,31 @@ public final class Game {
         public init?(fen: String) {
             #if swift(>=3)
                 let parts = fen.characters.split(separator: " ").map(String.init)
+                guard
+                    parts.count == 6,
+                    let board = Board(fen: parts[0]),
+                    parts[1].characters.count == 1,
+                    let playerTurn = parts[1].characters.first.flatMap(Color.init),
+                    let rights = CastlingRights(string: parts[2]),
+                    let halfmoves = UInt(parts[4]),
+                    let fullmoves = UInt(parts[5]),
+                    fullmoves > 0 else {
+                        return nil
+                }
             #else
                 let parts = fen.characters.split(" ").map(String.init)
+                guard
+                    parts.count == 6,
+                    let board = Board(fen: parts[0])
+                    where parts[1].characters.count == 1,
+                    let playerTurn = parts[1].characters.first.flatMap(Color.init),
+                    let rights = CastlingRights(string: parts[2]),
+                    let halfmoves = UInt(parts[4]),
+                    let fullmoves = UInt(parts[5])
+                    where fullmoves > 0 else {
+                        return nil
+                }
             #endif
-            guard
-                parts.count == 6,
-                let board = Board(fen: parts[0]),
-                parts[1].characters.count == 1,
-                let playerTurn = parts[1].characters.first.flatMap(Color.init),
-                let rights = CastlingRights(string: parts[2]),
-                let halfmoves = UInt(parts[4]),
-                let fullmoves = UInt(parts[5]),
-                fullmoves > 0 else {
-                    return nil
-            }
             var target: Square? = nil
             let targetStr = parts[3]
             let targetChars = targetStr.characters
@@ -338,12 +349,8 @@ public final class Game {
 
     /// The target move location for an en passant.
     public var enPassantTarget: Square? {
-        guard let (move, piece, _, _, _, _) = _moveHistory.last, piece.kind.isPawn else {
-            return nil
-        }
-        guard abs(move.rankChange) == 2 else {
-            return nil
-        }
+        guard let (move, piece, _, _, _, _) = _moveHistory.last else { return nil }
+        guard piece.kind.isPawn && abs(move.rankChange) == 2 else { return nil }
         return Square(file: move.start.file, rank: move.isUpward ? 3 : 6)
     }
 
@@ -430,9 +437,8 @@ public final class Game {
         if considerHalfmoves && halfmoves >= 100 {
             return 0
         }
-        guard let piece = board[square], piece.color == playerTurn else {
-            return 0
-        }
+        guard let piece = board[square] else { return 0 }
+        guard piece.color == playerTurn else { return 0 }
         if kingIsDoubleChecked {
             guard piece.kind.isKing else {
                 return 0
