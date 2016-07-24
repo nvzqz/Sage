@@ -363,6 +363,15 @@ public struct CastlingRights: CustomStringConvertible {
 
     #endif
 
+    /// Returns `true` if `self` can castle for `color`.
+    public func canCastle(for color: Color) -> Bool {
+        #if swift(>=3)
+            return !self.intersection(CastlingRights(color: color)).isEmpty
+        #else
+            return !self.intersect(CastlingRights(color: color)).isEmpty
+        #endif
+    }
+
 }
 
 #if swift(>=3)
