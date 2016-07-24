@@ -67,6 +67,12 @@ public struct CastlingRights: CustomStringConvertible {
         /// Black rights.
         public static let black: [Right] = all.filter({ $0.color.isBlack })
 
+        /// Kingside rights.
+        public static let kingside: [Right] = all.filter({ $0.side.isKingside })
+
+        /// Queenside rights.
+        public static let queenside: [Right] = all.filter({ $0.side.isQueenside })
+
         /// The color for `self`.
         public var color: Color {
             get {
@@ -292,6 +298,12 @@ public struct CastlingRights: CustomStringConvertible {
     /// Black castling rights.
     public static let black = CastlingRights(Right.black)
 
+    /// Kingside castling rights.
+    public static let kingside = CastlingRights(Right.kingside)
+
+    /// Queenside castling rights.
+    public static let queenside = CastlingRights(Right.queenside)
+
     /// The rights.
     private var _rights: Set<Right>
 
@@ -339,6 +351,11 @@ public struct CastlingRights: CustomStringConvertible {
         self = color.isWhite ? .white : .black
     }
 
+    /// Creates castling rights for `side`.
+    public init(side: Board.Side) {
+        self = side.isKingside ? .kingside : .queenside
+    }
+
     #if swift(>=3)
 
     /// Creates a set of rights from a sequence.
@@ -369,6 +386,15 @@ public struct CastlingRights: CustomStringConvertible {
             return !self.intersection(CastlingRights(color: color)).isEmpty
         #else
             return !self.intersect(CastlingRights(color: color)).isEmpty
+        #endif
+    }
+
+    /// Returns `true` if `self` can castle for `side`.
+    public func canCastle(for side: Board.Side) -> Bool {
+        #if swift(>=3)
+            return !self.intersection(CastlingRights(side: side)).isEmpty
+        #else
+            return !self.intersect(CastlingRights(side: side)).isEmpty
         #endif
     }
 
