@@ -61,6 +61,12 @@ public struct CastlingRights: CustomStringConvertible {
 
         #endif
 
+        /// White rights.
+        public static let white: [Right] = all.filter({ $0.color.isWhite })
+
+        /// Black rights.
+        public static let black: [Right] = all.filter({ $0.color.isBlack })
+
         /// The color for `self`.
         public var color: Color {
             get {
@@ -280,6 +286,12 @@ public struct CastlingRights: CustomStringConvertible {
     /// All castling rights.
     public static let all = CastlingRights(Right.all)
 
+    /// White castling rights.
+    public static let white = CastlingRights(Right.white)
+
+    /// Black castling rights.
+    public static let black = CastlingRights(Right.black)
+
     /// The rights.
     private var _rights: Set<Right>
 
@@ -320,6 +332,11 @@ public struct CastlingRights: CustomStringConvertible {
             }
             _rights = rights
         }
+    }
+
+    /// Creates castling rights for `color`.
+    public init(color: Color) {
+        self = color.isWhite ? .white : .black
     }
 
     #if swift(>=3)
