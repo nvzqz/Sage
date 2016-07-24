@@ -82,7 +82,7 @@ decentralized dependency manager for Swift.
         name: "MyAwesomeProject",
         dependencies: [
             .Package(url: "https://github.com/nvzqz/Sage.git",
-                     majorVersion: 1)
+                     majorVersion: 2)
         ]
     )
     ```
