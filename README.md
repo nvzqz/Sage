@@ -3,6 +3,7 @@
 <p align="center">
 <a href="https://developer.apple.com/swift/"><img alt="Swift 2.2 | 3.0" src="https://img.shields.io/badge/swift-2.2%20%7C%203.0-orange.svg"></a>
 <img alt="Platforms" src="https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey.svg">
+<a href="https://gitter.im/nvzqz/Sage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Gitter" src="https://badges.gitter.im/nvzqz/Sage.svg"></a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
 </p>
 
