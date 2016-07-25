@@ -32,3 +32,10 @@ script:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project $FRAMEWORK_NAME.xcodeproj -scheme "$FRAMEWORK_NAME iOS" -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 6" ONLY_ACTIVE_ARCH=NO test | xcpretty -c; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -project $FRAMEWORK_NAME.xcodeproj -scheme "$FRAMEWORK_NAME tvOS" -sdk appletvsimulator -destination "platform=tvOS Simulator,name=Apple TV 1080p" ONLY_ACTIVE_ARCH=NO test | xcpretty -c; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pod lib lint --quick; fi
+notifications:
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/976bf82e67653c90d715
+    on_success: change
+    on_failure: always
+    on_start: never
