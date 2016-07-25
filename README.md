@@ -41,7 +41,7 @@ Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develo
 ## Build Status
 
 | Branch    | Status |
-| --------- | ------ |
+| :-------: | :----: |
 | `master`  | <a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=master"></a>  |
 | `develop` | <a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=develop"></a> |
 
