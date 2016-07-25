@@ -11,6 +11,7 @@
 <a href="https://cocoapods.org/pods/Sage"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Sage.svg"></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"></a>
 <a href="https://swift.org/package-manager/"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SPM-compatible-orange.svg"></a>
+<a href="https://nvzqz.github.io/Sage/docs/"><img alt="Documented" src="https://img.shields.io/badge/documented-%E2%9C%93-brightgreen.svg"></a>
 </p>
 
 Sage is a cross-platform chess library for Swift.
