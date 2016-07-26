@@ -158,34 +158,12 @@ extension Rank {
 
     /// The files from `self` to `other`.
     public func to(_ other: Rank) -> [Rank] {
-        if other > self {
-            return (rawValue...other.rawValue).flatMap(Rank.init(rawValue:))
-        } else if other < self {
-            #if swift(>=3)
-                let values = (other.rawValue...rawValue).reversed()
-            #else
-                let values = (other.rawValue...rawValue).reverse()
-            #endif
-            return values.flatMap(Rank.init(rawValue:))
-        } else {
-            return [self]
-        }
+        return _to(other)
     }
 
     /// The files between `self` and `other`.
     public func between(_ other: Rank) -> [Rank] {
-        if other > self {
-            return (rawValue + 1 ..< other.rawValue).flatMap(Rank.init(rawValue:))
-        } else if other < self {
-            #if swift(>=3)
-                let values = (other.rawValue + 1 ..< rawValue).reversed()
-            #else
-                let values = (other.rawValue + 1 ..< rawValue).reverse()
-            #endif
-            return values.flatMap(Rank.init(rawValue:))
-        } else {
-            return []
-        }
+        return _between(other)
     }
 
 }

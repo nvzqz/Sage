@@ -208,34 +208,12 @@ extension File {
 
     /// The files from `self` to `other`.
     public func to(_ other: File) -> [File] {
-        if other > self {
-            return (rawValue...other.rawValue).flatMap(File.init(rawValue:))
-        } else if other < self {
-            #if swift(>=3)
-                let values = (other.rawValue...rawValue).reversed()
-            #else
-                let values = (other.rawValue...rawValue).reverse()
-            #endif
-            return values.flatMap(File.init(rawValue:))
-        } else {
-            return [self]
-        }
+        return _to(other)
     }
 
     /// The files between `self` and `other`.
     public func between(_ other: File) -> [File] {
-        if other > self {
-            return (rawValue + 1 ..< other.rawValue).flatMap(File.init(rawValue:))
-        } else if other < self {
-            #if swift(>=3)
-                let values = (other.rawValue + 1 ..< rawValue).reversed()
-            #else
-                let values = (other.rawValue + 1 ..< rawValue).reverse()
-            #endif
-            return values.flatMap(File.init(rawValue:))
-        } else {
-            return []
-        }
+        return _between(other)
     }
 
 }

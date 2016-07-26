@@ -34,3 +34,37 @@ internal extension Optional {
     }
 
 }
+
+extension RawRepresentable where RawValue == Int, Self: Comparable {
+
+    internal func _to(_ other: Self) -> [Self] {
+        if other > self {
+            return (rawValue...other.rawValue).flatMap(Self.init(rawValue:))
+        } else if other < self {
+            #if swift(>=3)
+                let values = (other.rawValue...rawValue).reversed()
+            #else
+                let values = (other.rawValue...rawValue).reverse()
+            #endif
+            return values.flatMap(Self.init(rawValue:))
+        } else {
+            return [self]
+        }
+    }
+
+    internal func _between(_ other: Self) -> [Self] {
+        if other > self {
+            return (rawValue + 1 ..< other.rawValue).flatMap(Self.init(rawValue:))
+        } else if other < self {
+            #if swift(>=3)
+                let values = (other.rawValue + 1 ..< rawValue).reversed()
+            #else
+                let values = (other.rawValue + 1 ..< rawValue).reverse()
+            #endif
+            return values.flatMap(Self.init(rawValue:))
+        } else {
+            return []
+        }
+    }
+
+}
