@@ -269,56 +269,32 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     /// Create a pawn piece with `color`.
     public init(pawn color: Color) {
-        #if swift(>=3)
-            self.init(kind: .pawn, color: color)
-        #else
-            self.init(kind: .Pawn, color: color)
-        #endif
+        self.init(kind: ._pawn, color: color)
     }
 
     /// Create a knight piece with `color`.
     public init(knight color: Color) {
-        #if swift(>=3)
-            self.init(kind: .knight, color: color)
-        #else
-            self.init(kind: .Knight, color: color)
-        #endif
+        self.init(kind: ._knight, color: color)
     }
 
     /// Create a bishop piece with `color`.
     public init(bishop color: Color) {
-        #if swift(>=3)
-            self.init(kind: .bishop, color: color)
-        #else
-            self.init(kind: .Bishop, color: color)
-        #endif
+        self.init(kind: ._bishop, color: color)
     }
 
     /// Create a rook piece with `color`.
     public init(rook color: Color) {
-        #if swift(>=3)
-            self.init(kind: .rook, color: color)
-        #else
-            self.init(kind: .Rook, color: color)
-        #endif
+        self.init(kind: ._rook, color: color)
     }
 
     /// Create a queen piece with `color`.
     public init(queen color: Color) {
-        #if swift(>=3)
-            self.init(kind: .queen, color: color)
-        #else
-            self.init(kind: .Queen, color: color)
-        #endif
+        self.init(kind: ._queen, color: color)
     }
 
     /// Create a king piece with `color`.
     public init(king color: Color) {
-        #if swift(>=3)
-            self.init(kind: .king, color: color)
-        #else
-            self.init(kind: .King, color: color)
-        #endif
+        self.init(kind: ._king, color: color)
     }
 
     /// Create a piece from a character.
