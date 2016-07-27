@@ -168,31 +168,20 @@ public final class Game {
         public init?(fen: String) {
             #if swift(>=3)
                 let parts = fen.characters.split(separator: " ").map(String.init)
-                guard
-                    parts.count == 6,
-                    let board = Board(fen: parts[0]),
-                    parts[1].characters.count == 1,
-                    let playerTurn = parts[1].characters.first.flatMap(Color.init),
-                    let rights = CastlingRights(string: parts[2]),
-                    let halfmoves = UInt(parts[4]),
-                    let fullmoves = UInt(parts[5]),
-                    fullmoves > 0 else {
-                        return nil
-                }
             #else
                 let parts = fen.characters.split(" ").map(String.init)
-                guard
-                    parts.count == 6,
-                    let board = Board(fen: parts[0])
-                    where parts[1].characters.count == 1,
-                    let playerTurn = parts[1].characters.first.flatMap(Color.init),
-                    let rights = CastlingRights(string: parts[2]),
-                    let halfmoves = UInt(parts[4]),
-                    let fullmoves = UInt(parts[5])
-                    where fullmoves > 0 else {
-                        return nil
-                }
             #endif
+            guard
+                parts.count == 6,
+                let board = Board(fen: parts[0])
+                where parts[1].characters.count == 1,
+                let playerTurn = parts[1].characters.first.flatMap(Color.init),
+                let rights = CastlingRights(string: parts[2]),
+                let halfmoves = UInt(parts[4]),
+                let fullmoves = UInt(parts[5])
+                where fullmoves > 0 else {
+                    return nil
+            }
             var target: Square? = nil
             let targetStr = parts[3]
             let targetChars = targetStr.characters
