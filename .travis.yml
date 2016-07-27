@@ -25,6 +25,7 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then gem install xcpretty -N; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then eval "$(curl -sL $SWIFTENV_INSTALL)"; fi
 script:
+  - set -o pipefail
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swift build; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swift test; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then xcodebuild -version; fi
