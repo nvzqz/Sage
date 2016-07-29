@@ -404,6 +404,24 @@ public final class Game {
         self.halfmoves = 0
     }
 
+    /// Creates a chess game with `moves`.
+    ///
+    /// - parameter moves: The moves to execute.
+    /// - parameter whitePlayer: The game's white player. Default is a nameless human.
+    /// - parameter blackPlayer: The game's black player. Default is a nameless human.
+    /// - parameter variant: The game's chess variant. Default is standard.
+    ///
+    /// - throws: `ExecutionError` if any move from `moves` is illegal.
+    public convenience init(moves: [Move],
+                            whitePlayer: Player = Player(),
+                            blackPlayer: Player = Player(),
+                            variant: Variant = ._standard) throws {
+        self.init(whitePlayer: whitePlayer, blackPlayer: blackPlayer, variant: variant)
+        for move in moves {
+            try execute(move: move)
+        }
+    }
+
     /// Returns a copy of `self`.
     ///
     /// - complexity: O(1).

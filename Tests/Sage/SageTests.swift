@@ -336,6 +336,25 @@ class SageTests: XCTestCase {
         }
     }
 
+    func testGameFromMoves() {
+        let game = Game()
+        do {
+            while let move = game.availableMoves().random() {
+                try game.execute(move: move)
+            }
+            do {
+                let moves = game.playedMoves
+                let other = try Game(moves: moves)
+                XCTAssertEqual(other.board, game.board)
+                XCTAssertEqual(other.playedMoves, moves)
+            } catch {
+                XCTFail(String(error))
+            }
+        } catch {
+            XCTFail(String(error))
+        }
+    }
+
     func testGameDoubleStep() {
         let game = Game()
         for file in File.all {
