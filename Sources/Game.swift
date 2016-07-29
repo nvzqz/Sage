@@ -485,7 +485,7 @@ public final class Game {
 
         let player = playerTurn
         for moveSquare in movesBitboard {
-            try! _execute(square >>> moveSquare)
+            try! _execute(uncheckedMove: square >>> moveSquare)
             if board.attackersToKing(for: player) != 0 {
                 movesBitboard[moveSquare] = false
             }
@@ -540,7 +540,7 @@ public final class Game {
     }
 
     /// Executes a move without checking the legality of the move.
-    private func _execute(_ move: Move, promotion: @noescape () -> Piece.Kind) throws {
+    private func _execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
         let piece = board[move.start]!
         var endPiece = piece
         var capture = board[move.end]
@@ -600,7 +600,7 @@ public final class Game {
     }
 
     /// Executes a move without checking the legality of the move.
-    private func _execute(_ move: Move, @noescape promotion: () -> Piece.Kind) throws {
+    private func _execute(uncheckedMove move: Move, @noescape promotion: () -> Piece.Kind) throws {
         let piece = board[move.start]!
         var endPiece = piece
         var capture = board[move.end]
@@ -654,8 +654,8 @@ public final class Game {
     #endif
 
     /// Executes a move without checking the legality of the move.
-    private func _execute(_ move: Move) throws {
-        try _execute(move, promotion: { ._queen })
+    private func _execute(uncheckedMove move: Move) throws {
+        try _execute(uncheckedMove: move, promotion: { ._queen })
     }
 
     #if swift(>=3)
@@ -670,7 +670,7 @@ public final class Game {
         guard isLegal(move: move) else {
             throw ExecutionError.illegalMove(move, playerTurn, board)
         }
-        try _execute(move, promotion: promotion)
+        try _execute(uncheckedMove: move, promotion: promotion)
         if kingIsChecked {
             attackersToKing = 0
         } else {
@@ -710,7 +710,7 @@ public final class Game {
         guard isLegal(move: move) else {
             throw ExecutionError.IllegalMove(move, playerTurn, board)
         }
-        try _execute(move, promotion: promotion)
+        try _execute(uncheckedMove: move, promotion: promotion)
         if kingIsChecked {
             attackersToKing = 0
         } else {
@@ -789,9 +789,9 @@ public final class Game {
             return nil
         }
         if let promotion = promotion {
-            try! _execute(move, promotion: { promotion })
+            try! _execute(uncheckedMove: move, promotion: { promotion })
         } else {
-            try! _execute(move)
+            try! _execute(uncheckedMove: move)
         }
         attackersToKing = attackers
         return move
