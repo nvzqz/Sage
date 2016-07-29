@@ -5,6 +5,7 @@ Pod::Spec.new do |s|
     s.homepage                  = "https://github.com/nvzqz/#{s.name}"
     s.license                   = { :type => "Apache License, Version 2.0", :file => "LICENSE.txt" }
     s.author                    = "Nikolai Vazquez"
+    s.social_media_url          = "https://twitter.com/nikolaivazquez"
     s.ios.deployment_target     = "8.0"
     s.osx.deployment_target     = "10.9"
     s.watchos.deployment_target = '2.0'
