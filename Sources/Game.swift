@@ -228,6 +228,9 @@ public final class Game {
     /// Thrown by the `execute(move:promotion:)` method for a `Game` instance.
     public enum ExecutionError: ErrorProtocol {
 
+        /// Missing piece at a square.
+        case missingPiece(Square)
+
         /// Attempted illegal move.
         case illegalMove(Move, Color, Board)
 
@@ -237,6 +240,8 @@ public final class Game {
         /// The error message.
         public var message: String {
             switch self {
+            case let .missingPiece(square):
+                return "Missing piece: \(square)"
             case let .illegalMove(move, color, board):
                 return "Illegal move: \(move) for \(color) on \(board)"
             case let .invalidPromotion(pieceKind):
@@ -253,6 +258,9 @@ public final class Game {
     /// Thrown by the `execute(move:promotion:)` method for a `Game` instance.
     public enum ExecutionError: ErrorType {
 
+        /// Missing piece at a square.
+        case MissingPiece(Square)
+
         /// Attempted illegal move.
         case IllegalMove(Move, Color, Board)
 
@@ -262,6 +270,8 @@ public final class Game {
         /// The error message.
         public var message: String {
             switch self {
+            case let .MissingPiece(square):
+                return "Missing piece: \(square)"
             case let .IllegalMove(move, color, board):
                 return "Illegal move: \(move) for \(color) on \(board)"
             case let .InvalidPromotion(pieceKind):
@@ -541,7 +551,9 @@ public final class Game {
 
     /// Executes a move without checking the legality of the move.
     private func _execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
-        let piece = board[move.start]!
+        guard let piece = board[move.start] else {
+            throw ExecutionError.missingPiece(move.start)
+        }
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
@@ -601,7 +613,9 @@ public final class Game {
 
     /// Executes a move without checking the legality of the move.
     private func _execute(uncheckedMove move: Move, @noescape promotion: () -> Piece.Kind) throws {
-        let piece = board[move.start]!
+        guard let piece = board[move.start] else {
+            throw ExecutionError.MissingPiece(move.start)
+        }
         var endPiece = piece
         var capture = board[move.end]
         var captureSquare = move.end
