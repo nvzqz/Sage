@@ -1,0 +1,92 @@
+# Change Log
+
+All changes to Sage adhere to [Semantic Versioning](http://semver.org/).
+
+## [v2.1.0](https://github.com/nvzqz/Sage/tree/v2.1.0) (2016-07-24)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.0.1...v2.1.0)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.0.1)
+
+### New Features
+
+- Added static `white`, `black`, `kingside`, and `queenside` constants to `CastlingRights` and `CastlingRights.Right`
+
+- Added `canCastle(for:)` methods to `CastlingRights` that take a `Color` or `Board.Side`
+
+- Added `init(color:)` and `init(side:)` to `CastlingRights`
+
+## [v2.0.1](https://github.com/nvzqz/Sage/tree/v2.0.1) (2016-07-21)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.0.0...v2.0.1)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.0.1)
+
+### Fixes
+
+- Fixed Xcode 8 beta 3 warnings for guard statements
+
+## [v2.0.0](https://github.com/nvzqz/Sage/tree/v2.0.0) (2016-07-17)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v1.0.0...v2.0.0)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.0.0)
+
+### Enhancements
+
+- Performance greatly improved when performing operations with `Board`
+
+### New Features
+
+- Most significant bit operations to `Bitboard`:
+
+    - Properties: `msb`, `msbIndex`, `msbSquare`
+
+    - Methods: `popMSB()`, `popMSBIndex()`, `popMSBSquare()`
+
+- `Board` initializer from arrays of piece characters
+    ```swift
+    Board(pieces: [["r", "n", "b", "q", "k", "b", "n", "r"],
+                   ["p", "p", "p", "p", "p", "p", "p", "p"],
+                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                   [" ", " ", " ", " ", " ", " ", " ", " "],
+                   ["P", "P", "P", "P", "P", "P", "P", "P"],
+                   ["R", "N", "B", "Q", "K", "B", "N", "R"]])
+    ```
+
+- Parsing PGN string data with `PGN(parse:)`
+
+- Exporting PGN string data with `exported()`
+
+- New `Player` struct
+
+### Breaking Changes
+
+- `Piece` has been changed to a struct type with nested a `Kind` type
+
+    - Values such as `isKing` and `relativeValue` now belong to `Kind`
+
+- The argument-less `bitboard()` method for `Board` has been changed to `occupiedSpaces`
+
+- Replaced `Game.Mode` with two `Player` instances for a game
+
+### Fixes
+
+- Calling `redoMove()` would sometimes cause a crash if the `Game` instance had no available moves (e.g. was over).
+
+- The `Board` playground view for iOS and tvOS was flipped vertically
+
+- `canPromote(_:)` for `Piece` didn't take king into account
+
+- Castling rights weren't restored in `undoMove()`
+
+- `execute(move:)` didn't check the promotion piece's kind
+
+
+## [v1.0.0](https://github.com/nvzqz/Sage/tree/v1.0.0) (2016-07-03)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v1.0.0)
+
+Initial release
