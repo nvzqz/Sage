@@ -703,12 +703,7 @@ public struct Board: Hashable, CustomStringConvertible {
                     fen += String(piece.character)
                 } else {
                     accumulator += 1
-                    #if swift(>=3)
-                        let h = File.h
-                    #else
-                        let h = File.H
-                    #endif
-                    if space.file == h {
+                    if space.file == ._h {
                         fen += String(accumulator)
                     }
                 }
