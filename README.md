@@ -28,6 +28,7 @@ Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develo
     - [Manually](#install-manually)
 - [Usage](#usage)
     - [Game Management](#game-management)
+    - [Move Execution](#move-execution)
     - [Move Generation](#move-generation)
     - [Move Validation](#move-validation)
     - [Undo and Redo Moves](#undo-and-redo-moves)
@@ -163,6 +164,16 @@ while !game.isFinished {
     try game.execute(move: move)
 }
 ```
+
+### Move Execution
+
+Moves for a `Game` instance can be executed with `execute(move:)` and its unsafe
+(yet faster) sibling, `execute(uncheckedMove:)`.
+
+The `execute(uncheckedMove:)` method assumes that the passed move is legal. It
+should only be called if you *absolutely* know this is true. Such a case is when
+using a move returned by `availableMoves()`. Otherwise use `execute(move:)`,
+which checks the legality of the passed move.
 
 ### Move Generation
 
