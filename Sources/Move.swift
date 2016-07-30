@@ -200,20 +200,16 @@ public struct Move: Hashable, CustomStringConvertible {
     /// - parameter color: The color to check the rank against. If `nil`, the rank can be either 1 or 8. The default
     ///                    value is `nil`.
     public func isCastle(for color: Color? = nil) -> Bool {
-        #if swift(>=3)
-            let e = File.e
-        #else
-            let e = File.E
-        #endif
         let startRank = start.rank
         if let color = color {
             guard startRank == Rank(startFor: color) else { return false }
         } else {
             guard startRank == 1 || startRank == 8 else { return false }
         }
+        let endFile = end.file
         return startRank == end.rank
-            && start.file == e
-            && abs(fileChange) == 2
+            && start.file == ._e
+            && (endFile == ._c || endFile == ._g)
     }
 
 }
