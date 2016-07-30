@@ -6,7 +6,7 @@ All changes to Sage adhere to [Semantic Versioning](http://semver.org/).
 
 - [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.0.1...v2.1.0)
 
-- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.0.1)
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.1.0)
 
 ### New Features
 
