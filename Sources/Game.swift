@@ -495,7 +495,7 @@ public final class Game {
 
         let player = playerTurn
         for moveSquare in movesBitboard {
-            try! execute(uncheckedMove: square >>> moveSquare)
+            try! _execute(uncheckedMove: square >>> moveSquare, promotion: { ._queen })
             if board.attackersToKing(for: player) != 0 {
                 movesBitboard[moveSquare] = false
             }
@@ -549,15 +549,8 @@ public final class Game {
         return Bitboard(square: move.end).intersects(moves)
     }
 
-    /// Executes `move` without checking its legality, updating the state for `self`.
-    ///
-    /// - warning: Can cause unwanted effects. Should only be used with moves that are known to be legal.
-    ///
-    /// - parameter move: The move to be executed.
-    /// - parameter promotion: A closure returning a promotion piece kind if a pawn promotion occurs.
-    ///
-    /// - throws: `ExecutionError` if no piece exists at `move.start` or if `promotion` is invalid.
-    public func execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
+    @inline(__always)
+    private func _execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
         guard let piece = board[move.start] else {
             throw ExecutionError.missingPiece(move.start)
         }
@@ -610,14 +603,6 @@ public final class Game {
         playerTurn.invert()
     }
 
-    #else
-
-    /// Returns `true` if the move is legal.
-    public func isLegal(move move: Move) -> Bool {
-        let moves = movesBitboardForPiece(at: move.start)
-        return Bitboard(square: move.end).intersects(moves)
-    }
-
     /// Executes `move` without checking its legality, updating the state for `self`.
     ///
     /// - warning: Can cause unwanted effects. Should only be used with moves that are known to be legal.
@@ -626,7 +611,26 @@ public final class Game {
     /// - parameter promotion: A closure returning a promotion piece kind if a pawn promotion occurs.
     ///
     /// - throws: `ExecutionError` if no piece exists at `move.start` or if `promotion` is invalid.
-    public func execute(uncheckedMove move: Move, @noescape promotion: () -> Piece.Kind) throws {
+    public func execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
+        try _execute(uncheckedMove: move, promotion: promotion)
+        if kingIsChecked {
+            attackersToKing = 0
+        } else {
+            attackersToKing = board.attackersToKing(for: playerTurn)
+        }
+        _undoHistory = []
+    }
+
+    #else
+
+    /// Returns `true` if the move is legal.
+    public func isLegal(move move: Move) -> Bool {
+        let moves = movesBitboardForPiece(at: move.start)
+        return Bitboard(square: move.end).intersects(moves)
+    }
+
+    @inline(__always)
+    private func _execute(uncheckedMove move: Move, @noescape promotion: () -> Piece.Kind) throws {
         guard let piece = board[move.start] else {
             throw ExecutionError.MissingPiece(move.start)
         }
@@ -679,6 +683,24 @@ public final class Game {
         playerTurn.invert()
     }
 
+    /// Executes `move` without checking its legality, updating the state for `self`.
+    ///
+    /// - warning: Can cause unwanted effects. Should only be used with moves that are known to be legal.
+    ///
+    /// - parameter move: The move to be executed.
+    /// - parameter promotion: A closure returning a promotion piece kind if a pawn promotion occurs.
+    ///
+    /// - throws: `ExecutionError` if no piece exists at `move.start` or if `promotion` is invalid.
+    public func execute(uncheckedMove move: Move, @noescape promotion: () -> Piece.Kind) throws {
+        try _execute(uncheckedMove: move, promotion: promotion)
+        if kingIsChecked {
+            attackersToKing = 0
+        } else {
+            attackersToKing = board.attackersToKing(for: playerTurn)
+        }
+        _undoHistory = []
+    }
+
     #endif
 
     /// Executes `move` without checking its legality, updating the state for `self`.
@@ -717,12 +739,6 @@ public final class Game {
             throw ExecutionError.illegalMove(move, playerTurn, board)
         }
         try execute(uncheckedMove: move, promotion: promotion)
-        if kingIsChecked {
-            attackersToKing = 0
-        } else {
-            attackersToKing = board.attackersToKing(for: playerTurn)
-        }
-        _undoHistory = []
     }
 
     /// Executes `move`, updating the state for `self`.
@@ -757,12 +773,6 @@ public final class Game {
             throw ExecutionError.IllegalMove(move, playerTurn, board)
         }
         try execute(uncheckedMove: move, promotion: promotion)
-        if kingIsChecked {
-            attackersToKing = 0
-        } else {
-            attackersToKing = board.attackersToKing(for: playerTurn)
-        }
-        _undoHistory = []
     }
 
     /// Executes `move`, updating the state for `self`.
@@ -834,11 +844,7 @@ public final class Game {
         guard let (move, promotion, attackers) = _undoHistory.popLast() else {
             return nil
         }
-        if let promotion = promotion {
-            try! execute(uncheckedMove: move, promotion: { promotion })
-        } else {
-            try! execute(uncheckedMove: move)
-        }
+        try! _execute(uncheckedMove: move, promotion: { promotion ?? ._queen })
         attackersToKing = attackers
         return move
     }
