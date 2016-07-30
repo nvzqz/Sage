@@ -225,7 +225,7 @@ public final class Game {
 
     /// An error in move execution.
     ///
-    /// Thrown by the `execute(move:promotion:)` method for a `Game` instance.
+    /// Thrown by the `execute(move:promotion:)` or `execute(uncheckedMove:promotion:)` method for a `Game` instance.
     public enum ExecutionError: ErrorProtocol {
 
         /// Missing piece at a square.
