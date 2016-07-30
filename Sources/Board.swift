@@ -545,7 +545,7 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the bitboard for `color`.
     public func bitboard(for color: Color) -> Bitboard {
-        return Piece.pieces(for: color).map({ self[$0] }).reduce(0, combine: |)
+        return Piece._hashes(for: color).reduce(0) { $0 | _bitboards[$1] }
     }
 
     /// Returns the attackers to `square` corresponding to `color`.
