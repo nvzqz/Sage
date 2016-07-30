@@ -589,7 +589,7 @@ public final class Game {
             for option in castlingRights where option.color == playerTurn {
                 castlingRights.remove(option)
             }
-            if move == move.fileDirection.map({ Move(castle: playerTurn, direction: $0) }) {
+            if move.isCastle(for: playerTurn) {
                 let (old, new) = move._castleSquares()
                 let rook = Piece(rook: playerTurn)
                 board[rook][old] = false
@@ -658,7 +658,7 @@ public final class Game {
             for option in castlingRights where option.color == playerTurn {
                 castlingRights.remove(option)
             }
-            if move == move.fileDirection.map({ Move(castle: playerTurn, direction: $0) }) {
+            if move.isCastle(for: playerTurn) {
                 let (old, new) = move._castleSquares()
                 let rook = Piece(rook: playerTurn)
                 board[rook][old] = false
