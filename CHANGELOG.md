@@ -2,6 +2,22 @@
 
 All changes to Sage adhere to [Semantic Versioning](http://semver.org/).
 
+## [v2.2.0](https://github.com/nvzqz/Sage/tree/v2.2.0) (2016-07-30)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.1.0...v2.2.0)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.2.0)
+
+### New Features
+
+- Added `execute(uncheckedMove:)` family of methods to `Game`
+
+- Added initializer with moves array to Game
+
+### Enhancements
+
+- Improved performance for `bitboard(for color: Color)` method for `Board`
+
 ## [v2.1.0](https://github.com/nvzqz/Sage/tree/v2.1.0) (2016-07-24)
 
 - [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.0.1...v2.1.0)
