@@ -233,7 +233,7 @@ to print a visual board.
 ```swift
 let board = Board()
 
-print(board.ascii)
+board.ascii
 //   +-----------------+
 // 8 | r n b q k b n r |
 // 7 | p p p p p p p p |
@@ -246,7 +246,7 @@ print(board.ascii)
 //   +-----------------+
 //     a b c d e f g h
 
-print(board.occupiedSpaces.ascii)
+board.occupiedSpaces.ascii
 //   +-----------------+
 // 8 | 1 1 1 1 1 1 1 1 |
 // 7 | 1 1 1 1 1 1 1 1 |
@@ -267,10 +267,10 @@ The `Game.Position` and `Board` types can both generate a FEN string.
 ```swift
 let game = Game()
 
-print(game.position.fen())
+game.position.fen()
 // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
-print(game.board.fen())
+game.board.fen()
 // rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
 ```
 
@@ -301,16 +301,16 @@ for space in Board() {
 from/to `self` to/from the parameter.
 
 ```swift
-print([.a1, .h3, .b5].moves(from: .b4))
+[.a1, .h3, .b5].moves(from: .b4)
 // [b4 >>> a1, b4 >>> h3, b4 >>> b5]
 
-print([.c3, .d2, .f1].moves(to: .a6))
+[.c3, .d2, .f1].moves(to: .a6)
 // [c3 >>> a6, d2 >>> a6, f1 >>> a6]
 
-print(Square.d4.moves(from: [.c2, .f8, .h2]))
+Square.d4.moves(from: [.c2, .f8, .h2])
 // [c2 >>> d4, f8 >>> d4, h2 >>> d4]
 
-print(Square.a4.moves(to: [.c3, .d4, .f6]))
+Square.a4.moves(to: [.c3, .d4, .f6])
 // [a4 >>> c3, a4 >>> d4, a4 >>> f6]
 ```
 
