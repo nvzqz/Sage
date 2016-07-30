@@ -195,13 +195,20 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     }
 
+    internal static let _whiteHashes: [Int] = whitePieces.map({ $0.hashValue })
+
+    internal static let _blackHashes: [Int] = blackPieces.map({ $0.hashValue })
+
+    internal static func _hashes(for color: Color) -> [Int] {
+        return color.isWhite ? _whiteHashes : _blackHashes
+    }
+
     /// An array of all pieces.
     public static let all: [Piece] = {
         return [._white, ._black].reduce([]) { pieces, color in
             return pieces + Kind.all.map({ Piece(kind: $0, color: color) })
         }
     }()
-
 
     /// An array of all white pieces.
     public static let whitePieces: [Piece] = all.filter({ $0.color.isWhite })
