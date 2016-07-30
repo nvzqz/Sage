@@ -71,6 +71,30 @@ public enum File: Int, Comparable, CustomStringConvertible {
     /// File "H".
     case h = 8
 
+    /// A regardless of Swift version.
+    internal static let _a = File.a
+
+    /// B regardless of Swift version.
+    internal static let _b = File.b
+
+    /// C regardless of Swift version.
+    internal static let _c = File.c
+
+    /// D regardless of Swift version.
+    internal static let _d = File.d
+
+    /// E regardless of Swift version.
+    internal static let _e = File.e
+
+    /// F regardless of Swift version.
+    internal static let _f = File.f
+
+    /// G regardless of Swift version.
+    internal static let _g = File.g
+
+    /// H regardless of Swift version.
+    internal static let _h = File.h
+
     #else
 
     /// File "A".
@@ -96,6 +120,30 @@ public enum File: Int, Comparable, CustomStringConvertible {
 
     /// File "H".
     case H = 8
+
+    /// A regardless of Swift version.
+    internal static let _a = File.A
+
+    /// B regardless of Swift version.
+    internal static let _b = File.B
+
+    /// C regardless of Swift version.
+    internal static let _c = File.C
+
+    /// D regardless of Swift version.
+    internal static let _d = File.D
+
+    /// E regardless of Swift version.
+    internal static let _e = File.E
+
+    /// F regardless of Swift version.
+    internal static let _f = File.F
+
+    /// G regardless of Swift version.
+    internal static let _g = File.G
+
+    /// H regardless of Swift version.
+    internal static let _h = File.H
 
     #endif
 
