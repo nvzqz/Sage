@@ -340,7 +340,7 @@ class SageTests: XCTestCase {
         let game = Game()
         do {
             while let move = game.availableMoves().random() {
-                try game.execute(move: move)
+                try game.execute(uncheckedMove: move)
             }
             do {
                 let moves = game.playedMoves
@@ -412,7 +412,7 @@ class SageTests: XCTestCase {
             var moves = [Move]()
 
             while let move = game.availableMoves().random() {
-                try game.execute(move: move)
+                try game.execute(uncheckedMove: move)
                 moves.append(move)
                 endBoard = game.board
             }
