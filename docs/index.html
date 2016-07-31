@@ -238,6 +238,7 @@
 <p align="center">
 <a href="https://developer.apple.com/swift/"><img alt="Swift 2.2 | 3.0" src="https://img.shields.io/badge/swift-2.2%20%7C%203.0-orange.svg"></a>
 <img alt="Platforms" src="https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey.svg">
+<a href="https://gitter.im/nvzqz/Sage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Gitter" src="https://badges.gitter.im/nvzqz/Sage.svg"></a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
 </p>
 
@@ -245,6 +246,7 @@
 <a href="https://cocoapods.org/pods/Sage"><img alt="CocoaPods" src="https://img.shields.io/cocoapods/v/Sage.svg"></a>
 <a href="https://github.com/Carthage/Carthage"><img alt="Carthage" src="https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat"></a>
 <a href="https://swift.org/package-manager/"><img alt="Swift Package Manager" src="https://img.shields.io/badge/SPM-compatible-orange.svg"></a>
+<a href="https://nvzqz.github.io/Sage/docs/"><img alt="Documented" src="https://img.shields.io/badge/documented-%E2%9C%93-brightgreen.svg"></a>
 </p>
 
 <p>Sage is a cross-platform chess library for Swift.</p>
@@ -267,6 +269,7 @@
 
 <ul>
 <li><a href="#game-management">Game Management</a></li>
+<li><a href="#move-execution">Move Execution</a></li>
 <li><a href="#move-generation">Move Generation</a></li>
 <li><a href="#move-validation">Move Validation</a></li>
 <li><a href="#undo-and-redo-moves">Undo and Redo Moves</a></li>
@@ -404,6 +407,15 @@ in order to add Sage to your project.</p></li>
     <span class="k">try</span> <span class="n">game</span><span class="o">.</span><span class="nf">execute</span><span class="p">(</span><span class="nv">move</span><span class="p">:</span> <span class="n">move</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre>
+<a href='#move-execution' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='move-execution'>Move Execution</h3>
+
+<p>Moves for a <code>Game</code> instance can be executed with <code>execute(move:)</code> and its unsafe
+(yet faster) sibling, <code>execute(uncheckedMove:)</code>.</p>
+
+<p>The <code>execute(uncheckedMove:)</code> method assumes that the passed move is legal. It
+should only be called if you <em>absolutely</em> know this is true. Such a case is when
+using a move returned by <code>availableMoves()</code>. Otherwise use <code>execute(move:)</code>,
+which checks the legality of the passed move.</p>
 <a href='#move-generation' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='move-generation'>Move Generation</h3>
 
 <p>Sage is capable of generating legal moves for the current player with full
@@ -452,7 +464,7 @@ if the promotion piece kind cannot promote a pawn, such as with a king or pawn.<
 to print a visual board.</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">board</span> <span class="o">=</span> <span class="kt">Board</span><span class="p">()</span>
 
-<span class="nf">print</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="k">as</span><span class="n">cii</span><span class="p">)</span>
+<span class="n">board</span><span class="o">.</span><span class="k">as</span><span class="n">cii</span>
 <span class="c1">//   +-----------------+</span>
 <span class="c1">// 8 | r n b q k b n r |</span>
 <span class="c1">// 7 | p p p p p p p p |</span>
@@ -465,7 +477,7 @@ to print a visual board.</p>
 <span class="c1">//   +-----------------+</span>
 <span class="c1">//     a b c d e f g h</span>
 
-<span class="nf">print</span><span class="p">(</span><span class="n">board</span><span class="o">.</span><span class="n">occupiedSpaces</span><span class="o">.</span><span class="k">as</span><span class="n">cii</span><span class="p">)</span>
+<span class="n">board</span><span class="o">.</span><span class="n">occupiedSpaces</span><span class="o">.</span><span class="k">as</span><span class="n">cii</span>
 <span class="c1">//   +-----------------+</span>
 <span class="c1">// 8 | 1 1 1 1 1 1 1 1 |</span>
 <span class="c1">// 7 | 1 1 1 1 1 1 1 1 |</span>
@@ -483,10 +495,10 @@ to print a visual board.</p>
 <p>The <code>Game.Position</code> and <code>Board</code> types can both generate a FEN string.</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">game</span> <span class="o">=</span> <span class="kt">Game</span><span class="p">()</span>
 
-<span class="nf">print</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="nf">fen</span><span class="p">())</span>
+<span class="n">game</span><span class="o">.</span><span class="n">position</span><span class="o">.</span><span class="nf">fen</span><span class="p">()</span>
 <span class="c1">// rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1</span>
 
-<span class="nf">print</span><span class="p">(</span><span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="nf">fen</span><span class="p">())</span>
+<span class="n">game</span><span class="o">.</span><span class="n">board</span><span class="o">.</span><span class="nf">fen</span><span class="p">()</span>
 <span class="c1">// rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR</span>
 </code></pre>
 
@@ -509,16 +521,16 @@ seamless.</p>
 
 <p><code>Sequence</code> and <code>Square</code> have two methods that return an array of moves that go
 from/to <code>self</code> to/from the parameter.</p>
-<pre class="highlight swift"><code><span class="nf">print</span><span class="p">([</span><span class="o">.</span><span class="n">a1</span><span class="p">,</span> <span class="o">.</span><span class="n">h3</span><span class="p">,</span> <span class="o">.</span><span class="n">b5</span><span class="p">]</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="o">.</span><span class="n">b4</span><span class="p">))</span>
+<pre class="highlight swift"><code><span class="p">[</span><span class="o">.</span><span class="n">a1</span><span class="p">,</span> <span class="o">.</span><span class="n">h3</span><span class="p">,</span> <span class="o">.</span><span class="n">b5</span><span class="p">]</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="o">.</span><span class="n">b4</span><span class="p">)</span>
 <span class="c1">// [b4 &gt;&gt;&gt; a1, b4 &gt;&gt;&gt; h3, b4 &gt;&gt;&gt; b5]</span>
 
-<span class="nf">print</span><span class="p">([</span><span class="o">.</span><span class="n">c3</span><span class="p">,</span> <span class="o">.</span><span class="n">d2</span><span class="p">,</span> <span class="o">.</span><span class="n">f1</span><span class="p">]</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">.</span><span class="n">a6</span><span class="p">))</span>
+<span class="p">[</span><span class="o">.</span><span class="n">c3</span><span class="p">,</span> <span class="o">.</span><span class="n">d2</span><span class="p">,</span> <span class="o">.</span><span class="n">f1</span><span class="p">]</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="o">.</span><span class="n">a6</span><span class="p">)</span>
 <span class="c1">// [c3 &gt;&gt;&gt; a6, d2 &gt;&gt;&gt; a6, f1 &gt;&gt;&gt; a6]</span>
 
-<span class="nf">print</span><span class="p">(</span><span class="kt">Square</span><span class="o">.</span><span class="n">d4</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">c2</span><span class="p">,</span> <span class="o">.</span><span class="n">f8</span><span class="p">,</span> <span class="o">.</span><span class="n">h2</span><span class="p">]))</span>
+<span class="kt">Square</span><span class="o">.</span><span class="n">d4</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">from</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">c2</span><span class="p">,</span> <span class="o">.</span><span class="n">f8</span><span class="p">,</span> <span class="o">.</span><span class="n">h2</span><span class="p">])</span>
 <span class="c1">// [c2 &gt;&gt;&gt; d4, f8 &gt;&gt;&gt; d4, h2 &gt;&gt;&gt; d4]</span>
 
-<span class="nf">print</span><span class="p">(</span><span class="kt">Square</span><span class="o">.</span><span class="n">a4</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">c3</span><span class="p">,</span> <span class="o">.</span><span class="n">d4</span><span class="p">,</span> <span class="o">.</span><span class="n">f6</span><span class="p">]))</span>
+<span class="kt">Square</span><span class="o">.</span><span class="n">a4</span><span class="o">.</span><span class="nf">moves</span><span class="p">(</span><span class="nv">to</span><span class="p">:</span> <span class="p">[</span><span class="o">.</span><span class="n">c3</span><span class="p">,</span> <span class="o">.</span><span class="n">d4</span><span class="p">,</span> <span class="o">.</span><span class="n">f6</span><span class="p">])</span>
 <span class="c1">// [a4 &gt;&gt;&gt; c3, a4 &gt;&gt;&gt; d4, a4 &gt;&gt;&gt; f6]</span>
 </code></pre>
 <a href='#playground-usage' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='playground-usage'>Playground Usage</h3>
@@ -541,7 +553,7 @@ You can then use the playground from within the project.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2016-07-25)</p>
+      <p>&copy; 2016 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2016-07-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

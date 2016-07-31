@@ -347,7 +347,7 @@
                       <div class="abstract">
                         <p>An error in move execution.</p>
 
-<p>Thrown by the <code><a href="../Classes/Game.html#/s:FC4Sage4Game7executeFzT4moveVS_4Move9promotionFT_OVS_5Piece4Kind_T_">execute(move:promotion:)</a></code> method for a <code><a href="../Classes/Game.html">Game</a></code> instance.</p>
+<p>Thrown by the <code><a href="../Classes/Game.html#/s:FC4Sage4Game7executeFzT4moveVS_4Move9promotionFT_OVS_5Piece4Kind_T_">execute(move:promotion:)</a></code> or <code><a href="../Classes/Game.html#/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move9promotionFT_OVS_5Piece4Kind_T_">execute(uncheckedMove:promotion:)</a></code> method for a <code><a href="../Classes/Game.html">Game</a></code> instance.</p>
 
                         <a href="../Classes/Game/ExecutionError.html" class="slightly-smaller">See more</a>
                       </div>
@@ -872,6 +872,101 @@
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:FC4Sage4GamecFzT5movesGSaVS_4Move_11whitePlayerVS_6Player11blackPlayerS2_7variantOS_7Variant_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(moves:whitePlayer:blackPlayer:variant:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Sage4GamecFzT5movesGSaVS_4Move_11whitePlayerVS_6Player11blackPlayerS2_7variantOS_7Variant_S0_">init(moves:whitePlayer:blackPlayer:variant:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a chess game with <code>moves</code>.</p>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Classes/Game/ExecutionError.html">ExecutionError</a></code> if any move from <code>moves</code> is illegal.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">moves</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">],</span>
+                            <span class="nv">whitePlayer</span><span class="p">:</span> <span class="kt"><a href="../Structs/Player.html">Player</a></span> <span class="o">=</span> <span class="kt"><a href="../Structs/Player.html">Player</a></span><span class="p">(),</span>
+                            <span class="nv">blackPlayer</span><span class="p">:</span> <span class="kt"><a href="../Structs/Player.html">Player</a></span> <span class="o">=</span> <span class="kt"><a href="../Structs/Player.html">Player</a></span><span class="p">(),</span>
+                            <span class="nv">variant</span><span class="p">:</span> <span class="kt"><a href="../Enums/Variant.html">Variant</a></span> <span class="o">=</span> <span class="o">.</span><span class="n">_standard</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>moves</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The moves to execute.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>whitePlayer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The game’s white player. Default is a nameless human.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>blackPlayer</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The game’s black player. Default is a nameless human.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>variant</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The game’s chess variant. Default is standard.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FC4Sage4Game4copyFT_S0_"></a>
                     <a name="//apple_ref/swift/Method/copy()" class="dashAnchor"></a>
                     <a class="token" href="#/s:FC4Sage4Game4copyFT_S0_">copy()</a>
@@ -1087,6 +1182,209 @@
                           <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">isLegal</span><span class="p">(</span><span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move9promotionFT_OVS_5Piece4Kind_T_"></a>
+                    <a name="//apple_ref/swift/Method/execute(uncheckedMove:promotion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move9promotionFT_OVS_5Piece4Kind_T_">execute(uncheckedMove:promotion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes <code>move</code> without checking its legality, updating the state for <code>self</code>.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Can cause unwanted effects. Should only be used with moves that are known to be legal.</p>
+
+</div>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Classes/Game/ExecutionError.html">ExecutionError</a></code> if no piece exists at <code>move.start</code> or if <code>promotion</code> is invalid.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="n">uncheckedMove</span> <span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">,</span> <span class="nv">promotion</span><span class="p">:</span> <span class="kd">@noescape</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Piece.html">Piece</a></span><span class="o">.</span><span class="kt">Kind</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>move</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The move to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>promotion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A closure returning a promotion piece kind if a pawn promotion occurs.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move9promotionOVS_5Piece4Kind_T_"></a>
+                    <a name="//apple_ref/swift/Method/execute(uncheckedMove:promotion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move9promotionOVS_5Piece4Kind_T_">execute(uncheckedMove:promotion:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes <code>move</code> without checking its legality, updating the state for <code>self</code>.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Can cause unwanted effects. Should only be used with moves that are known to be legal.</p>
+
+</div>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Classes/Game/ExecutionError.html">ExecutionError</a></code> if no piece exists at <code>move.start</code> or if <code>promotion</code> is invalid.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="n">uncheckedMove</span> <span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">,</span> <span class="nv">promotion</span><span class="p">:</span> <span class="kt"><a href="../Structs/Piece.html">Piece</a></span><span class="o">.</span><span class="kt">Kind</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>move</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The move to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>promotion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A piece kind for a pawn promotion.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move_T_"></a>
+                    <a name="//apple_ref/swift/Method/execute(uncheckedMove:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC4Sage4Game7executeFzT13uncheckedMoveVS_4Move_T_">execute(uncheckedMove:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes <code>move</code> without checking its legality, updating the state for <code>self</code>.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>Can cause unwanted effects. Should only be used with moves that are known to be legal.</p>
+
+</div>
+
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p><code><a href="../Classes/Game/ExecutionError.html">ExecutionError</a></code> if no piece exists at <code>move.start</code>.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">execute</span><span class="p">(</span><span class="n">uncheckedMove</span> <span class="nv">move</span><span class="p">:</span> <span class="kt"><a href="../Structs/Move.html">Move</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>move</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The move to be executed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -1392,7 +1690,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2016 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2016-07-25)</p>
+      <p>&copy; 2016 <a class="link" href="https://github.com/nvzqz" target="_blank" rel="external">Nikolai Vazquez</a>. All rights reserved. (Last updated: 2016-07-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
