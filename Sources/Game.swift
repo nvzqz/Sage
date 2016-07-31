@@ -353,6 +353,11 @@ public final class Game {
         return Square(file: move.start.file, rank: move.isUpward ? 3 : 6)
     }
 
+    /// The captured piece for the last move.
+    public var captureForLastMove: Piece? {
+        return _moveHistory.last?.capture
+    }
+
     /// The current position for `self`.
     public var position: Position {
         return Position(board: board,
