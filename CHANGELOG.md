@@ -2,6 +2,16 @@
 
 All changes to Sage adhere to [Semantic Versioning](http://semver.org/).
 
+## [v2.3.0](https://github.com/nvzqz/Sage/tree/v2.3.0) (2016-07-31)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.2.0...v2.3.0)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.3.0)
+
+### New Features
+
+- Added `captureForLastMove` to Game
+
 ## [v2.2.0](https://github.com/nvzqz/Sage/tree/v2.2.0) (2016-07-30)
 
 - [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.1.0...v2.2.0)
