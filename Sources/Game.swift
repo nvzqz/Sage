@@ -458,9 +458,7 @@ public final class Game {
     }
 
     /// The current fullmove number.
-    public var fullmoves: UInt {
-        return 1 + (UInt(moveCount) / 2)
-    }
+    public private(set) var fullmoves: UInt
 
     /// The current halfmove clock.
     public private(set) var halfmoves: UInt
@@ -512,6 +510,7 @@ public final class Game {
         self.variant         = game.variant
         self.attackersToKing = game.attackersToKing
         self.halfmoves       = game.halfmoves
+        self.fullmoves       = game.fullmoves
     }
 
     /// Creates a new chess game.
@@ -532,6 +531,7 @@ public final class Game {
         self.variant = variant
         self.attackersToKing = 0
         self.halfmoves = 0
+        self.fullmoves = 1
     }
 
     /// Creates a chess game from a `Position`.
@@ -560,6 +560,7 @@ public final class Game {
         self.enPassantTarget = position.enPassantTarget
         self.attackersToKing = position.board.attackersToKing(for: position.playerTurn)
         self.halfmoves = position.halfmoves
+        self.fullmoves = position.fullmoves
     }
 
     /// Creates a chess game with `moves`.
@@ -772,6 +773,7 @@ public final class Game {
         } else {
             attackersToKing = board.attackersToKing(for: playerTurn)
         }
+        fullmoves = 1 + (UInt(moveCount) / 2)
         _undoHistory = []
     }
 
@@ -858,6 +860,7 @@ public final class Game {
         } else {
             attackersToKing = board.attackersToKing(for: playerTurn)
         }
+        fullmoves = 1 + (UInt(moveCount) / 2)
         _undoHistory = []
     }
 
@@ -995,6 +998,7 @@ public final class Game {
         playerTurn.invert()
         self.enPassantTarget = enPassantTarget
         self.attackersToKing = attackers
+        self.fullmoves = 1 + (UInt(moveCount) / 2)
         self.halfmoves = halfmoves
         self.castlingRights = rights
         return move
