@@ -23,36 +23,32 @@ import Foundation
 
 class SageTests: XCTestCase {
 
-    static var allTests: [(String, (SageTests) -> () throws -> Void)] {
-        return [
-            ("testBoardInitializer", testBoardInitializer),
-            ("testBoardEquality", testBoardEquality),
-            ("testBoardPopulate", testBoardPopulate),
-            ("testBoardFromCharacters", testBoardFromCharacters),
-            ("testBoardSequence", testBoardSequence),
-            ("testBoardSubscript", testBoardSubscript),
-            ("testBoardSwap", testBoardSwap),
-            ("testAllFiles", testAllFiles),
-            ("testAllRanks", testAllRanks),
-            ("testFileOpposite", testFileOpposite),
-            ("testRankOpposite", testRankOpposite),
-            ("testFileTo", testFileTo),
-            ("testRankTo", testRankTo),
-            ("testFileBetween", testFileBetween),
-            ("testRankBetween", testRankBetween),
-            ("testFileFromCharacter", testFileFromCharacter),
-            ("testRankFromNumber", testRankFromNumber),
-            ("testMoveEquality", testMoveEquality),
-            ("testMoveRotation", testMoveRotation),
-            ("testMoveOperator", testMoveOperator),
-            ("testGameRandomMoves", testGameRandomMoves),
-            ("testGameFromMoves", testGameFromMoves),
-            ("testGameDoubleStep", testGameDoubleStep),
-            ("testGameEnPassant", testGameEnPassant),
-            ("testGameUndoAndRedo", testGameUndoAndRedo),
-            ("testPGNParsingAndExporting", testPGNParsingAndExporting)
-        ]
-    }
+    static let allTests = [("testBoardInitializer", testBoardInitializer),
+                           ("testBoardEquality", testBoardEquality),
+                           ("testBoardPopulate", testBoardPopulate),
+                           ("testBoardFromCharacters", testBoardFromCharacters),
+                           ("testBoardSequence", testBoardSequence),
+                           ("testBoardSubscript", testBoardSubscript),
+                           ("testBoardSwap", testBoardSwap),
+                           ("testAllFiles", testAllFiles),
+                           ("testAllRanks", testAllRanks),
+                           ("testFileOpposite", testFileOpposite),
+                           ("testRankOpposite", testRankOpposite),
+                           ("testFileTo", testFileTo),
+                           ("testRankTo", testRankTo),
+                           ("testFileBetween", testFileBetween),
+                           ("testRankBetween", testRankBetween),
+                           ("testFileFromCharacter", testFileFromCharacter),
+                           ("testRankFromNumber", testRankFromNumber),
+                           ("testMoveEquality", testMoveEquality),
+                           ("testMoveRotation", testMoveRotation),
+                           ("testMoveOperator", testMoveOperator),
+                           ("testGameRandomMoves", testGameRandomMoves),
+                           ("testGameFromMoves", testGameFromMoves),
+                           ("testGameDoubleStep", testGameDoubleStep),
+                           ("testGameEnPassant", testGameEnPassant),
+                           ("testGameUndoAndRedo", testGameUndoAndRedo),
+                           ("testPGNParsingAndExporting", testPGNParsingAndExporting)]
 
     func testBoardInitializer() {
         #if swift(>=3)
