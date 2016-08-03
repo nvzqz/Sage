@@ -46,6 +46,7 @@ class SageTests: XCTestCase {
             ("testMoveRotation", testMoveRotation),
             ("testMoveOperator", testMoveOperator),
             ("testGameRandomMoves", testGameRandomMoves),
+            ("testGameFromMoves", testGameFromMoves),
             ("testGameDoubleStep", testGameDoubleStep),
             ("testGameEnPassant", testGameEnPassant),
             ("testGameUndoAndRedo", testGameUndoAndRedo),
