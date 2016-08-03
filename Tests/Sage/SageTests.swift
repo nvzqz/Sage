@@ -251,7 +251,6 @@ class SageTests: XCTestCase {
             XCTAssertEqual(Rank.Two.between(.Five), [.Three, .Four])
             XCTAssertEqual(Rank.Two.between(.Three), [])
             XCTAssertEqual(Rank.Two.between(.Two), [])
-
         #endif
     }
 
@@ -306,53 +305,45 @@ class SageTests: XCTestCase {
         } }
     }
 
-    func testGameRandomMoves() {
+    func testGameRandomMoves() throws {
         let game = Game()
-        do {
-            while let move = game.availableMoves().random() {
-                let enemyColor = game.playerTurn.inverse()
-                let enemyKingSpace = game.board.squareForKing(for: enemyColor)
-                guard move.end != enemyKingSpace else {
-                    XCTFail("Attempted attack to king for \(enemyColor) at \(move.end)")
-                    return
-                }
-                try game.execute(move: move)
-            }
-            guard let outcome = game.outcome else {
-                XCTFail("Expected outcome for complete game")
+        while let move = game.availableMoves().random() {
+            let enemyColor = game.playerTurn.inverse()
+            let enemyKingSpace = game.board.squareForKing(for: enemyColor)
+            guard move.end != enemyKingSpace else {
+                XCTFail("Attempted attack to king for \(enemyColor) at \(move.end)")
                 return
             }
-            if let color = outcome.winColor {
-                guard game.kingIsChecked && game.board.kingIsChecked(for: color.inverse()) else {
-                    XCTFail("\(color.inverse()) should be in check if \(color) wins")
-                    return
-                }
+            try game.execute(move: move)
+        }
+        guard let outcome = game.outcome else {
+            XCTFail("Expected outcome for complete game")
+            return
+        }
+        if let color = outcome.winColor {
+            guard game.kingIsChecked && game.board.kingIsChecked(for: color.inverse()) else {
+                XCTFail("\(color.inverse()) should be in check if \(color) wins")
+                return
             }
-        } catch {
-            XCTFail(String(error))
         }
     }
 
-    func testGameFromMoves() {
+    func testGameFromMoves() throws {
         let game = Game()
+        while let move = game.availableMoves().random() {
+            try game.execute(uncheckedMove: move)
+        }
         do {
-            while let move = game.availableMoves().random() {
-                try game.execute(uncheckedMove: move)
-            }
-            do {
-                let moves = game.playedMoves
-                let other = try Game(moves: moves)
-                XCTAssertEqual(other.board, game.board)
-                XCTAssertEqual(other.playedMoves, moves)
-            } catch {
-                XCTFail(String(error))
-            }
+            let moves = game.playedMoves
+            let other = try Game(moves: moves)
+            XCTAssertEqual(other.board, game.board)
+            XCTAssertEqual(other.playedMoves, moves)
         } catch {
             XCTFail(String(error))
         }
     }
 
-    func testGameDoubleStep() {
+    func testGameDoubleStep() throws {
         let game = Game()
         for file in File.all {
             let move = Move(start: Square(location: (file, 2)), end: Square(location: (file, 5)))
@@ -370,13 +361,9 @@ class SageTests: XCTestCase {
                 #endif
             }
         }
-        do {
-            for file in File.all {
-                try game.execute(move: Move(start: Square(location: (file, 2)), end: Square(location: (file, 4))))
-                try game.execute(move: Move(start: Square(location: (file, 7)), end: Square(location: (file, 5))))
-            }
-        } catch {
-            XCTFail(String(error))
+        for file in File.all {
+            try game.execute(move: Move(start: Square(location: (file, 2)), end: Square(location: (file, 4))))
+            try game.execute(move: Move(start: Square(location: (file, 7)), end: Square(location: (file, 5))))
         }
     }
 
@@ -401,42 +388,38 @@ class SageTests: XCTestCase {
         }
     }
 
-    func testGameUndoAndRedo() {
-        do {
-            let game = Game()
-            let startBoard = game.board
-            var endBoard = startBoard
-            var moves = [Move]()
+    func testGameUndoAndRedo() throws {
+        let game = Game()
+        let startBoard = game.board
+        var endBoard = startBoard
+        var moves = [Move]()
 
-            while let move = game.availableMoves().random() {
-                try game.execute(uncheckedMove: move)
-                moves.append(move)
-                endBoard = game.board
-            }
-            #if swift(>=3)
-                var redoMoves = moves.reversed() as [Move]
-            #else
-                var redoMoves = moves.reverse() as [Move]
-            #endif
-
-            while let move = game.moveToUndo() {
-                XCTAssertEqual(move, game.undoMove())
-                XCTAssertEqual(move, moves.popLast())
-            }
-            XCTAssert(moves.isEmpty)
-            XCTAssertEqual(game.board, startBoard)
-
-            while let move = game.moveToRedo() {
-                XCTAssertEqual(move, game.redoMove())
-                XCTAssertEqual(move, redoMoves.popLast())
-            }
-            XCTAssertEqual(game.board, endBoard)
-        } catch {
-            XCTFail(String(error))
+        while let move = game.availableMoves().random() {
+            try game.execute(uncheckedMove: move)
+            moves.append(move)
+            endBoard = game.board
         }
+        #if swift(>=3)
+            var redoMoves = moves.reversed() as [Move]
+        #else
+            var redoMoves = moves.reverse() as [Move]
+        #endif
+
+        while let move = game.moveToUndo() {
+            XCTAssertEqual(move, game.undoMove())
+            XCTAssertEqual(move, moves.popLast())
+        }
+        XCTAssert(moves.isEmpty)
+        XCTAssertEqual(game.board, startBoard)
+
+        while let move = game.moveToRedo() {
+            XCTAssertEqual(move, game.redoMove())
+            XCTAssertEqual(move, redoMoves.popLast())
+        }
+        XCTAssertEqual(game.board, endBoard)
     }
 
-    func testPGNParsingAndExporting() {
+    func testPGNParsingAndExporting() throws {
         let immortalGame = String()
             + "[Event \"London\"]\n"
             + "[Site \"London\"]\n"
@@ -455,6 +438,7 @@ class SageTests: XCTestCase {
             + "9.Nf5 c6 10.g4 Nf6 11.Rg1 cxb5 12.h4 Qg6 13.h5 Qg5 14.Qf3 Ng8 15.Bxf4 Qf6\n"
             + "16.Nc3 Bc5 17.Nd5 Qxb2 18.Bd6 Bxg1 19. e5 Qxa1+ 20. Ke2 Na6 21.Nxg7+ Kd8\n"
             + "22.Qf6+ Nxf6 23.Be7# 1-0\n"
+
         let returnGame = String()
             + "[Event \"F/S Return Match\"]\n"
             + "[Site \"Belgrade, Serbia Yugoslavia|JUG\"]\n"
@@ -472,23 +456,20 @@ class SageTests: XCTestCase {
             + "hxg5 29. b3 Ke6 30. a3 Kd6 31. axb4 cxb4 32. Ra5 Nd5 33. f3 Bc8 34. Kf2 Bf5\n"
             + "35. Ra7 g6 36. Ra6+ Kc5 37. Ke1 Nf4 38. g3 Nxh3 39. Kd2 Kb5 40. Rd6 Kc5 41. Ra6\n"
             + "Nf2 42. g4 Bd3 43. Re6 1/2-1/2\n"
-        do {
-            let immortalGamePGN = try PGN(parse: immortalGame)
-            XCTAssertEqual(immortalGamePGN.moves.count, 45)
-            XCTAssertEqual(immortalGamePGN.outcome, Game.Outcome._win(._white))
-            let returnGamePGN = try PGN(parse: returnGame)
-            XCTAssertEqual(returnGamePGN.moves.count, 85)
-            XCTAssertEqual(returnGamePGN.outcome, Game.Outcome._draw)
 
-            let immortalGameExportedPGN = try PGN(parse: immortalGamePGN.exported())
-            let returnGameExportedPGN = try PGN(parse: returnGamePGN.exported())
-            XCTAssertEqual(immortalGameExportedPGN, immortalGamePGN)
-            XCTAssertEqual(returnGameExportedPGN, returnGamePGN)
-            XCTAssertNotEqual(immortalGameExportedPGN, returnGamePGN)
-            XCTAssertNotEqual(returnGameExportedPGN, immortalGamePGN)
-        } catch {
-            XCTFail(String(error))
-        }
+        let immortalGamePGN = try PGN(parse: immortalGame)
+        XCTAssertEqual(immortalGamePGN.moves.count, 45)
+        XCTAssertEqual(immortalGamePGN.outcome, Game.Outcome._win(._white))
+        let returnGamePGN = try PGN(parse: returnGame)
+        XCTAssertEqual(returnGamePGN.moves.count, 85)
+        XCTAssertEqual(returnGamePGN.outcome, Game.Outcome._draw)
+
+        let immortalGameExportedPGN = try PGN(parse: immortalGamePGN.exported())
+        let returnGameExportedPGN = try PGN(parse: returnGamePGN.exported())
+        XCTAssertEqual(immortalGameExportedPGN, immortalGamePGN)
+        XCTAssertEqual(returnGameExportedPGN, returnGamePGN)
+        XCTAssertNotEqual(immortalGameExportedPGN, returnGamePGN)
+        XCTAssertNotEqual(returnGameExportedPGN, immortalGamePGN)
     }
 
 }
