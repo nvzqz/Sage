@@ -557,6 +557,7 @@ public final class Game {
         self.whitePlayer = whitePlayer
         self.blackPlayer = blackPlayer
         self.variant = variant
+        self.enPassantTarget = position.enPassantTarget
         self.attackersToKing = position.board.attackersToKing(for: position.playerTurn)
         self.halfmoves = position.halfmoves
     }
