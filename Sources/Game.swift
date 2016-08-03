@@ -203,6 +203,72 @@ public final class Game {
                       fullmoves: fullmoves)
         }
 
+        private func _validationError() -> PositionError? {
+            for color in Color.all {
+                guard board.count(of: Piece(king: color)) == 1 else {
+                    #if swift(>=3)
+                        return .wrongKingCount(color)
+                    #else
+                        return .WrongKingCount(color)
+                    #endif
+                }
+            }
+            for right in castlingRights {
+                let color = right.color
+                let king = Piece(king: color)
+                guard board.bitboard(for: king) == Bitboard(startFor: king) else {
+                    #if swift(>=3)
+                        return .missingKing(right)
+                    #else
+                        return .MissingKing(right)
+                    #endif
+                }
+                let rook = Piece(rook: color)
+                let square = Square(file: right.side.isKingside ? ._h : ._a,
+                                    rank: Rank(startFor: color))
+                guard board.bitboard(for: rook)[square] else {
+                    #if swift(>=3)
+                        return .missingRook(right)
+                    #else
+                        return .MissingRook(right)
+                    #endif
+                }
+            }
+            if let target = enPassantTarget {
+                guard target.rank == (playerTurn.isWhite ? 6 : 3) else {
+                    #if swift(>=3)
+                        return .wrongEnPassantTargetRank(target.rank)
+                    #else
+                        return .WrongEnPassantTargetRank(target.rank)
+                    #endif
+                }
+                if let piece = board[target] {
+                    #if swift(>=3)
+                        return .nonEmptyEnPassantTarget(target, piece)
+                    #else
+                        return .NonEmptyEnPassantTarget(target, piece)
+                    #endif
+                }
+                let pawnSquare = Square(file: target.file, rank: playerTurn.isWhite ? 5 : 4)
+                guard board[pawnSquare] == Piece(pawn: playerTurn.inverse()) else {
+                    #if swift(>=3)
+                        return .missingEnPassantPawn(pawnSquare)
+                    #else
+                        return .MissingEnPassantPawn(pawnSquare)
+                    #endif
+                }
+                let startSquare = Square(file: target.file, rank: playerTurn.isWhite ? 7 : 2)
+                if let piece = board[startSquare] {
+                    #if swift(>=3)
+                        return .nonEmptyEnPassantSquare(startSquare, piece)
+                    #else
+                        return .NonEmptyEnPassantSquare(startSquare, piece)
+                    #endif
+                }
+            }
+            return nil
+        }
+
         /// Returns the FEN string for the position.
         ///
         /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
@@ -222,6 +288,32 @@ public final class Game {
     }
 
     #if swift(>=3)
+
+    /// An error in position validation.
+    public enum PositionError: ErrorProtocol {
+
+        /// Found number other than 1 for king count.
+        case wrongKingCount(Color)
+
+        /// King missing for castling right.
+        case missingKing(CastlingRights.Right)
+
+        /// Rook missing for castling right.
+        case missingRook(CastlingRights.Right)
+
+        /// Wrong rank for en passant target.
+        case wrongEnPassantTargetRank(Rank)
+
+        /// Non empty en passant target square.
+        case nonEmptyEnPassantTarget(Square, Piece)
+
+        /// Pawn missing for previous en passant.
+        case missingEnPassantPawn(Square)
+
+        /// Piece found at start of en passant move.
+        case nonEmptyEnPassantSquare(Square, Piece)
+
+    }
 
     /// An error in move execution.
     ///
@@ -252,6 +344,32 @@ public final class Game {
     }
 
     #else
+
+    /// An error in position validation.
+    public enum PositionError: ErrorType {
+
+        /// Found number other than 1 for king count.
+        case WrongKingCount(Color)
+
+        /// King missing for castling right.
+        case MissingKing(CastlingRights.Right)
+
+        /// Rook missing for castling right.
+        case MissingRook(CastlingRights.Right)
+
+        /// Wrong rank for en passant target.
+        case WrongEnPassantTargetRank(Rank)
+
+        /// Non empty en passant target square.
+        case NonEmptyEnPassantTarget(Square, Piece)
+
+        /// Pawn missing for previous en passant.
+        case MissingEnPassantPawn(Square)
+
+        /// Piece found at start of en passant move.
+        case NonEmptyEnPassantSquare(Square, Piece)
+
+    }
 
     /// An error in move execution.
     ///
@@ -290,6 +408,7 @@ public final class Game {
     private var _moveHistory: [(move: Move,
                                 piece: Piece,
                                 capture: Piece?,
+                                enPassantTarget: Square?,
                                 kingAttackers: Bitboard,
                                 halfmoves: UInt,
                                 rights: CastlingRights)]
@@ -347,11 +466,7 @@ public final class Game {
     public private(set) var halfmoves: UInt
 
     /// The target move location for an en passant.
-    public var enPassantTarget: Square? {
-        guard let (move, piece, _, _, _, _) = _moveHistory.last else { return nil }
-        guard piece.kind.isPawn && abs(move.rankChange) == 2 else { return nil }
-        return Square(file: move.start.file, rank: move.isUpward ? 3 : 6)
-    }
+    public private(set) var enPassantTarget: Square?
 
     /// The captured piece for the last move.
     public var captureForLastMove: Piece? {
@@ -417,6 +532,33 @@ public final class Game {
         self.variant = variant
         self.attackersToKing = 0
         self.halfmoves = 0
+    }
+
+    /// Creates a chess game from a `Position`.
+    ///
+    /// - parameter position: The position to start off from.
+    /// - parameter whitePlayer: The game's white player. Default is a nameless human.
+    /// - parameter blackPlayer: The game's black player. Default is a nameless human.
+    /// - parameter variant: The game's chess variant. Default is standard.
+    ///
+    /// - throws: `PositionError` if the position is invalid.
+    public init(position: Position,
+                whitePlayer: Player = Player(),
+                blackPlayer: Player = Player(),
+                variant: Variant = ._standard) throws {
+        if let error = position._validationError() {
+            throw error
+        }
+        self._moveHistory = []
+        self._undoHistory = []
+        self.board = position.board
+        self.playerTurn = position.playerTurn
+        self.castlingRights = position.castlingRights
+        self.whitePlayer = whitePlayer
+        self.blackPlayer = blackPlayer
+        self.variant = variant
+        self.attackersToKing = position.board.attackersToKing(for: position.playerTurn)
+        self.halfmoves = position.halfmoves
     }
 
     /// Creates a chess game with `moves`.
@@ -594,7 +736,7 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves, rights))
+        _moveHistory.append((move, piece, capture, enPassantTarget, attackersToKing, halfmoves, rights))
         if let capture = capture {
             board[capture][captureSquare] = false
         }
@@ -618,6 +760,12 @@ public final class Game {
     /// - throws: `ExecutionError` if no piece exists at `move.start` or if `promotion` is invalid.
     public func execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
         try _execute(uncheckedMove: move, promotion: promotion)
+        let piece = board[move.end]!
+        if piece.kind.isPawn && abs(move.rankChange) == 2 {
+            enPassantTarget = Square(file: move.start.file, rank: piece.color.isWhite ? 3 : 6)
+        } else {
+            enPassantTarget = nil
+        }
         if kingIsChecked {
             attackersToKing = 0
         } else {
@@ -674,7 +822,7 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-        _moveHistory.append((move, piece, capture, attackersToKing, halfmoves, rights))
+        _moveHistory.append((move, piece, capture, enPassantTarget, attackersToKing, halfmoves, rights))
         if let capture = capture {
             board[capture][captureSquare] = false
         }
@@ -698,6 +846,12 @@ public final class Game {
     /// - throws: `ExecutionError` if no piece exists at `move.start` or if `promotion` is invalid.
     public func execute(uncheckedMove move: Move, @noescape promotion: () -> Piece.Kind) throws {
         try _execute(uncheckedMove: move, promotion: promotion)
+        let piece = board[move.end]!
+        if piece.kind.isPawn && abs(move.rankChange) == 2 {
+            enPassantTarget = Square(file: move.start.file, rank: piece.color.isWhite ? 3 : 6)
+        } else {
+            enPassantTarget = nil
+        }
         if kingIsChecked {
             attackersToKing = 0
         } else {
@@ -813,7 +967,7 @@ public final class Game {
 
     /// Undoes the previous move and returns it, if any.
     private func _undoMove() -> Move? {
-        guard let (move, piece, capture, attackers, halfmoves, rights) = _moveHistory.popLast() else {
+        guard let (move, piece, capture, enPassantTarget, attackers, halfmoves, rights) = _moveHistory.popLast() else {
             return nil
         }
         var captureSquare = move.end
@@ -838,7 +992,8 @@ public final class Game {
         board[piece][move.end] = false
         board[piece][move.start] = true
         playerTurn.invert()
-        attackersToKing = attackers
+        self.enPassantTarget = enPassantTarget
+        self.attackersToKing = attackers
         self.halfmoves = halfmoves
         self.castlingRights = rights
         return move
