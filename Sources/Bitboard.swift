@@ -758,6 +758,14 @@ extension Bitboard: Sequence, BitwiseOperations {
         return count
     }
 
+    /// Returns a Boolean value indicating whether the sequence contains the
+    /// given element.
+    ///
+    /// - complexity: O(1).
+    public func contains(_ element: Square) -> Bool {
+        return self[element]
+    }
+
     /// Returns an iterator over the squares of the board.
     public func makeIterator() -> Iterator {
         return Iterator(_base: _MutualIterator(self))
@@ -775,6 +783,14 @@ extension Bitboard: SequenceType, BitwiseOperationsType {
     /// - complexity: O(1).
     public func underestimateCount() -> Int {
         return count
+    }
+
+    /// Returns `true` iff `element` is in `self`.
+    ///
+    /// - complexity: O(1).
+    @warn_unused_result
+    public func contains(element: Square) -> Bool {
+        return self[element]
     }
 
     /// Returns a generator over the squares of the board.
