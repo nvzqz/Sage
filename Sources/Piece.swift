@@ -203,6 +203,14 @@ public struct Piece: Hashable, CustomStringConvertible {
         return color.isWhite ? _whiteHashes : _blackHashes
     }
 
+    internal static let _whiteNonQueens: [Piece] = whitePieces.filter({ !$0.kind.isQueen })
+
+    internal static let _blackNonQueens: [Piece] = blackPieces.filter({ !$0.kind.isQueen })
+
+    internal static func _nonQueens(for color: Color) -> [Piece] {
+        return color.isWhite ? _whiteNonQueens : _blackNonQueens
+    }
+
     /// An array of all pieces.
     public static let all: [Piece] = {
         return [._white, ._black].reduce([]) { pieces, color in

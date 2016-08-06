@@ -554,8 +554,8 @@ public struct Board: Hashable, CustomStringConvertible {
     /// - parameter color: The `Color` of the attackers.
     public func attackers(to square: Square, color: Color) -> Bitboard {
         let all = occupiedSpaces
-        let attackPieces = Piece.pieces(for: color)
-        let playerPieces = Piece.pieces(for: color.inverse())
+        let attackPieces = Piece._nonQueens(for: color)
+        let playerPieces = Piece._nonQueens(for: color.inverse())
         let attacks = playerPieces.map({ piece in
             square.attacks(for: piece, stoppers: all)
         })
