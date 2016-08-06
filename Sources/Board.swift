@@ -560,9 +560,7 @@ public struct Board: Hashable, CustomStringConvertible {
             square.attacks(for: piece, stoppers: all)
         })
         let queens = (attacks[2] | attacks[3]) & self[Piece(queen: color)]
-        return zip(attackPieces, attacks)
-            .map({ self[$0] & $1 })
-            .reduce(queens, combine: |)
+        return zip(attackPieces, attacks).reduce(queens) { $0 | (self[$1.0] & $1.1) }
     }
 
     /// Returns the attackers to the king for `color`.
