@@ -1,6 +1,24 @@
 # Change Log
 
-All changes to Sage adhere to [Semantic Versioning](http://semver.org/).
+All releases of Sage adhere to [Semantic Versioning](http://semver.org/).
+
+## [v2.4.0](https://github.com/nvzqz/Sage/tree/v2.4.0) (2016-08-06)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.3.0...v2.4.0)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.4.0)
+
+### New Features
+
+- Added `init(position:whitePlayer:blackPlayer:variant:)` to `Game`
+
+### Enhancements
+
+- Greatly improved performance of `attackers(to:color:)` method for `Board`
+
+- Improved performance for `pieceCount(for:)` for `Board`
+
+- Improved performance for `contains(_:)` for `Bitboard`
 
 ## [v2.3.0](https://github.com/nvzqz/Sage/tree/v2.3.0) (2016-07-31)
 
