@@ -529,7 +529,7 @@ public struct Board: Hashable, CustomStringConvertible {
         if let color = color {
             return bitboard(for: color).count
         } else {
-            return _bitboards.map({ $0.count }).reduce(0, combine: +)
+            return _bitboards.reduce(0) { $0 + $1.count }
         }
     }
 
