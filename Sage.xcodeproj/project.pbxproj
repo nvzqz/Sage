@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		521AF8EF1D5949FB009941A0 /* Tables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AF8EE1D5949FB009941A0 /* Tables.swift */; };
+		521AF8F01D5949FB009941A0 /* Tables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AF8EE1D5949FB009941A0 /* Tables.swift */; };
+		521AF8F11D5949FB009941A0 /* Tables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AF8EE1D5949FB009941A0 /* Tables.swift */; };
+		521AF8F21D5949FB009941A0 /* Tables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521AF8EE1D5949FB009941A0 /* Tables.swift */; };
 		5235BDA31D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
 		5235BDA41D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
 		5235BDA51D3A89A200B42FFD /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5235BDA21D3A89A200B42FFD /* Player.swift */; };
@@ -100,6 +104,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		521AF8EE1D5949FB009941A0 /* Tables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tables.swift; sourceTree = "<group>"; };
 		5235BDA21D3A89A200B42FFD /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		524583A51D0DE7B9002311F3 /* Sage OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sage OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		524583A91D0DE7B9002311F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -244,6 +249,7 @@
 				527ADC201D2AFBE400B16439 /* PGN.swift */,
 				52D2BB131D277E5400C868E5 /* Sequence+Sage.swift */,
 				52E89C611CF53E1A0071AE69 /* InternalTypes.swift */,
+				521AF8EE1D5949FB009941A0 /* Tables.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -604,6 +610,7 @@
 			files = (
 				529515061D19CFF500BB244D /* Square.swift in Sources */,
 				529514DA1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				521AF8EF1D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C621CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E421CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514DF1D16224F00BB244D /* Variant.swift in Sources */,
@@ -626,6 +633,7 @@
 			files = (
 				529515071D19CFF500BB244D /* Square.swift in Sources */,
 				529514DB1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				521AF8F01D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E431CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514E01D16224F00BB244D /* Variant.swift in Sources */,
@@ -648,6 +656,7 @@
 			files = (
 				529515081D19CFF500BB244D /* Square.swift in Sources */,
 				529514DC1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				521AF8F11D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E441CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514E11D16224F00BB244D /* Variant.swift in Sources */,
@@ -670,6 +679,7 @@
 			files = (
 				529515091D19CFF500BB244D /* Square.swift in Sources */,
 				529514DD1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				521AF8F21D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C651CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E451CF3E7F500F7D2EC /* Move.swift in Sources */,
 				529514E21D16224F00BB244D /* Variant.swift in Sources */,

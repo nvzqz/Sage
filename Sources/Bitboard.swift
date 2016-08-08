@@ -51,35 +51,6 @@ private func _index(lsb value: Bitboard) -> Int? {
     return _lsbTable[Int((value.rawValue &* _debruijn64) >> 58)]
 }
 
-/// Returns the pawn attack table for `color`.
-internal func _pawnAttackTable(for color: Color) -> ContiguousArray<Bitboard> {
-    if color.isWhite {
-        return _whitePawnAttackTable
-    } else {
-        return _blackPawnAttackTable
-    }
-}
-
-/// A lookup table of all white pawn attack bitboards.
-internal let _whitePawnAttackTable = ContiguousArray(Square.all.map { square in
-    return Bitboard(square: square)._pawnAttacks(for: ._white)
-})
-
-/// A lookup table of all black pawn attack bitboards.
-internal let _blackPawnAttackTable = ContiguousArray(Square.all.map { square in
-    return Bitboard(square: square)._pawnAttacks(for: ._black)
-})
-
-/// A lookup table of all king attack bitboards.
-internal let _kingAttackTable = ContiguousArray(Square.all.map { square in
-    return Bitboard(square: square)._kingAttacks()
-})
-
-/// A lookup table of all knight attack bitboards.
-internal let _knightAttackTable = ContiguousArray(Square.all.map { square in
-    return Bitboard(square: square)._knightAttacks()
-})
-
 /// Mask for bits not in File A.
 private let _notFileA: Bitboard = 0xfefefefefefefefe
 
