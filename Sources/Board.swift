@@ -124,8 +124,8 @@ public struct Board: Hashable, CustomStringConvertible {
             let view = _View(frame: frame)
             let str = piece.map({ String($0.specialCharacter(background: color)) }) ?? ""
             #if swift(>=3)
-                let white = _Color.white()
-                let black = _Color.black()
+                let white = _Color.white
+                let black = _Color.black
             #else
                 let white = _Color.whiteColor()
                 let black = _Color.blackColor()
@@ -286,7 +286,11 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// A bitboard for the occupied spaces of `self`.
     public var occupiedSpaces: Bitboard {
-        return _bitboards.reduce(0, combine: |)
+        #if swift(>=3)
+            return _bitboards.reduce(0, |)
+        #else
+            return _bitboards.reduce(0, combine: |)
+        #endif
     }
 
     /// A bitboard for the empty spaces of `self`.

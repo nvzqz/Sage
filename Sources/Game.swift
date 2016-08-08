@@ -301,7 +301,7 @@ public final class Game {
     #if swift(>=3)
 
     /// An error in position validation.
-    public enum PositionError: ErrorProtocol {
+    public enum PositionError: Error {
 
         /// Found number other than 1 for king count.
         case wrongKingCount(Color)
@@ -329,7 +329,7 @@ public final class Game {
     /// An error in move execution.
     ///
     /// Thrown by the `execute(move:promotion:)` or `execute(uncheckedMove:promotion:)` method for a `Game` instance.
-    public enum ExecutionError: ErrorProtocol {
+    public enum ExecutionError: Error {
 
         /// Missing piece at a square.
         case missingPiece(Square)

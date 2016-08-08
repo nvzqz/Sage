@@ -576,7 +576,7 @@ extension CastlingRights: SetAlgebraType {
 extension CastlingRights: Hashable {
     /// The hash value.
     public var hashValue: Int {
-        return _rights.reduce(0, combine: { $0 | $1._bit })
+        return _rights.reduce(0) { $0 | $1._bit }
     }
 }
 

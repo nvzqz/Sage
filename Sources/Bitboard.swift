@@ -533,10 +533,11 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// Returns the attacks available to the knight in `self`.
     internal func _knightAttacks() -> Bitboard {
         let x = self
-        return (((x << 17) | (x >> 15)) & _notFileA)
-            |  (((x << 10) | (x >> 06)) & _notFileAB)
-            |  (((x << 15) | (x >> 17)) & _notFileH)
-            |  (((x << 06) | (x >> 10)) & _notFileGH)
+        let a = ((x << 17) | (x >> 15)) & _notFileA
+        let b = ((x << 10) | (x >> 06)) & _notFileAB
+        let c = ((x << 15) | (x >> 17)) & _notFileH
+        let d = ((x << 06) | (x >> 10)) & _notFileGH
+        return a | b | c | d
     }
 
     /// Returns the attacks available to the bishop in `self`.
@@ -804,7 +805,13 @@ extension Bitboard: SequenceType, BitwiseOperationsType {
 
 #endif
 
-extension Bitboard: IntegerLiteralConvertible {
+#if swift(>=3)
+    extension Bitboard: ExpressibleByIntegerLiteral { }
+#else
+    extension Bitboard: IntegerLiteralConvertible { }
+#endif
+
+extension Bitboard {
     /// Create an instance initialized to `value`.
     public init(integerLiteral value: UInt64) {
         rawValue = value

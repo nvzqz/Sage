@@ -264,7 +264,7 @@ public struct PGN: Equatable {
     #if swift(>=3)
 
     /// An error thrown by `PGN.init(parse:)`.
-    public enum ParseError: ErrorProtocol {
+    public enum ParseError: Error {
 
         /// Unexpected quote found in move text.
         case unexpectedQuote(String)
@@ -482,7 +482,11 @@ private extension String {
 
     @inline(__always)
     func _split(by set: Set<Character>) -> [String] {
-        return characters.split(isSeparator: set.contains).map(String.init)
+        #if swift(>=3)
+            return characters.split(whereSeparator: set.contains).map(String.init)
+        #else
+            return characters.split(isSeparator: set.contains).map(String.init)
+        #endif
     }
 
     @inline(__always)

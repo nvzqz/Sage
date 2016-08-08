@@ -168,7 +168,13 @@ extension Rank {
 
 }
 
-extension Rank: IntegerLiteralConvertible {
+#if swift(>=3)
+extension Rank: ExpressibleByIntegerLiteral { }
+#else
+extension Rank: IntegerLiteralConvertible { }
+#endif
+
+extension Rank {
 
     /// Create an instance initialized to `value`.
     public init(integerLiteral value: Int) {

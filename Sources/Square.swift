@@ -572,7 +572,13 @@ extension Square {
 
 }
 
-extension Square: StringLiteralConvertible {
+#if swift(>=3)
+extension Square: ExpressibleByStringLiteral { }
+#else
+extension Square: StringLiteralConvertible { }
+#endif
+
+extension Square {
 
     /// Create an instance initialized to `value`.
     public init(stringLiteral value: String) {

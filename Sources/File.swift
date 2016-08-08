@@ -266,7 +266,13 @@ extension File {
 
 }
 
-extension File: ExtendedGraphemeClusterLiteralConvertible {
+#if swift(>=3)
+extension File: ExpressibleByExtendedGraphemeClusterLiteral { }
+#else
+extension File: ExtendedGraphemeClusterLiteralConvertible { }
+#endif
+
+extension File {
 
     /// Create an instance initialized to `value`.
     public init(unicodeScalarLiteral value: Character) {
