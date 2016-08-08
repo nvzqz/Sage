@@ -267,7 +267,7 @@ public struct Board: Hashable, CustomStringConvertible {
     }
 
     /// The bitboards of `self`.
-    internal var _bitboards: ContiguousArray<Bitboard>
+    internal var _bitboards: [Bitboard]
 
     /// The board's pieces.
     public var pieces: [Piece] {
@@ -351,9 +351,9 @@ public struct Board: Hashable, CustomStringConvertible {
     /// - parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
     public init(variant: Variant? = ._standard) {
         #if swift(>=3)
-            _bitboards = ContiguousArray(repeating: 0, count: 12)
+            _bitboards = Array(repeating: 0, count: 12)
         #else
-            _bitboards = ContiguousArray(count: 12, repeatedValue: 0)
+            _bitboards = Array(count: 12, repeatedValue: 0)
         #endif
         if let variant = variant {
             for piece in Piece.all {
