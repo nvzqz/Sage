@@ -309,6 +309,11 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
         return self == 0
     }
 
+    /// `self` has more than one bit set.
+    public var hasMoreThanOne: Bool {
+        return rawValue & (rawValue &- 1) != 0
+    }
+
     /// The least significant bit.
     public var lsb: Bitboard {
         return Bitboard(rawValue: rawValue & (0 &- rawValue))
