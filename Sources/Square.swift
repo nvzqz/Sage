@@ -500,6 +500,22 @@ extension Square {
         return _betweenTable[_betweenIndex(self, other)]
     }
 
+    #if swift(>=3)
+
+    /// Returns `true` if `self` is between `start` and `end`.
+    public func isBetween(start: Square, end: Square) -> Bool {
+        return start.between(end)[self]
+    }
+
+    #else
+
+    /// Returns `true` if `self` is between `start` and `end`.
+    public func isBetween(start start: Square, end: Square) -> Bool {
+        return start.between(end)[self]
+    }
+
+    #endif
+
     /// Returns a bitboard mask of attacks for a king at `self`.
     public func kingAttacks() -> Bitboard {
         return _kingAttackTable[rawValue]
