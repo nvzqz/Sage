@@ -45,3 +45,53 @@ internal let _kingAttackTable = Square.all.map { square in
 internal let _knightAttackTable = Square.all.map { square in
     return Bitboard(square: square)._knightAttacks()
 }
+
+/// Returns the squares between `start` and `end`.
+private func _between(_ start: Square, _ end: Square) -> Bitboard {
+    let start = UInt64(start.hashValue)
+    let end = UInt64(end.hashValue)
+    let max = UInt64.max
+    let a2a7: UInt64 = 0x0001010101010100
+    let b2g7: UInt64 = 0x0040201008040200
+    let h1b7: UInt64 = 0x0002040810204080
+
+    let between = (max << start) ^ (max << end)
+    let file = (end & 7) &- (start & 7)
+    let rank = ((end | 7) &- start) >> 3
+
+    var line = ((file & 7) &- 1) & a2a7
+    line += 2 &* (((rank & 7) &- 1) >> 58)
+    line += (((rank &- file) & 15) &- 1) & b2g7
+    line += (((rank &+ file) & 15) &- 1) & h1b7
+    line = line &* (between & (0 &- between))
+
+    return Bitboard(rawValue: line & between)
+}
+
+/// Returns the index of `_betweenTable` for `start` and `end`.
+internal func _betweenIndex(_ start: Square, _ end: Square) -> Int {
+    var a = start.hashValue
+    var b = end.hashValue
+    var d = a &- b
+    d &= d >> 31
+    b = b &+ d
+    a = a &- d
+    b = b &* (b ^ 127)
+    return (b >> 1) + a
+}
+
+/// A lookup table of squares between two squares.
+internal let _betweenTable: [Bitboard] = {
+    #if swift(>=3)
+        var table = [Bitboard](repeating: 0, count: 2080)
+    #else
+        var table = [Bitboard](count: 2080, repeatedValue: 0)
+    #endif
+    for start in Square.all {
+        for end in Square.all {
+            let index = _betweenIndex(start, end)
+            table[index] = _between(start, end)
+        }
+    }
+    return table
+}()

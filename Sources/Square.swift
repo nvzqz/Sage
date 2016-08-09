@@ -495,6 +495,11 @@ extension Square {
         self.init(file: file, rank: rank)
     }
 
+    /// Returns the squares between `self` and `other`.
+    public func between(_ other: Square) -> Bitboard {
+        return _betweenTable[_betweenIndex(self, other)]
+    }
+
     /// Returns a bitboard mask of attacks for a king at `self`.
     public func kingAttacks() -> Bitboard {
         return _kingAttackTable[rawValue]
