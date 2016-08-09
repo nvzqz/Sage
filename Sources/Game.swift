@@ -645,11 +645,18 @@ public final class Game {
             movesBitboard |= attacks & ~playerBitboard
         }
 
-        if piece.kind.isKing && squareBitboard == Bitboard(startFor: piece) {
-            for option in castlingRights {
-                if option.color == playerTurn && allBitboard & option.emptySquares == 0 {
-                    movesBitboard |= Bitboard(square: option.castleSquare)
+        if piece.kind.isKing && squareBitboard == Bitboard(startFor: piece) && !kingIsChecked {
+            rightLoop: for right in castlingRights {
+                let emptySquares = right.emptySquares
+                guard right.color == playerTurn && allBitboard & emptySquares == 0 else {
+                    continue
                 }
+                for square in emptySquares {
+                    guard board.attackers(to: square, color: piece.color.inverse()).isEmpty else {
+                        continue rightLoop
+                    }
+                }
+                movesBitboard |= Bitboard(square: right.castleSquare)
             }
         }
 
