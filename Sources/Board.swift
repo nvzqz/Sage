@@ -552,6 +552,26 @@ public struct Board: Hashable, CustomStringConvertible {
         return Piece._hashes(for: color).reduce(0) { $0 | _bitboards[$1] }
     }
 
+    /// The squares with pinned pieces for `color`.
+    public func pinned(for color: Color) -> Bitboard {
+        guard let kingSquare = squareForKing(for: color) else {
+            return 0
+        }
+        let occupied = occupiedSpaces
+        var pinned = Bitboard()
+        let pieces = bitboard(for: color)
+        let king = bitboard(for: Piece(king: color))
+        let opRQ = bitboard(for: Piece(rook: color.inverse()))   | bitboard(for: Piece(queen: color.inverse()))
+        let opBQ = bitboard(for: Piece(bishop: color.inverse())) | bitboard(for: Piece(queen: color.inverse()))
+        for square in king._xrayRookAttacks(occupied: occupied, stoppers: pieces) & opRQ {
+            pinned |= square.between(kingSquare) & pieces
+        }
+        for square in king._xrayBishopAttacks(occupied: occupied, stoppers: pieces) & opBQ {
+            pinned |= square.between(kingSquare) & pieces
+        }
+        return pinned
+    }
+
     /// Returns the attackers to `square` corresponding to `color`.
     ///
     /// - parameter square: The `Square` being attacked.

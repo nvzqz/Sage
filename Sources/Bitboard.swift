@@ -527,6 +527,18 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
             |  filled(toward: ._west,  stoppers: bitboard).shifted(toward: ._west)
     }
 
+    /// Returns the x-ray attacks available to the bishop in `self`.
+    internal func _xrayBishopAttacks(occupied occ: Bitboard, stoppers: Bitboard) -> Bitboard {
+        let attacks = _bishopAttacks(stoppers: occ)
+        return attacks ^ _bishopAttacks(stoppers: (stoppers & attacks) ^ stoppers)
+    }
+
+    /// Returns the x-ray attacks available to the rook in `self`.
+    internal func _xrayRookAttacks(occupied occ: Bitboard, stoppers: Bitboard) -> Bitboard {
+        let attacks = _rookAttacks(stoppers: occ)
+        return attacks ^ _rookAttacks(stoppers: (stoppers & attacks) ^ stoppers)
+    }
+
     /// Returns the attacks available to the queen in `self`.
     internal func _queenAttacks(stoppers bitboard: Bitboard = 0) -> Bitboard {
         return _rookAttacks(stoppers: bitboard) | _bishopAttacks(stoppers: bitboard)
