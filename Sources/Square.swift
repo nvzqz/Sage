@@ -497,7 +497,12 @@ extension Square {
 
     /// Returns the squares between `self` and `other`.
     public func between(_ other: Square) -> Bitboard {
-        return _betweenTable[_betweenIndex(self, other)]
+        return _betweenTable[_triangleIndex(self, other)]
+    }
+
+    /// Returns the squares along the line with `other`.
+    public func line(with other: Square) -> Bitboard {
+        return _lineTable[_triangleIndex(self, other)]
     }
 
     #if swift(>=3)
@@ -515,6 +520,22 @@ extension Square {
     }
 
     #endif
+
+    /// Returns `true` if `self` is aligned with `first` and `second`.
+    public func isAligned(with first: Square, and second: Square) -> Bool {
+        return line(with: first)[second]
+    }
+
+    /// Returns `true` if `self` is aligned with `first` and `rest`.
+    public func isAligned(with first: Square, _ rest: Square...) -> Bool {
+        let line = self.line(with: first)
+        for square in rest {
+            guard line[square] else {
+                return false
+            }
+        }
+        return !line.isEmpty
+    }
 
     /// Returns a bitboard mask of attacks for a king at `self`.
     public func kingAttacks() -> Bitboard {

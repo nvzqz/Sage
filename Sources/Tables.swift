@@ -68,8 +68,8 @@ private func _between(_ start: Square, _ end: Square) -> Bitboard {
     return Bitboard(rawValue: line & between)
 }
 
-/// Returns the index of `_betweenTable` for `start` and `end`.
-internal func _betweenIndex(_ start: Square, _ end: Square) -> Int {
+/// Returns the triangle index for `start` and `end`.
+internal func _triangleIndex(_ start: Square, _ end: Square) -> Int {
     var a = start.hashValue
     var b = end.hashValue
     var d = a &- b
@@ -89,8 +89,32 @@ internal let _betweenTable: [Bitboard] = {
     #endif
     for start in Square.all {
         for end in Square.all {
-            let index = _betweenIndex(start, end)
+            let index = _triangleIndex(start, end)
             table[index] = _between(start, end)
+        }
+    }
+    return table
+}()
+
+/// A lookup table of lines for two squares.
+internal let _lineTable: [Bitboard] = {
+    #if swift(>=3)
+        var table = [Bitboard](repeating: 0, count: 2080)
+    #else
+        var table = [Bitboard](count: 2080, repeatedValue: 0)
+    #endif
+    for start in Square.all {
+        for end in Square.all {
+            let startBB = Bitboard(square: start)
+            let endBB = Bitboard(square: end)
+            let index = _triangleIndex(start, end)
+            let rookAttacks = startBB._rookAttacks()
+            let bishopAttacks = startBB._bishopAttacks()
+            if rookAttacks[end] {
+                table[index] = startBB | endBB | (rookAttacks & endBB._rookAttacks())
+            } else if bishopAttacks[end] {
+                table[index] = startBB | endBB | (bishopAttacks & endBB._bishopAttacks())
+            }
         }
     }
     return table
