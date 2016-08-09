@@ -311,7 +311,10 @@ class SageTests: XCTestCase {
             let enemyColor = game.playerTurn.inverse()
             let enemyKingSpace = game.board.squareForKing(for: enemyColor)
             guard move.end != enemyKingSpace else {
-                XCTFail("Attempted attack to king for \(enemyColor) at \(move.end)")
+                let error = "Attempted attack to king for \(enemyColor): \(move.formatted())"
+                    + "\nPosition: " + game.position.fen().debugDescription
+                    + "\nMoves: \(game.playedMoves.formatted())"
+                XCTFail(error)
                 return
             }
             try game.execute(move: move)
@@ -496,3 +499,42 @@ extension Array {
     }
 
 }
+
+extension Move {
+
+    func formatted() -> String {
+        let result = ".\(start) >>> .\(end)"
+        #if swift(>=3)
+            return result.lowercased()
+        #else
+            return result.uppercaseString
+        #endif
+    }
+
+}
+
+#if swift(>=3)
+
+extension Sequence where Iterator.Element == Move {
+
+    func formatted() -> String {
+        let values = map { $0.formatted() }
+        let string = values.joined(separator: ", ")
+        return "[" + string + "]"
+    }
+
+}
+
+#else
+
+extension SequenceType where Generator.Element == Move {
+
+    func formatted() -> String {
+        let values = map { $0.formatted() }
+        let string = values.joinWithSeparator(", ")
+        return "[" + string + "]"
+    }
+
+}
+
+#endif
