@@ -542,6 +542,56 @@ extension Square {
         return !line.isEmpty
     }
 
+    #if swift(>=3)
+
+    /// Returns `true` if `self` is aligned with `squares`.
+    public func isAligned<S: Sequence where S.Iterator.Element == Square>(with squares: S) -> Bool {
+        var line: Bitboard? = nil
+        let bitboard = Bitboard(square: self)
+        for square in squares {
+            if let lineBitboard = line {
+                if lineBitboard == bitboard {
+                    line = self.line(with: square)
+                } else {
+                    guard lineBitboard[square] else {
+                        return false
+                    }
+                }
+            } else if square == self {
+                line = bitboard
+            } else {
+                line = self.line(with: square)
+            }
+        }
+        return line?.isEmpty == false
+    }
+
+    #else
+
+    /// Returns `true` if `self` is aligned with `squares`.
+    public func isAligned<S: SequenceType where S.Generator.Element == Square>(with squares: S) -> Bool {
+        var line: Bitboard? = nil
+        let bitboard = Bitboard(square: self)
+        for square in squares {
+            if let lineBitboard = line {
+                if lineBitboard == bitboard {
+                    line = self.line(with: square)
+                } else {
+                    guard lineBitboard[square] else {
+                        return false
+                    }
+                }
+            } else if square == self {
+                line = bitboard
+            } else {
+                line = self.line(with: square)
+            }
+        }
+        return line?.isEmpty == false
+    }
+
+    #endif
+
     /// Returns a bitboard mask of attacks for a king at `self`.
     public func kingAttacks() -> Bitboard {
         return _kingAttackTable[rawValue]
