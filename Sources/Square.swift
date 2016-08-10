@@ -524,12 +524,17 @@ extension Square {
     /// Returns `true` if `self` is aligned with `first` and `second`.
     public func isAligned(with first: Square, and second: Square) -> Bool {
         return line(with: first)[second]
+            || line(with: second)[first]
+            || (self == first && self == second)
     }
 
     /// Returns `true` if `self` is aligned with `first` and `rest`.
     public func isAligned(with first: Square, _ rest: Square...) -> Bool {
-        let line = self.line(with: first)
-        for square in rest {
+        var line = self == first ? Bitboard(square: self) : self.line(with: first)
+        for square in rest where square != self {
+            if line == Bitboard(square: self) {
+                line = self.line(with: square)
+            }
             guard line[square] else {
                 return false
             }
