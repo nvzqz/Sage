@@ -256,10 +256,20 @@ class SageTests: XCTestCase {
 
     func testFileFromCharacter() {
         for u in 65...72 {
-            XCTAssertNotNil(File(Character(UnicodeScalar(u))))
+            #if swift(>=3)
+                let scalar = UnicodeScalar(u)!
+            #else
+                let scalar = UnicodeScalar(u)
+            #endif
+            XCTAssertNotNil(File(Character(scalar)))
         }
         for u in 97...104 {
-            XCTAssertNotNil(File(Character(UnicodeScalar(u))))
+            #if swift(>=3)
+                let scalar = UnicodeScalar(u)!
+            #else
+                let scalar = UnicodeScalar(u)
+            #endif
+            XCTAssertNotNil(File(Character(scalar)))
         }
     }
 
@@ -342,7 +352,12 @@ class SageTests: XCTestCase {
             XCTAssertEqual(other.board, game.board)
             XCTAssertEqual(other.playedMoves, moves)
         } catch {
-            XCTFail(String(error))
+            #if swift(>=3)
+                let str = String(describing: error)
+            #else
+                let str = String(error)
+            #endif
+            XCTFail(str)
         }
     }
 
@@ -387,7 +402,12 @@ class SageTests: XCTestCase {
                 try game.execute(move: Move(start: .C5, end: .D6))
             #endif
         } catch {
-            XCTFail(String(error))
+            #if swift(>=3)
+                let str = String(describing: error)
+            #else
+                let str = String(error)
+            #endif
+            XCTFail(str)
         }
     }
 
