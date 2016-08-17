@@ -108,7 +108,7 @@
 		5235BDA21D3A89A200B42FFD /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		524583A51D0DE7B9002311F3 /* Sage OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sage OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		524583A91D0DE7B9002311F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		524583B01D0DF2BB002311F3 /* SageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SageTests.swift; path = Sage/SageTests.swift; sourceTree = "<group>"; };
+		524583B01D0DF2BB002311F3 /* SageTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SageTests.swift; path = SageTests/SageTests.swift; sourceTree = "<group>"; };
 		5273A7401CF2647800426C1F /* Sage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A74E1CF2647F00426C1F /* Sage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5273A75B1CF2648700426C1F /* Sage.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sage.framework; sourceTree = BUILT_PRODUCTS_DIR; };
