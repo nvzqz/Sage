@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name                      = "Sage"
-    s.version                   = "2.4.1"
+    s.version                   = "2.5.0"
     s.summary                   = "A cross-platform chess library for Swift."
     s.homepage                  = "https://github.com/nvzqz/#{s.name}"
     s.license                   = { :type => "Apache License, Version 2.0", :file => "LICENSE.txt" }
