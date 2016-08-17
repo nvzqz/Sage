@@ -30,7 +30,11 @@
 internal extension Optional {
 
     var _altDescription: String {
-        return self.map({ String($0) }) ?? "nil"
+        #if swift(>=3)
+            return self.map({ String(describing: $0) }) ?? "nil"
+        #else
+            return self.map({ String($0) }) ?? "nil"
+        #endif
     }
 
 }

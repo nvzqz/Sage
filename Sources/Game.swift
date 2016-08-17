@@ -214,7 +214,7 @@ public final class Game {
                       fullmoves: fullmoves)
         }
 
-        private func _validationError() -> PositionError? {
+        internal func _validationError() -> PositionError? {
             for color in Color.all {
                 guard board.count(of: Piece(king: color)) == 1 else {
                     #if swift(>=3)
@@ -686,7 +686,12 @@ public final class Game {
 
     /// Returns the available moves for the current player.
     private func _availableMoves(considerHalfmoves flag: Bool) -> [Move] {
-        return Array(Square.all.map({ _movesForPiece(at: $0, considerHalfmoves: flag) }).flatten())
+        let moves = Square.all.map({ _movesForPiece(at: $0, considerHalfmoves: flag) })
+        #if swift(>=3)
+            return Array(moves.joined())
+        #else
+            return Array(moves.flatten())
+        #endif
     }
 
     /// Returns the available moves for the current player.
@@ -723,7 +728,7 @@ public final class Game {
     }
 
     @inline(__always)
-    private func _execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
+    private func _execute(uncheckedMove move: Move, promotion: () -> Piece.Kind) throws {
         guard let piece = board[move.start] else {
             throw ExecutionError.missingPiece(move.start)
         }
@@ -784,7 +789,7 @@ public final class Game {
     /// - parameter promotion: A closure returning a promotion piece kind if a pawn promotion occurs.
     ///
     /// - throws: `ExecutionError` if no piece exists at `move.start` or if `promotion` is invalid.
-    public func execute(uncheckedMove move: Move, promotion: @noescape () -> Piece.Kind) throws {
+    public func execute(uncheckedMove move: Move, promotion: () -> Piece.Kind) throws {
         try _execute(uncheckedMove: move, promotion: promotion)
         let piece = board[move.end]!
         if piece.kind.isPawn && abs(move.rankChange) == 2 {
@@ -921,7 +926,7 @@ public final class Game {
     /// - parameter promotion: A closure returning a promotion piece kind if a pawn promotion occurs.
     ///
     /// - throws: `ExecutionError` if `move` is illegal or if `promotion` is invalid.
-    public func execute(move: Move, promotion: @noescape () -> Piece.Kind) throws {
+    public func execute(move: Move, promotion: () -> Piece.Kind) throws {
         guard isLegal(move: move) else {
             throw ExecutionError.illegalMove(move, playerTurn, board)
         }

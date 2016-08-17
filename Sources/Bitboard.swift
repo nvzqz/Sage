@@ -183,32 +183,17 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
 
     }
 
-    /// An iterator for `Bitboard` used as a base for both `Iterator` and `Generator`.
-    private struct _MutualIterator {
-
-        var _bitboard: Bitboard
-
-        init(_ bitboard: Bitboard) {
-            self._bitboard = bitboard
-        }
-
-        mutating func next() -> Square? {
-            return _bitboard.popLSBSquare()
-        }
-
-    }
-
     #if swift(>=3)
 
     /// An iterator for the squares of a `Bitboard`.
     public struct Iterator: IteratorProtocol {
 
-        private var _base: _MutualIterator
+        fileprivate var _bitboard: Bitboard
 
         /// Advances and returns the next element of the underlying sequence, or
         /// `nil` if no next element exists.
         public mutating func next() -> Square? {
-            return _base.next()
+            return _bitboard.popLSBSquare()
         }
 
     }
@@ -218,11 +203,11 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     /// A generator for the squares of a `Bitboard`.
     public struct Generator: GeneratorType {
 
-        private var _base: _MutualIterator
+        private var _bitboard: Bitboard
 
         /// Advance to the next element and return it, or `nil` if no next element exists.
         public mutating func next() -> Square? {
-            return _base.next()
+            return _bitboard.popLSBSquare()
         }
 
     }
@@ -396,12 +381,12 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     #if swift(>=3)
 
     /// Create a bitboard from `squares`.
-    public init<S: Sequence where S.Iterator.Element == Square>(squares: S) {
+    public init<S: Sequence>(squares: S) where S.Iterator.Element == Square {
         rawValue = squares.reduce(0) { $0 | (1 << UInt64($1.rawValue)) }
     }
 
     /// Create a bitboard from `locations`.
-    public init<S: Sequence where S.Iterator.Element == Location>(locations: S) {
+    public init<S: Sequence>(locations: S) where S.Iterator.Element == Location {
         self.init(squares: locations.map(Square.init(location:)))
     }
 
@@ -757,7 +742,7 @@ extension Bitboard: Sequence, BitwiseOperations {
 
     /// Returns an iterator over the squares of the board.
     public func makeIterator() -> Iterator {
-        return Iterator(_base: _MutualIterator(self))
+        return Iterator(_bitboard: self)
     }
 
 }
@@ -786,7 +771,7 @@ extension Bitboard: SequenceType, BitwiseOperationsType {
     ///
     /// - complexity: O(1).
     public func generate() -> Generator {
-        return Generator(_base: _MutualIterator(self))
+        return Generator(_bitboard: self)
     }
 
 }

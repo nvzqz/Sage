@@ -545,7 +545,7 @@ extension Square {
     #if swift(>=3)
 
     /// Returns `true` if `self` is aligned with `squares`.
-    public func isAligned<S: Sequence where S.Iterator.Element == Square>(with squares: S) -> Bool {
+    public func isAligned<S: Sequence>(with squares: S) -> Bool where S.Iterator.Element == Square {
         var line: Bitboard? = nil
         let bitboard = Bitboard(square: self)
         for square in squares {
@@ -644,12 +644,12 @@ extension Square {
     #if swift(>=3)
 
     /// Returns moves from the squares in `squares` to `self`.
-    public func moves<S: Sequence where S.Iterator.Element == Square>(from squares: S) -> [Move] {
+    public func moves<S: Sequence>(from squares: S) -> [Move] where S.Iterator.Element == Square {
         return squares.moves(to: self)
     }
 
     /// Returns moves from `self` to the squares in `squares`.
-    public func moves<S: Sequence where S.Iterator.Element == Square>(to squares: S) -> [Move] {
+    public func moves<S: Sequence>(to squares: S) -> [Move] where S.Iterator.Element == Square {
         return squares.moves(from: self)
     }
 

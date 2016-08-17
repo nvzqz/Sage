@@ -214,7 +214,11 @@ public struct Move: Hashable, CustomStringConvertible {
 
 }
 
+#if swift(>=3)
+infix operator >>>
+#else
 infix operator >>> { }
+#endif
 
 /// Returns `true` if both moves are the same.
 public func == (lhs: Move, rhs: Move) -> Bool {

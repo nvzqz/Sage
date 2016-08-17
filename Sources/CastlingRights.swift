@@ -199,23 +199,29 @@ public struct CastlingRights: CustomStringConvertible {
             return rawValue
         }
 
-        private var _bit: Int {
-            #if swift(>=3)
-                switch self {
-                case .whiteKingside:  return 0b0001
-                case .whiteQueenside: return 0b0010
-                case .blackKingside:  return 0b0100
-                case .blackQueenside: return 0b1000
-                }
-            #else
-                switch self {
-                case .WhiteKingside:  return 0b0001
-                case .WhiteQueenside: return 0b0010
-                case .BlackKingside:  return 0b0100
-                case .BlackQueenside: return 0b1000
-                }
-            #endif
+        #if swift(>=3)
+
+        fileprivate var _bit: Int {
+            switch self {
+            case .whiteKingside:  return 0b0001
+            case .whiteQueenside: return 0b0010
+            case .blackKingside:  return 0b0100
+            case .blackQueenside: return 0b1000
+            }
         }
+
+        #else
+
+        private var _bit: Int {
+            switch self {
+            case .WhiteKingside:  return 0b0001
+            case .WhiteQueenside: return 0b0010
+            case .BlackKingside:  return 0b0100
+            case .BlackQueenside: return 0b1000
+            }
+        }
+
+        #endif
 
         /// Create a `Right` from `color` and `side`.
         public init(color: Color, side: Board.Side) {
@@ -264,7 +270,7 @@ public struct CastlingRights: CustomStringConvertible {
     /// An iterator over the members of `CastlingRights`.
     public struct Iterator: IteratorProtocol {
 
-        private var _base: SetIterator<Right>
+        fileprivate var _base: SetIterator<Right>
 
         /// Advance to the next element and return it, or `nil` if no next element exists.
         public mutating func next() -> Right? {
@@ -304,8 +310,13 @@ public struct CastlingRights: CustomStringConvertible {
     /// Queenside castling rights.
     public static let queenside = CastlingRights(Right.queenside)
 
+    #if swift(>=3)
+    /// The rights.
+    fileprivate var _rights: Set<Right>
+    #else
     /// The rights.
     private var _rights: Set<Right>
+    #endif
 
     /// A textual representation of `self`.
     public var description: String {
@@ -359,7 +370,7 @@ public struct CastlingRights: CustomStringConvertible {
     #if swift(>=3)
 
     /// Creates a set of rights from a sequence.
-    public init<S: Sequence where S.Iterator.Element == Right>(_ sequence: S) {
+    public init<S: Sequence>(_ sequence: S) where S.Iterator.Element == Right {
         if let set = sequence as? Set<Right> {
             _rights = set
         } else {

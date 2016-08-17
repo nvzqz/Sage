@@ -173,19 +173,22 @@ public struct Board: Hashable, CustomStringConvertible {
 
     }
 
-    /// An iterator for `Board` used as a base for both `Iterator` and `Generator`.
-    private struct _MutualIterator {
+    #if swift(>=3)
+
+    /// An iterator for the spaces of a chess board.
+    public struct Iterator: IteratorProtocol {
 
         let _board: Board
 
         var _index: Int
 
-        init(_ board: Board) {
+        fileprivate init(_ board: Board) {
             self._board = board
             self._index = 0
         }
 
-        mutating func next() -> Board.Space? {
+        /// Advances to the next space on the board and returns it.
+        public mutating func next() -> Board.Space? {
             guard let square = Square(rawValue: _index) else {
                 return nil
             }
@@ -195,30 +198,27 @@ public struct Board: Hashable, CustomStringConvertible {
 
     }
 
-    #if swift(>=3)
-
-    /// An iterator for the spaces of a chess board.
-    public struct Iterator: IteratorProtocol {
-
-        private var _base: _MutualIterator
-
-        /// Advances to the next space on the board and returns it.
-        public mutating func next() -> Board.Space? {
-            return _base.next()
-        }
-
-    }
-
     #else
 
     /// A generator for the spaces of a chess board.
     public struct Generator: GeneratorType {
 
-        private var _base: _MutualIterator
+        let _board: Board
+
+        var _index: Int
+
+        private init(_ board: Board) {
+            self._board = board
+            self._index = 0
+        }
 
         /// Advances to the next space on the board and returns it.
         public mutating func next() -> Board.Space? {
-            return _base.next()
+            guard let square = Square(rawValue: _index) else {
+                return nil
+            }
+            defer { _index += 1 }
+            return _board.space(at: square)
         }
 
     }
@@ -755,7 +755,7 @@ extension Board: Sequence {
 
     /// Returns an iterator over the spaces of the board.
     public func makeIterator() -> Iterator {
-        return Iterator(_base: _MutualIterator(self))
+        return Iterator(self)
     }
 
 }
@@ -778,7 +778,7 @@ extension Board: SequenceType {
     /// - complexity: O(1).
     @warn_unused_result
     public func generate() -> Generator {
-        return Generator(_base: _MutualIterator(self))
+        return Generator(self)
     }
 
 }
