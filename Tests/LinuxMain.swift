@@ -18,7 +18,7 @@
 //
 
 import XCTest
-@testable import SageTestSuite
+@testable import SageTests
 
 XCTMain([
      testCase(SageTests.allTests),
