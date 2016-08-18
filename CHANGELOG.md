@@ -2,6 +2,16 @@
 
 All releases of Sage adhere to [Semantic Versioning](http://semver.org/).
 
+## [v2.5.1](https://github.com/nvzqz/Sage/tree/v2.5.1) (2016-08-17)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.5.0...v2.5.1)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.5.1)
+
+### Fixes
+
+- Swift 3 preview 6 and Xcode 8 beta 6 compatibility
+
 ## [v2.5.0](https://github.com/nvzqz/Sage/tree/v2.5.0) (2016-08-17)
 
 - [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.4.1...v2.5.0)
