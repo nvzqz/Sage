@@ -69,8 +69,8 @@ Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develo
     - watchOS 2.0+
     - tvOS 9.0+
     - Linux
-- Xcode 7.3 and 8.0 beta 6
-- Swift 2.2 and 3.0 preview 6
+- Xcode 7.3 and 8.0
+- Swift 2.2 and 3.0
 
 ### Install Using Swift Package Manager
 The [Swift Package Manager](https://swift.org/package-manager/) is a
