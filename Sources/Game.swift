@@ -660,20 +660,14 @@ public final class Game {
             }
         }
 
-        if piece.kind.isKing {
-            for square in movesBitboard where board.attackers(to: square, color: playerTurn.inverse()) != 0 {
-                movesBitboard[square] = false
+        let player = playerTurn
+        for moveSquare in movesBitboard {
+            try! _execute(uncheckedMove: square >>> moveSquare, promotion: { ._queen })
+            if board.attackersToKing(for: player) != 0 {
+                movesBitboard[moveSquare] = false
             }
-        } else {
-            let player = playerTurn
-            for moveSquare in movesBitboard {
-                try! _execute(uncheckedMove: square >>> moveSquare, promotion: { ._queen })
-                if board.attackersToKing(for: player) != 0 {
-                    movesBitboard[moveSquare] = false
-                }
-                undoMove()
-                _undoHistory.removeLast()
-            }
+            undoMove()
+            _undoHistory.removeLast()
         }
 
         return movesBitboard
