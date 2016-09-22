@@ -2,6 +2,16 @@
 
 All releases of Sage adhere to [Semantic Versioning](http://semver.org/).
 
+## [v2.5.2](https://github.com/nvzqz/Sage/tree/v2.5.2) (2016-09-21)
+
+- [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.5.1...v2.5.2)
+
+- [Release](https://github.com/nvzqz/Sage/releases/tag/v2.5.2)
+
+### Fixes
+
+- Fixes issue regarding legal move generation for king in check due to error in moves available for the attacking piece
+
 ## [v2.5.1](https://github.com/nvzqz/Sage/tree/v2.5.1) (2016-08-17)
 
 - [Full Changelog](https://github.com/nvzqz/Sage/compare/v2.5.0...v2.5.1)
