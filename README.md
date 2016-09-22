@@ -39,6 +39,7 @@ Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develo
     - [Squares to Moves](#squares-to-moves)
     - [Playground Usage](#playground-usage)
         - [Board Quick Look](#board-quick-look)
+- [Donation](#donation)
 - [License](#license)
 
 ## Build Status
@@ -324,6 +325,14 @@ You can then use the playground from within the project.
 `Board` conforms to the `CustomPlaygroundQuickLookable` protocol.
 
 ![Playground quick look](https://raw.githubusercontent.com/nvzqz/Sage/assets/BoardPlaygroundView.png)
+
+## Donation
+
+I work on this in my free time and do my best to make it as great as it can be.
+If you want to help me keep pushing out awesome libraries like this, a donation
+would be greatly appreciated. :smile:
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=GZXUDALB3MQRC&lc=US&item_name=Nikolai%20Vazquez&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
 
 ## License
 
