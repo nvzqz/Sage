@@ -946,6 +946,17 @@ public final class Game {
         try execute(move: move, promotion: ._queen)
     }
 
+
+	/// Executes `move`, updating the state for `self`
+	///
+	/// - parameter move: The move (in a string) to be parsed and executed
+	///
+	/// - throws: `ParseError` if `move` is invalid, or `ExecutionError` if it's illegal.
+	public func execute(move: PGNMove) throws {
+		let parsedMove = try PGNParser.parse(move: move, in: position)
+		try execute(move: parsedMove, promotion: { move.promotionPiece ?? ._queen })
+	}
+
     #else
 
     /// Executes `move`, updating the state for `self`.
