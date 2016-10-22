@@ -87,6 +87,7 @@ class PGNParsingTests: XCTestCase {
 	func testAllMovesInInitialPosition() {
 		let initialPosition = Game.Position()
 		let possibleMoves: [PGNMove] = ["a3", "a4", "b3", "b4", "Nf3", "e4", "e3", "d4", "Nc3", "Na3", "h3"]
+		#if swift(>=3)
 		let resultingMoves: [Move] = [Move(start: .a2, end: .a3),
 		                              Move(start: .a2, end: .a4),
 		                              Move(start: .b2, end: .b3),
@@ -98,10 +99,26 @@ class PGNParsingTests: XCTestCase {
 		                              Move(start: .b1, end: .c3),
 		                              Move(start: .b1, end: .a3),
 		                              Move(start: .h2, end: .h3)]
+		#else
+		let resultingMoves: [Move] = [Move(start: .A2, end: .A3),
+									  Move(start: .A2, end: .A4),
+									  Move(start: .B2, end: .B3),
+									  Move(start: .B2, end: .B4),
+									  Move(start: .G1, end: .F3),
+									  Move(start: .E2, end: .E4),
+									  Move(start: .E2, end: .E3),
+									  Move(start: .D2, end: .D4),
+									  Move(start: .B1, end: .C3),
+									  Move(start: .B1, end: .A3),
+									  Move(start: .H2, end: .H3)]
+
+		#endif
 		for i in 0..<possibleMoves.count {
 			try XCTAssertEqual(PGNParser.parse(move: possibleMoves[i], in: initialPosition), resultingMoves[i])
 		}
 	}
+
+	#if swift(>=3)
 
 	func testRookMovesParsing() {
 		let position = Game.Position(fen: "1kq5/7R/8/8/R2PR2R/8/8/4K2R w - - 0 1")!
@@ -124,6 +141,31 @@ class PGNParsingTests: XCTestCase {
 		XCTAssertEqual(try? PGNParser.parse(move: "R7h6", in: position), Move(start: .h7, end: .h6))
 	}
 
+	#else
+
+	func testRookMovesParsing() {
+		let position = Game.Position(fen: "1kq5/7R/8/8/R2PR2R/8/8/4K2R w - - 0 1")!
+		XCTAssertEqual(try? PGNParser.parse(move: "Ra4", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rb4+", in: position), Move(start: .A4, end: .B4))
+		XCTAssertEqual(try? PGNParser.parse(move: "Rc4", in: position), Move(start: .A4, end: .C4))
+		XCTAssertEqual(try? PGNParser.parse(move: "Rd4", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Re4", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rf4", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rg4", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rh4", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Reg4", in: position), Move(start: .E4, end: .G4))
+		XCTAssertEqual(try? PGNParser.parse(move: "Rhg4", in: position), Move(start: .H4, end: .G4))
+
+		XCTAssertEqual(try? PGNParser.parse(move: "Rh8", in: position), Move(start: .H7, end: .H8))
+		XCTAssertEqual(try? PGNParser.parse(move: "Rh7", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rh6", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rh6", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "Rhh6", in: position), nil)
+		XCTAssertEqual(try? PGNParser.parse(move: "R7h6", in: position), Move(start: .H7, end: .H6))
+	}
+
+	#endif
+
 	func testGamePlaysCorrectly() {
 		for i in 0..<moves.count {
 			do {
@@ -134,15 +176,25 @@ class PGNParsingTests: XCTestCase {
 				let move = try PGNParser.parse(move: moveString, in: startPosition)
 				let game = try Game(position: startPosition)
 				try game.execute(move: move)
+				#if swift(>=3)
 				var fenElements = game.position.fen().components(separatedBy: " ")
-				fenElements.removeLast()
+				_ = fenElements.removeLast()
 				let finalFen = fenElements.joined(separator: " ")
 				var expectedFenElements = expectedFen.components(separatedBy: " ")
-				expectedFenElements.removeLast()
+				_ = expectedFenElements.removeLast()
 				let finalExpectedFen = expectedFenElements.joined(separator: " ")
+				#else
+				var fenElements = game.position.fen().componentsSeparatedByString(" ")
+				_ = fenElements.removeLast()
+				let finalFen = fenElements.joinWithSeparator(" ")
+				var expectedFenElements = expectedFen.componentsSeparatedByString(" ")
+				_ = expectedFenElements.removeLast()
+				let finalExpectedFen = expectedFenElements.joinWithSeparator(" ")
+				#endif
+
 				XCTAssertEqual(finalFen, finalExpectedFen)
 			} catch {
-				XCTFail(error.localizedDescription)
+				XCTFail("\(error)")
 			}
 		}
 	}
@@ -175,8 +227,8 @@ class PGNParsingTests: XCTestCase {
 		XCTAssertFalse(capture!.isCheckmate)
 		XCTAssertEqual(capture!.piece, Piece.Kind._knight)
 		XCTAssertFalse(capture!.isCastle)
-		XCTAssertEqual(capture!.rank, Rank.six)
-		XCTAssertEqual(capture!.file, File.e)
+		XCTAssertEqual(capture!.rank, Rank(6))
+		XCTAssertEqual(capture!.file, File._e)
 		XCTAssertEqual(capture!.sourceRank, nil)
 		XCTAssertEqual(capture!.sourceFile, nil)
 
@@ -189,8 +241,8 @@ class PGNParsingTests: XCTestCase {
 		XCTAssertTrue(promotion.isCheckmate)
 		XCTAssertEqual(promotion.piece, Piece.Kind._pawn)
 		XCTAssertFalse(promotion.isCastle)
-		XCTAssertEqual(promotion.rank, Rank.eight)
-		XCTAssertEqual(promotion.file, File.d)
+		XCTAssertEqual(promotion.rank, Rank(8))
+		XCTAssertEqual(promotion.file, File._d)
 		XCTAssertEqual(promotion.sourceRank, nil)
 		XCTAssertEqual(promotion.sourceFile, nil)
 
@@ -203,10 +255,10 @@ class PGNParsingTests: XCTestCase {
 		XCTAssertFalse(pawnCapture.isCheckmate)
 		XCTAssertEqual(pawnCapture.piece, Piece.Kind._pawn)
 		XCTAssertFalse(pawnCapture.isCastle)
-		XCTAssertEqual(pawnCapture.rank, Rank.four)
-		XCTAssertEqual(pawnCapture.file, File.b)
+		XCTAssertEqual(pawnCapture.rank, Rank(4))
+		XCTAssertEqual(pawnCapture.file, File._b)
 		XCTAssertEqual(pawnCapture.sourceRank, nil)
-		XCTAssertEqual(pawnCapture.sourceFile, File.a)
+		XCTAssertEqual(pawnCapture.sourceFile, File._a)
 
 		XCTAssertTrue(PGNMove(rawValue: "O-O-O")!.isCastleQueenside)
 		XCTAssertFalse(PGNMove(rawValue: "O-O-O")!.isCastleKingside)
@@ -218,6 +270,8 @@ class PGNParsingTests: XCTestCase {
 		XCTAssertTrue(PGNMove(rawValue: "O-O+")!.isCastle)
 		XCTAssertTrue(PGNMove(rawValue: "O-O+")!.isCheck)
 	}
+
+	#if swift(>=3)
 
 	func testParserShouldNotCrashOnInvalidMoves() {
 		let game = Game()
@@ -235,4 +289,6 @@ class PGNParsingTests: XCTestCase {
 		XCTAssertThrowsError(try game.execute(move: "🍣"))
 		XCTAssertThrowsError(try game.execute(move: "VASF234df89ayrsdfiuafiuawf"))
 	}
+
+	#endif
 }
