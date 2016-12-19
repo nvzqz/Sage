@@ -48,6 +48,14 @@ class SageTests: XCTestCase {
                            ("testGameDoubleStep", testGameDoubleStep),
                            ("testGameEnPassant", testGameEnPassant),
                            ("testGameUndoAndRedo", testGameUndoAndRedo),
+                           ("testGameWhiteKingSideCastlingRightsAfterRookCapture",
+                            testGameWhiteKingSideCastlingRightsAfterRookCapture),
+                           ("testGameWhiteQueenSideCastlingRightsAfterRookCapture",
+                            testGameWhiteQueenSideCastlingRightsAfterRookCapture),
+                           ("testGameBlackKingSideCastlingRightsAfterRookCapture",
+                            testGameBlackKingSideCastlingRightsAfterRookCapture),
+                           ("testGameBlackQueenSideCastlingRightsAfterRookCapture",
+                            testGameBlackQueenSideCastlingRightsAfterRookCapture),
                            ("testPGNParsingAndExporting", testPGNParsingAndExporting)]
 
     func testBoardInitializer() {
@@ -409,6 +417,42 @@ class SageTests: XCTestCase {
             #endif
             XCTFail(str)
         }
+    }
+
+    func testGameWhiteKingSideCastlingRightsAfterRookCapture() {
+        let startFen = "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1"
+        let startPosition = Game.Position(fen: startFen)!
+        let game = try! Game(position: startPosition)
+        let move = Move(start: .h8, end: .h1)
+        try! game.execute(move: move)
+        XCTAssertFalse(game.castlingRights.contains(.whiteKingside))
+    }
+
+    func testGameWhiteQueenSideCastlingRightsAfterRookCapture() {
+        let startFen = "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1"
+        let startPosition = Game.Position(fen: startFen)!
+        let game = try! Game(position: startPosition)
+        let move = Move(start: .a8, end: .a1)
+        try! game.execute(move: move)
+        XCTAssertFalse(game.castlingRights.contains(.whiteQueenside))
+    }
+
+    func testGameBlackKingSideCastlingRightsAfterRookCapture() {
+        let startFen = "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"
+        let startPosition = Game.Position(fen: startFen)!
+        let game = try! Game(position: startPosition)
+        let move = Move(start: .h1, end: .h8)
+        try! game.execute(move: move)
+        XCTAssertFalse(game.castlingRights.contains(.blackKingside))
+    }
+
+    func testGameBlackQueenSideCastlingRightsAfterRookCapture() {
+        let startFen = "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"
+        let startPosition = Game.Position(fen: startFen)!
+        let game = try! Game(position: startPosition)
+        let move = Move(start: .a1, end: .a8)
+        try! game.execute(move: move)
+        XCTAssertFalse(game.castlingRights.contains(.blackQueenside))
     }
 
     func testGameUndoAndRedo() throws {

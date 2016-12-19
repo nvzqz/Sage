@@ -761,6 +761,22 @@ public final class Game {
                 board[rook][new] = true
             }
         }
+
+        if let _ = capture?.kind.isRook {
+            switch move.end {
+            case .a1 where playerTurn == Color._black:
+                castlingRights.remove(.whiteQueenside)
+            case .h1 where playerTurn == Color._black:
+                castlingRights.remove(.whiteKingside)
+            case .a8 where playerTurn == Color._white:
+                castlingRights.remove(.blackQueenside)
+            case .h8 where playerTurn == Color._white:
+                castlingRights.remove(.blackKingside)
+            default:
+                break
+            }
+        }
+
         _moveHistory.append((move, piece, capture, enPassantTarget, attackersToKing, halfmoves, rights))
         if let capture = capture {
             board[capture][captureSquare] = false
@@ -796,6 +812,7 @@ public final class Game {
         } else {
             attackersToKing = board.attackersToKing(for: playerTurn)
         }
+
         fullmoves = 1 + (UInt(moveCount) / 2)
         _undoHistory = []
     }
