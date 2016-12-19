@@ -761,13 +761,12 @@ public final class Game {
                 board[rook][new] = true
             }
         }
-
         if let capture = capture, capture.kind.isRook {
             switch move.end {
-            case .a1 where playerTurn == Color.black: castlingRights.remove(.whiteQueenside)
-            case .h1 where playerTurn == Color.black: castlingRights.remove(.whiteKingside)
-            case .a8 where playerTurn == Color.white: castlingRights.remove(.blackQueenside)
-            case .h8 where playerTurn == Color.white: castlingRights.remove(.blackKingside)
+            case .a1 where playerTurn.isBlack: castlingRights.remove(.whiteQueenside)
+            case .h1 where playerTurn.isBlack: castlingRights.remove(.whiteKingside)
+            case .a8 where playerTurn.isWhite: castlingRights.remove(.blackQueenside)
+            case .h8 where playerTurn.isWhite: castlingRights.remove(.blackKingside)
             default:
                 break
             }
@@ -864,10 +863,10 @@ public final class Game {
 
         if let capture = capture where capture.kind.isRook {
             switch move.end {
-            case .A1 where playerTurn == Color.Black: castlingRights.remove(.WhiteQueenside)
-            case .H1 where playerTurn == Color.Black: castlingRights.remove(.WhiteKingside)
-            case .A8 where playerTurn == Color.White: castlingRights.remove(.BlackQueenside)
-            case .H8 where playerTurn == Color.White: castlingRights.remove(.BlackKingside)
+            case .A1 where playerTurn.isBlack: castlingRights.remove(.WhiteQueenside)
+            case .H1 where playerTurn.isBlack: castlingRights.remove(.WhiteKingside)
+            case .A8 where playerTurn.isWhite: castlingRights.remove(.BlackQueenside)
+            case .H8 where playerTurn.isWhite: castlingRights.remove(.BlackKingside)
             default:
                 break
             }
