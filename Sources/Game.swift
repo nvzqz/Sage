@@ -762,16 +762,12 @@ public final class Game {
             }
         }
 
-        if let _ = capture?.kind.isRook {
+        if let capture = capture, capture.kind.isRook {
             switch move.end {
-            case .a1 where playerTurn == Color._black:
-                castlingRights.remove(.whiteQueenside)
-            case .h1 where playerTurn == Color._black:
-                castlingRights.remove(.whiteKingside)
-            case .a8 where playerTurn == Color._white:
-                castlingRights.remove(.blackQueenside)
-            case .h8 where playerTurn == Color._white:
-                castlingRights.remove(.blackKingside)
+            case .a1 where playerTurn == Color.black: castlingRights.remove(.whiteQueenside)
+            case .h1 where playerTurn == Color.black: castlingRights.remove(.whiteKingside)
+            case .a8 where playerTurn == Color.white: castlingRights.remove(.blackQueenside)
+            case .h8 where playerTurn == Color.white: castlingRights.remove(.blackKingside)
             default:
                 break
             }
@@ -865,6 +861,18 @@ public final class Game {
                 board[rook][new] = true
             }
         }
+
+        if let capture = capture where capture.kind.isRook {
+            switch move.end {
+            case .A1 where playerTurn == Color.Black: castlingRights.remove(.WhiteQueenside)
+            case .H1 where playerTurn == Color.Black: castlingRights.remove(.WhiteKingside)
+            case .A8 where playerTurn == Color.White: castlingRights.remove(.BlackQueenside)
+            case .H8 where playerTurn == Color.White: castlingRights.remove(.BlackKingside)
+            default:
+                break
+            }
+        }
+
         _moveHistory.append((move, piece, capture, enPassantTarget, attackersToKing, halfmoves, rights))
         if let capture = capture {
             board[capture][captureSquare] = false
