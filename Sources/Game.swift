@@ -522,6 +522,7 @@ public final class Game {
         self.attackersToKing = game.attackersToKing
         self.halfmoves       = game.halfmoves
         self.fullmoves       = game.fullmoves
+        self.enPassantTarget = game.enPassantTarget
     }
 
     /// Creates a new chess game.
