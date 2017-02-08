@@ -44,6 +44,8 @@ Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develo
 
 ## Build Status
 
+[![Join the chat at https://gitter.im/nvzqz/Sage](https://badges.gitter.im/nvzqz/Sage.svg)](https://gitter.im/nvzqz/Sage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 | Branch    | Status |
 | :-------: | :----: |
 | `master`  | <a href="https://travis-ci.org/nvzqz/Sage"><img alt="Build Status" src="https://travis-ci.org/nvzqz/Sage.svg?branch=master"></a>  |
