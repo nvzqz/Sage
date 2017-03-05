@@ -1040,7 +1040,7 @@ public final class Game {
         if let capture = capture {
             board[capture][captureSquare] = true
         }
-        _undoHistory.append((move, promotionKind, self.enPassantTarget, attackers))
+        _undoHistory.append((move, promotionKind, self.enPassantTarget, self.attackersToKing))
         board[piece][move.end] = false
         board[piece][move.start] = true
         playerTurn.invert()
