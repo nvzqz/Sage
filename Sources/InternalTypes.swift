@@ -30,11 +30,9 @@
 internal extension Optional {
 
     var _altDescription: String {
-        #if swift(>=3)
+        
             return self.map({ String(describing: $0) }) ?? "nil"
-        #else
-            return self.map({ String($0) }) ?? "nil"
-        #endif
+        
     }
 
 }
@@ -45,11 +43,9 @@ extension RawRepresentable where RawValue == Int, Self: Comparable {
         if other > self {
             return (rawValue...other.rawValue).flatMap(Self.init(rawValue:))
         } else if other < self {
-            #if swift(>=3)
+            
                 let values = (other.rawValue...rawValue).reversed()
-            #else
-                let values = (other.rawValue...rawValue).reverse()
-            #endif
+            
             return values.flatMap(Self.init(rawValue:))
         } else {
             return [self]
@@ -60,11 +56,9 @@ extension RawRepresentable where RawValue == Int, Self: Comparable {
         if other > self {
             return (rawValue + 1 ..< other.rawValue).flatMap(Self.init(rawValue:))
         } else if other < self {
-            #if swift(>=3)
+            
                 let values = (other.rawValue + 1 ..< rawValue).reversed()
-            #else
-                let values = (other.rawValue + 1 ..< rawValue).reverse()
-            #endif
+            
             return values.flatMap(Self.init(rawValue:))
         } else {
             return []

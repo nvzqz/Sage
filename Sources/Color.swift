@@ -20,50 +20,23 @@
 /// A chess color.
 public enum Color: String, CustomStringConvertible {
 
-    #if swift(>=3)
-
     /// White chess color.
     case white
 
     /// Black chess color.
     case black
 
-    /// White color regardless of Swift version.
-    internal static let _white = Color.white
-
-    /// Black color regardless of Swift version.
-    internal static let _black = Color.black
-
     /// An array of all colors.
     public static let all: [Color] = [.white, .black]
 
-    #else
-
-    /// White chess color.
-    case White
-
-    /// Black chess color.
-    case Black
-
-    /// White color regardless of Swift version.
-    internal static let _white = Color.White
-
-    /// Black color regardless of Swift version.
-    internal static let _black = Color.Black
-
-    /// An array of all colors.
-    public static let all: [Color] = [.White, .Black]
-
-    #endif
-
     /// Whether the color is white or not.
     public var isWhite: Bool {
-        return self == ._white
+        return self == .white
     }
 
     /// Whether the color is black or not.
     public var isBlack: Bool {
-        return self == ._black
+        return self == .black
     }
 
     /// A textual representation of `self`.
@@ -79,15 +52,15 @@ public enum Color: String, CustomStringConvertible {
     /// Create a color from a character of any case.
     public init?(character: Character) {
         switch character {
-        case "W", "w": self = ._white
-        case "B", "b": self = ._black
+        case "W", "w": self = .white
+        case "B", "b": self = .black
         default: return nil
         }
     }
 
     /// Returns the inverse of `self`.
     public func inverse() -> Color {
-        return self.isWhite ? ._black : ._white
+        return self.isWhite ? .black : .white
     }
 
     /// Inverts the color of `self`.

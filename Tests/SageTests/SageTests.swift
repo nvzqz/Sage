@@ -59,11 +59,9 @@ class SageTests: XCTestCase {
                            ("testPGNParsingAndExporting", testPGNParsingAndExporting)]
 
     func testBoardInitializer() {
-        #if swift(>=3)
+        
             XCTAssertEqual(Board(variant: .standard), Board())
-        #else
-            XCTAssertEqual(Board(variant: .Standard), Board())
-        #endif
+        
         XCTAssertNotEqual(Board(variant: nil), Board())
     }
 
@@ -71,13 +69,10 @@ class SageTests: XCTestCase {
         XCTAssertEqual(Board(), Board())
         XCTAssertEqual(Board(variant: nil), Board(variant: nil))
         XCTAssertNotEqual(Board(), Board(variant: nil))
-        #if swift(>=3)
+        
             var board = Board(variant: .standard)
             board.removePiece(at: .a1)
-        #else
-            var board = Board(variant: .Standard)
-            board.removePiece(at: .A1)
-        #endif
+        
         XCTAssertNotEqual(Board(), board)
     }
 
@@ -95,7 +90,7 @@ class SageTests: XCTestCase {
                 } else {
                     XCTAssertTrue([1, 8].contains(rank))
                 }
-                #if swift(>=3)
+                
                     switch piece.kind {
                     case .pawn:
                         break
@@ -110,22 +105,7 @@ class SageTests: XCTestCase {
                     case .king:
                         XCTAssertEqual(file, File.e)
                     }
-                #else
-                    switch piece.kind {
-                    case .Pawn:
-                        break
-                    case .Knight:
-                        XCTAssertTrue([.B, .G].contains(file))
-                    case .Bishop:
-                        XCTAssertTrue([.C, .F].contains(file))
-                    case .Rook:
-                        XCTAssertTrue([.A, .H].contains(file))
-                    case .Queen:
-                        XCTAssertEqual(file, File.D)
-                    case .King:
-                        XCTAssertEqual(file, File.E)
-                    }
-                #endif
+                
             } else {
                 XCTAssertTrue([3, 4, 5, 6].contains(rank))
             }
@@ -159,15 +139,11 @@ class SageTests: XCTestCase {
 
     func testBoardSubscript() {
         var board = Board()
-        #if swift(>=3)
+        
             XCTAssertEqual(Piece(pawn: .white), board[.a2])
             XCTAssertEqual(Piece(king: .black), board[.e8])
             let piece = Piece(pawn: .black)
-        #else
-            XCTAssertEqual(Piece(pawn: .White), board[.A2])
-            XCTAssertEqual(Piece(king: .Black), board[.E8])
-            let piece = Piece(pawn: .Black)
-        #endif
+        
         let location = ("A", 3) as Location
         XCTAssertNil(board[location])
         board[location] = piece
@@ -196,11 +172,9 @@ class SageTests: XCTestCase {
 
     func testFileOpposite() {
         let all = File.all
-        #if swift(>=3)
+        
             let reversed = all.reversed()
-        #else
-            let reversed = all.reverse()
-        #endif
+        
         for (a, b) in zip(all, reversed) {
             XCTAssertEqual(a.opposite(), b)
         }
@@ -208,75 +182,55 @@ class SageTests: XCTestCase {
 
     func testRankOpposite() {
         let all = Rank.all
-        #if swift(>=3)
+        
             let reversed = all.reversed()
-        #else
-            let reversed = all.reverse()
-        #endif
+        
         for (a, b) in zip(all, reversed) {
             XCTAssertEqual(a.opposite(), b)
         }
     }
 
     func testFileTo() {
-        #if swift(>=3)
+        
             XCTAssertEqual(File.a.to(.h), File.all)
             XCTAssertEqual(File.a.to(.a), [File.a])
-        #else
-            XCTAssertEqual(File.A.to(.H), File.all)
-            XCTAssertEqual(File.A.to(.A), [File.A])
-        #endif
+        
     }
 
     func testRankTo() {
-        #if swift(>=3)
+        
             XCTAssertEqual(Rank.one.to(.eight), Rank.all)
             XCTAssertEqual(Rank.one.to(.one), [Rank.one])
-        #else
-            XCTAssertEqual(Rank.One.to(.Eight), Rank.all)
-            XCTAssertEqual(Rank.One.to(.One), [Rank.One])
-        #endif
+        
     }
 
     func testFileBetween() {
-        #if swift(>=3)
+        
             XCTAssertEqual(File.c.between(.f), [.d, .e])
             XCTAssertEqual(File.c.between(.d), [])
             XCTAssertEqual(File.c.between(.c), [])
-        #else
-            XCTAssertEqual(File.C.between(.F), [.D, .E])
-            XCTAssertEqual(File.C.between(.D), [])
-            XCTAssertEqual(File.C.between(.C), [])
-        #endif
+        
     }
 
     func testRankBetween() {
-        #if swift(>=3)
+        
             XCTAssertEqual(Rank.two.between(.five), [.three, .four])
             XCTAssertEqual(Rank.two.between(.three), [])
             XCTAssertEqual(Rank.two.between(.two), [])
-        #else
-            XCTAssertEqual(Rank.Two.between(.Five), [.Three, .Four])
-            XCTAssertEqual(Rank.Two.between(.Three), [])
-            XCTAssertEqual(Rank.Two.between(.Two), [])
-        #endif
+        
     }
 
     func testFileFromCharacter() {
         for u in 65...72 {
-            #if swift(>=3)
+            
                 let scalar = UnicodeScalar(u)!
-            #else
-                let scalar = UnicodeScalar(u)
-            #endif
+            
             XCTAssertNotNil(File(Character(scalar)))
         }
         for u in 97...104 {
-            #if swift(>=3)
+            
                 let scalar = UnicodeScalar(u)!
-            #else
-                let scalar = UnicodeScalar(u)
-            #endif
+            
             XCTAssertNotNil(File(Character(scalar)))
         }
     }
@@ -288,31 +242,21 @@ class SageTests: XCTestCase {
     }
 
     func testMoveEquality() {
-        #if swift(>=3)
+        
             let move = Move(start: .a1, end: .c3)
             XCTAssertEqual(move, move)
             XCTAssertEqual(move, Move(start: .a1, end: .c3))
             XCTAssertNotEqual(move, Move(start: .a1, end: .b1))
-        #else
-            let move = Move(start: .A1, end: .C3)
-            XCTAssertEqual(move, move)
-            XCTAssertEqual(move, Move(start: .A1, end: .C3))
-            XCTAssertNotEqual(move, Move(start: .A1, end: .B1))
-        #endif
+        
     }
 
     func testMoveRotation() {
-        #if swift(>=3)
+        
             let move = Move(start: .a1, end: .c6)
             let rotated = move.rotated()
             XCTAssertEqual(rotated.start, Square.h8)
             XCTAssertEqual(rotated.end, Square.f3)
-        #else
-            let move = Move(start: .A1, end: .C6)
-            let rotated = move.rotated()
-            XCTAssertEqual(rotated.start, Square.H8)
-            XCTAssertEqual(rotated.end, Square.F3)
-        #endif
+        
     }
 
     func testMoveOperator() {
@@ -360,11 +304,9 @@ class SageTests: XCTestCase {
             XCTAssertEqual(other.board, game.board)
             XCTAssertEqual(other.playedMoves, moves)
         } catch {
-            #if swift(>=3)
+            
                 let str = String(describing: error)
-            #else
-                let str = String(error)
-            #endif
+            
             XCTFail(str)
         }
     }
@@ -374,17 +316,12 @@ class SageTests: XCTestCase {
         for file in File.all {
             let move = Move(start: Square(location: (file, 2)), end: Square(location: (file, 5)))
             XCTAssertThrowsError(try game.execute(move: move)) { error in
-                #if swift(>=3)
+                
                     guard case Game.ExecutionError.illegalMove = error else {
                         XCTFail("Expected MoveExecutionError.IllegalMove, got \(error)")
                         return
                     }
-                #else
-                    guard case Game.ExecutionError.IllegalMove = error else {
-                        XCTFail("Expected MoveExecutionError.IllegalMove, got \(error)")
-                        return
-                    }
-                #endif
+                
             }
         }
         for file in File.all {
@@ -396,25 +333,17 @@ class SageTests: XCTestCase {
     func testGameEnPassant() {
         let game = Game()
         do {
-            #if swift(>=3)
+            
                 try game.execute(move: Move(start: .c2, end: .c4))
                 try game.execute(move: Move(start: .c7, end: .c6))
                 try game.execute(move: Move(start: .c4, end: .c5))
                 try game.execute(move: Move(start: .d7, end: .d5))
                 try game.execute(move: Move(start: .c5, end: .d6))
-            #else
-                try game.execute(move: Move(start: .C2, end: .C4))
-                try game.execute(move: Move(start: .C7, end: .C6))
-                try game.execute(move: Move(start: .C4, end: .C5))
-                try game.execute(move: Move(start: .D7, end: .D5))
-                try game.execute(move: Move(start: .C5, end: .D6))
-            #endif
+            
         } catch {
-            #if swift(>=3)
+            
                 let str = String(describing: error)
-            #else
-                let str = String(error)
-            #endif
+            
             XCTFail(str)
         }
     }
@@ -423,68 +352,52 @@ class SageTests: XCTestCase {
         let startFen = "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1"
         let startPosition = Game.Position(fen: startFen)!
         let game = try! Game(position: startPosition)
-        #if swift(>=3)
+        
             let move = Move(start: .h8, end: .h1)
-        #else
-            let move = Move(start: .H8, end: .H1)
-        #endif
+        
         try! game.execute(move: move)
-        #if swift(>=3)
+        
             XCTAssertFalse(game.castlingRights.contains(.whiteKingside))
-        #else
-            XCTAssertFalse(game.castlingRights.contains(.WhiteKingside))
-        #endif
+        
     }
 
     func testGameWhiteQueenSideCastlingRightsAfterRookCapture() {
         let startFen = "r3k2r/8/8/8/8/8/8/R3K2R b KQkq - 0 1"
         let startPosition = Game.Position(fen: startFen)!
         let game = try! Game(position: startPosition)
-        #if swift(>=3)
+        
             let move = Move(start: .a8, end: .a1)
-        #else
-            let move = Move(start: .A8, end: .A1)
-        #endif
+        
         try! game.execute(move: move)
-        #if swift(>=3)
+        
             XCTAssertFalse(game.castlingRights.contains(.whiteQueenside))
-        #else
-            XCTAssertFalse(game.castlingRights.contains(.WhiteQueenside))
-        #endif
+        
     }
 
     func testGameBlackKingSideCastlingRightsAfterRookCapture() {
         let startFen = "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"
         let startPosition = Game.Position(fen: startFen)!
         let game = try! Game(position: startPosition)
-        #if swift(>=3)
+        
             let move = Move(start: .h1, end: .h8)
-        #else
-            let move = Move(start: .H1, end: .H8)
-        #endif
+        
         try! game.execute(move: move)
-        #if swift(>=3)
+        
             XCTAssertFalse(game.castlingRights.contains(.blackKingside))
-        #else
-            XCTAssertFalse(game.castlingRights.contains(.BlackKingside))
-        #endif
+        
     }
 
     func testGameBlackQueenSideCastlingRightsAfterRookCapture() {
         let startFen = "r3k2r/8/8/8/8/8/8/R3K2R w KQkq - 0 1"
         let startPosition = Game.Position(fen: startFen)!
         let game = try! Game(position: startPosition)
-        #if swift(>=3)
+        
             let move = Move(start: .a1, end: .a8)
-        #else
-            let move = Move(start: .A1, end: .A8)
-        #endif
+        
         try! game.execute(move: move)
-        #if swift(>=3)
+        
             XCTAssertFalse(game.castlingRights.contains(.blackQueenside))
-        #else
-            XCTAssertFalse(game.castlingRights.contains(.BlackQueenside))
-        #endif
+        
     }
 
     func testGameUndoAndRedo() throws {
@@ -498,11 +411,9 @@ class SageTests: XCTestCase {
             moves.append(move)
             endBoard = game.board
         }
-        #if swift(>=3)
+        
             var redoMoves = moves.reversed() as [Move]
-        #else
-            var redoMoves = moves.reverse() as [Move]
-        #endif
+        
 
         while let move = game.moveToUndo() {
             XCTAssertEqual(move, game.undoMove())
@@ -600,16 +511,14 @@ extension Move {
 
     func formatted() -> String {
         let result = ".\(start) >>> .\(end)"
-        #if swift(>=3)
+        
             return result.lowercased()
-        #else
-            return result.uppercaseString
-        #endif
+        
     }
 
 }
 
-#if swift(>=3)
+
 
 extension Sequence where Iterator.Element == Move {
 
@@ -621,16 +530,4 @@ extension Sequence where Iterator.Element == Move {
 
 }
 
-#else
 
-extension SequenceType where Generator.Element == Move {
-
-    func formatted() -> String {
-        let values = map { $0.formatted() }
-        let string = values.joinWithSeparator(", ")
-        return "[" + string + "]"
-    }
-
-}
-
-#endif
