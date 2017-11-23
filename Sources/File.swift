@@ -60,10 +60,8 @@ public enum File: Int, Comparable, CustomStringConvertible {
 
 extension File {
 
-
     /// An array of all files.
     public static let all: [File] = [.a, .b, .c, .d, .e, .f, .g, .h]
-
 
     /// The column index of `self`.
     public var index: Int {
@@ -145,10 +143,8 @@ extension File {
 
 }
 
-
 extension File: ExpressibleByExtendedGraphemeClusterLiteral {
 }
-
 
 extension File {
 
@@ -168,6 +164,6 @@ extension File {
 }
 
 /// Returns `true` if one file is further left than the other.
-public func <(lhs: File, rhs: File) -> Bool {
+public func < (lhs: File, rhs: File) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

@@ -25,7 +25,6 @@ public struct CastlingRights: CustomStringConvertible {
     /// A castling right.
     public enum Right: String, CustomStringConvertible {
 
-
         /// White can castle kingside.
         case whiteKingside
 
@@ -40,7 +39,6 @@ public struct CastlingRights: CustomStringConvertible {
 
         /// All rights.
         public static let all: [Right] = [.whiteKingside, .whiteQueenside, .blackKingside, .blackQueenside]
-
 
         /// White rights.
         public static let white: [Right] = all.filter({ $0.color.isWhite })
@@ -137,7 +135,6 @@ public struct CastlingRights: CustomStringConvertible {
             return rawValue
         }
 
-
         fileprivate var _bit: Int {
             switch self {
             case .whiteKingside:  return 0b0001
@@ -146,7 +143,6 @@ public struct CastlingRights: CustomStringConvertible {
             case .blackQueenside: return 0b1000
             }
         }
-
 
         /// Create a `Right` from `color` and `side`.
         public init(color: Color, side: Board.Side) {
@@ -175,7 +171,6 @@ public struct CastlingRights: CustomStringConvertible {
 
     }
 
-
     /// An iterator over the members of `CastlingRights`.
     public struct Iterator: IteratorProtocol {
 
@@ -187,7 +182,6 @@ public struct CastlingRights: CustomStringConvertible {
         }
 
     }
-
 
     /// All castling rights.
     public static let all = CastlingRights(Right.all)
@@ -204,10 +198,8 @@ public struct CastlingRights: CustomStringConvertible {
     /// Queenside castling rights.
     public static let queenside = CastlingRights(Right.queenside)
 
-
     /// The rights.
     fileprivate var _rights: Set<Right>
-
 
     /// A textual representation of `self`.
     public var description: String {
@@ -256,16 +248,14 @@ public struct CastlingRights: CustomStringConvertible {
         self = side.isKingside ? .kingside : .queenside
     }
 
-
     /// Creates a set of rights from a sequence.
-    public init<S:Sequence>(_ sequence: S) where S.Iterator.Element == Right {
+    public init<S: Sequence>(_ sequence: S) where S.Iterator.Element == Right {
         if let set = sequence as? Set<Right> {
             _rights = set
         } else {
             _rights = Set(sequence)
         }
     }
-
 
     /// Returns `true` if `self` can castle for `color`.
     public func canCastle(for color: Color) -> Bool {
@@ -282,7 +272,6 @@ public struct CastlingRights: CustomStringConvertible {
     }
 
 }
-
 
 extension CastlingRights: Sequence {
 
@@ -388,7 +377,6 @@ extension CastlingRights: SetAlgebra {
 
 }
 
-
 extension CastlingRights: Hashable {
     /// The hash value.
     public var hashValue: Int {
@@ -399,6 +387,6 @@ extension CastlingRights: Hashable {
 }
 
 /// Returns `true` if both have the same rights.
-public func ==(lhs: CastlingRights, rhs: CastlingRights) -> Bool {
+public func == (lhs: CastlingRights, rhs: CastlingRights) -> Bool {
     return lhs._rights == rhs._rights
 }

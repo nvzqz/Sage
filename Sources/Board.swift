@@ -686,12 +686,12 @@ extension Board: CustomPlaygroundQuickLookable {
 #endif
 
 /// Returns `true` if both boards are the same.
-public func ==(lhs: Board, rhs: Board) -> Bool {
+public func == (lhs: Board, rhs: Board) -> Bool {
     return lhs._bitboards == rhs._bitboards
 }
 
 /// Returns `true` if both spaces are the same.
-public func ==(lhs: Board.Space, rhs: Board.Space) -> Bool {
+public func == (lhs: Board.Space, rhs: Board.Space) -> Bool {
     return lhs.piece == rhs.piece
             && lhs.file == rhs.file
             && lhs.rank == rhs.rank

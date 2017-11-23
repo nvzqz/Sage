@@ -262,14 +262,14 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
     }
 
     /// Create a bitboard from `squares`.
-    public init<S:Sequence>(squares: S) where S.Iterator.Element == Square {
+    public init<S: Sequence>(squares: S) where S.Iterator.Element == Square {
         rawValue = squares.reduce(0) {
             $0 | (1 << UInt64($1.rawValue))
         }
     }
 
     /// Create a bitboard from `locations`.
-    public init<S:Sequence>(locations: S) where S.Iterator.Element == Location {
+    public init<S: Sequence>(locations: S) where S.Iterator.Element == Location {
         self.init(squares: locations.map(Square.init(location:)))
     }
 
@@ -542,7 +542,7 @@ public struct Bitboard: RawRepresentable, Hashable, CustomStringConvertible {
         }
     }
 
-    public static func ==(lhs: Bitboard, rhs: Bitboard) -> Bool {
+    public static func == (lhs: Bitboard, rhs: Bitboard) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }
 
@@ -586,28 +586,34 @@ extension Bitboard: Numeric {
         return rawValue.magnitude
     }
 
-    public static func +(_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
+    public static func + (_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue + rhs.rawValue)
     }
 
-    public static func +=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func += (_ lhs: inout Bitboard, _ rhs: Bitboard) {
+        // swiftlint:disable shorthand_operator
         lhs = lhs + rhs
+        // swiftlint:enable shorthand_operator
     }
 
-    public static func -(_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
+    public static func - (_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue - rhs.rawValue)
     }
 
-    public static func -=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func -= (_ lhs: inout Bitboard, _ rhs: Bitboard) {
+        // swiftlint:disable shorthand_operator
         lhs = lhs - rhs
+        // swiftlint:enable shorthand_operator
     }
 
-    public static func *(_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
+    public static func * (_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue * rhs.rawValue)
     }
 
-    public static func *=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func *= (_ lhs: inout Bitboard, _ rhs: Bitboard) {
+        // swiftlint:disable shorthand_operator
         lhs = lhs * rhs
+        // swiftlint:enable shorthand_operator
     }
 
     public init?<T>(exactly source: T) where T: BinaryInteger {
@@ -625,7 +631,6 @@ extension Bitboard: BinaryInteger {
     public static private(set) var isSigned = UInt64.isSigned
     public static private(set) var bitWidth = UInt64.bitWidth
 
-
     // MARK: Instance Methods
     public var words: UInt64.Words {
         return rawValue.words
@@ -637,7 +642,7 @@ extension Bitboard: BinaryInteger {
 
     // MARK: Initializers
 
-    public init?<T:BinaryFloatingPoint>(exactly source: T) {
+    public init?<T: BinaryFloatingPoint>(exactly source: T) {
         guard let rawValue = UInt64(exactly: source) else {
             return nil
         }
@@ -654,63 +659,65 @@ extension Bitboard: BinaryInteger {
 
     // MARK: Type Methods
 
-    public static func /(_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
+    public static func / (_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue / rhs.rawValue)
     }
 
-    public static func /=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func /= (_ lhs: inout Bitboard, _ rhs: Bitboard) {
+        // swiftlint:disable shorthand_operator
         lhs = lhs / rhs
+        // swiftlint:enable shorthand_operator
     }
 
-    public static func %(_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
+    public static func % (_ lhs: Bitboard, _ rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue % rhs.rawValue)
     }
 
-    public static func %=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func %= (_ lhs: inout Bitboard, _ rhs: Bitboard) {
         lhs = lhs % rhs
     }
 
-    prefix public static func ~(x: Bitboard) -> Bitboard {
+    prefix public static func ~ (x: Bitboard) -> Bitboard {
         return Bitboard(rawValue: ~x.rawValue)
     }
 
-    public static func &(lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    public static func & (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue & rhs.rawValue)
     }
 
-    public static func &=(lhs: inout Bitboard, rhs: Bitboard) {
+    public static func &= (lhs: inout Bitboard, rhs: Bitboard) {
         lhs = lhs & rhs
     }
 
-    public static func |(lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    public static func | (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue | rhs.rawValue)
     }
 
-    public static func |=(lhs: inout Bitboard, rhs: Bitboard) {
+    public static func |= (lhs: inout Bitboard, rhs: Bitboard) {
         lhs = lhs | rhs
     }
 
-    public static func ^(lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    public static func ^ (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue ^ rhs.rawValue)
     }
 
-    public static func ^=(lhs: inout Bitboard, rhs: Bitboard) {
+    public static func ^= (lhs: inout Bitboard, rhs: Bitboard) {
         lhs = lhs ^ rhs
     }
 
-    public static func >><RHS>(lhs: Bitboard, rhs: RHS) -> Bitboard where RHS : BinaryInteger {
+    public static func >> <RHS>(lhs: Bitboard, rhs: RHS) -> Bitboard where RHS: BinaryInteger {
         return Bitboard(rawValue: lhs.rawValue >> rhs)
     }
 
-    public static func >>=<RHS>(lhs: inout Bitboard, rhs: RHS) where RHS : BinaryInteger {
+    public static func >>= <RHS>(lhs: inout Bitboard, rhs: RHS) where RHS: BinaryInteger {
         lhs = lhs >> rhs
     }
 
-    public static func <<<RHS>(lhs: Bitboard, rhs: RHS) -> Bitboard where RHS : BinaryInteger {
+    public static func << <RHS>(lhs: Bitboard, rhs: RHS) -> Bitboard where RHS: BinaryInteger {
         return Bitboard(rawValue: lhs.rawValue << rhs)
     }
 
-    public static func <<=<RHS>(lhs: inout Bitboard, rhs: RHS) where RHS : BinaryInteger {
+    public static func <<= <RHS>(lhs: inout Bitboard, rhs: RHS) where RHS: BinaryInteger {
         lhs = lhs << rhs
     }
 }
@@ -747,7 +754,8 @@ extension Bitboard: FixedWidthInteger {
         return (Bitboard(rawValue: result.high), low: result.low)
     }
 
-    public func dividingFullWidth(_ dividend: (high: Bitboard, low: Bitboard.Magnitude)) -> (quotient: Bitboard, remainder: Bitboard) {
+    public func dividingFullWidth(_ dividend: (high: Bitboard, low: Bitboard.Magnitude)) ->
+        (quotient: Bitboard, remainder: Bitboard) {
         let result = rawValue.dividingFullWidth((dividend.high.rawValue, dividend.low))
         return (Bitboard(rawValue: result.quotient), Bitboard(rawValue: result.remainder))
     }
@@ -782,20 +790,19 @@ extension Bitboard: FixedWidthInteger {
         return (Bitboard(rawValue: result.partialValue), result.overflow)
     }
 
-    public static func &>>=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func &>>= (_ lhs: inout Bitboard, _ rhs: Bitboard) {
         lhs = lhs &>> rhs
     }
 
-    public static func &<<=(_ lhs: inout Bitboard, _ rhs: Bitboard) {
+    public static func &<<= (_ lhs: inout Bitboard, _ rhs: Bitboard) {
         lhs = lhs &<< rhs
     }
 
-    public static func &>>(lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    public static func &>> (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue &>> rhs.rawValue)
     }
 
-    public static func &<<(lhs: Bitboard, rhs: Bitboard) -> Bitboard {
+    public static func &<< (lhs: Bitboard, rhs: Bitboard) -> Bitboard {
         return Bitboard(rawValue: lhs.rawValue &<< rhs.rawValue)
     }
 }
-

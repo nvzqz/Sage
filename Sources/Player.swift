@@ -74,7 +74,7 @@ public struct Player: Equatable, CustomStringConvertible {
 }
 
 /// Returns `true` if the players are the same.
-public func ==(lhs: Player, rhs: Player) -> Bool {
+public func == (lhs: Player, rhs: Player) -> Bool {
     return lhs.kind == rhs.kind
             && lhs.name == rhs.name
             && lhs.elo == rhs.elo

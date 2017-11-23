@@ -25,7 +25,6 @@ public typealias Location = (file: File, rank: Rank)
 /// A `Square` can be one of sixty-four possible values, ranging from `A1` to `H8`.
 public enum Square: Int, CustomStringConvertible {
 
-
     /// A1 square.
     case a1
 
@@ -218,7 +217,6 @@ public enum Square: Int, CustomStringConvertible {
     /// H8 square.
     case h8
 
-
 }
 
 extension Square {
@@ -309,12 +307,10 @@ extension Square {
         return _lineTable[_triangleIndex(self, other)]
     }
 
-
     /// Returns `true` if `self` is between `start` and `end`.
     public func isBetween(start: Square, end: Square) -> Bool {
         return start.between(end)[self]
     }
-
 
     /// Returns `true` if `self` is aligned with `first` and `second`.
     public func isAligned(with first: Square, and second: Square) -> Bool {
@@ -337,9 +333,8 @@ extension Square {
         return !line.isEmpty
     }
 
-
     /// Returns `true` if `self` is aligned with `squares`.
-    public func isAligned<S:Sequence>(with squares: S) -> Bool where S.Iterator.Element == Square {
+    public func isAligned<S: Sequence>(with squares: S) -> Bool where S.Iterator.Element == Square {
         var line: Bitboard? = nil
         let bitboard = Bitboard(square: self)
         for square in squares {
@@ -359,7 +354,6 @@ extension Square {
         }
         return line?.isEmpty == false
     }
-
 
     /// Returns a bitboard mask of attacks for a king at `self`.
     public func kingAttacks() -> Bitboard {
@@ -399,24 +393,20 @@ extension Square {
         return attacks(for: piece, stoppers: stoppers).moves(from: self)
     }
 
-
     /// Returns moves from the squares in `squares` to `self`.
-    public func moves<S:Sequence>(from squares: S) -> [Move] where S.Iterator.Element == Square {
+    public func moves<S: Sequence>(from squares: S) -> [Move] where S.Iterator.Element == Square {
         return squares.moves(to: self)
     }
 
     /// Returns moves from `self` to the squares in `squares`.
-    public func moves<S:Sequence>(to squares: S) -> [Move] where S.Iterator.Element == Square {
+    public func moves<S: Sequence>(to squares: S) -> [Move] where S.Iterator.Element == Square {
         return squares.moves(from: self)
     }
 
-
 }
-
 
 extension Square: ExpressibleByStringLiteral {
 }
-
 
 extension Square {
 

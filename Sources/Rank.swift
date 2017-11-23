@@ -25,16 +25,13 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
     /// A direction in rank.
     public enum Direction {
 
-
         /// Up direction.
         case up
 
         /// Down direction.
         case down
 
-
     }
-
 
     /// Rank 1.
     case one = 1
@@ -59,7 +56,6 @@ public enum Rank: Int, Comparable, CustomStringConvertible {
 
     /// Rank 8.
     case eight = 8
-
 
 }
 
@@ -130,10 +126,8 @@ extension Rank {
 
 }
 
-
 extension Rank: ExpressibleByIntegerLiteral {
 }
-
 
 extension Rank {
 
@@ -148,6 +142,6 @@ extension Rank {
 }
 
 /// Returns `true` if one rank is higher than the other.
-public func <(lhs: Rank, rhs: Rank) -> Bool {
+public func < (lhs: Rank, rhs: Rank) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

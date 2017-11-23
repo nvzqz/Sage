@@ -26,7 +26,6 @@ public struct PGN: Equatable {
     /// PGN tag.
     public enum Tag: String, CustomStringConvertible {
 
-
         /// Event tag.
         case event = "Event"
 
@@ -138,14 +137,12 @@ public struct PGN: Equatable {
         /// Tag for the "set-up" status of the game.
         case setUp = "SetUp"
 
-
         /// A textual representation of `self`.
         public var description: String {
             return rawValue
         }
 
     }
-
 
     /// An error thrown by `PGN.init(parse:)`.
     public enum ParseError: Error {
@@ -172,7 +169,6 @@ public struct PGN: Equatable {
         case parenthesisCountForRAV(String)
 
     }
-
 
     /// The tag pairs for `self`.
     public var tagPairs: [String: String]
@@ -473,7 +469,7 @@ private extension String {
 }
 
 /// Returns a Boolean value indicating whether two values are equal.
-public func ==(lhs: PGN, rhs: PGN) -> Bool {
+public func == (lhs: PGN, rhs: PGN) -> Bool {
     return lhs.tagPairs == rhs.tagPairs
             && lhs.moves == rhs.moves
 }

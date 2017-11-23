@@ -196,21 +196,19 @@ public struct Move: Hashable, CustomStringConvertible {
 
 }
 
-
 infix operator >>>
 
-
 /// Returns `true` if both moves are the same.
-public func ==(lhs: Move, rhs: Move) -> Bool {
+public func == (lhs: Move, rhs: Move) -> Bool {
     return lhs.start == rhs.start && lhs.end == rhs.end
 }
 
 /// Returns a `Move` from the two squares.
-public func >>>(start: Square, end: Square) -> Move {
+public func >>> (start: Square, end: Square) -> Move {
     return Move(start: start, end: end)
 }
 
 /// Returns a `Move` from the two locations.
-public func >>>(start: Location, rhs: Location) -> Move {
+public func >>> (start: Location, rhs: Location) -> Move {
     return Square(location: start) >>> Square(location: rhs)
 }

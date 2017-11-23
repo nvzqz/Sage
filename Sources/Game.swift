@@ -798,12 +798,12 @@ public final class Game {
 }
 
 /// Returns `true` if the outcomes are the same.
-public func ==(lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
+public func == (lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
     return lhs.winColor == rhs.winColor
 }
 
 /// Returns `true` if the positions are the same.
-public func ==(lhs: Game.Position, rhs: Game.Position) -> Bool {
+public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
     return lhs.playerTurn == rhs.playerTurn
             && lhs.castlingRights == rhs.castlingRights
             && lhs.halfmoves == rhs.halfmoves
