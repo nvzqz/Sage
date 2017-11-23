@@ -51,4 +51,31 @@ class BugTests: XCTestCase {
         
         XCTAssertTrue(game.kingIsChecked, "Expected king to be checked")
     }
+    
+    func testIssue15() throws {
+        let game = Game()
+        
+        try game.execute(move: Move(start: Square.e2, end: Square.e4))
+        try game.execute(move: Move(start: Square.f7, end: Square.f5))
+        try game.execute(move: Move(start: Square.e4, end: Square.f5))
+        
+        let g7Moves1 = game.availableMoves().filter { (move) -> Bool in
+            move.start == Square.g7
+        }
+        
+        XCTAssertTrue(g7Moves1.count == 2)
+        XCTAssertTrue(g7Moves1.contains(Move(start: Square.g7, end: Square.g5)))
+        XCTAssertTrue(g7Moves1.contains(Move(start: Square.g7, end: Square.g6)))
+        
+        game.undoMove()
+        game.redoMove()
+        
+        let g7Moves2 = game.availableMoves().filter { (move) -> Bool in
+            move.start == Square.g7
+        }
+        
+        XCTAssertTrue(g7Moves2.count == 2)
+        XCTAssertTrue(g7Moves2.contains(Move(start: Square.g7, end: Square.g5)))
+        XCTAssertTrue(g7Moves2.contains(Move(start: Square.g7, end: Square.g6)))
+    }
 }

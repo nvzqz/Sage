@@ -425,7 +425,7 @@ public final class Game {
                                 rights: CastlingRights)]
 
     /// All of the undone moves in the game.
-    private var _undoHistory: [(move: Move, promotion: Piece.Kind?, kingAttackers: Bitboard)]
+    private var _undoHistory: [(move: Move, promotion: Piece.Kind?, enPassantTarget: Square?, kingAttackers: Bitboard)]
 
     /// The game's board.
     public private(set) var board: Board
@@ -1035,7 +1035,7 @@ public final class Game {
         if let capture = capture {
             board[capture][captureSquare] = true
         }
-        _undoHistory.append((move, promotionKind, attackers))
+        _undoHistory.append((move, promotionKind, self.enPassantTarget, self.attackersToKing))
         board[piece][move.end] = false
         board[piece][move.start] = true
         playerTurn.invert()
@@ -1049,11 +1049,12 @@ public final class Game {
 
     /// Redoes the previous undone move and returns it, if any.
     private func _redoMove() -> Move? {
-        guard let (move, promotion, attackers) = _undoHistory.popLast() else {
+        guard let (move, promotion, enPassant, attackers) = _undoHistory.popLast() else {
             return nil
         }
         try! _execute(uncheckedMove: move, promotion: { promotion ?? ._queen })
         attackersToKing = attackers
+        enPassantTarget = enPassant
         return move
     }
 
