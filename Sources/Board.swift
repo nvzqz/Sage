@@ -463,10 +463,8 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Gets and sets a piece at `square`.
     public subscript(square: Square) -> Piece? {
         get {
-            for index in _bitboards.indices {
-                if _bitboards[index][square] {
-                    return Piece(value: index)
-                }
+            for index in _bitboards.indices where _bitboards[index][square] {
+                return Piece(value: index)
             }
             return nil
         }
