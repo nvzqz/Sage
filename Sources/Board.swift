@@ -18,9 +18,9 @@
 //
 
 #if os(OSX)
-    import Cocoa
+import Cocoa
 #elseif os(iOS) || os(tvOS)
-    import UIKit
+import UIKit
 #endif
 
 /// A chess board used to map `Square`s to `Piece`s.
@@ -107,18 +107,18 @@ public struct Board: Hashable, CustomStringConvertible {
             return piece
         }
 
-        #if os(OSX) || os(iOS) || os(tvOS)
+#if os(OSX) || os(iOS) || os(tvOS)
 
         internal func _view(size: CGFloat) -> _View {
-            #if os(OSX)
-                let rectY = CGFloat(rank.index) * size
-            #else
-                let rectY = CGFloat(7 - rank.index) * size
-            #endif
+#if os(OSX)
+            let rectY = CGFloat(rank.index) * size
+#else
+            let rectY = CGFloat(7 - rank.index) * size
+#endif
             let frame = CGRect(x: CGFloat(file.index) * size,
-                               y: rectY,
-                               width: size,
-                               height: size)
+                    y: rectY,
+                    width: size,
+                    height: size)
             var textFrame = CGRect(x: 0, y: 0, width: size, height: size)
             let fontSize = size * 0.625
             let view = _View(frame: frame)
@@ -127,31 +127,31 @@ public struct Board: Hashable, CustomStringConvertible {
             let black = _Color.black
             let bg: _Color = color.isWhite ? white : black
             let tc: _Color = color.isWhite ? black : white
-            #if os(OSX)
-                view.wantsLayer = true
-                let text = NSText(frame: textFrame)
-                view.layer?.backgroundColor = bg.cgColor
-                text.alignment = .center
-                text.font = .systemFont(ofSize: fontSize)
-                text.isEditable = false
-                text.isSelectable = false
-                text.string = str
-                text.drawsBackground = false
-                text.textColor = tc
-                view.addSubview(text)
-            #else
-                view.backgroundColor = bg
-                let label = UILabel(frame: textFrame)
-                label.textAlignment = .center
-                label.font = .systemFont(ofSize: fontSize)
-                label.text = str
-                label.textColor = tc
-                view.addSubview(label)
-            #endif
+#if os(OSX)
+            view.wantsLayer = true
+            let text = NSText(frame: textFrame)
+            view.layer?.backgroundColor = bg.cgColor
+            text.alignment = .center
+            text.font = .systemFont(ofSize: fontSize)
+            text.isEditable = false
+            text.isSelectable = false
+            text.string = str
+            text.drawsBackground = false
+            text.textColor = tc
+            view.addSubview(text)
+#else
+            view.backgroundColor = bg
+            let label = UILabel(frame: textFrame)
+            label.textAlignment = .center
+            label.font = .systemFont(ofSize: fontSize)
+            label.text = str
+            label.textColor = tc
+            view.addSubview(label)
+#endif
             return view
         }
 
-        #endif
+#endif
 
     }
 
@@ -172,7 +172,9 @@ public struct Board: Hashable, CustomStringConvertible {
             guard let square = Square(rawValue: _index) else {
                 return nil
             }
-            defer { _index += 1 }
+            defer {
+                _index += 1
+            }
             return _board.space(at: square)
         }
 
@@ -300,7 +302,9 @@ public struct Board: Hashable, CustomStringConvertible {
                 if let piece = Piece(character: char) {
                     pieces.append(piece)
                 } else if let num = Int(String(char)) {
-                    guard 1...8 ~= num else { return nil }
+                    guard 1...8 ~= num else {
+                        return nil
+                    }
                     pieces += Array(repeating: nil, count: num)
                 } else {
                     return nil
@@ -308,6 +312,7 @@ public struct Board: Hashable, CustomStringConvertible {
             }
             return pieces
         }
+
         guard !fen.contains(" ") else {
             return nil
         }
@@ -346,12 +351,18 @@ public struct Board: Hashable, CustomStringConvertible {
     public init?(pieces: [[Character]]) {
         self.init(variant: nil)
         for rankIndex in pieces.indices {
-            guard let rank = Rank(index: rankIndex)?.opposite() else { break }
+            guard let rank = Rank(index: rankIndex)?.opposite() else {
+                break
+            }
             for fileIndex in pieces[rankIndex].indices {
-                guard let file = File(index: fileIndex) else { break }
+                guard let file = File(index: fileIndex) else {
+                    break
+                }
                 let pieceChar = pieces[rankIndex][fileIndex]
                 if pieceChar != " " && pieceChar != "." {
-                    guard let piece = Piece(character: pieceChar) else { return nil }
+                    guard let piece = Piece(character: pieceChar) else {
+                        return nil
+                    }
                     self[(file, rank)] = piece
                 }
             }
@@ -439,7 +450,9 @@ public struct Board: Hashable, CustomStringConvertible {
         if let color = color {
             return bitboard(for: color).count
         } else {
-            return _bitboards.reduce(0) { $0 + $1.count }
+            return _bitboards.reduce(0) {
+                $0 + $1.count
+            }
         }
     }
 
@@ -455,7 +468,9 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the bitboard for `color`.
     public func bitboard(for color: Color) -> Bitboard {
-        return Piece._hashes(for: color).reduce(0) { $0 | _bitboards[$1] }
+        return Piece._hashes(for: color).reduce(0) {
+            $0 | _bitboards[$1]
+        }
     }
 
     /// The squares with pinned pieces for `color`.
@@ -467,7 +482,7 @@ public struct Board: Hashable, CustomStringConvertible {
         var pinned = Bitboard()
         let pieces = bitboard(for: color)
         let king = bitboard(for: Piece(king: color))
-        let opRQ = bitboard(for: Piece(rook: color.inverse()))   | bitboard(for: Piece(queen: color.inverse()))
+        let opRQ = bitboard(for: Piece(rook: color.inverse())) | bitboard(for: Piece(queen: color.inverse()))
         let opBQ = bitboard(for: Piece(bishop: color.inverse())) | bitboard(for: Piece(queen: color.inverse()))
         for square in king._xrayRookAttacks(occupied: occupied, stoppers: pieces) & opRQ {
             pinned |= square.between(kingSquare) & pieces
@@ -490,7 +505,9 @@ public struct Board: Hashable, CustomStringConvertible {
             square.attacks(for: piece, stoppers: all)
         })
         let queens = (attacks[2] | attacks[3]) & self[Piece(queen: color)]
-        return zip(attackPieces, attacks).reduce(queens) { $0 | (self[$1.0] & $1.1) }
+        return zip(attackPieces, attacks).reduce(queens) {
+            $0 | (self[$1.0] & $1.1)
+        }
     }
 
     /// Returns the attackers to the king for `color`.
@@ -513,12 +530,16 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the spaces at `file`.
     public func spaces(at file: File) -> [Space] {
-        return Rank.all.map { space(at: (file, $0)) }
+        return Rank.all.map {
+            space(at: (file, $0))
+        }
     }
 
     /// Returns the spaces at `rank`.
     public func spaces(at rank: Rank) -> [Space] {
-        return File.all.map { space(at: ($0, rank)) }
+        return File.all.map {
+            space(at: ($0, rank))
+        }
     }
 
     /// Returns the space at `location`.
@@ -617,6 +638,7 @@ public struct Board: Hashable, CustomStringConvertible {
             }
             return fen
         }
+
         return Rank.all.reversed().map(fen).joined(separator: "/")
     }
 
@@ -664,13 +686,13 @@ extension Board: CustomPlaygroundQuickLookable {
 #endif
 
 /// Returns `true` if both boards are the same.
-public func == (lhs: Board, rhs: Board) -> Bool {
+public func ==(lhs: Board, rhs: Board) -> Bool {
     return lhs._bitboards == rhs._bitboards
 }
 
 /// Returns `true` if both spaces are the same.
-public func == (lhs: Board.Space, rhs: Board.Space) -> Bool {
+public func ==(lhs: Board.Space, rhs: Board.Space) -> Bool {
     return lhs.piece == rhs.piece
-        && lhs.file == rhs.file
-        && lhs.rank == rhs.rank
+            && lhs.file == rhs.file
+            && lhs.rank == rhs.rank
 }

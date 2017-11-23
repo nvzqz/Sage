@@ -25,7 +25,6 @@ public struct CastlingRights: CustomStringConvertible {
     /// A castling right.
     public enum Right: String, CustomStringConvertible {
 
-        
 
         /// White can castle kingside.
         case whiteKingside
@@ -42,7 +41,6 @@ public struct CastlingRights: CustomStringConvertible {
         /// All rights.
         public static let all: [Right] = [.whiteKingside, .whiteQueenside, .blackKingside, .blackQueenside]
 
-        
 
         /// White rights.
         public static let white: [Right] = all.filter({ $0.color.isWhite })
@@ -59,14 +57,14 @@ public struct CastlingRights: CustomStringConvertible {
         /// The color for `self`.
         public var color: Color {
             get {
-                
-                    switch self {
-                    case .whiteKingside, .whiteQueenside:
-                        return .white
-                    default:
-                        return .black
-                    }
-                
+
+                switch self {
+                case .whiteKingside, .whiteQueenside:
+                    return .white
+                default:
+                    return .black
+                }
+
             }
             set {
                 self = Right(color: newValue, side: side)
@@ -76,14 +74,14 @@ public struct CastlingRights: CustomStringConvertible {
         /// The board side for `self`.
         public var side: Board.Side {
             get {
-                
-                    switch self {
-                    case .whiteKingside, .blackKingside:
-                        return .kingside
-                    default:
-                        return .queenside
-                    }
-                
+
+                switch self {
+                case .whiteKingside, .blackKingside:
+                    return .kingside
+                default:
+                    return .queenside
+                }
+
             }
             set {
                 self = Right(color: color, side: side)
@@ -108,30 +106,30 @@ public struct CastlingRights: CustomStringConvertible {
 
         /// The castle destination square of a king.
         public var castleSquare: Square {
-            
-                switch self {
-                case .whiteKingside:
-                    return .g1
-                case .whiteQueenside:
-                    return .c1
-                case .blackKingside:
-                    return .g8
-                case .blackQueenside:
-                    return .c8
-                }
-            
+
+            switch self {
+            case .whiteKingside:
+                return .g1
+            case .whiteQueenside:
+                return .c1
+            case .blackKingside:
+                return .g8
+            case .blackQueenside:
+                return .c8
+            }
+
         }
 
         /// The character for `self`.
         public var character: Character {
-            
-                switch self {
-                case .whiteKingside:  return "K"
-                case .whiteQueenside: return "Q"
-                case .blackKingside:  return "k"
-                case .blackQueenside: return "q"
-                }
-            
+
+            switch self {
+            case .whiteKingside:  return "K"
+            case .whiteQueenside: return "Q"
+            case .blackKingside:  return "k"
+            case .blackQueenside: return "q"
+            }
+
         }
 
         /// A textual representation of `self`.
@@ -139,7 +137,6 @@ public struct CastlingRights: CustomStringConvertible {
             return rawValue
         }
 
-        
 
         fileprivate var _bit: Int {
             switch self {
@@ -150,36 +147,34 @@ public struct CastlingRights: CustomStringConvertible {
             }
         }
 
-        
 
         /// Create a `Right` from `color` and `side`.
         public init(color: Color, side: Board.Side) {
-            
-                switch (color, side) {
-                case (.white, .kingside):  self = .whiteKingside
-                case (.white, .queenside): self = .whiteQueenside
-                case (.black, .kingside):  self = .blackKingside
-                case (.black, .queenside): self = .blackQueenside
-                }
-            
+
+            switch (color, side) {
+            case (.white, .kingside):  self = .whiteKingside
+            case (.white, .queenside): self = .whiteQueenside
+            case (.black, .kingside):  self = .blackKingside
+            case (.black, .queenside): self = .blackQueenside
+            }
+
         }
 
         /// Create a `Right` from a `Character`.
         public init?(character: Character) {
-            
-                switch character {
-                case "K": self = .whiteKingside
-                case "Q": self = .whiteQueenside
-                case "k": self = .blackKingside
-                case "q": self = .blackQueenside
-                default: return nil
-                }
-            
+
+            switch character {
+            case "K": self = .whiteKingside
+            case "Q": self = .whiteQueenside
+            case "k": self = .blackKingside
+            case "q": self = .blackQueenside
+            default: return nil
+            }
+
         }
 
     }
 
-    
 
     /// An iterator over the members of `CastlingRights`.
     public struct Iterator: IteratorProtocol {
@@ -193,7 +188,6 @@ public struct CastlingRights: CustomStringConvertible {
 
     }
 
-    
 
     /// All castling rights.
     public static let all = CastlingRights(Right.all)
@@ -210,17 +204,17 @@ public struct CastlingRights: CustomStringConvertible {
     /// Queenside castling rights.
     public static let queenside = CastlingRights(Right.queenside)
 
-    
+
     /// The rights.
     fileprivate var _rights: Set<Right>
-    
+
 
     /// A textual representation of `self`.
     public var description: String {
         if !_rights.isEmpty {
-            
-                return String(_rights.map({ $0.character }).sorted())
-            
+
+            return String(_rights.map({ $0.character }).sorted())
+
         } else {
             return "-"
         }
@@ -262,10 +256,9 @@ public struct CastlingRights: CustomStringConvertible {
         self = side.isKingside ? .kingside : .queenside
     }
 
-    
 
     /// Creates a set of rights from a sequence.
-    public init<S: Sequence>(_ sequence: S) where S.Iterator.Element == Right {
+    public init<S:Sequence>(_ sequence: S) where S.Iterator.Element == Right {
         if let set = sequence as? Set<Right> {
             _rights = set
         } else {
@@ -273,24 +266,22 @@ public struct CastlingRights: CustomStringConvertible {
         }
     }
 
-    
 
     /// Returns `true` if `self` can castle for `color`.
     public func canCastle(for color: Color) -> Bool {
-        
-            return !self.intersection(CastlingRights(color: color)).isEmpty
-        
+
+        return !self.intersection(CastlingRights(color: color)).isEmpty
+
     }
 
     /// Returns `true` if `self` can castle for `side`.
     public func canCastle(for side: Board.Side) -> Bool {
-        
-            return !self.intersection(CastlingRights(side: side)).isEmpty
-        
+
+        return !self.intersection(CastlingRights(side: side)).isEmpty
+
     }
 
 }
-
 
 
 extension CastlingRights: Sequence {
@@ -398,15 +389,16 @@ extension CastlingRights: SetAlgebra {
 }
 
 
-
 extension CastlingRights: Hashable {
     /// The hash value.
     public var hashValue: Int {
-        return _rights.reduce(0) { $0 | $1._bit }
+        return _rights.reduce(0) {
+            $0 | $1._bit
+        }
     }
 }
 
 /// Returns `true` if both have the same rights.
-public func == (lhs: CastlingRights, rhs: CastlingRights) -> Bool {
+public func ==(lhs: CastlingRights, rhs: CastlingRights) -> Bool {
     return lhs._rights == rhs._rights
 }

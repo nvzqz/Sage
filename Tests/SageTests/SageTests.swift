@@ -469,10 +469,10 @@ class SageTests: XCTestCase {
 
         let immortalGamePGN = try PGN(parse: immortalGame)
         XCTAssertEqual(immortalGamePGN.moves.count, 45)
-        XCTAssertEqual(immortalGamePGN.outcome, Game.Outcome._win(._white))
+        XCTAssertEqual(immortalGamePGN.outcome, Game.Outcome._win(.white))
         let returnGamePGN = try PGN(parse: returnGame)
         XCTAssertEqual(returnGamePGN.moves.count, 85)
-        XCTAssertEqual(returnGamePGN.outcome, Game.Outcome._draw)
+        XCTAssertEqual(returnGamePGN.outcome, Game.Outcome.draw)
 
         let immortalGameExportedPGN = try PGN(parse: immortalGamePGN.exported())
         let returnGameExportedPGN = try PGN(parse: returnGamePGN.exported())

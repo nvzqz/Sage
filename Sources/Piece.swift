@@ -46,30 +46,30 @@ public struct Piece: Hashable, CustomStringConvertible {
 
         /// The piece kind's name.
         public var name: String {
-            
-                switch self {
-                case .pawn:   return "Pawn"
-                case .knight: return "Knight"
-                case .bishop: return "Bishop"
-                case .rook:   return "Rook"
-                case .queen:  return "Queen"
-                case .king:   return "King"
-                }
-            
+
+            switch self {
+            case .pawn:   return "Pawn"
+            case .knight: return "Knight"
+            case .bishop: return "Bishop"
+            case .rook:   return "Rook"
+            case .queen:  return "Queen"
+            case .king:   return "King"
+            }
+
         }
 
         /// The piece kind's relative value. Can be used to determine how valuable a piece or combination of pieces is.
         public var relativeValue: Double {
-            
-                switch self {
-                case .pawn:   return 1
-                case .knight: return 3
-                case .bishop: return 3.25
-                case .rook:   return 5
-                case .queen:  return 9
-                case .king:   return .infinity
-                }
-            
+
+            switch self {
+            case .pawn:   return 1
+            case .knight: return 3
+            case .bishop: return 3.25
+            case .rook:   return 5
+            case .queen:  return 9
+            case .king:   return .infinity
+            }
+
         }
 
         /// The piece is `Pawn`.
@@ -156,16 +156,16 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     /// The character for the piece. Uppercase if white or lowercase if black.
     public var character: Character {
-        
-            switch kind {
-            case .pawn:   return color.isWhite ? "P" : "p"
-            case .knight: return color.isWhite ? "N" : "n"
-            case .bishop: return color.isWhite ? "B" : "b"
-            case .rook:   return color.isWhite ? "R" : "r"
-            case .queen:  return color.isWhite ? "Q" : "q"
-            case .king:   return color.isWhite ? "K" : "k"
-            }
-        
+
+        switch kind {
+        case .pawn:   return color.isWhite ? "P" : "p"
+        case .knight: return color.isWhite ? "N" : "n"
+        case .bishop: return color.isWhite ? "B" : "b"
+        case .rook:   return color.isWhite ? "R" : "r"
+        case .queen:  return color.isWhite ? "Q" : "q"
+        case .king:   return color.isWhite ? "K" : "k"
+        }
+
     }
 
     /// A textual representation of `self`.
@@ -254,22 +254,22 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     /// The special character for the piece.
     public func specialCharacter(background color: Color = .white) -> Character {
-        
-            switch kind {
-            case .pawn:   return color == self.color ? "♙" : "♟"
-            case .knight: return color == self.color ? "♘" : "♞"
-            case .bishop: return color == self.color ? "♗" : "♝"
-            case .rook:   return color == self.color ? "♖" : "♜"
-            case .queen:  return color == self.color ? "♕" : "♛"
-            case .king:   return color == self.color ? "♔" : "♚"
-            }
-        
+
+        switch kind {
+        case .pawn:   return color == self.color ? "♙" : "♟"
+        case .knight: return color == self.color ? "♘" : "♞"
+        case .bishop: return color == self.color ? "♗" : "♝"
+        case .rook:   return color == self.color ? "♖" : "♜"
+        case .queen:  return color == self.color ? "♕" : "♛"
+        case .king:   return color == self.color ? "♔" : "♚"
+        }
+
     }
 
 }
 
 /// Returns `true` if both pieces are the same.
-public func == (lhs: Piece, rhs: Piece) -> Bool {
+public func ==(lhs: Piece, rhs: Piece) -> Bool {
     return lhs.kind == rhs.kind
-        && lhs.color == rhs.color
+            && lhs.color == rhs.color
 }

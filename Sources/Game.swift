@@ -50,13 +50,19 @@ public final class Game {
 
         /// The color for the winning player.
         public var winColor: Color? {
-            guard case let .win(color) = self else { return nil }
+            guard case let .win(color) = self else {
+                return nil
+            }
             return color
         }
 
         /// `self` is a win.
         public var isWin: Bool {
-            if case .win = self { return true } else { return false }
+            if case .win = self {
+                return true
+            } else {
+                return false
+            }
         }
 
         /// `self` is a draw.
@@ -134,15 +140,15 @@ public final class Game {
         public init?(fen: String) {
             let parts = fen.split(separator: " ").map(String.init)
             guard
-                parts.count == 6,
-                let board = Board(fen: parts[0]),
-                parts[1].count == 1,
-                let playerTurn = parts[1].first.flatMap(Color.init),
-                let rights = CastlingRights(string: parts[2]),
-                let halfmoves = UInt(parts[4]),
-                let fullmoves = UInt(parts[5]),
-                fullmoves > 0 else {
-                    return nil
+                    parts.count == 6,
+                    let board = Board(fen: parts[0]),
+                    parts[1].count == 1,
+                    let playerTurn = parts[1].first.flatMap(Color.init),
+                    let rights = CastlingRights(string: parts[2]),
+                    let halfmoves = UInt(parts[4]),
+                    let fullmoves = UInt(parts[5]),
+                    fullmoves > 0 else {
+                return nil
             }
             var target: Square? = nil
             let targetStr = parts[3]
@@ -158,11 +164,11 @@ public final class Game {
                 }
             }
             self.init(board: board,
-                      playerTurn: playerTurn,
-                      castlingRights: rights,
-                      enPassantTarget: target,
-                      halfmoves: halfmoves,
-                      fullmoves: fullmoves)
+                    playerTurn: playerTurn,
+                    castlingRights: rights,
+                    enPassantTarget: target,
+                    halfmoves: halfmoves,
+                    fullmoves: fullmoves)
         }
 
         internal func _validationError() -> PositionError? {
@@ -179,7 +185,7 @@ public final class Game {
                 }
                 let rook = Piece(rook: color)
                 let square = Square(file: right.side.isKingside ? .h : .a,
-                                    rank: Rank(startFor: color))
+                        rank: Rank(startFor: color))
                 guard board.bitboard(for: rook)[square] else {
                     return .missingRook(right)
                 }
@@ -208,11 +214,13 @@ public final class Game {
         /// - seealso: [FEN (Wikipedia)](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation),
         ///            [FEN (Chess Programming Wiki)](https://chessprogramming.wikispaces.com/Forsyth-Edwards+Notation)
         public func fen() -> String {
-            let transform = { "\($0 as Square)".lowercased() }
+            let transform = {
+                "\($0 as Square)".lowercased()
+            }
             return board.fen()
-                + " \(playerTurn.isWhite ? "w" : "b") \(castlingRights) "
-                + (enPassantTarget.map(transform) ?? "-")
-                + " \(halfmoves) \(fullmoves)"
+                    + " \(playerTurn.isWhite ? "w" : "b") \(castlingRights) "
+                    + (enPassantTarget.map(transform) ?? "-")
+                    + " \(halfmoves) \(fullmoves)"
         }
 
     }
@@ -270,7 +278,7 @@ public final class Game {
         }
 
     }
-    
+
     /// A player turn.
     public typealias PlayerTurn = Color
 
@@ -344,11 +352,11 @@ public final class Game {
     /// The current position for `self`.
     public var position: Position {
         return Position(board: board,
-                        playerTurn: playerTurn,
-                        castlingRights: castlingRights,
-                        enPassantTarget: enPassantTarget,
-                        halfmoves: halfmoves,
-                        fullmoves: fullmoves)
+                playerTurn: playerTurn,
+                castlingRights: castlingRights,
+                enPassantTarget: enPassantTarget,
+                halfmoves: halfmoves,
+                fullmoves: fullmoves)
     }
 
     /// The outcome for `self` if no moves are available.
@@ -370,17 +378,17 @@ public final class Game {
 
     /// Create a game from another.
     private init(game: Game) {
-        self._moveHistory    = game._moveHistory
-        self._undoHistory    = game._undoHistory
-        self.board           = game.board
-        self.playerTurn      = game.playerTurn
-        self.castlingRights  = game.castlingRights
-        self.whitePlayer     = game.whitePlayer
-        self.blackPlayer     = game.blackPlayer
-        self.variant         = game.variant
+        self._moveHistory = game._moveHistory
+        self._undoHistory = game._undoHistory
+        self.board = game.board
+        self.playerTurn = game.playerTurn
+        self.castlingRights = game.castlingRights
+        self.whitePlayer = game.whitePlayer
+        self.blackPlayer = game.blackPlayer
+        self.variant = game.variant
         self.attackersToKing = game.attackersToKing
-        self.halfmoves       = game.halfmoves
-        self.fullmoves       = game.fullmoves
+        self.halfmoves = game.halfmoves
+        self.fullmoves = game.fullmoves
         self.enPassantTarget = game.enPassantTarget
     }
 
@@ -474,8 +482,12 @@ public final class Game {
         if considerHalfmoves && halfmoves >= 100 {
             return 0
         }
-        guard let piece = board[square] else { return 0 }
-        guard piece.color == playerTurn else { return 0 }
+        guard let piece = board[square] else {
+            return 0
+        }
+        guard piece.color == playerTurn else {
+            return 0
+        }
         if kingIsDoubleChecked {
             guard piece.kind.isKing else {
                 return 0
@@ -494,13 +506,13 @@ public final class Game {
         if piece.kind.isPawn {
             let enPassant = enPassantTarget.map({ Bitboard(square: $0) }) ?? 0
             let pushes = squareBitboard._pawnPushes(for: playerTurn,
-                                                    empty: emptyBitboard)
+                    empty: emptyBitboard)
             let doublePushes = (squareBitboard & Bitboard(startFor: piece))
-                ._pawnPushes(for: playerTurn, empty: emptyBitboard)
-                ._pawnPushes(for: playerTurn, empty: emptyBitboard)
+                    ._pawnPushes(for: playerTurn, empty: emptyBitboard)
+                    ._pawnPushes(for: playerTurn, empty: emptyBitboard)
             movesBitboard |= pushes | doublePushes
-                | (attacks & enemyBitboard)
-                | (attacks & enPassant)
+                    | (attacks & enemyBitboard)
+                    | (attacks & enPassant)
         } else {
             movesBitboard |= attacks & ~playerBitboard
         }
@@ -786,16 +798,16 @@ public final class Game {
 }
 
 /// Returns `true` if the outcomes are the same.
-public func == (lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
+public func ==(lhs: Game.Outcome, rhs: Game.Outcome) -> Bool {
     return lhs.winColor == rhs.winColor
 }
 
 /// Returns `true` if the positions are the same.
-public func == (lhs: Game.Position, rhs: Game.Position) -> Bool {
+public func ==(lhs: Game.Position, rhs: Game.Position) -> Bool {
     return lhs.playerTurn == rhs.playerTurn
-        && lhs.castlingRights == rhs.castlingRights
-        && lhs.halfmoves == rhs.halfmoves
-        && lhs.fullmoves == rhs.fullmoves
-        && lhs.enPassantTarget == rhs.enPassantTarget
-        && lhs.board == rhs.board
+            && lhs.castlingRights == rhs.castlingRights
+            && lhs.halfmoves == rhs.halfmoves
+            && lhs.fullmoves == rhs.fullmoves
+            && lhs.enPassantTarget == rhs.enPassantTarget
+            && lhs.board == rhs.board
 }

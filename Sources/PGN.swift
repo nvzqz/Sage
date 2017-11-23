@@ -26,7 +26,6 @@ public struct PGN: Equatable {
     /// PGN tag.
     public enum Tag: String, CustomStringConvertible {
 
-        
 
         /// Event tag.
         case event = "Event"
@@ -139,7 +138,6 @@ public struct PGN: Equatable {
         /// Tag for the "set-up" status of the game.
         case setUp = "SetUp"
 
-        
 
         /// A textual representation of `self`.
         public var description: String {
@@ -148,7 +146,6 @@ public struct PGN: Equatable {
 
     }
 
-    
 
     /// An error thrown by `PGN.init(parse:)`.
     public enum ParseError: Error {
@@ -176,7 +173,6 @@ public struct PGN: Equatable {
 
     }
 
-    
 
     /// The tag pairs for `self`.
     public var tagPairs: [String: String]
@@ -187,15 +183,15 @@ public struct PGN: Equatable {
     /// The game outcome.
     public var outcome: Game.Outcome? {
         get {
-            
-                let resultTag = Tag.result
-            
+
+            let resultTag = Tag.result
+
             return self[resultTag].flatMap(Game.Outcome.init)
         }
         set {
-            
-                let resultTag = Tag.result
-            
+
+            let resultTag = Tag.result
+
             self[resultTag] = newValue?.description
         }
     }
@@ -219,7 +215,9 @@ public struct PGN: Equatable {
     /// - throws: `ParseError` if an error occured while parsing.
     public init(parse string: String) throws {
         self.init()
-        if string.isEmpty { return }
+        if string.isEmpty {
+            return
+        }
         for line in string._splitByNewlines() {
             if line.first == "[" {
                 let commentsStripped = try line._commentsStripped(strings: true)
@@ -250,12 +248,12 @@ public struct PGN: Equatable {
     public func exported() -> String {
         var result = ""
         var tagPairs = self.tagPairs
-        let sevenTags = [("Event",  "?"),
-                         ("Site",   "?"),
-                         ("Date",   "????.??.??"),
-                         ("Round",  "?"),
-                         ("White",  "?"),
-                         ("Black",  "?"),
+        let sevenTags = [("Event", "?"),
+                         ("Site", "?"),
+                         ("Date", "????.??.??"),
+                         ("Round", "?"),
+                         ("White", "?"),
+                         ("Black", "?"),
                          ("Result", "*")]
         for (tag, defaultValue) in sevenTags {
             if let value = tagPairs[tag] {
@@ -268,9 +266,9 @@ public struct PGN: Equatable {
         for (tag, value) in tagPairs {
             result += "[\(tag) \"\(value)\"]\n"
         }
-        
-            let strideTo = stride(from: 0, to: moves.endIndex, by: 2)
-        
+
+        let strideTo = stride(from: 0, to: moves.endIndex, by: 2)
+
         var moveLine = ""
         for num in strideTo {
             let moveNumber = (num + 2) / 2
@@ -326,16 +324,16 @@ private extension Character {
 private extension String {
 
     var _lastIndex: Index {
-        
-            return index(before: endIndex)
-        
+
+        return index(before: endIndex)
+
     }
 
     @inline(__always)
     func _split(by set: Set<Character>) -> [String] {
-        
-            return split(whereSeparator: set.contains).map(String.init)
-        
+
+        return split(whereSeparator: set.contains).map(String.init)
+
     }
 
     @inline(__always)
@@ -351,26 +349,26 @@ private extension String {
     @inline(__always)
     func _tagPair() throws -> (String, String) {
         guard last == "]" else {
-            
-                throw PGN.ParseError.noClosingBracket(self)
-            
+
+            throw PGN.ParseError.noClosingBracket(self)
+
         }
-        
+
         let startIndex = index(after: self.startIndex)
         let endIndex = index(before: self.endIndex)
-        
-        let substring = self[startIndex ..< endIndex]
+
+        let substring = self[startIndex..<endIndex]
         let tokens = String(substring)._split(by: ["\""])
         guard tokens.count == 2 else {
-            
-                throw PGN.ParseError.tagPairTokenCount(tokens)
-            
+
+            throw PGN.ParseError.tagPairTokenCount(tokens)
+
         }
         let tagParts = tokens[0]._splitByWhitespaces()
         guard tagParts.count == 1 else {
-            
-                throw PGN.ParseError.tagPairTokenCount(tagParts)
-            
+
+            throw PGN.ParseError.tagPairTokenCount(tagParts)
+
         }
         return (tagParts[0], tokens[1])
     }
@@ -384,24 +382,24 @@ private extension String {
         for (index, character) in zip(indices, self) {
             if character == "(" {
                 if ravDepth == 0 {
-                    stripped += self[startIndex ..< index]
+                    stripped += self[startIndex..<index]
                 }
                 ravDepth += 1
             } else if character == ")" {
                 ravDepth -= 1
                 if ravDepth == 0 {
-                    
-                        startIndex = self.index(after: index)
-                    
+
+                    startIndex = self.index(after: index)
+
                 }
             } else if index == lastIndex && ravDepth == 0 {
-                stripped += self[startIndex ... index]
+                stripped += self[startIndex...index]
             }
         }
         guard ravDepth == 0 else {
-            
-                throw PGN.ParseError.parenthesisCountForRAV(self)
-            
+
+            throw PGN.ParseError.parenthesisCountForRAV(self)
+
         }
         let tokens = stripped._split(by: [" ", "."])
         let moves = tokens.filter({ $0.first?.isDigit == false })
@@ -425,9 +423,9 @@ private extension String {
             if character == "\"" {
                 if !inComment {
                     guard consideringStrings else {
-                        
-                            throw PGN.ParseError.unexpectedQuote(self)
-                        
+
+                        throw PGN.ParseError.unexpectedQuote(self)
+
                     }
                     if !inString {
                         inString = true
@@ -437,37 +435,37 @@ private extension String {
                 }
             } else if !inString {
                 if character == ";" && !inComment {
-                    stripped += self[startIndex ..< index]
+                    stripped += self[startIndex..<index]
                     break
                 } else if character == "{" && !inComment {
                     inComment = true
-                    stripped += self[startIndex ..< index]
+                    stripped += self[startIndex..<index]
                 } else if character == "}" {
                     guard inComment else {
-                        
-                            throw PGN.ParseError.unexpectedClosingBrace(self)
-                        
+
+                        throw PGN.ParseError.unexpectedClosingBrace(self)
+
                     }
                     inComment = false
-                    
-                        startIndex = self.index(after: index)
-                    
+
+                    startIndex = self.index(after: index)
+
                 }
             }
             if index >= startIndex && index == lastIndex && !inComment {
-                stripped += self[startIndex ... index]
+                stripped += self[startIndex...index]
             }
             afterEscape = false
         }
         guard !inString else {
-            
-                throw PGN.ParseError.noClosingQuote(self)
-            
+
+            throw PGN.ParseError.noClosingQuote(self)
+
         }
         guard !inComment else {
-            
-                throw PGN.ParseError.noClosingBrace(self)
-            
+
+            throw PGN.ParseError.noClosingBrace(self)
+
         }
         return stripped
     }
@@ -475,7 +473,7 @@ private extension String {
 }
 
 /// Returns a Boolean value indicating whether two values are equal.
-public func == (lhs: PGN, rhs: PGN) -> Bool {
+public func ==(lhs: PGN, rhs: PGN) -> Bool {
     return lhs.tagPairs == rhs.tagPairs
-        && lhs.moves == rhs.moves
+            && lhs.moves == rhs.moves
 }

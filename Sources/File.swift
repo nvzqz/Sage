@@ -60,12 +60,10 @@ public enum File: Int, Comparable, CustomStringConvertible {
 
 extension File {
 
-    
 
     /// An array of all files.
     public static let all: [File] = [.a, .b, .c, .d, .e, .f, .g, .h]
 
-    
 
     /// The column index of `self`.
     public var index: Int {
@@ -79,35 +77,35 @@ extension File {
 
     /// The character value of `self`.
     public var character: Character {
-        
-            switch self {
-            case .a: return "a"
-            case .b: return "b"
-            case .c: return "c"
-            case .d: return "d"
-            case .e: return "e"
-            case .f: return "f"
-            case .g: return "g"
-            case .h: return "h"
-            }
-        
+
+        switch self {
+        case .a: return "a"
+        case .b: return "b"
+        case .c: return "c"
+        case .d: return "d"
+        case .e: return "e"
+        case .f: return "f"
+        case .g: return "g"
+        case .h: return "h"
+        }
+
     }
 
     /// Create an instance from a character value.
     public init?(_ character: Character) {
-        
-            switch character {
-            case "A", "a": self = .a
-            case "B", "b": self = .b
-            case "C", "c": self = .c
-            case "D", "d": self = .d
-            case "E", "e": self = .e
-            case "F", "f": self = .f
-            case "G", "g": self = .g
-            case "H", "h": self = .h
-            default: return nil
-            }
-        
+
+        switch character {
+        case "A", "a": self = .a
+        case "B", "b": self = .b
+        case "C", "c": self = .c
+        case "D", "d": self = .d
+        case "E", "e": self = .e
+        case "F", "f": self = .f
+        case "G", "g": self = .g
+        case "H", "h": self = .h
+        default: return nil
+        }
+
     }
 
     /// Create a `File` from a zero-based column index.
@@ -148,7 +146,8 @@ extension File {
 }
 
 
-extension File: ExpressibleByExtendedGraphemeClusterLiteral { }
+extension File: ExpressibleByExtendedGraphemeClusterLiteral {
+}
 
 
 extension File {
@@ -169,6 +168,6 @@ extension File {
 }
 
 /// Returns `true` if one file is further left than the other.
-public func < (lhs: File, rhs: File) -> Bool {
+public func <(lhs: File, rhs: File) -> Bool {
     return lhs.rawValue < rhs.rawValue
 }

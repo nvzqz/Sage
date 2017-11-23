@@ -82,9 +82,9 @@ internal func _triangleIndex(_ start: Square, _ end: Square) -> Int {
 
 /// A lookup table of squares between two squares.
 internal let _betweenTable: [Bitboard] = {
-    
-        var table = [Bitboard](repeating: 0, count: 2080)
-    
+
+    var table = [Bitboard](repeating: 0, count: 2080)
+
     for start in Square.all {
         for end in Square.all {
             let index = _triangleIndex(start, end)
@@ -96,9 +96,9 @@ internal let _betweenTable: [Bitboard] = {
 
 /// A lookup table of lines for two squares.
 internal let _lineTable: [Bitboard] = {
-    
-        var table = [Bitboard](repeating: 0, count: 2080)
-    
+
+    var table = [Bitboard](repeating: 0, count: 2080)
+
     for start in Square.all {
         for end in Square.all {
             let startBB = Bitboard(square: start)
