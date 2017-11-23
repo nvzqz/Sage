@@ -21,5 +21,5 @@ import XCTest
 @testable import SageTests
 
 XCTMain([
-     testCase(SageTests.allTests),
+     testCase(SageTests.allTests)
 ])
