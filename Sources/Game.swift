@@ -803,12 +803,7 @@ public final class Game {
         } else {
             enPassantTarget = nil
         }
-        if kingIsChecked {
-            attackersToKing = 0
-        } else {
-            attackersToKing = board.attackersToKing(for: playerTurn)
-        }
-
+        attackersToKing = board.attackersToKing(for: playerTurn)
         fullmoves = 1 + (UInt(moveCount) / 2)
         _undoHistory = []
     }

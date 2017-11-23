@@ -112,3 +112,6 @@ fastlane/test_output
 
 ### Vagrant ###
 .vagrant/
+
+### AppCode ###
+.idea
