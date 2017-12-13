@@ -1,3 +1,14 @@
+# Deprecated
+
+This project is no longer in development. I am currently developing a chess
+engine, [Hexe]. It is written in Rust, which is very similar to Swift in many
+ways.
+
+This project is _not_ a chess engine; it's a move generator. [Hexe] is able to
+both generate moves and evaluate them.
+
+---
+
 [![Sage](https://raw.githubusercontent.com/nvzqz/Sage/assets/Banner.png)](https://github.com/nvzqz/Sage)
 
 <p align="center">
@@ -337,3 +348,5 @@ would be greatly appreciated. :smile:
 ## License
 
 Sage is published under [version 2.0 of the Apache License](https://www.apache.org/licenses/LICENSE-2.0).
+
+[Hexe]: https://github.com/hexe-rs/Hexe
