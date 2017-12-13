@@ -4,8 +4,8 @@ This project is no longer in development. I am currently developing a chess
 engine, [Hexe]. It is written in Rust, which is very similar to Swift in many
 ways.
 
-This project is _not_ a chess engine; it's a move generator. [Hexe] is able to
-both generate moves and evaluate them.
+Sage is _not_ a chess engine; it's a move generator. [Hexe], on the other hand,
+is able to both generate moves and evaluate them.
 
 ---
 
