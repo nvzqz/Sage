@@ -1,4 +1,4 @@
-# Deprecated
+### Deprecated
 
 This project is no longer in development. I am currently developing a chess
 engine, [Hexe]. It is written in Rust, which is very similar to Swift in many
