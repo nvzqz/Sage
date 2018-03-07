@@ -2,7 +2,8 @@
 
 This project is no longer in development. I am currently developing a chess
 engine, [Hexe]. It is written in Rust, which is very similar to Swift in many
-ways.
+ways. There also exists [Hexe.swift](https://github.com/hexe-rs/Hexe.swift/), a
+Swift wrapper for Hexe.
 
 Sage is _not_ a chess engine; it's a move generator. [Hexe], on the other hand,
 is able to both generate moves and evaluate them.
