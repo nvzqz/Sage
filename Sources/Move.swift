@@ -88,49 +88,33 @@ public struct Move: Hashable, CustomStringConvertible {
         let fileChange = abs(self.fileChange)
         let rankChange = abs(self.rankChange)
         return (fileChange == 2 && rankChange == 1)
-            || (rankChange == 2 && fileChange == 1)
+                || (rankChange == 2 && fileChange == 1)
     }
 
     /// The move's direction in file, if any.
     public var fileDirection: File.Direction? {
-        #if swift(>=3)
-            if self.isLeftward {
-                return .left
-            } else if self.isRightward {
-                return .right
-            } else {
-                return .none
-            }
-        #else
-            if self.isLeftward {
-                return .Left
-            } else if self.isRightward {
-                return .Right
-            } else {
-                return .None
-            }
-        #endif
+
+        if self.isLeftward {
+            return .left
+        } else if self.isRightward {
+            return .right
+        } else {
+            return .none
+        }
+
     }
 
     /// The move's direction in rank, if any.
     public var rankDirection: Rank.Direction? {
-        #if swift(>=3)
-            if self.isUpward {
-                return .up
-            } else if self.isDownward {
-                return .down
-            } else {
-                return .none
-            }
-        #else
-            if self.isUpward {
-                return .Up
-            } else if self.isDownward {
-                return .Down
-            } else {
-                return .None
-            }
-        #endif
+
+        if self.isUpward {
+            return .up
+        } else if self.isDownward {
+            return .down
+        } else {
+            return .none
+        }
+
     }
 
     /// A textual representation of `self`.
@@ -158,26 +142,20 @@ public struct Move: Hashable, CustomStringConvertible {
     /// A castle move for `color` in `direction`.
     public init(castle color: Color, direction: File.Direction) {
         let rank: Rank = color.isWhite ? 1 : 8
-        #if swift(>=3)
-            self = Move(start: Square(file: .e, rank: rank),
-                        end: Square(file: direction == .left ? .c : .g, rank: rank))
-        #else
-            self = Move(start: Square(file: .E, rank: rank),
-                        end: Square(file: direction == .Left ? .C : .G, rank: rank))
-        #endif
+
+        self = Move(start: Square(file: .e, rank: rank),
+                end: Square(file: direction == .left ? .c : .g, rank: rank))
+
     }
 
     /// Returns the castle squares for a rook.
     internal func _castleSquares() -> (old: Square, new: Square) {
         let rank = start.rank
         let movedLeft = self.isLeftward
-        #if swift(>=3)
-            let old = Square(file: movedLeft ? .a : .h, rank: rank)
-            let new = Square(file: movedLeft ? .d : .f, rank: rank)
-        #else
-            let old = Square(file: movedLeft ? .A : .H, rank: rank)
-            let new = Square(file: movedLeft ? .D : .F, rank: rank)
-        #endif
+
+        let old = Square(file: movedLeft ? .a : .h, rank: rank)
+        let new = Square(file: movedLeft ? .d : .f, rank: rank)
+
         return (old, new)
     }
 
@@ -189,9 +167,9 @@ public struct Move: Hashable, CustomStringConvertible {
     /// Returns the result of rotating `self` 180 degrees.
     public func rotated() -> Move {
         let start = Square(file: self.start.file.opposite(),
-                           rank: self.start.rank.opposite())
+                rank: self.start.rank.opposite())
         let end = Square(file: self.end.file.opposite(),
-                         rank: self.end.rank.opposite())
+                rank: self.end.rank.opposite())
         return start >>> end
     }
 
@@ -202,23 +180,23 @@ public struct Move: Hashable, CustomStringConvertible {
     public func isCastle(for color: Color? = nil) -> Bool {
         let startRank = start.rank
         if let color = color {
-            guard startRank == Rank(startFor: color) else { return false }
+            guard startRank == Rank(startFor: color) else {
+                return false
+            }
         } else {
-            guard startRank == 1 || startRank == 8 else { return false }
+            guard startRank == 1 || startRank == 8 else {
+                return false
+            }
         }
         let endFile = end.file
         return startRank == end.rank
-            && start.file == ._e
-            && (endFile == ._c || endFile == ._g)
+                && start.file == .e
+                && (endFile == .c || endFile == .g)
     }
 
 }
 
-#if swift(>=3)
 infix operator >>>
-#else
-infix operator >>> { }
-#endif
 
 /// Returns `true` if both moves are the same.
 public func == (lhs: Move, rhs: Move) -> Bool {

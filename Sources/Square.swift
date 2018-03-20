@@ -25,8 +25,6 @@ public typealias Location = (file: File, rank: Rank)
 /// A `Square` can be one of sixty-four possible values, ranging from `A1` to `H8`.
 public enum Square: Int, CustomStringConvertible {
 
-    #if swift(>=3)
-
     /// A1 square.
     case a1
 
@@ -219,208 +217,12 @@ public enum Square: Int, CustomStringConvertible {
     /// H8 square.
     case h8
 
-    #else
-
-    /// A1 square.
-    case A1
-
-    /// B1 square.
-    case B1
-
-    /// C1 square.
-    case C1
-
-    /// D1 square.
-    case D1
-
-    /// E1 square.
-    case E1
-
-    /// F1 square.
-    case F1
-
-    /// G1 square.
-    case G1
-
-    /// H1 square.
-    case H1
-
-    /// A2 square.
-    case A2
-
-    /// B2 square.
-    case B2
-
-    /// C2 square.
-    case C2
-
-    /// D2 square.
-    case D2
-
-    /// E2 square.
-    case E2
-
-    /// F2 square.
-    case F2
-
-    /// G2 square.
-    case G2
-
-    /// H2 square.
-    case H2
-
-    /// A3 square.
-    case A3
-
-    /// B3 square.
-    case B3
-
-    /// C3 square.
-    case C3
-
-    /// D3 square.
-    case D3
-
-    /// E3 square.
-    case E3
-
-    /// F3 square.
-    case F3
-
-    /// G3 square.
-    case G3
-
-    /// H3 square.
-    case H3
-
-    /// A4 square.
-    case A4
-
-    /// B4 square.
-    case B4
-
-    /// C4 square.
-    case C4
-
-    /// D4 square.
-    case D4
-
-    /// E4 square.
-    case E4
-
-    /// F4 square.
-    case F4
-
-    /// G4 square.
-    case G4
-
-    /// H4 square.
-    case H4
-
-    /// A5 square.
-    case A5
-
-    /// B5 square.
-    case B5
-
-    /// C5 square.
-    case C5
-
-    /// D5 square.
-    case D5
-
-    /// E5 square.
-    case E5
-
-    /// F5 square.
-    case F5
-
-    /// G5 square.
-    case G5
-
-    /// H5 square.
-    case H5
-
-    /// A6 square.
-    case A6
-
-    /// B6 square.
-    case B6
-
-    /// C6 square.
-    case C6
-
-    /// D6 square.
-    case D6
-
-    /// E6 square.
-    case E6
-
-    /// F6 square.
-    case F6
-
-    /// G6 square.
-    case G6
-
-    /// H6 square.
-    case H6
-
-    /// A7 square.
-    case A7
-
-    /// B7 square.
-    case B7
-
-    /// C7 square.
-    case C7
-
-    /// D7 square.
-    case D7
-
-    /// E7 square.
-    case E7
-
-    /// F7 square.
-    case F7
-
-    /// G7 square.
-    case G7
-
-    /// H7 square.
-    case H7
-
-    /// A8 square.
-    case A8
-
-    /// B8 square.
-    case B8
-
-    /// C8 square.
-    case C8
-
-    /// D8 square.
-    case D8
-
-    /// E8 square.
-    case E8
-
-    /// F8 square.
-    case F8
-
-    /// G8 square.
-    case G8
-
-    /// H8 square.
-    case H8
-
-    #endif
-
 }
 
 extension Square {
 
     /// An array of all squares.
-    public static let all: [Square] = (0 ..< 64).flatMap(Square.init(rawValue:))
+    public static let all: [Square] = (0..<64).flatMap(Square.init(rawValue:))
 
     /// The file of `self`.
     public var file: File {
@@ -454,7 +256,7 @@ extension Square {
 
     /// The square's color.
     public var color: Color {
-        return (file.index & 1 != rank.index & 1) ? ._white : ._black
+        return (file.index & 1 != rank.index & 1) ? .white : .black
     }
 
     /// A textual representation of `self`.
@@ -482,7 +284,7 @@ extension Square {
 
     /// Create a square from `string`.
     public init?(_ string: String) {
-        let chars = string.characters
+        let chars = string
         guard chars.count == 2 else {
             return nil
         }
@@ -505,27 +307,16 @@ extension Square {
         return _lineTable[_triangleIndex(self, other)]
     }
 
-    #if swift(>=3)
-
     /// Returns `true` if `self` is between `start` and `end`.
     public func isBetween(start: Square, end: Square) -> Bool {
         return start.between(end)[self]
     }
 
-    #else
-
-    /// Returns `true` if `self` is between `start` and `end`.
-    public func isBetween(start start: Square, end: Square) -> Bool {
-        return start.between(end)[self]
-    }
-
-    #endif
-
     /// Returns `true` if `self` is aligned with `first` and `second`.
     public func isAligned(with first: Square, and second: Square) -> Bool {
         return line(with: first)[second]
-            || line(with: second)[first]
-            || (self == first && self == second)
+                || line(with: second)[first]
+                || (self == first && self == second)
     }
 
     /// Returns `true` if `self` is aligned with `first` and `rest`.
@@ -541,8 +332,6 @@ extension Square {
         }
         return !line.isEmpty
     }
-
-    #if swift(>=3)
 
     /// Returns `true` if `self` is aligned with `squares`.
     public func isAligned<S: Sequence>(with squares: S) -> Bool where S.Iterator.Element == Square {
@@ -566,32 +355,6 @@ extension Square {
         return line?.isEmpty == false
     }
 
-    #else
-
-    /// Returns `true` if `self` is aligned with `squares`.
-    public func isAligned<S: SequenceType where S.Generator.Element == Square>(with squares: S) -> Bool {
-        var line: Bitboard? = nil
-        let bitboard = Bitboard(square: self)
-        for square in squares {
-            if let lineBitboard = line {
-                if lineBitboard == bitboard {
-                    line = self.line(with: square)
-                } else {
-                    guard lineBitboard[square] else {
-                        return false
-                    }
-                }
-            } else if square == self {
-                line = bitboard
-            } else {
-                line = self.line(with: square)
-            }
-        }
-        return line?.isEmpty == false
-    }
-
-    #endif
-
     /// Returns a bitboard mask of attacks for a king at `self`.
     public func kingAttacks() -> Bitboard {
         return _kingAttackTable[rawValue]
@@ -609,29 +372,18 @@ extension Square {
     ///
     /// - seealso: `attackMoves(for:stoppers:)`
     public func attacks(for piece: Piece, stoppers: Bitboard = 0) -> Bitboard {
-        #if swift(>=3)
-            switch piece.kind {
-            case .king:
-                return kingAttacks()
-            case .knight:
-                return knightAttacks()
-            case .pawn:
-                return _pawnAttackTable(for: piece.color)[rawValue]
-            default:
-                return Bitboard(square: self)._attacks(for: piece, stoppers: stoppers)
-            }
-        #else
-            switch piece.kind {
-            case .King:
-                return kingAttacks()
-            case .Knight:
-                return knightAttacks()
-            case .Pawn:
-                return _pawnAttackTable(for: piece.color)[rawValue]
-            default:
-                return Bitboard(square: self)._attacks(for: piece, stoppers: stoppers)
-            }
-        #endif
+
+        switch piece.kind {
+        case .king:
+            return kingAttacks()
+        case .knight:
+            return knightAttacks()
+        case .pawn:
+            return _pawnAttackTable(for: piece.color)[rawValue]
+        default:
+            return Bitboard(square: self)._attacks(for: piece, stoppers: stoppers)
+        }
+
     }
 
     /// Returns an array of attack moves for a piece at `self`.
@@ -640,8 +392,6 @@ extension Square {
     public func attackMoves(for piece: Piece, stoppers: Bitboard = 0) -> [Move] {
         return attacks(for: piece, stoppers: stoppers).moves(from: self)
     }
-
-    #if swift(>=3)
 
     /// Returns moves from the squares in `squares` to `self`.
     public func moves<S: Sequence>(from squares: S) -> [Move] where S.Iterator.Element == Square {
@@ -653,27 +403,10 @@ extension Square {
         return squares.moves(from: self)
     }
 
-    #else
-
-    /// Returns moves from the squares in `squares` to `self`.
-    public func moves<S: SequenceType where S.Generator.Element == Square>(from squares: S) -> [Move] {
-        return squares.moves(to: self)
-    }
-
-    /// Returns moves from `self` to the squares in `squares`.
-    public func moves<S: SequenceType where S.Generator.Element == Square>(to squares: S) -> [Move] {
-        return squares.moves(from: self)
-    }
-
-    #endif
-
 }
 
-#if swift(>=3)
-extension Square: ExpressibleByStringLiteral { }
-#else
-extension Square: StringLiteralConvertible { }
-#endif
+extension Square: ExpressibleByStringLiteral {
+}
 
 extension Square {
 

@@ -25,11 +25,9 @@ for _ in 1...20 {
 
     var count = 0.0
     let game = Game()
-    #if swift(>=3)
+    
         let start = Date()
-    #else
-        let start = NSDate()
-    #endif
+    
 
     do {
         while let move = game.availableMoves().random {
@@ -41,11 +39,9 @@ for _ in 1...20 {
         break
     }
 
-    #if swift(>=3)
+    
         let time = Date().timeIntervalSince(start)
-    #else
-        let time = NSDate().timeIntervalSinceDate(start)
-    #endif
+    
     info.append((time, count))
 
 }

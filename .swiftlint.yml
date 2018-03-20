@@ -3,16 +3,15 @@ included:
     - Tests
 
 disabled_rules: # rule identifiers to exclude from running
-    - valid_docs
     - cyclomatic_complexity
-    - variable_name
+    - identifier_name
     - type_name
     - force_try
     - file_length
     - type_body_length
     - function_body_length
     - comma
-    - conditional_binding_cascade
+    - large_tuple
 
 opt_in_rules: # some rules are only opt-in
     - empty_count

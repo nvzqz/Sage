@@ -28,12 +28,12 @@ internal func _pawnAttackTable(for color: Color) -> [Bitboard] {
 
 /// A lookup table of all white pawn attack bitboards.
 internal let _whitePawnAttackTable = Square.all.map { square in
-    return Bitboard(square: square)._pawnAttacks(for: ._white)
+    return Bitboard(square: square)._pawnAttacks(for: .white)
 }
 
 /// A lookup table of all black pawn attack bitboards.
 internal let _blackPawnAttackTable = Square.all.map { square in
-    return Bitboard(square: square)._pawnAttacks(for: ._black)
+    return Bitboard(square: square)._pawnAttacks(for: .black)
 }
 
 /// A lookup table of all king attack bitboards.
@@ -82,11 +82,9 @@ internal func _triangleIndex(_ start: Square, _ end: Square) -> Int {
 
 /// A lookup table of squares between two squares.
 internal let _betweenTable: [Bitboard] = {
-    #if swift(>=3)
-        var table = [Bitboard](repeating: 0, count: 2080)
-    #else
-        var table = [Bitboard](count: 2080, repeatedValue: 0)
-    #endif
+
+    var table = [Bitboard](repeating: 0, count: 2080)
+
     for start in Square.all {
         for end in Square.all {
             let index = _triangleIndex(start, end)
@@ -98,11 +96,9 @@ internal let _betweenTable: [Bitboard] = {
 
 /// A lookup table of lines for two squares.
 internal let _lineTable: [Bitboard] = {
-    #if swift(>=3)
-        var table = [Bitboard](repeating: 0, count: 2080)
-    #else
-        var table = [Bitboard](count: 2080, repeatedValue: 0)
-    #endif
+
+    var table = [Bitboard](repeating: 0, count: 2080)
+
     for start in Square.all {
         for end in Square.all {
             let startBB = Bitboard(square: start)

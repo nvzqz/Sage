@@ -18,23 +18,23 @@
 //
 
 #if os(OSX)
-    import Cocoa
-    internal typealias _View = NSView
-    internal typealias _Color = NSColor
+import Cocoa
+
+internal typealias _View = NSView
+internal typealias _Color = NSColor
 #elseif os(iOS) || os(tvOS)
-    import UIKit
-    internal typealias _View = UIView
-    internal typealias _Color = UIColor
+import UIKit
+
+internal typealias _View = UIView
+internal typealias _Color = UIColor
 #endif
 
 internal extension Optional {
 
     var _altDescription: String {
-        #if swift(>=3)
-            return self.map({ String(describing: $0) }) ?? "nil"
-        #else
-            return self.map({ String($0) }) ?? "nil"
-        #endif
+
+        return self.map({ String(describing: $0) }) ?? "nil"
+
     }
 
 }
@@ -45,11 +45,9 @@ extension RawRepresentable where RawValue == Int, Self: Comparable {
         if other > self {
             return (rawValue...other.rawValue).flatMap(Self.init(rawValue:))
         } else if other < self {
-            #if swift(>=3)
-                let values = (other.rawValue...rawValue).reversed()
-            #else
-                let values = (other.rawValue...rawValue).reverse()
-            #endif
+
+            let values = (other.rawValue...rawValue).reversed()
+
             return values.flatMap(Self.init(rawValue:))
         } else {
             return [self]
@@ -58,13 +56,11 @@ extension RawRepresentable where RawValue == Int, Self: Comparable {
 
     internal func _between(_ other: Self) -> [Self] {
         if other > self {
-            return (rawValue + 1 ..< other.rawValue).flatMap(Self.init(rawValue:))
+            return (rawValue + 1..<other.rawValue).flatMap(Self.init(rawValue:))
         } else if other < self {
-            #if swift(>=3)
-                let values = (other.rawValue + 1 ..< rawValue).reversed()
-            #else
-                let values = (other.rawValue + 1 ..< rawValue).reverse()
-            #endif
+
+            let values = (other.rawValue + 1..<rawValue).reversed()
+
             return values.flatMap(Self.init(rawValue:))
         } else {
             return []

@@ -23,8 +23,6 @@ public struct Piece: Hashable, CustomStringConvertible {
     /// A piece kind.
     public enum Kind: Int {
 
-        #if swift(>=3)
-
         /// Pawn piece kind.
         case pawn
 
@@ -43,144 +41,65 @@ public struct Piece: Hashable, CustomStringConvertible {
         /// King piece kind.
         case king
 
-        /// Pawn regardless of Swift veersion.
-        internal static let _pawn = Kind.pawn
-
-        /// Knight regardless of Swift veersion.
-        internal static let _knight = Kind.knight
-
-        /// Bishop regardless of Swift veersion.
-        internal static let _bishop = Kind.bishop
-
-        /// Rook regardless of Swift veersion.
-        internal static let _rook = Kind.rook
-
-        /// Queen regardless of Swift veersion.
-        internal static let _queen = Kind.queen
-
-        /// King regardless of Swift veersion.
-        internal static let _king = Kind.king
-
         /// An array of all piece kinds.
         public static let all: [Kind] = [.pawn, .knight, .bishop, .rook, .queen, .king]
 
-        #else
-
-        /// Pawn piece kind.
-        case Pawn
-
-        /// Knight piece kind.
-        case Knight
-
-        /// Bishop piece kind.
-        case Bishop
-
-        /// Rook piece kind.
-        case Rook
-
-        /// Queen piece kind.
-        case Queen
-
-        /// King piece kind.
-        case King
-
-        /// Pawn regardless of Swift veersion.
-        internal static let _pawn = Kind.Pawn
-
-        /// Knight regardless of Swift veersion.
-        internal static let _knight = Kind.Knight
-
-        /// Bishop regardless of Swift veersion.
-        internal static let _bishop = Kind.Bishop
-
-        /// Rook regardless of Swift veersion.
-        internal static let _rook = Kind.Rook
-
-        /// Queen regardless of Swift veersion.
-        internal static let _queen = Kind.Queen
-
-        /// King regardless of Swift veersion.
-        internal static let _king = Kind.King
-
-        /// An array of all piece kinds.
-        public static let all: [Kind] = [.Pawn, .Knight, .Bishop, .Rook, .Queen, .King]
-
-        #endif
-
         /// The piece kind's name.
         public var name: String {
-            #if swift(>=3)
-                switch self {
-                case .pawn:   return "Pawn"
-                case .knight: return "Knight"
-                case .bishop: return "Bishop"
-                case .rook:   return "Rook"
-                case .queen:  return "Queen"
-                case .king:   return "King"
-                }
-            #else
-                switch self {
-                case .Pawn:   return "Pawn"
-                case .Knight: return "Knight"
-                case .Bishop: return "Bishop"
-                case .Rook:   return "Rook"
-                case .Queen:  return "Queen"
-                case .King:   return "King"
-                }
-            #endif
+
+            switch self {
+            case .pawn:   return "Pawn"
+            case .knight: return "Knight"
+            case .bishop: return "Bishop"
+            case .rook:   return "Rook"
+            case .queen:  return "Queen"
+            case .king:   return "King"
+            }
+
         }
 
         /// The piece kind's relative value. Can be used to determine how valuable a piece or combination of pieces is.
         public var relativeValue: Double {
-            #if swift(>=3)
-                switch self {
-                case .pawn:   return 1
-                case .knight: return 3
-                case .bishop: return 3.25
-                case .rook:   return 5
-                case .queen:  return 9
-                case .king:   return .infinity
-                }
-            #else
-                switch self {
-                case .Pawn:   return 1
-                case .Knight: return 3
-                case .Bishop: return 3.25
-                case .Rook:   return 5
-                case .Queen:  return 9
-                case .King:   return .infinity
-                }
-            #endif
+
+            switch self {
+            case .pawn:   return 1
+            case .knight: return 3
+            case .bishop: return 3.25
+            case .rook:   return 5
+            case .queen:  return 9
+            case .king:   return .infinity
+            }
+
         }
 
         /// The piece is `Pawn`.
         public var isPawn: Bool {
-            return self == ._pawn
+            return self == .pawn
         }
 
         /// The piece `Knight`.
         public var isKnight: Bool {
-            return self == ._knight
+            return self == .knight
         }
 
         /// The piece is `Bishop`.
         public var isBishop: Bool {
-            return self == ._bishop
+            return self == .bishop
         }
 
         /// The piece is `Rook`.
         public var isRook: Bool {
-            return self == ._rook
+            return self == .rook
         }
 
         /// The piece is `Queen`.
         public var isQueen: Bool {
-            return self == ._queen
+            return self == .queen
         }
 
         /// The piece is `King`.
         public var isKing: Bool {
-            return self == ._king
+            return self == .king
         }
 
         /// Returns `true` if `self` can be a promotion for a pawn.
@@ -213,7 +132,7 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     /// An array of all pieces.
     public static let all: [Piece] = {
-        return [._white, ._black].reduce([]) { pieces, color in
+        return [.white, .black].reduce([]) { pieces, color in
             return pieces + Kind.all.map({ Piece(kind: $0, color: color) })
         }
     }()
@@ -237,25 +156,16 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     /// The character for the piece. Uppercase if white or lowercase if black.
     public var character: Character {
-        #if swift(>=3)
-            switch kind {
-            case .pawn:   return color.isWhite ? "P" : "p"
-            case .knight: return color.isWhite ? "N" : "n"
-            case .bishop: return color.isWhite ? "B" : "b"
-            case .rook:   return color.isWhite ? "R" : "r"
-            case .queen:  return color.isWhite ? "Q" : "q"
-            case .king:   return color.isWhite ? "K" : "k"
-            }
-        #else
-            switch kind {
-            case .Pawn:   return color.isWhite ? "P" : "p"
-            case .Knight: return color.isWhite ? "N" : "n"
-            case .Bishop: return color.isWhite ? "B" : "b"
-            case .Rook:   return color.isWhite ? "R" : "r"
-            case .Queen:  return color.isWhite ? "Q" : "q"
-            case .King:   return color.isWhite ? "K" : "k"
-            }
-        #endif
+
+        switch kind {
+        case .pawn:   return color.isWhite ? "P" : "p"
+        case .knight: return color.isWhite ? "N" : "n"
+        case .bishop: return color.isWhite ? "B" : "b"
+        case .rook:   return color.isWhite ? "R" : "r"
+        case .queen:  return color.isWhite ? "Q" : "q"
+        case .king:   return color.isWhite ? "K" : "k"
+        }
+
     }
 
     /// A textual representation of `self`.
@@ -273,7 +183,7 @@ public struct Piece: Hashable, CustomStringConvertible {
         guard let kind = Kind(rawValue: value >> 1) else {
             return nil
         }
-        self.init(kind: kind, color: value & 1 == 0 ? ._white : ._black)
+        self.init(kind: kind, color: value & 1 == 0 ? .white : .black)
     }
 
     /// Create a piece from `kind` and `color`.
@@ -284,49 +194,49 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     /// Create a pawn piece with `color`.
     public init(pawn color: Color) {
-        self.init(kind: ._pawn, color: color)
+        self.init(kind: .pawn, color: color)
     }
 
     /// Create a knight piece with `color`.
     public init(knight color: Color) {
-        self.init(kind: ._knight, color: color)
+        self.init(kind: .knight, color: color)
     }
 
     /// Create a bishop piece with `color`.
     public init(bishop color: Color) {
-        self.init(kind: ._bishop, color: color)
+        self.init(kind: .bishop, color: color)
     }
 
     /// Create a rook piece with `color`.
     public init(rook color: Color) {
-        self.init(kind: ._rook, color: color)
+        self.init(kind: .rook, color: color)
     }
 
     /// Create a queen piece with `color`.
     public init(queen color: Color) {
-        self.init(kind: ._queen, color: color)
+        self.init(kind: .queen, color: color)
     }
 
     /// Create a king piece with `color`.
     public init(king color: Color) {
-        self.init(kind: ._king, color: color)
+        self.init(kind: .king, color: color)
     }
 
     /// Create a piece from a character.
     public init?(character: Character) {
         switch character {
-        case "P": self.init(pawn: ._white)
-        case "p": self.init(pawn: ._black)
-        case "N": self.init(knight: ._white)
-        case "n": self.init(knight: ._black)
-        case "B": self.init(bishop: ._white)
-        case "b": self.init(bishop: ._black)
-        case "R": self.init(rook: ._white)
-        case "r": self.init(rook: ._black)
-        case "Q": self.init(queen: ._white)
-        case "q": self.init(queen: ._black)
-        case "K": self.init(king: ._white)
-        case "k": self.init(king: ._black)
+        case "P": self.init(pawn: .white)
+        case "p": self.init(pawn: .black)
+        case "N": self.init(knight: .white)
+        case "n": self.init(knight: .black)
+        case "B": self.init(bishop: .white)
+        case "b": self.init(bishop: .black)
+        case "R": self.init(rook: .white)
+        case "r": self.init(rook: .black)
+        case "Q": self.init(queen: .white)
+        case "q": self.init(queen: .black)
+        case "K": self.init(king: .white)
+        case "k": self.init(king: .black)
         default:
             return nil
         }
@@ -343,26 +253,17 @@ public struct Piece: Hashable, CustomStringConvertible {
     }
 
     /// The special character for the piece.
-    public func specialCharacter(background color: Color = ._white) -> Character {
-        #if swift(>=3)
-            switch kind {
-            case .pawn:   return color == self.color ? "♙" : "♟"
-            case .knight: return color == self.color ? "♘" : "♞"
-            case .bishop: return color == self.color ? "♗" : "♝"
-            case .rook:   return color == self.color ? "♖" : "♜"
-            case .queen:  return color == self.color ? "♕" : "♛"
-            case .king:   return color == self.color ? "♔" : "♚"
-            }
-        #else
-            switch kind {
-            case .Pawn:   return color == self.color ? "♙" : "♟"
-            case .Knight: return color == self.color ? "♘" : "♞"
-            case .Bishop: return color == self.color ? "♗" : "♝"
-            case .Rook:   return color == self.color ? "♖" : "♜"
-            case .Queen:  return color == self.color ? "♕" : "♛"
-            case .King:   return color == self.color ? "♔" : "♚"
-            }
-        #endif
+    public func specialCharacter(background color: Color = .white) -> Character {
+
+        switch kind {
+        case .pawn:   return color == self.color ? "♙" : "♟"
+        case .knight: return color == self.color ? "♘" : "♞"
+        case .bishop: return color == self.color ? "♗" : "♝"
+        case .rook:   return color == self.color ? "♖" : "♜"
+        case .queen:  return color == self.color ? "♕" : "♛"
+        case .king:   return color == self.color ? "♔" : "♚"
+        }
+
     }
 
 }
@@ -370,5 +271,5 @@ public struct Piece: Hashable, CustomStringConvertible {
 /// Returns `true` if both pieces are the same.
 public func == (lhs: Piece, rhs: Piece) -> Bool {
     return lhs.kind == rhs.kind
-        && lhs.color == rhs.color
+            && lhs.color == rhs.color
 }

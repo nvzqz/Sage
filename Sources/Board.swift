@@ -18,9 +18,9 @@
 //
 
 #if os(OSX)
-    import Cocoa
+import Cocoa
 #elseif os(iOS) || os(tvOS)
-    import UIKit
+import UIKit
 #endif
 
 /// A chess board used to map `Square`s to `Piece`s.
@@ -62,7 +62,7 @@ public struct Board: Hashable, CustomStringConvertible {
 
         /// The space's color.
         public var color: Color {
-            return (file.index & 1 != rank.index & 1) ? ._white : ._black
+            return (file.index & 1 != rank.index & 1) ? .white : .black
         }
 
         /// The space's name.
@@ -107,73 +107,53 @@ public struct Board: Hashable, CustomStringConvertible {
             return piece
         }
 
-        #if os(OSX) || os(iOS) || os(tvOS)
+#if os(OSX) || os(iOS) || os(tvOS)
 
         internal func _view(size: CGFloat) -> _View {
-            #if os(OSX)
-                let rectY = CGFloat(rank.index) * size
-            #else
-                let rectY = CGFloat(7 - rank.index) * size
-            #endif
+#if os(OSX)
+            let rectY = CGFloat(rank.index) * size
+#else
+            let rectY = CGFloat(7 - rank.index) * size
+#endif
             let frame = CGRect(x: CGFloat(file.index) * size,
-                               y: rectY,
-                               width: size,
-                               height: size)
+                    y: rectY,
+                    width: size,
+                    height: size)
             var textFrame = CGRect(x: 0, y: 0, width: size, height: size)
             let fontSize = size * 0.625
             let view = _View(frame: frame)
             let str = piece.map({ String($0.specialCharacter(background: color)) }) ?? ""
-            #if swift(>=3)
-                let white = _Color.white
-                let black = _Color.black
-            #else
-                let white = _Color.whiteColor()
-                let black = _Color.blackColor()
-            #endif
+            let white = _Color.white
+            let black = _Color.black
             let bg: _Color = color.isWhite ? white : black
             let tc: _Color = color.isWhite ? black : white
-            #if os(OSX)
-                view.wantsLayer = true
-                let text = NSText(frame: textFrame)
-                #if swift(>=3)
-                    view.layer?.backgroundColor = bg.cgColor
-                    text.alignment = .center
-                    text.font = .systemFont(ofSize: fontSize)
-                    text.isEditable = false
-                    text.isSelectable = false
-                #else
-                    view.layer?.backgroundColor = bg.CGColor
-                    text.alignment = .Center
-                    text.font = .systemFontOfSize(fontSize)
-                    text.editable = false
-                    text.selectable = false
-                #endif
-                text.string = str
-                text.drawsBackground = false
-                text.textColor = tc
-                view.addSubview(text)
-            #else
-                view.backgroundColor = bg
-                let label = UILabel(frame: textFrame)
-                #if swift(>=3)
-                    label.textAlignment = .center
-                    label.font = .systemFont(ofSize: fontSize)
-                #else
-                    label.textAlignment = .Center
-                    label.font = .systemFontOfSize(fontSize)
-                #endif
-                label.text = str
-                label.textColor = tc
-                view.addSubview(label)
-            #endif
+#if os(OSX)
+            view.wantsLayer = true
+            let text = NSText(frame: textFrame)
+            view.layer?.backgroundColor = bg.cgColor
+            text.alignment = .center
+            text.font = .systemFont(ofSize: fontSize)
+            text.isEditable = false
+            text.isSelectable = false
+            text.string = str
+            text.drawsBackground = false
+            text.textColor = tc
+            view.addSubview(text)
+#else
+            view.backgroundColor = bg
+            let label = UILabel(frame: textFrame)
+            label.textAlignment = .center
+            label.font = .systemFont(ofSize: fontSize)
+            label.text = str
+            label.textColor = tc
+            view.addSubview(label)
+#endif
             return view
         }
 
-        #endif
+#endif
 
     }
-
-    #if swift(>=3)
 
     /// An iterator for the spaces of a chess board.
     public struct Iterator: IteratorProtocol {
@@ -192,43 +172,16 @@ public struct Board: Hashable, CustomStringConvertible {
             guard let square = Square(rawValue: _index) else {
                 return nil
             }
-            defer { _index += 1 }
-            return _board.space(at: square)
-        }
-
-    }
-
-    #else
-
-    /// A generator for the spaces of a chess board.
-    public struct Generator: GeneratorType {
-
-        let _board: Board
-
-        var _index: Int
-
-        private init(_ board: Board) {
-            self._board = board
-            self._index = 0
-        }
-
-        /// Advances to the next space on the board and returns it.
-        public mutating func next() -> Board.Space? {
-            guard let square = Square(rawValue: _index) else {
-                return nil
+            defer {
+                _index += 1
             }
-            defer { _index += 1 }
             return _board.space(at: square)
         }
 
     }
-
-    #endif
 
     /// A board side.
     public enum Side {
-
-        #if swift(>=3)
 
         /// Right side of the board.
         case kingside
@@ -236,32 +189,14 @@ public struct Board: Hashable, CustomStringConvertible {
         /// Right side of the board.
         case queenside
 
-        #else
-
-        /// Right side of the board.
-        case Kingside
-
-        /// Right side of the board.
-        case Queenside
-
-        #endif
-
         /// `self` is kingside.
         public var isKingside: Bool {
-            #if swift(>=3)
-                return self == .kingside
-            #else
-                return self == .Kingside
-            #endif
+            return self == .kingside
         }
 
         /// `self` is queenside.
         public var isQueenside: Bool {
-            #if swift(>=3)
-                return self == .queenside
-            #else
-                return self == .Queenside
-            #endif
+            return self == .queenside
         }
 
     }
@@ -286,11 +221,7 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// A bitboard for the occupied spaces of `self`.
     public var occupiedSpaces: Bitboard {
-        #if swift(>=3)
-            return _bitboards.reduce(0, |)
-        #else
-            return _bitboards.reduce(0, combine: |)
-        #endif
+        return _bitboards.reduce(0, |)
     }
 
     /// A bitboard for the empty spaces of `self`.
@@ -328,18 +259,10 @@ public struct Board: Hashable, CustomStringConvertible {
     public var ascii: String {
         let edge = "  +-----------------+\n"
         var result = edge
-        #if swift(>=3)
-            let reversed = Rank.all.reversed()
-        #else
-            let reversed = Rank.all.reverse()
-        #endif
+        let reversed = Rank.all.reversed()
         for rank in reversed {
             let strings = File.all.map({ file in "\(self[(file, rank)]?.character ?? ".")" })
-            #if swift(>=3)
-                let str = strings.joined(separator: " ")
-            #else
-                let str = strings.joinWithSeparator(" ")
-            #endif
+            let str = strings.joined(separator: " ")
             result += "\(rank) | \(str) |\n"
         }
         result += "\(edge)    a b c d e f g h  "
@@ -349,12 +272,8 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Create a chess board.
     ///
     /// - parameter variant: The variant to populate the board for. Won't populate if `nil`. Default is `Standard`.
-    public init(variant: Variant? = ._standard) {
-        #if swift(>=3)
-            _bitboards = Array(repeating: 0, count: 12)
-        #else
-            _bitboards = Array(count: 12, repeatedValue: 0)
-        #endif
+    public init(variant: Variant? = .standard) {
+        _bitboards = Array(repeating: 0, count: 12)
         if let variant = variant {
             for piece in Piece.all {
                 _bitboards[piece.hashValue] = Bitboard(startFor: piece)
@@ -376,35 +295,29 @@ public struct Board: Hashable, CustomStringConvertible {
     public init?(fen: String) {
         func pieces(for string: String) -> [Piece?]? {
             var pieces: [Piece?] = []
-            for char in string.characters {
+            for char in string {
                 guard pieces.count < 8 else {
                     return nil
                 }
                 if let piece = Piece(character: char) {
                     pieces.append(piece)
                 } else if let num = Int(String(char)) {
-                    guard 1...8 ~= num else { return nil }
-                    #if swift(>=3)
-                        pieces += Array(repeating: nil, count: num)
-                    #else
-                        pieces += Array(count: num, repeatedValue: nil)
-                    #endif
+                    guard 1...8 ~= num else {
+                        return nil
+                    }
+                    pieces += Array(repeating: nil, count: num)
                 } else {
                     return nil
                 }
             }
             return pieces
         }
-        guard !fen.characters.contains(" ") else {
+
+        guard !fen.contains(" ") else {
             return nil
         }
-        #if swift(>=3)
-            let parts = fen.characters.split(separator: "/").map(String.init)
-            let ranks = Rank.all.reversed()
-        #else
-            let parts = fen.characters.split("/").map(String.init)
-            let ranks = Rank.all.reverse()
-        #endif
+        let parts = fen.split(separator: "/").map(String.init)
+        let ranks = Rank.all.reversed()
         guard parts.count == 8 else {
             return nil
         }
@@ -438,12 +351,18 @@ public struct Board: Hashable, CustomStringConvertible {
     public init?(pieces: [[Character]]) {
         self.init(variant: nil)
         for rankIndex in pieces.indices {
-            guard let rank = Rank(index: rankIndex)?.opposite() else { break }
+            guard let rank = Rank(index: rankIndex)?.opposite() else {
+                break
+            }
             for fileIndex in pieces[rankIndex].indices {
-                guard let file = File(index: fileIndex) else { break }
+                guard let file = File(index: fileIndex) else {
+                    break
+                }
                 let pieceChar = pieces[rankIndex][fileIndex]
                 if pieceChar != " " && pieceChar != "." {
-                    guard let piece = Piece(character: pieceChar) else { return nil }
+                    guard let piece = Piece(character: pieceChar) else {
+                        return nil
+                    }
                     self[(file, rank)] = piece
                 }
             }
@@ -463,10 +382,8 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Gets and sets a piece at `square`.
     public subscript(square: Square) -> Piece? {
         get {
-            for index in _bitboards.indices {
-                if _bitboards[index][square] {
-                    return Piece(value: index)
-                }
+            for index in _bitboards.indices where _bitboards[index][square] {
+                return Piece(value: index)
             }
             return nil
         }
@@ -514,7 +431,7 @@ public struct Board: Hashable, CustomStringConvertible {
     }
 
     /// Populates `self` with with all of the pieces at their proper locations for the given chess variant.
-    public mutating func populate(for variant: Variant = ._standard) {
+    public mutating func populate(for variant: Variant = .standard) {
         self = Board(variant: variant)
     }
 
@@ -533,7 +450,9 @@ public struct Board: Hashable, CustomStringConvertible {
         if let color = color {
             return bitboard(for: color).count
         } else {
-            return _bitboards.reduce(0) { $0 + $1.count }
+            return _bitboards.reduce(0) {
+                $0 + $1.count
+            }
         }
     }
 
@@ -549,7 +468,9 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the bitboard for `color`.
     public func bitboard(for color: Color) -> Bitboard {
-        return Piece._hashes(for: color).reduce(0) { $0 | _bitboards[$1] }
+        return Piece._hashes(for: color).reduce(0) {
+            $0 | _bitboards[$1]
+        }
     }
 
     /// The squares with pinned pieces for `color`.
@@ -561,7 +482,7 @@ public struct Board: Hashable, CustomStringConvertible {
         var pinned = Bitboard()
         let pieces = bitboard(for: color)
         let king = bitboard(for: Piece(king: color))
-        let opRQ = bitboard(for: Piece(rook: color.inverse()))   | bitboard(for: Piece(queen: color.inverse()))
+        let opRQ = bitboard(for: Piece(rook: color.inverse())) | bitboard(for: Piece(queen: color.inverse()))
         let opBQ = bitboard(for: Piece(bishop: color.inverse())) | bitboard(for: Piece(queen: color.inverse()))
         for square in king._xrayRookAttacks(occupied: occupied, stoppers: pieces) & opRQ {
             pinned |= square.between(kingSquare) & pieces
@@ -584,7 +505,9 @@ public struct Board: Hashable, CustomStringConvertible {
             square.attacks(for: piece, stoppers: all)
         })
         let queens = (attacks[2] | attacks[3]) & self[Piece(queen: color)]
-        return zip(attackPieces, attacks).reduce(queens) { $0 | (self[$1.0] & $1.1) }
+        return zip(attackPieces, attacks).reduce(queens) {
+            $0 | (self[$1.0] & $1.1)
+        }
     }
 
     /// Returns the attackers to the king for `color`.
@@ -607,12 +530,16 @@ public struct Board: Hashable, CustomStringConvertible {
 
     /// Returns the spaces at `file`.
     public func spaces(at file: File) -> [Space] {
-        return Rank.all.map { space(at: (file, $0)) }
+        return Rank.all.map {
+            space(at: (file, $0))
+        }
     }
 
     /// Returns the spaces at `rank`.
     public func spaces(at rank: Rank) -> [Space] {
-        return File.all.map { space(at: ($0, rank)) }
+        return File.all.map {
+            space(at: ($0, rank))
+        }
     }
 
     /// Returns the space at `location`.
@@ -625,8 +552,6 @@ public struct Board: Hashable, CustomStringConvertible {
         return Space(piece: self[square], square: square)
     }
 
-    #if swift(>=3)
-
     /// Removes a piece at `square`, and returns it.
     @discardableResult
     public mutating func removePiece(at square: Square) -> Piece? {
@@ -643,25 +568,6 @@ public struct Board: Hashable, CustomStringConvertible {
     public mutating func removePiece(at location: Location) -> Piece? {
         return removePiece(at: Square(location: location))
     }
-
-    #else
-
-    /// Removes a piece at `square`, and returns it.
-    public mutating func removePiece(at square: Square) -> Piece? {
-        if let piece = self[square] {
-            self[piece][square] = false
-            return piece
-        } else {
-            return nil
-        }
-    }
-
-    /// Removes a piece at `location`, and returns it.
-    public mutating func removePiece(at location: Location) -> Piece? {
-        return removePiece(at: Square(location: location))
-    }
-
-    #endif
 
     /// Swaps the pieces between the two locations.
     public mutating func swap(_ first: Location, _ second: Location) {
@@ -725,23 +631,18 @@ public struct Board: Hashable, CustomStringConvertible {
                     fen += String(piece.character)
                 } else {
                     accumulator += 1
-                    if space.file == ._h {
+                    if space.file == .h {
                         fen += String(accumulator)
                     }
                 }
             }
             return fen
         }
-        #if swift(>=3)
-            return Rank.all.reversed().map(fen).joined(separator: "/")
-        #else
-            return Rank.all.reverse().map(fen).joinWithSeparator("/")
-        #endif
+
+        return Rank.all.reversed().map(fen).joined(separator: "/")
     }
 
 }
-
-#if swift(>=3)
 
 extension Board: Sequence {
 
@@ -760,31 +661,6 @@ extension Board: Sequence {
 
 }
 
-#else
-
-extension Board: SequenceType {
-
-    /// Returns a value less than or equal to the number of elements in
-    /// `self`, **nondestructively**.
-    ///
-    /// - Complexity: O(1).
-    @warn_unused_result
-    public func underestimateCount() -> Int {
-        return 64
-    }
-
-    /// Returns a generator over the spaces of the board.
-    ///
-    /// - complexity: O(1).
-    @warn_unused_result
-    public func generate() -> Generator {
-        return Generator(self)
-    }
-
-}
-
-#endif
-
 #if os(OSX) || os(iOS) || os(tvOS)
 
 extension Board: CustomPlaygroundQuickLookable {
@@ -795,31 +671,16 @@ extension Board: CustomPlaygroundQuickLookable {
         let boardSize = spaceSize * 8
         let frame = CGRect(x: 0, y: 0, width: boardSize, height: boardSize)
         let view = _View(frame: frame)
-        #if swift(>=3)
-            for space in self {
-                view.addSubview(space._view(size: spaceSize))
-            }
-            return .view(view)
-        #else
-            for space in self {
-                view.addSubview(space._view(spaceSize))
-            }
-            return .View(view)
-        #endif
+        for space in self {
+            view.addSubview(space._view(size: spaceSize))
+        }
+        return .view(view)
     }
 
-    #if swift(>=3)
     /// A custom playground quick look for this instance.
     public var customPlaygroundQuickLook: PlaygroundQuickLook {
         return _customPlaygroundQuickLook
     }
-    #else
-    /// Returns the `PlaygroundQuickLook` for `self`.
-    public func customPlaygroundQuickLook() -> PlaygroundQuickLook {
-        return _customPlaygroundQuickLook
-    }
-    #endif
-
 }
 
 #endif
@@ -832,6 +693,6 @@ public func == (lhs: Board, rhs: Board) -> Bool {
 /// Returns `true` if both spaces are the same.
 public func == (lhs: Board.Space, rhs: Board.Space) -> Bool {
     return lhs.piece == rhs.piece
-        && lhs.file == rhs.file
-        && lhs.rank == rhs.rank
+            && lhs.file == rhs.file
+            && lhs.rank == rhs.rank
 }
