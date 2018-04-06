@@ -77,6 +77,13 @@
 		52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
 		52E89C651CF53E1A0071AE69 /* InternalTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E89C611CF53E1A0071AE69 /* InternalTypes.swift */; };
+		A365274F1DA7DD7900242747 /* PGNParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365274D1DA7DC5B00242747 /* PGNParsingTests.swift */; };
+		A36527501DA7DD7900242747 /* PGNParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365274D1DA7DC5B00242747 /* PGNParsingTests.swift */; };
+		A36527511DA7DD7A00242747 /* PGNParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A365274D1DA7DC5B00242747 /* PGNParsingTests.swift */; };
+		A3909E021DB802B600AE1E3B /* PGNMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3909E011DB802B600AE1E3B /* PGNMove.swift */; };
+		A3909E031DB802B600AE1E3B /* PGNMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3909E011DB802B600AE1E3B /* PGNMove.swift */; };
+		A3909E041DB802B600AE1E3B /* PGNMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3909E011DB802B600AE1E3B /* PGNMove.swift */; };
+		A3909E051DB802B600AE1E3B /* PGNMove.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3909E011DB802B600AE1E3B /* PGNMove.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,6 +142,8 @@
 		52D2BB131D277E5400C868E5 /* Sequence+Sage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Sequence+Sage.swift"; sourceTree = "<group>"; };
 		52DF64131D2555390016BA9D /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		52E89C611CF53E1A0071AE69 /* InternalTypes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternalTypes.swift; sourceTree = "<group>"; };
+		A365274D1DA7DC5B00242747 /* PGNParsingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PGNParsingTests.swift; path = SageTests/PGNParsingTests.swift; sourceTree = "<group>"; };
+		A3909E011DB802B600AE1E3B /* PGNMove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PGNMove.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -197,6 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				524583B01D0DF2BB002311F3 /* SageTests.swift */,
+				A365274D1DA7DC5B00242747 /* PGNParsingTests.swift */,
 				524583A91D0DE7B9002311F3 /* Info.plist */,
 			);
 			path = Tests;
@@ -247,6 +257,7 @@
 				529514DE1D16224F00BB244D /* Variant.swift */,
 				529514D91D138B4100BB244D /* CastlingRights.swift */,
 				527ADC201D2AFBE400B16439 /* PGN.swift */,
+				A3909E011DB802B600AE1E3B /* PGNMove.swift */,
 				52D2BB131D277E5400C868E5 /* Sequence+Sage.swift */,
 				52E89C611CF53E1A0071AE69 /* InternalTypes.swift */,
 				521AF8EE1D5949FB009941A0 /* Tables.swift */,
@@ -600,6 +611,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A365274F1DA7DD7900242747 /* PGNParsingTests.swift in Sources */,
 				524583B21D0DF2E2002311F3 /* SageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -610,6 +622,7 @@
 			files = (
 				529515061D19CFF500BB244D /* Square.swift in Sources */,
 				529514DA1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				A3909E021DB802B600AE1E3B /* PGNMove.swift in Sources */,
 				521AF8EF1D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C621CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E421CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -633,6 +646,7 @@
 			files = (
 				529515071D19CFF500BB244D /* Square.swift in Sources */,
 				529514DB1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				A3909E031DB802B600AE1E3B /* PGNMove.swift in Sources */,
 				521AF8F01D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C631CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E431CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -656,6 +670,7 @@
 			files = (
 				529515081D19CFF500BB244D /* Square.swift in Sources */,
 				529514DC1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				A3909E041DB802B600AE1E3B /* PGNMove.swift in Sources */,
 				521AF8F11D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C641CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E441CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -679,6 +694,7 @@
 			files = (
 				529515091D19CFF500BB244D /* Square.swift in Sources */,
 				529514DD1D138B4100BB244D /* CastlingRights.swift in Sources */,
+				A3909E051DB802B600AE1E3B /* PGNMove.swift in Sources */,
 				521AF8F21D5949FB009941A0 /* Tables.swift in Sources */,
 				52E89C651CF53E1A0071AE69 /* InternalTypes.swift in Sources */,
 				528C2E451CF3E7F500F7D2EC /* Move.swift in Sources */,
@@ -700,6 +716,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36527501DA7DD7900242747 /* PGNParsingTests.swift in Sources */,
 				529514D71D137BB800BB244D /* SageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,6 +725,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A36527511DA7DD7A00242747 /* PGNParsingTests.swift in Sources */,
 				529514D81D137BB900BB244D /* SageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
