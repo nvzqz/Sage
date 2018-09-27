@@ -3,6 +3,7 @@
 //  Sage
 //
 //  Copyright 2016-2017 Nikolai Vazquez
+//  Modified by SuperGeroy
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -357,7 +358,7 @@ public struct Board: Hashable, CustomStringConvertible {
         #endif
         if let variant = variant {
             for piece in Piece.all {
-                _bitboards[piece.hashValue] = Bitboard(startFor: piece)
+                _bitboards[piece.rawValue] = Bitboard(startFor: piece)
             }
             if variant.isUpsideDown {
                 for index in _bitboards.indices {
@@ -483,10 +484,10 @@ public struct Board: Hashable, CustomStringConvertible {
     /// Gets and sets the bitboard for `piece`.
     internal subscript(piece: Piece) -> Bitboard {
         get {
-            return _bitboards[piece.hashValue]
+            return _bitboards[piece.rawValue]
         }
         set {
-            _bitboards[piece.hashValue] = newValue
+            _bitboards[piece.rawValue] = newValue
         }
     }
 
