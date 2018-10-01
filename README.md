@@ -3,7 +3,7 @@
 [![Sage](https://raw.githubusercontent.com/nvzqz/Sage/assets/Banner.png)](https://github.com/nvzqz/Sage)
 
 <p align="center">
-<a href="https://developer.apple.com/swift/"><img alt="Swift 2.2 | 3.0" src="https://img.shields.io/badge/swift-2.2%20%7C%203.0-orange.svg"></a>
+<a href="https://developer.apple.com/swift/"><img alt="Swift 4.2" src="https://img.shields.io/badge/Swift-4.2-orange.svg"></a>
 <img alt="Platforms" src="https://img.shields.io/badge/platform-ios%20%7C%20macos%20%7C%20watchos%20%7C%20tvos%20%7C%20linux-lightgrey.svg">
 <a href="https://gitter.im/nvzqz/Sage?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"><img alt="Gitter" src="https://badges.gitter.im/nvzqz/Sage.svg"></a>
 <a href="https://www.apache.org/licenses/LICENSE-2.0"><img alt="Apache 2.0 License" src="https://img.shields.io/badge/license-Apache%202.0-000000.svg"></a>
@@ -18,7 +18,7 @@
 
 Sage is a cross-platform chess library for Swift.
 
-Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develop) branch.
+Development happens in the [`develop`](https://github.com/SuperGeroy/Sage/tree/develop) branch.
 
 - [Build Status](#build-status)
 - [Features](#features)
@@ -72,8 +72,8 @@ Development happens in the [`develop`](https://github.com/nvzqz/Sage/tree/develo
     - watchOS 2.0+
     - tvOS 9.0+
     - Linux
-- Xcode 7.3 and 8.0
-- Swift 2.2 and 3.0
+- Xcode 10.0
+- Swift 4.2
 
 ### Install Using Swift Package Manager
 The [Swift Package Manager](https://swift.org/package-manager/) is a
@@ -334,10 +334,6 @@ I work on this in my free time and do my best to make it as great as it can be.
 If you want to help me keep pushing out awesome libraries like this, a donation
 would be greatly appreciated. :smile:
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=GZXUDALB3MQRC&lc=US&item_name=Nikolai%20Vazquez&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHosted)
-
 ## License
 
-Sage is published under [version 2.0 of the Apache License](https://www.apache.org/licenses/LICENSE-2.0).
-
-[Hexe]: https://github.com/hexe-rs/Hexe
+Sage and its modifications are published under [version 2.0 of the Apache License](https://www.apache.org/licenses/LICENSE-2.0).
