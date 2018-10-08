@@ -3,6 +3,7 @@
 //  Sage
 //
 //  Copyright 2016-2017 Nikolai Vazquez
+//  Modified by SuperGeroy
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -195,9 +196,9 @@ public struct Piece: Hashable, CustomStringConvertible {
 
     }
 
-    internal static let _whiteHashes: [Int] = whitePieces.map({ $0.hashValue })
+    internal static let _whiteHashes: [Int] = whitePieces.map({ $0.rawValue })
 
-    internal static let _blackHashes: [Int] = blackPieces.map({ $0.hashValue })
+    internal static let _blackHashes: [Int] = blackPieces.map({ $0.rawValue })
 
     internal static func _hashes(for color: Color) -> [Int] {
         return color.isWhite ? _whiteHashes : _blackHashes
@@ -263,9 +264,9 @@ public struct Piece: Hashable, CustomStringConvertible {
         return "\(kind.name)(\(color))"
     }
 
-    /// The hash value.
-    public var hashValue: Int {
-        return (kind.hashValue << 1) | color.hashValue
+    /// The piece's raw value.
+    public var rawValue: Int {
+        return (kind.rawValue << 1) | color.numericValue
     }
 
     /// Create a piece from an integer value.

@@ -3,6 +3,7 @@
 //  Sage
 //
 //  Copyright 2016-2017 Nikolai Vazquez
+//  Modified by SuperGeroy
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -71,6 +72,11 @@ public enum Color: String, CustomStringConvertible {
         return rawValue
     }
 
+    /// The numeric representation of `self`. `White` is "0", `Black` is "1".
+    public var numericValue: Int {
+        return self.isWhite ? 0 : 1
+    }
+    
     /// The lowercase character for the color. `White` is "w", `Black` is "b".
     public var character: Character {
         return self.isWhite ? "w" : "b"
